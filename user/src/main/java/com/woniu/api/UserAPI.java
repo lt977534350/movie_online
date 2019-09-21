@@ -1,22 +1,23 @@
 package com.woniu.api;
 
-import com.woniu.entity.Type;
 import com.woniu.entity.User;
 import com.woniu.entity.UserType;
 import com.woniu.service.TypeService;
 import com.woniu.service.UserService;
 import com.woniu.util.Result;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.util.List;
-
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 @RestController
 @RequestMapping("user")
 public class UserAPI {
@@ -32,14 +33,14 @@ public class UserAPI {
      * @return
      * @throws Exception
      */
-    @GetMapping
+    @GetMapping()
     public Result selectUser(HttpSession session)throws Exception{
+        /*获取user对象*/
+        User user = (User) session.getAttribute("user");
         String code="success";
         String message="";
-        /*获取user对象*/
-        User user =  (User)session.getAttribute("user");
         /*判断是否为空，为空则未登录*/
-        if(user==null){
+        if(user==null){//未登录
             code="error";
             message="请先登陆";
             return new Result(code,message,null,null);
@@ -165,5 +166,127 @@ public class UserAPI {
         fi.close();
         os.close();
     }
+    /**
+     * 用户登录验证
+     */
+    @RequestMapping("login")
+    public Result login(HttpSession session, String username, String password, String phonenum, String code) throws Exception {
+        //如果是用户登录
+        if(username!=null&&password!=null&&!"".equals(username)&&!"".equals(password)){
+            if((phonenum==null||phonenum=="")&&(code==null||"".equals(code))){
+                //判断user传入的信息是否真实有效
+                User userByName = userService.selectByName(username);
+                if(userByName==null){//没有该用户名
+                    return new Result("fail","用户名错误！",null,null);
+                }
+                if(!userByName.getPassword().equals(password)){//密码不正确
+                    return new Result("fail","密码错误！",null,null);
+                }
+                //用户名密码均正确，将登录信息存入session
+                session.setAttribute("user",userByName);
+                return new Result("success","登录验证成功！",userByName,null);
+            }
+        }else if((phonenum!=null||!"".equals(phonenum))&&(code!=null||"".equals(code))){//手机验证码登录
+            if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
+                String num = (String) session.getAttribute("phonenum");
+                String mobile_code = (String) session.getAttribute("mobile_code");
+                if(num.equals(phonenum)&&mobile_code.equals(code)){
+                    session.setAttribute("user");
+                    session.removeAttribute("mobile_code");
+                    session.removeAttribute("phonenum");
+                    return new Result("success","登录成功！",null,null);
+                }else{
+                    return new Result("fail","验证码不正确！",null,null);
+                }
+            }
+        }
+        return new Result("error","验证信息格式有误！",null,null);
+
+    }
+    //用户注册
+    @RequestMapping("register")
+    public Result register(HttpSession session, String username, String password, String telphone, String code) throws Exception {
+        //注册信息验证
+        String phonenum = (String) session.getAttribute("phonenum");
+        String mobile_code = (String) session.getAttribute("mobile_code");
+        if(!phonenum.equals(telphone)||!code.equals(mobile_code)){
+            return new Result("fail","验证码错误!",null,null);
+        }
+        User user = userService.selectByName(username);
+        if(user!=null){
+            return new Result("fail","用户名已存在!",null,null);
+        }
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setPhone(telphone);
+        userService.insertUser(newUser);
+        session.removeAttribute("phonenum");
+        session.removeAttribute("mobile_code");
+        return new Result("success","注册成功！",null,null);
+    }
+
+    /**
+     * 发送验证码
+     */
+    @RequestMapping("sendCode")
+    public Result getCode(String phone, HttpSession session) throws Exception {
+        if (phone != null && !"".equals(phone)) {
+            String Url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
+            HttpClient client = new HttpClient();
+            PostMethod method = new PostMethod(Url);
+
+            client.getParams().setContentCharset("utf-8");
+            method.setRequestHeader("ContentType", "application/x-www-form-urlencoded;charset=utf-8");
+
+            int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
+
+            String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
+            //提交短信
+            NameValuePair[] data = {
+                    //查看用户名是登录用户中心->验证码短信->产品总览->APIID
+                    new NameValuePair("account", "C30864193"),
+                    //查看密码请登录用户中心->验证码短信->产品总览->APIKEY
+                    new NameValuePair("password", " 0e40508e89cc3dc06f2f23c6166f45ba "),
+                    //new NameValuePair("password", util.StringUtil.MD5Encode("密码")),
+                    new NameValuePair("mobile", phone),
+                    new NameValuePair("content", content),
+            };
+            method.setRequestBody(data);
+            //短信提交的返回结果
+            String submitResult = "";
+            client.executeMethod(method);
+
+            submitResult = method.getResponseBodyAsString();
+
+            Document doc = DocumentHelper.parseText(submitResult);
+            Element root = doc.getRootElement();
+
+            String cod = root.elementText("code");
+            String msg = root.elementText("msg");
+            String smsid = root.elementText("smsid");
+            /**
+             * cod代表调用接口收到的返回值,返回值中的code码如果为2,则是成功的意思:
+             * <code>2</code>
+             * <msg>查询成功</msg>
+             * <num>856</num>
+             */
+            if ("2".equals(cod)) {
+                //将验证码和对应的手机号存入session
+                session.setAttribute("mobile_code", mobile_code);
+                session.setAttribute("phonenum", phone);
+            }
+            method.releaseConnection();
+
+            return new Result("success", submitResult, null, null);
+        } else {
+            return new Result("false", "手机号不能为空", null, null);
+        }
+    }
+
+
+
+
+
 
 }

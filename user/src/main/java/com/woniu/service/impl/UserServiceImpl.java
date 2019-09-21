@@ -60,4 +60,10 @@ public class UserServiceImpl implements UserService {
     public void insertUser(User user) throws Exception {
         userMapper.insertSelective(user);
     }
+
+    @Override
+    public User selectByName(String username) throws Exception {
+        User userByName = userMapper.getUserByName(username);
+        return userByName;
+    }
 }

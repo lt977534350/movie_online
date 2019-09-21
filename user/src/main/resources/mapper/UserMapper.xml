@@ -260,4 +260,8 @@
     select u.id uid,username,phone,birth,upic,sex,sign,mtype,t.id tid from `user` u left join usertype ut on u.id=ut.uid
     left join type t on t.id=ut.tid where u.id=#{uid}
   </select>
+  <select id="getUserByName" resultMap="BaseResultMap">
+      select * from `user`
+      where username=#{username}
+  </select>
 </mapper>

@@ -11,5 +11,7 @@ public interface UserService {
     void deleteUser(Integer uid)throws Exception;
     /*新增用户信息*/
     void insertUser(User user)throws Exception;
+    /*根据用户名查询信息*/
+    User selectByName(String username) throws Exception;
 
 }

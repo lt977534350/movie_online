@@ -30,4 +30,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User getUser(Integer uid);
+
+    User getUserByName(String username);
 }

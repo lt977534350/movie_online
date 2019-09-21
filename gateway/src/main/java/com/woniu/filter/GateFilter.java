@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class GateFilter extends ZuulFilter {
@@ -26,6 +28,35 @@ public class GateFilter extends ZuulFilter {
     @Override
     //是否启用该过滤器
     public boolean shouldFilter() {
+        RequestContext context = RequestContext.getCurrentContext();
+        HttpServletRequest request = context.getRequest();
+        String method = request.getMethod();
+        if("post".equals(method)||"put".equals(method)||"delete".equals(method)){
+            return true;
+        }
+        StringBuffer url = request.getRequestURL();
+        List<String> list = new ArrayList<>();
+        list.add("localhost:9001/api-user/user/login");
+        list.add("localhost:9001/web/feng/backstage/login.html");
+        list.add("localhost:9001/api-user/user/register");
+        list.add("localhost:9001/web/tao/mtype.html");
+        list.add("localhost:9001/cinema-stage/cinema/all");
+        list.add("localhost:9001/cinema-stage/cinema/bycid");
+        list.add("localhost:9001/api-comment/comment");
+        list.add("localhost:9001/api-comment/like");
+        list.add("localhost:9001/movie-stage/movie/bymid");
+        list.add("localhost:9001/movie-stage/movie/orderbytime");
+        list.add("localhost:9001/movie-stage/movie/orderbyscore");
+        list.add("localhost:9001/movie-stage/movie/orderbycid");
+        list.add("localhost:9001/movie-stage/movie/orderbyname");
+        list.add("localhost:9001/movie-stage/movie/movieon");
+        list.add("localhost:9001/web/index.html");
+        list.add("localhost:9001/web/feng/cinemaIndex.html");
+        for (String myurl:list) {
+            if (myurl.equals(url)){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -37,14 +68,12 @@ public class GateFilter extends ZuulFilter {
         HttpServletRequest request = context.getRequest();
         //获取session
         HttpSession session = request.getSession();
-        User user=new User();
-        user.setId(1);
-        user.setUsername("xiaoming");
-        session.setAttribute("user",user);
         //登录验证信息可以存入session中
-        //可以通过下述代码响应错误信息
-        //requestContext.setSendZuulResponse(false);
-        //requestContext.setResponseBody("{\"code\":\"500\",\"message\":\"no login\"}");
+        //可以通过下述代码响应错误信息,程序不调用API接口
+       /* if(session.getAttribute("user")==null){
+            context.setSendZuulResponse(false);
+            context.setResponseBody("{\"code\":\"500\",\"message\":\"no login\"}");
+        }*/
         return null;
     }
 }
