@@ -30,4 +30,9 @@ public class Like {
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
     }
+    private Like(){};
+    public Like(Integer uid,Integer commentId){
+        this.uid=uid;
+        this.commentId=commentId;
+    }
 }

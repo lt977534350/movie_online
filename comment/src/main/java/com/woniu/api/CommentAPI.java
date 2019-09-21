@@ -3,12 +3,14 @@ package com.woniu.api;
 import com.woniu.entity.Comment;
 import com.woniu.entity.User;
 import com.woniu.service.CommentService;
+import com.woniu.service.LikeService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public class CommentAPI {
     @Resource
     private CommentService commentService;
+    @Resource
+    private LikeService likeService;
     /**
      * 分页查询评论信息；
      * @return
@@ -37,6 +41,9 @@ public class CommentAPI {
         List<Comment> comments = commentService.getComments(pageIndex, num);
         /*封装page对象*/
         Page page=new Page(pageIndex,pageCount,dataCount);
+        for (Comment comment : comments) {
+            comment.setLikeNum(likeService.getCount(comment.getId()));
+        }
         return new Result("success",null,page,comments);
     }
 
@@ -48,12 +55,16 @@ public class CommentAPI {
      */
     @PostMapping
     public Result insertComment(Comment comment,HttpSession session)throws Exception{
+        /*获取当前时间*/
         Date date=new Date();
+        /*获取user对象*/
         User user = (User) session.getAttribute("user");
-        comment.setTime(date);
+        /*封装数据*/
+        comment.setTime(new SimpleDateFormat().format(date));
         comment.setUid(user.getId());
-        System.out.println("uid_________________________________:"+user.getId());
+        /*调用新增方法*/
         commentService.insertComment(comment);
         return new Result("success",null,null,null);
     }
+
 }

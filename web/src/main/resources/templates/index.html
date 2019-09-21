@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="/web/css/viwStyle.css" />
 <link href="/web/css/single.css" rel='stylesheet' type='text/css' />
 <link href="/web/css/medile.css" rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" type="text/css" href="/web/assets/css/swiper.css" />
 <!-- banner-slider -->
 <link href="/web/css/jquery.slidey.min.css" rel="stylesheet">
 <!-- //banner-slider -->
@@ -32,7 +31,6 @@
 <!-- //js -->
 <!-- banner-bottom-plugin -->
 <link href="/web/css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-	<script src="/web/assets/js/swiper.min.js"></script>
 <script src="/web/js/owl.carousel.js"></script>
 <style>
 	.title{
@@ -230,91 +228,15 @@
 <!-- //nav -->
 <!-- banner -->
 <div id="app">
-	<div class="marginTop_indexhead" id="">
-			<style type="text/css">
-				img{
-					width: 100%;
-				}
-
-				#gallery {
-					width: 1200px;
-				}
-
-				#thumbs {
-					width: 1000px;
-					margin-top: 50px;
-				}
-
-				#thumbs .swiper-slide {
-					opacity: 0.3;
-				}
-
-				#thumbs .swiper-slide-thumb-active{
-					opacity: 1;
-				}
-			</style>
-			<div class="swiper-container" id="gallery" style="margin-top: 150px;">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide1.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide2.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide3.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide1.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide3.png" alt="轮播图">
-					</div>
-				</div>
-				<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-			</div>
-
-			<div class="swiper-container swiper-container-thumbs" id="thumbs">
-				<div class="swiper-wrapper" style="transition-duration: 0ms;">
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide1.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide2.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide3.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide1.png" alt="轮播图">
-					</div>
-					<div class="swiper-slide">
-						<img src="/web/assets/img/slide3.png" alt="轮播图">
-					</div>
-				</div>
-				<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-			</div>
-
-			<script type="text/javascript" src="/web/assets/js/swiper.min.js"></script>
-			<script type="text/javascript">
-				var thumbsSwiper = new Swiper('#thumbs', {
-					spaceBetween: 10,
-					slidesPerView: 5,
-					watchSlidesVisibility: true, //防止不可点击
-				})
-				var gallerySwiper = new Swiper('#gallery', {
-					effect : 'coverflow',
-					spaceBetween: 10, //缩略图间距
-					slidesPerView: 3,
-					centeredSlides: true,
-					initialSlide :2,
-					loop: true,
-					autoplay: true,
-					thumbs: {
-						swiper: thumbsSwiper,
-					}
-				})
-			</script>
+	<div class="marginTop_indexhead" id="slidey" style="display:none;">
+		<ul>
+			<li><img src="images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
+			<li><img src="images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
+			<li><img src="images/3.jpg" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
+			<li><img src="images/4.jpg" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
+			<li><img src="images/6.jpg" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
+			<li><img src="images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
+		</ul>
 	</div>
 </div>
 
@@ -1597,14 +1519,6 @@ $(document).ready(function(){
 			$().UItoTop({ easingType: 'easeOutQuart' });
 
 			});
-
-		window.onload=function(){
-
-
-			$.getScript('/web/assets/js/swiper.min.js',function () {
-			});
-
-		}
 	</script>
 <!-- //here ends scrolling icon -->
 </body>

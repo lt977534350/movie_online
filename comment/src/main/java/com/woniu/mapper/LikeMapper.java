@@ -2,10 +2,11 @@ package com.woniu.mapper;
 
 import com.woniu.entity.Like;
 import com.woniu.entity.LikeExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 public interface LikeMapper {
     int countByExample(LikeExample example);
 
@@ -30,4 +31,6 @@ public interface LikeMapper {
     int updateByPrimaryKey(Like record);
 
     void deleteLike(@Param("uid") Integer uid, @Param("cid") Integer cid);
+    /*查询用户点赞信息*/
+    List<Like> getLikes(@Param("uid") Integer uid);
 }

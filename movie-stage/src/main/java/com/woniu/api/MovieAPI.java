@@ -4,9 +4,7 @@ import com.woniu.entity.Movie;
 import com.woniu.entity.MoviePerson;
 import com.woniu.service.MoviePersonService;
 import com.woniu.service.MovieService;
-import com.woniu.util.Page;
 import com.woniu.util.Result;
-import com.woniu.util.Util;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,17 +80,6 @@ public class MovieAPI {
     public Result selectMoviesOnByCid(@PathVariable Integer cid) throws Exception{
         Map<String, List<Movie>> MoviesMap = movieService.selectMoviesOnByCid(cid);
         return new Result("success",null,MoviesMap,null);
-    }
-
-    @GetMapping
-    @RequestMapping("/example")
-    public Result selectMovieListByExample(String type,String comntry,String time ,Integer pageIndex)throws Exception{
-        List<Movie> movies = movieService.selectMovieListByExample(type, comntry, time,pageIndex);
-        Long dataCount = movieService.selectCountByExample(type, comntry, time);
-        Long pageCount = dataCount% Util.NUM==0?dataCount/Util.NUM:dataCount/Util.NUM+1;
-        Page page = new Page(pageIndex, pageCount, dataCount);
-
-        return new Result(null,null,page,movies);
     }
 
 }

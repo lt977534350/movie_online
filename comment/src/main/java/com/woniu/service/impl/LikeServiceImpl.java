@@ -7,6 +7,7 @@ import com.woniu.service.LikeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class LikeServiceImpl implements LikeService {
@@ -45,5 +46,16 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public void deleteLike(Integer uid, Integer cid) throws Exception {
         likeMapper.deleteLike(uid,cid);
+    }
+
+    /**
+     * 查询点赞信息
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Like> getLikes(Integer uid) throws Exception {
+        return likeMapper.getLikes(uid);
     }
 }

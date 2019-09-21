@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE HTML>
-<html lang="zxx">
+<html lang="zxx" xmlns:v-attr="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,7 +21,10 @@
 		<link rel="stylesheet" type="text/css" href="/web/assets/css/style.css" media="all" />
 		<!-- Responsive CSS -->
 		<link rel="stylesheet" type="text/css" href="/web/assets/css/responsive.css" media="all" />
+		<!--自定义样式-->
+		<link rel="stylesheet" type="text/css" href="/web/css/movieinfostyle.css">
 		<!--[if lt IE 9]>
+
 		  <script src="http://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
@@ -50,7 +53,8 @@
 						</form>
 						<ul>
 							<li><a href="#">Welcome Guest!</a></li>
-							<li><a class="login-popup" href="#">Login</a></li>
+							<li><a v-if="user.username==null" v-text="Login" class="login-popup" href="#"></a></li>
+							<li><img v-if="user.upic!=null" :src="user.upic" /></li>
 						</ul>
 					</div>
 					<div class="menu-area">
@@ -360,22 +364,16 @@
 						<div class="col-lg-7">
 							<div class="transformers-content">
 								<h2 v-text="movie.mname">The Transformers</h2>
-								<p>3D | Animation | Action | Sci-Fi</p>
+								<span v-for="type in movie.types">
+									<span v-text="type.mtype"></span> |
+								</span>
 								<ul>
-									<li>
-										<div class="transformers-left">
-											Movie:
-										</div>
-										<div class="transformers-right">
-											<a href="#">Sci-Fic</a>
-										</div>
-									</li>
 									<li>
 										<div class="transformers-left">
 											Writer:
 										</div>
 										<div class="transformers-right">
-											Stephen McFeely, Christopher Markus
+											<span v-text="moviePerson.screenwriter">Stephen McFeely, Christopher Markus</span>
 										</div>
 									</li>
 									<li>
@@ -383,7 +381,7 @@
 											Director:
 										</div>
 										<div class="transformers-right">
-											Joe Johnston
+											<span v-text="moviePerson.director">Joe Johnston</span>
 										</div>
 									</li>
 									<li>
@@ -391,7 +389,7 @@
 											Time: 
 										</div>
 										<div class="transformers-right">
-											190m
+											<span v-text="movie.longtime">190</span>min
 										</div>
 									</li>
 									<li>
@@ -399,7 +397,7 @@
 											Release:
 										</div>
 										<div class="transformers-right">
-											2018-07-22
+											<span v-text="uptimes">2018-07-22</span>
 										</div>
 									</li>
 									<li>
@@ -452,61 +450,35 @@
 						<div class="details-content">
 							<div class="details-overview">
 								<h2>Overview</h2>
-								<p>Humans are at war with the Transformers, and Optimus Prime is gone. The key to saving the future lies buried in the secrets of the past and the hidden history of Transformers on Earth. Now it's up to the unlikely alliance of inventor Cade Yeager, Bumblebee, a n English lord and an Oxford professor to save the world. Transformers: The Last Knight has a deeper mythos and bigger spectacle than its predecessors, yet still ends up being mostly hollow and cacophonous. The first "Transformers" movie that could actually be characterized as badass. Which isn't a bad thing. It may, in fact, be better.</p>
+								<span v-text="movie.shortStory"></span>
 							</div>
-
+							<span class="info-mtop2 info-display2"><h2>用户评论</h2></span>
 							<!--评论信息展示-->
 							<div>
 								<!--评论用户信息-->
-								<div v-for="comment in comments">
+								<div v-for="comment in comments" class="info-mtop">
 									<!--用户头像-->
-									<img width="5%" src="/web/images/1.jpg">
+									<img class="userimg" :src="comment.user.upic">
 									<!--用户名称-->
 									<span v-text="comment.user.username"></span>
-									<div v-text="comment.content"></div>
+									<!--用户评分-->
+									<span class="info-mleft" v-text="comment.userScore"></span>
+									<!--用户评论-->
+									<div class="info-mleft" v-text="comment.argue"></div>
+									<!--评论时间-->
+									<span class="info-mleft" v-text="comment.time"></span>
+									<!--点赞图标-->
+									<span class="info-mleft" :id="'commentid'+comment.id" @click="addpraise($event,comment.id)"><img onclick="praise()" class="praiseimg" src="/web/images/zan1.jpg"></span>
+									<!--点赞数量-->
+									<span style="margin-left: 3px" v-text="comment.likeNum==0?' ':comment.likeNum"></span>
 								</div>
-								<!--评论内容-->
-								<div></div>
 							</div>
 
 							<div class="details-reply">
-								<h2>Leave a Reply</h2>
+								<span style="cursor: pointer" onclick="show()"><h2>写评论</h2></span>
+
 								<!--<h2>评分</h2>-->
-
-								<script id="comment-form-container" type="text/template">
-									<form id="comment-form" data-val="{movieid:360504}">
-										<div class="score-msg-container ">
-											<div class="score"><span class="num"></span>分</div>
-											<div class="score-message"></div>
-											<div class="no-score">
-												请点击星星评分
-											</div>
-										</div>
-										<div class="score-star-contaienr">
-											<ul class="score-star clearfix" data-score="">
-												<li>
-													<i class="half-star left "></i><i class="half-star right "></i>    </li>
-												<li>
-													<i class="half-star left "></i><i class="half-star right "></i>    </li>
-												<li>
-													<i class="half-star left "></i><i class="half-star right "></i>    </li>
-												<li>
-													<i class="half-star left "></i><i class="half-star right "></i>    </li>
-												<li>
-													<i class="half-star left "></i><i class="half-star right "></i>    </li>
-											</ul>
-
-										</div>
-										<div class="content-container">
-											<textarea placeholder="快来说说你的看法吧" name="content" id="" cols="30" rows="10"></textarea>
-											<span class="word-count-info"></span>
-										</div>
-										<input type="hidden" name="score" />
-										<input class="btn" type="submit" value="提交" data-act="comment-submit-click" />
-									</form>
-									<div class="close">×</div>
-								</script>
-								<form action="#">
+								<form action="#" class="info-display show">
 									<div class="row">
 
 										<div class="col-lg-12">
@@ -518,8 +490,8 @@
 									</div>
 								</form>
 							</div>
-							<div class="details-comment">
-								<a @click="comment()" class="theme-btn theme-btn2" href="#">Post Comment</a>
+							<div class="details-comment show info-display">
+								<span  @click="insertComment()" class="theme-btn theme-btn2" href="#">Post Comment</span>
 								<p>You may use these HTML tags and attributes: You may use these HTML tags and attributes: You may use these HTML tags and attributes: </p>
 							</div>
 						</div>
@@ -617,17 +589,20 @@
 		<script>
 			$(function () {
                 // alert("文档就绪事件");
-
             });
+
 			var _data;
 			var app=new Vue({
 				el:"#app",
 				data:{
 				    movie:{},
+                    moviePerson:{},
 					user:{},
 					comments:[],
+					likes:[],
 					mid:1,
 					cid:1,
+					uptimes:"uptime"
 				},
 				created:function () {
 					_data=this;
@@ -642,6 +617,8 @@
 						success:function (data) {
 							if(data.code=="success"){
 							    _data.movie=data.object.movie;
+							    _data.moviePerson=data.object.moviePerson;
+							    _data.uptimes=getTime(_data.movie.uptime);
 							}else{
 							    alert(data.message);
 							}
@@ -655,6 +632,7 @@
 						success:function (data) {
 							if(data.code=="success"){
 								_data.user=data.object;
+								alert(_data.user.username);
 							}else{
 							    alert(data.message);
 							}
@@ -668,7 +646,6 @@
                         success:function (data) {
                             if(data.code=="success"){
                                 _data.comments=data.list;
-                                alert(JSON);
                             }else{
                                 alert(data.message);
                             }
@@ -676,11 +653,28 @@
                     });
 
                 },
+				beforeUpdate:function(){
+                    /*查询该用户所有点赞信息*/
+                    $.ajax({
+                        url:"/api-comment/like",
+                        type:"get",
+                        dataType:"json",
+                        success:function (data) {
+                            if(data.code=="success"){
+                                _data.likes=data.list;
+                                for (var i=0;i<_data.likes.length;i++) {
+                                    $("#commentid"+_data.likes[i].commentId).children().eq(0).attr("src","/web/images/zan2.jpg");
+                                }
+                            }else{
+                                alert(data.message);
+                            }
+                        }
+                    });
+				},
 				methods:{
-				    comment:function () {
+				    insertComment:function () {
 				        var userScore=5;
 				        var argue=$("#argue").val();
-				        alert(argue);
 						$.ajax({
 							url:"/api-comment/comment",
 							type:"post",
@@ -695,9 +689,97 @@
 								}
                             }
 						});
+                    },
+                    addpraise:function (e,cid) {
+                        var num=$(e.target).parent().next().text();
+                        if($(e.target).attr("src")=="/web/images/zan2.jpg"){
+                            if(num>0){
+                                $(e.target).parent().next().text(num-1);
+                                if ($(e.target).parent().next().text()==0){
+                                    $(e.target).parent().next().text(" ");
+								}
+							}
+                            $(e.target).attr("src","/web/images/zan1.jpg");
+                            /*取消赞*/
+							$.ajax({
+								url:"/api-comment/like/delete/"+cid,
+								type:"delete",
+								dataType:"json",
+								success:function (data) {
+									if(data.code=="success"){
+									    // alert("success!");
+									}else{
+									    alert(data.message);
+									}
+                                }
+							});
+                        }else{
+                            $(e.target).attr("src","/web/images/zan2.jpg");
+                            $(e.target).parent().next().text(num-(-1));
+                            /*添加赞*/
+                            $.ajax({
+                                url:"/api-comment/like/"+cid,
+                                type:"post",
+                                dataType:"json",
+                                success:function (data) {
+                                    if(data.code=="success"){
+                                        // alert("success");
+                                    }else{
+                                        alert(data.message);
+                                    }
+                                }
+                            });
+                        }
                     }
 				}
 			});
+			/*评论文本域显示隐藏*/
+			function show() {
+				if($(".show").css("display")=="none"){
+                    $(".show").css("display","block");
+				}else{
+                    $(".show").css("display","none");
+				}
+            }
+            /**
+             * 格式化时间
+             * @param second
+             * @param getDateType
+             * @returns {string|number}
+             */
+            function getTime(second) {
+                var date =new Date(second);
+                var year = date.getFullYear()
+                if((date.getMonth()+1)<=9){
+                    var month ="0"+(date.getMonth()+1);
+                }else {
+                    return date.getMonth()+1;
+                    var month =date.getMonth()+1;
+                }
+                if(date.getDate()<=9){
+                    var day =  "0"+date.getDate();
+                }else {
+                    var day =   date.getDate();
+                }
+                if(date.getHours()<=9){
+                    var hour =  "0"+date.getHours();
+                }else {
+                    var hour =  date.getHours();
+                }
+                if(date.getMinutes()<=9){
+                    var minutes =  "0"+date.getMinutes();
+                }else {
+                    var minutes =  date.getMinutes();
+                }
+                if(date.getSeconds ()<=9){
+                    var seconds = "0" + date.getSeconds ();
+                }else{
+                    var seconds =  date.getSeconds ();
+                }
+                return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
+            }
+
+
 		</script>
 	</body>
 </html>

@@ -7,7 +7,7 @@
     <result column="user_score" property="userScore" jdbcType="TINYINT" />
     <result column="mid" property="mid" jdbcType="INTEGER" />
     <result column="cid" property="cid" jdbcType="INTEGER" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="time" property="time" jdbcType="DATE" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -106,7 +106,7 @@
       mid, cid, time, uid
       )
     values (#{id,jdbcType=INTEGER}, #{argue,jdbcType=VARCHAR}, #{userScore,jdbcType=TINYINT}, 
-      #{mid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{uid,jdbcType=INTEGER}
+      #{mid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{time,jdbcType=DATE}, #{uid,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.woniu.entity.Comment" >
@@ -151,7 +151,7 @@
         #{cid,jdbcType=INTEGER},
       </if>
       <if test="time != null" >
-        #{time,jdbcType=TIMESTAMP},
+        #{time,jdbcType=DATE},
       </if>
       <if test="uid != null" >
         #{uid,jdbcType=INTEGER},
@@ -183,7 +183,7 @@
         cid = #{record.cid,jdbcType=INTEGER},
       </if>
       <if test="record.time != null" >
-        time = #{record.time,jdbcType=TIMESTAMP},
+        time = #{record.time,jdbcType=DATE},
       </if>
       <if test="record.uid != null" >
         uid = #{record.uid,jdbcType=INTEGER},
@@ -200,7 +200,7 @@
       user_score = #{record.userScore,jdbcType=TINYINT},
       mid = #{record.mid,jdbcType=INTEGER},
       cid = #{record.cid,jdbcType=INTEGER},
-      time = #{record.time,jdbcType=TIMESTAMP},
+      time = #{record.time,jdbcType=DATE},
       uid = #{record.uid,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -222,7 +222,7 @@
         cid = #{cid,jdbcType=INTEGER},
       </if>
       <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
+        time = #{time,jdbcType=DATE},
       </if>
       <if test="uid != null" >
         uid = #{uid,jdbcType=INTEGER},
@@ -236,7 +236,7 @@
       user_score = #{userScore,jdbcType=TINYINT},
       mid = #{mid,jdbcType=INTEGER},
       cid = #{cid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
+      time = #{time,jdbcType=DATE},
       uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -244,7 +244,7 @@
     <id column="cid" property="id" jdbcType="INTEGER" />
     <result column="argue" property="argue" jdbcType="VARCHAR" />
     <result column="user_score" property="userScore" jdbcType="TINYINT" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="time" property="time" jdbcType="DATE" />
     <association property="user" javaType="com.woniu.entity.User">
       <result column="username" property="username" jdbcType="VARCHAR" />
       <result column="state" property="state" jdbcType="TINYINT" />

@@ -73,7 +73,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from like
+    from `like`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,7 +84,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from like
+    from `like`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -135,7 +135,7 @@
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update like
+    update `like`
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -181,4 +181,7 @@
   <delete id="deleteLike" parameterType="Integer">
     delete from  `like` where uid=#{uid} and comment_id=#{cid}
   </delete>
+  <select id="getLikes" parameterType="Integer" resultMap="BaseResultMap">
+    select * from `like` where uid=#{uid}
+  </select>
 </mapper>
