@@ -9,7 +9,9 @@
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="copy_right" jdbcType="VARCHAR" property="copyRight" />
     <result column="facility" jdbcType="VARCHAR" property="facility" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="ctid" jdbcType="INTEGER" property="ctid" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -20,10 +22,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="c_name" jdbcType="VARCHAR" property="cName" />
     <result column="c_address" jdbcType="VARCHAR" property="cAddress" />
-    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="copy_right" jdbcType="VARCHAR" property="copyRight" />
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="ctid" jdbcType="INTEGER" property="ctid" />
     <collection property="pics" ofType="com.woniu.entity.Picture">
       <result column="url" property="url" />
     </collection>
@@ -125,12 +128,25 @@
       facility = #{facility,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByAid" parameterType="map" resultMap="BaseResultMap">
     select * from cinema
-    limit #{0},#{1}
+    where aid=#{aid}
+    limit #{start},#{num}
   </select>
   <select id="count" resultType="java.lang.Integer">
     <!--@mbg.generated-->
     select count(*) from cinema
+  </select>
+    <select id="selectAll" resultMap="CinemaPicResultMap">
+      select c.*,p.url
+      from cinema c
+      left join cinema_photo cp
+      on c.id=cp.cid
+      left join photo p
+      on cp.pid=p.id
+    </select>
+  <select id="selectByCity" resultMap="BaseResultMap">
+    select * from cinema
+    where ctid=#{ctid}
   </select>
 </mapper>

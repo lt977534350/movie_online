@@ -27,11 +27,6 @@ public class Cinema implements Serializable {
     private String cAddress;
 
     /**
-    * 影院logo
-    */
-    private String logo;
-
-    /**
     * 版权
     */
     private String copyRight;
@@ -47,7 +42,18 @@ public class Cinema implements Serializable {
     private int aid;
 
     /**
+     * 影院的电话
+     */
+    private String phone;
+
+    /**
+     *影院所在的城市id
+     */
+    private int ctid;
+
+    /**
      * 影院设施图片集合
      */
     private List<Picture> pics;
+
 }

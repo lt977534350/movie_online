@@ -2,6 +2,7 @@ package com.woniu.mapper;
 
 import com.woniu.entity.Cinema;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CinemaMapper {
@@ -17,7 +18,13 @@ public interface CinemaMapper {
 
     int updateByPrimaryKey(Cinema record);
 
-    List<Cinema> selectAll(Integer start, Integer num);
+    List<Cinema> selectByAid(HashMap<String, Integer> map);
 
     Integer count();
+
+    List<Cinema> selectAll();
+
+    List<Cinema> selectByCity(HashMap<String,Integer> map);
+
+
 }

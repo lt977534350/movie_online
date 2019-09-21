@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.entity.Admin">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+    <result column="logo" jdbcType="VARCHAR" property="logo"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, username, phone, `password`, `level`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Admin" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into admin (username, phone, `password`, 
+      `level`)
+    values (#{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{level,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Admin" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.entity.Admin">
+    <!--@mbg.generated-->
+    update admin
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        `level` = #{level,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.woniu.entity.Admin">
+    <!--@mbg.generated-->
+    update admin
+    set username = #{username,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `level` = #{level,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="ResultMap" type="com.woniu.entity.Admin">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+    <result column="logo" jdbcType="VARCHAR" property="logo"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="overtime" jdbcType="DATE" property="overTime"/>
+    <association property="menu" javaType="com.woniu.entity.Menu">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="name" jdbcType="VARCHAR" property="name"/>
+      <result column="money" jdbcType="DOUBLE" property="money"/>
+      <result column="period" jdbcType="INTEGER" property="period"/>
+    </association>
+  </resultMap>
+    <select id="selectCinemaAdmins" resultMap="ResultMap">
+      select a.*,m.*
+      from admin a
+      left join cadmin_menu cm
+      on a.id=cm.aid
+      left join menu m
+      on cm.m_id=m.id
+      where level=2
+      limit #{start},#{num}
+    </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from admin where level=2
+  </select>
+</mapper>

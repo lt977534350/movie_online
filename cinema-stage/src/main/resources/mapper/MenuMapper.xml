@@ -84,4 +84,13 @@
     <select id="selectAll" resultMap="BaseResultMap">
       select * from menu
     </select>
+    <select id="selectByAid" resultMap="BaseResultMap">
+        select m.*
+        from menu m
+        right join cadmin_menu cm
+        on m.id=cm.m_id
+        right join admin a
+        on a.id=cm.aid
+        where a.id=#{aid,jdbcType=INTEGER}
+    </select>
 </mapper>

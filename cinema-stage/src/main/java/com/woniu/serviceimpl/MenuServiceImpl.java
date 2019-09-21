@@ -36,4 +36,10 @@ public class MenuServiceImpl implements MenuService {
         int row = menuMapper.updateByPrimaryKeySelective(menu);
         return row;
     }
+
+    @Override
+    public Menu selectByAid(Integer aid) {
+        Menu menu = menuMapper.selectByAid(aid);
+        return menu;
+    }
 }

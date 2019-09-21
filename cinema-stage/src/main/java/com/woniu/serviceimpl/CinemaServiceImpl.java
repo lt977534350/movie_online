@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 @Service
 public class CinemaServiceImpl implements CinemaService {
@@ -18,9 +20,13 @@ public class CinemaServiceImpl implements CinemaService {
     private RedisTemplate<String,Object> redisTemplate;
     @Override
     @Cacheable
-    public List<Cinema> selectAll(Integer pageIndex, Integer num) {
+    public List<Cinema> selectByAid(Integer pageIndex, Integer num, Integer aid) {
         Integer start = (pageIndex-1)*num;
-        List<Cinema> cinemas = cinemaMapper.selectAll(start,num);
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("start",start);
+        map.put("num",num);
+        map.put("aid",aid);
+        List<Cinema> cinemas = cinemaMapper.selectByAid(map);
         ValueOperations<String,Object> operations = redisTemplate.opsForValue();
         operations.set("cinemas",cinemas);
         return cinemas;
@@ -55,5 +61,16 @@ public class CinemaServiceImpl implements CinemaService {
     public Integer update(Cinema cinema) {
         int row = cinemaMapper.updateByPrimaryKeySelective(cinema);
         return row;
+    }
+
+    @Override
+    public List<Cinema> selectByCity(Integer ctid, Integer pageIndex, Integer num) {
+        Integer start = (pageIndex-1)*num;
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("start",start);
+        map.put("num",num);
+        map.put("ctid",ctid);
+        List<Cinema> cinemas = cinemaMapper.selectByCity(map);
+        return cinemas;
     }
 }

@@ -66,14 +66,18 @@ public class menuAPI {
     }
     @PutMapping
     public Result update(Integer id, String name, Double money, Integer period){
-        System.out.println("请求进入----"+name+"----"+money+"----"+period);
         Menu menu = new Menu();
         menu.setId(id);
         menu.setName(name);
         menu.setMoney(money);
         menu.setPeriod(period);
         Integer row = menuService.updateById(menu);
-        System.out.println("row---"+row);
         return new Result("success",null,null,null);
+    }
+
+    @GetMapping("byaid")
+    public Result selectByAid(Integer aid){
+        Menu menu = menuService.selectByAid(aid);
+        return new Result("success", null, menu, null);
     }
 }

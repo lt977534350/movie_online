@@ -13,4 +13,6 @@ public interface MenuService {
     public Integer insert(Menu menu);
     //根据id修改一份套餐
     public Integer updateById(Menu menu);
+    //根据影院管理员id查出其对应的套餐
+    public Menu selectByAid(Integer aid);
 }

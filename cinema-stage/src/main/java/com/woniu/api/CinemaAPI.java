@@ -5,9 +5,13 @@ import com.woniu.service.CinemaService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("cinema")
@@ -15,13 +19,14 @@ public class CinemaAPI {
     @Resource
     private CinemaService cinemaService;
     @GetMapping
-    @RequestMapping("all")
-    public Result selectCinemas(Integer pageIndex){
+    @RequestMapping("byaid")
+    public Result selectCinemas(Integer pageIndex, Integer aid){
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
         Integer num = 5;
-        List<Cinema> cinemas = cinemaService.selectAll(pageIndex,num);
+        List<Cinema> cinemas = cinemaService.selectByAid(pageIndex,num,aid);
+        System.out.println(cinemas);
         Integer count = cinemaService.count();
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);
         return new Result("success",null,page,cinemas);
@@ -32,10 +37,35 @@ public class CinemaAPI {
         System.out.println(cinema);
         return new Result("success",null,cinema,null);
     }
-    //未完成
-    @PostMapping
-    public Result insertCinema(){
+    @PostMapping("insert")
+    public Result insertCinema(MultipartFile file, String c_name, String c_address,
+                               String copy_right, Integer aid, String phone, Integer ctid, HttpServletRequest req){
+        String path = req.getSession().getServletContext().getRealPath("/");
+        String imgPath = path.split("\\\\")[0]+"\\projectImg\\";
+        File mk = new File(imgPath);
+        if(!mk.exists()){
+            mk.mkdirs();
+        }
+        //图片扩展名
+        String filename = file.getOriginalFilename();
+        System.out.println(mk);
+        String newPicName = UUID.randomUUID()+filename;
+        //新的图片文件路径
+        File pic = new File(mk, newPicName);
+        try{
+            //将上传的图片存入新的文件中
+            file.transferTo(pic);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Cinema cinema = new Cinema();
+        cinema.setCName(c_name);
+        cinema.setCAddress(c_address);
+        cinema.setCopyRight(copy_right);
+        cinema.setFacility(mk+newPicName);
+        cinema.setAid(aid);
+        cinema.setPhone(phone);
+        cinema.setCtid(ctid);
         cinemaService.insert(cinema);
         return new Result("success",null,null,null);
     }
@@ -50,6 +80,16 @@ public class CinemaAPI {
         Cinema cinema = new Cinema();
         Integer row = cinemaService.update(cinema);
         return new Result("success",null,null,null);
+    }
+
+    @GetMapping("byCity")
+    public Result selectByCity(Integer ctid,Integer pageIndex){
+        if(pageIndex==null){
+            pageIndex = 1;
+        }
+        Integer num = 3;
+        List<Cinema> cinemas = cinemaService.selectByCity(ctid, pageIndex, num);
+        return new Result("success",null,null,cinemas);
     }
 
 }
