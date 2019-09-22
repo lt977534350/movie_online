@@ -1,12 +1,13 @@
 package com.woniu.api;
 
 import com.woniu.entity.Like;
+import com.woniu.entity.User;
 import com.woniu.service.LikeService;
 import com.woniu.util.Result;
-import com.woniu.util.Sendsms;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("like")
@@ -26,27 +27,40 @@ public class LikeAPI {
     }
 
     /**
-     * 新增点赞信息;
-     * @param like
+     * 查询用户点赞信息;
+     * @param session
      * @return
      * @throws Exception
      */
-    @PostMapping
-    public Result insertLike(Like like)throws Exception{
-        likeService.insertList(like);
+    @GetMapping
+    public Result getLikes(HttpSession session)throws Exception{
+        User user = (User) session.getAttribute("user");
+        return new Result("success",null,null,likeService.getLikes(user.getId()));
+    }
+
+    /**
+     * 新增点赞信息;
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/{cid}")
+    public Result insertLike(@PathVariable("cid") Integer cid,HttpSession session)throws Exception{
+        User user = (User) session.getAttribute("user");
+        likeService.insertList(new Like(user.getId(),cid));
         return new Result("success",null,null,null);
     }
 
     /**
      * 删除点赞信息;
-     * @param uid
      * @param cid
      * @return
      * @throws Exception
      */
-    @DeleteMapping("/{uid}/{cid}")
-    public Result deleteLike(@PathVariable("uid") Integer uid,@PathVariable("cid") Integer cid)throws Exception{
-        likeService.deleteLike(uid,cid);
+    @DeleteMapping("delete/{cid}")
+    public Result deleteLike(@PathVariable Integer cid,HttpSession session)throws Exception{
+        User user = (User) session.getAttribute("user");
+        likeService.deleteLike(user.getId(),cid);
         return new Result("success",null,null,null);
     }
+
 }

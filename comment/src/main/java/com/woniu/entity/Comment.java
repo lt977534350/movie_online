@@ -1,5 +1,7 @@
 package com.woniu.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Comment {
@@ -12,11 +14,20 @@ public class Comment {
     private Integer mid;
 
     private Integer cid;
-
-    private Date time;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String time;
 
     private Integer uid;
     private User user;
+    private Integer likeNum;
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
 
     public Integer getUid() {
         return uid;
@@ -66,12 +77,20 @@ public class Comment {
         this.cid = cid;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

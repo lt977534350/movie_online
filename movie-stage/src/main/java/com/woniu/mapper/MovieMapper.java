@@ -27,9 +27,4 @@ public interface MovieMapper {
     List<Movie> selectMovieListByScore(Integer num);
 
     List<Movie> selectMovieListByTime(Integer num);
-
-    List<Movie> selectMovieListByExample(String type, String comntry, Date startDate, Date endTime,Integer start,Integer num);
-
-    Long selectCountByExample(String type, String comntry, Date startDate, Date endTime);
-
 }

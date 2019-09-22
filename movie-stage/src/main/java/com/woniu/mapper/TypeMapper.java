@@ -2,8 +2,6 @@ package com.woniu.mapper;
 
 import com.woniu.entity.Type;
 
-import java.util.List;
-
 public interface TypeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,5 +14,4 @@ public interface TypeMapper {
     int updateByPrimaryKeySelective(Type record);
 
     int updateByPrimaryKey(Type record);
-
 }

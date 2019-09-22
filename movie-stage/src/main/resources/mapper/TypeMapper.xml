@@ -57,5 +57,4 @@
     set mtype = #{mtype,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
 </mapper>

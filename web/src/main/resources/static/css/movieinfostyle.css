@@ -1,0 +1,28 @@
+.info-display{
+  display: none;
+}
+.info-display2{
+  display: inline-block;
+}
+.userimg{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.info-mleft{
+  margin-left: 60px;
+}
+.info-mtop{
+  margin-top: 25px;
+}
+.info-mtop2{
+  margin-top: 30px;
+}
+.info-textcolor{
+  color: #999999;
+}
+.praiseimg{
+  width: 22px;
+  height: 22px;
+  border-radius: 30%;
+}

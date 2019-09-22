@@ -42,4 +42,5 @@ public class CommentServiceImpl implements CommentService {
     public void insertComment(Comment comment)throws Exception{
         commentMapper.insertSelective(comment);
     }
+
 }

@@ -68,25 +68,4 @@ public interface MovieService {
      */
     List<Movie> selectMovieListOrderByTime(Integer num) throws Exception;
 
-
-    /**
-     * 根据传入的限定参数查询符合的电影
-     * @param type
-     * @param comntry
-     * @param time
-     * @return
-     * @throws Exception
-     */
-    List<Movie> selectMovieListByExample(String type,String comntry,String time,Integer pageIndex)throws Exception;
-
-
-    /**
-     * 根据传入的限定参数查询符合的电影总数量
-     * @param type
-     * @param comntry
-     * @param time
-     * @return
-     */
-    Long selectCountByExample(String type,String comntry,String time)  throws Exception ;
-
 }
