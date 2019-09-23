@@ -9,7 +9,9 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 @Service
@@ -72,5 +74,27 @@ public class CinemaServiceImpl implements CinemaService {
         map.put("ctid",ctid);
         List<Cinema> cinemas = cinemaMapper.selectByCity(map);
         return cinemas;
+    }
+
+    @Override
+    public List<String> getTime(Integer aid) {
+        Date overTime = cinemaMapper.getOverTime(aid);
+        SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+        String mytime = simple.format(overTime);
+        ArrayList<String> list = new ArrayList<>();
+        list.add(mytime);
+        Date now = new Date();
+        long distance = overTime.getTime()-now.getTime();
+        if (distance<=0){
+            list.add("套餐已到期");
+            return list;
+        }
+        long period = distance/1000/60/60/24;
+        if(period<=5){
+            list.add("即将到期");
+            return list;
+        }
+        list.add("状态正常");
+        return list;
     }
 }

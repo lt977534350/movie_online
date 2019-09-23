@@ -2,6 +2,7 @@ package com.woniu.mapper;
 
 import com.woniu.entity.Cinema;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,5 +27,6 @@ public interface CinemaMapper {
 
     List<Cinema> selectByCity(HashMap<String,Integer> map);
 
+    Date getOverTime(Integer aid);
 
 }

@@ -47,13 +47,13 @@ public class Cinema implements Serializable {
     private String phone;
 
     /**
-     *影院所在的城市id
-     */
-    private int ctid;
-
-    /**
      * 影院设施图片集合
      */
     private List<Picture> pics;
+
+    /**
+     * 放映厅所在的城市
+     */
+    private String city;
 
 }

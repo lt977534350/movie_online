@@ -11,7 +11,7 @@
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="aid" jdbcType="INTEGER" property="aid" />
-    <result column="ctid" jdbcType="INTEGER" property="ctid" />
+    <result column="city" jdbcType="INTEGER" property="city" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -26,7 +26,7 @@
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="aid" jdbcType="INTEGER" property="aid" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="ctid" jdbcType="INTEGER" property="ctid" />
+    <result column="city" jdbcType="INTEGER" property="city" />
     <collection property="pics" ofType="com.woniu.entity.Picture">
       <result column="url" property="url" />
     </collection>
@@ -146,7 +146,16 @@
       on cp.pid=p.id
     </select>
   <select id="selectByCity" resultMap="BaseResultMap">
-    select * from cinema
-    where ctid=#{ctid}
+    select c.*
+    from cinema c
+    left join city ct
+    on c.city=ct.cityname
+    where ct.id=#{ctid}
+    limit #{start},#{num}
   </select>
+    <select id="getOverTime" parameterType="java.lang.Integer" resultType="java.util.Date">
+        select overtime
+        from admin
+        where id=#{aid}
+    </select>
 </mapper>

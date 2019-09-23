@@ -2,6 +2,7 @@ package com.woniu.service;
 
 import com.woniu.entity.Cinema;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CinemaService {
@@ -19,4 +20,6 @@ public interface CinemaService {
     public Integer update(Cinema cinema);
     //根据城市id查询当地的影院
     public List<Cinema> selectByCity(Integer ctid, Integer pageIndex, Integer num);
+    //获取到该影厅上级影院套餐到期时间
+    public List<String> getTime(Integer aid);
 }

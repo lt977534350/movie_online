@@ -24,12 +24,14 @@ public class CinemaAPI {
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
-        Integer num = 5;
+        Integer num = 4;
         List<Cinema> cinemas = cinemaService.selectByAid(pageIndex,num,aid);
         System.out.println(cinemas);
         Integer count = cinemaService.count();
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);
-        return new Result("success",null,page,cinemas);
+        List<String> msgs = cinemaService.getTime(aid);
+        System.out.println("过期信息------"+msgs.get(1));
+        return new Result(msgs.get(1),msgs.get(0),page,cinemas);
     }
     @GetMapping("bycid")
     public Result selectCinema(Integer cid){
@@ -39,7 +41,7 @@ public class CinemaAPI {
     }
     @PostMapping("insert")
     public Result insertCinema(MultipartFile file, String c_name, String c_address,
-                               String copy_right, Integer aid, String phone, Integer ctid, HttpServletRequest req){
+                               String copy_right, Integer aid, String phone, String city, HttpServletRequest req){
         String path = req.getSession().getServletContext().getRealPath("/");
         String imgPath = path.split("\\\\")[0]+"\\projectImg\\";
         File mk = new File(imgPath);
@@ -65,7 +67,7 @@ public class CinemaAPI {
         cinema.setFacility(mk+newPicName);
         cinema.setAid(aid);
         cinema.setPhone(phone);
-        cinema.setCtid(ctid);
+        cinema.setCity(city);
         cinemaService.insert(cinema);
         return new Result("success",null,null,null);
     }
