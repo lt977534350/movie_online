@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="/web/backstage/css/reset.css" />
 <style type="text/css">
-.front{width: 300px;margin: 5px 32px 45px 32px;background-color: #f0f0f0;	color: #666;text-align: center;padding: 3px;border-radius: 5px;}
+.front{width: 30%;margin: 0 auto;background-color: #f0f0f0;	color: #666;text-align: center;padding: 0 5px;border-radius: 5px;}
 .booking_area {float: right;position: relative;width:200px;height: 450px; }
 .booking_area h3 {margin: 5px 5px 0 0;font-size: 16px;}
 .booking_area p{line-height:26px; font-size:16px; color:#999}
@@ -82,7 +82,7 @@ new Vue({
 	},
 	methods:{
 		save:function(){
-			console.log(this.map)
+            var coordinate = Json.stringify(this.map);
 		},
 		create:function(){
 			this.map=registSeat();
@@ -159,7 +159,7 @@ $("#save").on("click",function(){
 $("#changexy").change(function () {
     $("#crea").click();
     var w = $("#seat-maps").width();
-    $("#frontbox").css("width",w);
+    $("#frontbox").css("width",w+65);
 })
 
 
