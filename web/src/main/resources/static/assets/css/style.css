@@ -467,7 +467,8 @@ option {
 }
 .slide-trailor {
     overflow: hidden;
-    margin-top: 40px;
+    margin-top: auto;
+    position: relative;
 }
 
 .slide-cast {
