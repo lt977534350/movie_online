@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>jQuery在线选座(影院版)</title>
+<meta name="keywords" content="jQuery在线选座,jQuery选座系统" />
+<meta name="description" content="jquery.seat-charts是一款适合电影票、高铁票的在线选座插件。" />
+
+<link rel="stylesheet" type="text/css" href="/web/feng/backstage/css/reset.css" />
+<style type="text/css">
+.front{width: 300px;margin: 5px 32px 45px 32px;background-color: #f0f0f0;	color: #666;text-align: center;padding: 3px;border-radius: 5px;}
+.booking_area {float: right;position: relative;width:200px;height: 450px; }
+.booking_area h3 {margin: 5px 5px 0 0;font-size: 16px;}
+.booking_area p{line-height:26px; font-size:16px; color:#999}
+.booking_area p span{color:#666}
+div.seatCharts-cell {color: #182C4E;height: 25px;width: 25px;line-height: 25px;margin: 3px;float: left;text-align: center;outline: none;font-size: 13px;}
+div.seatCharts-seat {color: #fff;cursor: pointer;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+div.seatCharts-row {height: 35px;}
+div.seatCharts-seat.available {background-color: #B9DEA0;}
+div.seatCharts-seat.focused {background-color: #76B474;border: none;}
+div.seatCharts-seat.selected {background-color: #E6CAC4;}
+div.seatCharts-seat.unavailable {background-color: #472B34;cursor: not-allowed;}
+/*整体座位样式*/
+div.seatCharts-container {border-right: 1px dotted #adadad;/*width: 400px;*/padding: 20px;float: left;}
+div.seatCharts-legend {padding-left: 0px;position: absolute;bottom: 16px;}
+ul.seatCharts-legendList {padding-left: 0px;}
+.seatCharts-legendItem{float:left; width:90px;margin-top: 10px;line-height: 2;}
+span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
+.checkout-button {display: block;width:80px; height:24px; line-height:20px;margin: 10px auto;border:1px solid #999;font-size: 14px; cursor:pointer}
+#seats_chose {max-height: 150px;overflow-y: auto;overflow-x: none;width: 200px;}
+#seats_chose li{float:left; width:72px; height:26px; line-height:26px; border:1px solid #d3d3d3; background:#f7f7f7; margin:6px; font-size:14px; font-weight:bold; text-align:center}
+</style>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.seat-charts.min.js"></script>
+<script src="js/vue.js"></script>
+
+</head>
+<body>
+
+<div class="demo clearfix">
+	
+	
+	<div class="front-indicator">座位选择</div>
+	<!---左边座位列表----->
+	<div>
+        <input type="text" style="width:30px;" id="x" value="10"> × 
+        <input type="text" style="width:30px;" id="y" value="10">
+        <input type="button" value="确定" onclick="clickCreated()">
+     </div>
+      
+	<div id="">
+		<div class="front">屏幕</div>		
+		
+	</div>
+	<div id="seat_area"></div>
+	
+	<!--座位布局的div-->
+	<!--<div id="seat-maps"></div>-->
+	
+	<div class="booking-details" id="app">
+      <ul id="selected-seats">
+      </ul>
+      <p><button class="checkout-button" @click="save()">保存</button></p>  
+      <p><button id="crea" hidden="hidden" @click="create()"></button></p>
+      <!--<div id="legend"></div>-->
+    </div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+
+//console.log(registSeat());
+
+new Vue({
+	el:"#app",
+	data:{
+		map:[]
+	},
+	created:function(){
+		this.map=registSeat();
+	},
+	methods:{
+		save:function(){
+			console.log(this.map)
+		},
+		create:function(){
+			this.map=registSeat();
+		}
+		
+	}
+})
+
+
+
+});
+
+function registSeat(){
+
+	$("#seat-maps").remove()
+	$("#legend").remove()
+	$("#seat_area").append("<div id='seat-maps'></div>")
+	$("#seat_area").append("<div id='legend'></div>")
+
+    var x = parseInt($("#x").val());
+    var y = parseInt($("#y").val());
+    var seat = [];
+    for(var i=0;i<x;i++){
+        seat[i]="";
+        for(var j=0;j<y;j++){
+            seat[i]+="e";
+        }
+    }
+
+    var sc = $('#seat-maps').seatCharts({
+        map: seat,
+        naming: {
+            top: false, //不显示顶部横坐标（行） 
+            left:true,
+            getLabel: function(character, row, column) { //返回座位信息 
+//                          return firstSeatLabel++;
+                return column;
+            }
+        },
+        legend: {
+            node: $('#legend'),
+            items: [
+                [ 'e', 'available',   '位置' ],
+                [ 'e', 'none', '过道']
+            ]
+        },
+        click: function() {
+             if (this.status() == 'available') { //若为可选座状态，添加座位
+                seat[this.settings.row]=seat[this.settings.row].substring(0,this.settings.column)+"_"+seat[this.settings.row].substring(this.settings.column+1);
+                return 'none';
+             }else {
+                seat[this.settings.row]=seat[this.settings.row].substring(0,this.settings.column)+"e"+seat[this.settings.row].substring(this.settings.column+1);
+                return "available";
+            }
+             
+        }
+      
+    });
+	return seat;
+        // sc.get(['1_2', '4_1', '7_1', '7_2']).status('none');
+}    
+
+$("#save").on("click",function(){
+	
+//  	console.log(map)
+//      $.get("save?str="+map).success(function(data){
+//          console.log(data);
+//      });
+    });
+
+function clickCreated(){
+	$("#crea").click()
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>
+
+
