@@ -1,6 +1,4 @@
-package com.woniu.orders.util;
-
-
+package com.woniu.jobs.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +15,6 @@ public class DateUtil {
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
     private static SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyyMMddHHmmss");
 
     //date 转字符串
     public static String dateToString(Date date) {
@@ -58,10 +55,6 @@ public class DateUtil {
 
 
 
-    }
-    //将日期转化为每-的字符串
-    public static String dateToFormatStr(Date date){
-      return   simpleDateFormat2.format(date);
     }
 
     //判断周几

@@ -192,11 +192,12 @@ public class AlipayServiceImpl implements AlipayService {
 
         //支付宝官方建议校验的值（out_trade_no、订单号，total_amount，金额、sellerId，卖家支付宝用户号、app_id）
         Order order = orderService.selectDatail(outTradeNo);
+        System.out.println(totalAmount);
         System.out.println(order.getMoney());
         System.out.println(order.getMoney().toString());
-        System.out.println(totalAmount.equals(String.valueOf(order.getMoney())));
+        System.out.println(Double.parseDouble(totalAmount)==order.getMoney());
 
-        if (order != null && totalAmount.equals(order.getMoney().toString()) && AlipayConfig.APP_ID.equals(appId)) {
+        if (order != null && Double.parseDouble(totalAmount)==order.getMoney() && AlipayConfig.APP_ID.equals(appId)) {
             //修改数据库支付宝订单表(因为要保存每次支付宝返回的信息到数据库里，以便以后查证)
             Alipayinfo alipayinfo = new Alipayinfo();
             alipayinfo.setNotifyTime(DateUtil.strToDate(notifyTime));

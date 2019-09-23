@@ -1,6 +1,7 @@
 package com.woniu.orders.mapper;
 
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.entity.Seatinfo;
 
 import java.util.List;
 import java.util.Map;
@@ -34,4 +35,6 @@ public interface OrderMapper {
      * @return
      */
     int deleteByOid(String oid);
+
+
 }
