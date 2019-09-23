@@ -60,13 +60,13 @@
 							<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								<!-- 底部按钮区-->
 								<ol class="carousel-indicators">
-                                        <li v-for="(pic,index) in cinema.pics" :class="{'active':activeIndex===index}" data-target="#carousel-example-generic" :data-slide-to="index"></li>
+                                        <li v-if="index < 3" v-for="(pic,index) in cinema.pics" :class="{'active':activeIndex===index}" data-target="#carousel-example-generic" :data-slide-to="index"></li>
                                     <!--									<li data-target="#carousel-example-generic" data-slide-to="1"></li>-->
 									<!--<li data-target="#carousel-example-generic" data-slide-to="2"></li>-->
 								</ol>
 								<!-- 图片区 -->
 								<div class="carousel-inner" role="listbox">
-									<div class="item" :class="{'active':activeIndex===index}" v-for="(pic,index) in cinema.pics">
+									<div v-if="index < 3" class="item" :class="{'active':activeIndex===index}" v-for="(pic,index) in cinema.pics">
 										<img class="chartsimg" :src="pic.url" alt="...">
 										<div class="carousel-caption"></div>
 									</div>
