@@ -12,8 +12,14 @@ package com.woniu.orders.service.serviceIpml;
 
 import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.entity.Seatinfo;
+import com.woniu.orders.entity.Tasklist;
+import com.woniu.orders.mapper.MovieShowtimeMapper;
 import com.woniu.orders.mapper.OrderMapper;
+import com.woniu.orders.mapper.SeatinfoMapper;
+import com.woniu.orders.mapper.TasklistMapper;
 import com.woniu.orders.service.OrderService;
+import com.woniu.orders.service.SeatInfoService;
 import com.woniu.orders.util.DateUtil;
 import com.woniu.orders.util.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,12 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private MovieShowtimeMapper movieShowtimeMapper;
+    @Autowired
+    private TasklistMapper tasklistMapper;
+    @Resource
+    private SeatInfoService seatInfoService;
 
     @Override
     //分页查询订单
@@ -51,10 +63,10 @@ public class OrderServiceImpl implements OrderService {
                 list.add(seatname);
 
             }
-              order.setSeatList(list);
+            order.setSeatList(list);
 
             //将数据库中的code转为字符串信息
-            order =this.ostateToString(order);
+            order = this.ostateToString(order);
         }
         return orders;
     }
@@ -69,11 +81,6 @@ public class OrderServiceImpl implements OrderService {
         return count;
     }
 
-    @Override
-    //删除订单
-    public int delete(int oid) {
-        return orderMapper.delete(oid);
-    }
 
     @Override
     public Order selectDatail(String oid) throws ParseException {
@@ -96,10 +103,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updatebyOid(String oid, Byte ostate, int payinfo_id) {
-        Map<String ,Object> map = new HashMap<>();
-        map.put("oid" ,oid);
-        map.put("ostate",ostate);
-        map.put("payinfo_id",payinfo_id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("oid", oid);
+        map.put("ostate", ostate);
+        map.put("payinfo_id", payinfo_id);
         orderMapper.updatepay(map);
     }
 
@@ -107,9 +114,9 @@ public class OrderServiceImpl implements OrderService {
     //根据订单号修改订单状态
     public int updateStateByOid(String oid, Byte ostate) {
         System.out.println("修改订单");
-         Map<String ,Object> map = new HashMap<>();
-        map.put("oid" ,oid);
-        map.put("ostate",ostate);
+        Map<String, Object> map = new HashMap<>();
+        map.put("oid", oid);
+        map.put("ostate", ostate);
         System.out.println(map);
         int updatepay = orderMapper.updatepay(map);
         return updatepay;
@@ -118,31 +125,120 @@ public class OrderServiceImpl implements OrderService {
     @Override
     //删除订单
     public int deleteByOid(String Oid) throws Exception {
-       return orderMapper.deleteByOid(Oid);
+        //如果未支付，还原座位信息
+        Order order = orderMapper.selectDetail(Oid);
+        if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
+            Order orderinfo = orderMapper.selectDetail(Oid);
+            String seatId = order.getSeatId();
+            String[] split = seatId.split("-");
+            List<Seatinfo> seatinfoList = new ArrayList<>();
+            for (int i = 0; i < split.length; i++) {
+                Seatinfo seatinfo = new Seatinfo();
+                seatinfo.setId(Integer.parseInt(split[i]));
+                seatinfoList.add(seatinfo);
+            }
+            
+            int i = seatInfoService.updateStateToN(seatinfoList);
+        }
+
+
+        return orderMapper.deleteByOid(Oid);
+    }
+
+    //创建订单
+    @Override
+    public String insertCreateOrders(Integer[] id, Integer uid, Integer msid) throws Exception {
+        //查询还有这些票吗,循环拆分数组
+        List<Seatinfo> seatinfoList = new ArrayList<>();
+        String s="";
+        for (Integer integer : id) {
+            Seatinfo seatinfo = new Seatinfo();
+            seatinfo.setId(integer);
+            s=s+integer+"-";
+           seatinfoList.add(seatinfo);
+        }
+        s=s.substring(0,s.length()-1);
+        List<Seatinfo> seatinfoList1 = seatInfoService.selectStateByList(seatinfoList,msid);
+        System.out.println(seatinfoList1);
+        for (Seatinfo seatinfo : seatinfoList1) {
+            System.out.println(seatinfo);
+            if ("LK".equals(seatinfo.getState())) {
+
+                //有票被卖出
+                return "票被卖出";
+            }
+        }
+
+        int updateNum = seatInfoService.updateState(seatinfoList);
+        System.out.println("更新的数"+updateNum);
+        System.out.println(id.length);
+        if (updateNum != id.length) {
+            throw new Exception();
+        }
+
+        //根据放映表id，查询票价
+        Double aDouble = movieShowtimeMapper.selectPrice(msid);
+        //创建订单
+        Order order = new Order();
+        order.setSeatId(s);
+        order.setMoney(aDouble * id.length);
+        //生成二维码调用nowapi接口
+        //获取当前时间
+        Date date = new Date();
+        //创建订单号
+        order.setOrderId(DateUtil.dateToFormatStr(date) + uid);
+        order.setcTime(date);
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < seatinfoList1.size(); i++) {
+            if (i < seatinfoList1.size() - 1) {
+                stringBuffer.append(seatinfoList1.get(i).getRow()+"排"+seatinfoList1.get(i).getColumn()+"座" + "=");
+            } else {
+                stringBuffer.append(seatinfoList1.get(i).getRow()+"排"+seatinfoList1.get(i).getColumn()+"座" );
+            }
+
+
+        }
+        order.setSeat(stringBuffer.toString());
+        order.setUid(uid);
+        order.setOstate((byte) Constant.OrderStatusEnum.NO_PAY.getCode());
+        order.setMsid(msid);
+        int i = orderMapper.insertSelective(order);
+        int index = 0;
+        if (i != 0) {
+            Tasklist tasklist = new Tasklist();
+            tasklist.setTaskdataid(order.getOrderId());
+            tasklist.setTasktime(new Date(date.getTime() + 15 * 60 * 1000));
+            tasklist.setTaskname("订单超时");
+            index = tasklistMapper.insertSelective(tasklist);
+        }
+        return order.getOrderId();
+
     }
 
     //一个工具将订单状态转为字符串信息
-    public Order ostateToString (Order order){
-         if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
+    public Order ostateToString(Order order) {
+        if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
             //未付款
             order.setOstateMsg(Constant.OrderStatusEnum.NO_PAY.getValue());
             //给前端传剩余付款时间数
-            int time= (int)((order.getcTime().getTime()+15*60*1000-System.currentTimeMillis())/1000);
-               order.setLeftPaySecond (time);
-        } else if(order.getOstate() == Constant.OrderStatusEnum.PAID.getCode()){
+            int time = (int) ((order.getcTime().getTime() + 15 * 60 * 1000 - System.currentTimeMillis()) / 1000);
+            order.setLeftPaySecond(time);
+        } else if (order.getOstate() == Constant.OrderStatusEnum.PAID.getCode()) {
             //已付款
             //电影开场前30分钟支持退款，改签
-            if((order.getPalyTime().getTime()-System.currentTimeMillis())>30*1000){
-                 order.setOstateMsg(Constant.OrderStatusEnum.PAID.getValue());
-            }else {
-                 order.setOstateMsg("订单完成");
+            if ((order.getPalyTime().getTime() - System.currentTimeMillis()) > 30 * 1000) {
+                order.setOstateMsg(Constant.OrderStatusEnum.PAID.getValue());
+            } else {
+                order.setOstateMsg("订单完成");
             }
-        }else if (order.getOstate() == Constant.OrderStatusEnum.ORDER_CLOSE.getCode()){
+        } else if (order.getOstate() == Constant.OrderStatusEnum.ORDER_CLOSE.getCode()) {
             order.setOstateMsg(Constant.OrderStatusEnum.ORDER_CLOSE.getValue());
-        } else if (order.getOstate() == Constant.OrderStatusEnum.ORDER_SUCCESS.getCode()){
+        } else if (order.getOstate() == Constant.OrderStatusEnum.ORDER_SUCCESS.getCode()) {
             order.setOstateMsg(Constant.OrderStatusEnum.ORDER_SUCCESS.getValue());
+        } else if (order.getOstate() == Constant.OrderStatusEnum.CANCELED.getCode()) {
+            order.setOstateMsg(Constant.OrderStatusEnum.CANCELED.getValue());
         }
-         return order;
+        return order;
     }
 
 
