@@ -83,6 +83,20 @@ new Vue({
 	methods:{
 		save:function(){
             var coordinate = Json.stringify(this.map);
+            $.ajax({
+                url:"/cinema-stage/room",
+                data:{
+                    "coordinate":coordinate,
+                    "cid":3,
+                    "name":"八号影厅",
+                    "type":"iMAX"
+                },
+                success:function(data){
+                    alert("aaa")
+                }
+
+            })
+
 		},
 		create:function(){
 			this.map=registSeat();
