@@ -7,7 +7,6 @@
 		<title>查看套餐</title>
 		<link rel="stylesheet" href="/web/layui/css/layui.css?t=2" media="all">
 		<link rel="stylesheet" href="/web/css/common.css?t=2" media="all">
-		<link href="/web/css/bootstrap.min.css" rel="stylesheet">
 		<meta property="og:image" content="https://ianlunn.github.io/Hover/hover.jpg" />
 		<meta property="og:site_name" content="Hover.css"/>
 		<meta property="og:title" content="Hover.css - A collection of CSS3 powered hover effects" />
@@ -60,7 +59,7 @@
 		.menu-input{
 			border: none;
 			outline: none;
-			background-color: #F8F8F8;
+			background-color: #A7E4F9;
 		}
 		.menu-input:hover{
 			border-bottom: #93ED52 3px solid;
@@ -102,7 +101,7 @@
 		}
 	</style>
 
-	<body>
+	<body style="background-image: url(/web/images/backpic.png);">
 		<div id="LAY_WRAP">
 			<div id='LAY_app' class="layui-side layui-bg-black">
 				<div class="layui-side-scroll">
@@ -113,7 +112,7 @@
 							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>套餐管理</cite></a>
 							<dl class="layui-nav-child">
 								<dd>
-									<a class="" href="/web/qian/check-list.html"> <cite>查看套餐</cite></a>
+									<a class="" href="javascript:;"> <cite>查看套餐</cite></a>
 								</dd>
 							</dl>
 						</li>
@@ -124,9 +123,15 @@
 									<a href="javascript:;"> <cite>影院资料</cite></a>
 									<dl class="layui-nav-child layui-cite-2">
 										<dd>
-											<a href="/web/qian/cinema.html"> <cite>影院详情</cite></a>
+											<a href="javascript:;"> <cite>影院详情</cite></a>
+										</dd>
+										<dd>
+											<a href="javascript:;"> <cite>套餐状况</cite></a>
 										</dd>
 									</dl>
+								</dd>
+								<dd>
+									<a href="javascript:;"> <cite>即将到期</cite></a>
 								</dd>
 							</dl>
 						</li>
@@ -198,7 +203,7 @@
 					<div class="layui-card" style="height: 30%;">
 						<div class="layui-card-header ">套餐管理</div>
 						<div v-for="(menu,index) in list">
-							<div class="col-lg-4" style="height: 100%;">
+							<div class="layui-col-lg4" style="height: 100%;">
 								<div align="center" class="menu-pic">
 									<img src="/web/images/menu.jpg" />
 								</div>
@@ -215,7 +220,7 @@
 								</div>
 							</div>
 						</div>
-						<!--<div class="col-lg-4" style="height: 100%;">
+						<!--<div class="layui-col-lg4" style="height: 100%;">
 							<div align="center" class="menu-pic">
 								<img src="image/menu.jpg" />
 							</div>
@@ -231,7 +236,7 @@
 								<span class="menu-detail">年</span>
 							</div>
 						</div>
-						<div class="col-lg-4" style="height: 100%;">
+						<div class="layui-col-lg4" style="height: 100%;">
 							<div align="center" class="menu-pic">
 								<img src="image/menu.jpg" />
 							</div>
@@ -277,53 +282,53 @@
 								</div>
 								<!--选择性的显示，根据按钮来判断-->
 								<!--若点击的是修改套餐-->
-								<div class="col-lg-12" id="update-menu" style="border-top: red 1px solid;">
-									<div class="layui-field-title col-lg-4">
+								<div class="layui-col-lg12" id="update-menu" style="border-top: red 1px solid;">
+									<div class="layui-field-title layui-col-lg4">
 										<span>套餐类型</span>
 									</div>
-									<div class="layui-field-title col-lg-4">
+									<div class="layui-field-title layui-col-lg4">
 										<span>套餐资费</span>
 									</div>
-									<div class="layui-field-title col-lg-4">
+									<div class="layui-field-title layui-col-lg4">
 										<span>套餐使用期限</span>
 									</div>
 									<div v-for="(menu,index) in list">
-										<div class="col-lg-12">
-											<div class="layui-field-box col-lg-4">
+										<div class="layui-col-lg12">
+											<div class="layui-field-box layui-col-lg4">
 												<span class="name-span" v-text="menu.name"></span>
 											</div>
-											<div class="layui-field-box col-lg-4">
+											<div class="layui-field-box layui-col-lg4">
 												<input type="text" hidden="hidden" name="mid" v-model="menu.id"/>
 												<input type="text" style="padding-left: 13px;" class="menu-input" v-model="menu.money" name="money" placeholder="请输入新的金额..."/>
 											</div>
-											<div class="layui-field-box col-lg-4">
+											<div class="layui-field-box layui-col-lg4">
 												<input type="text" name="period" style="text-align: center" v-model="menu.period" class="menu-input" placeholder="请输入新的套餐时限..."/>
 											</div>
 										</div>
 									</div>
-									<!--<div class="col-lg-12">
-										<div class="layui-field-box col-lg-4">
+									<!--<div class="layui-col-lg12">
+										<div class="layui-field-box layui-col-lg4">
 											<span class="name-span">套餐B</span>
 										</div>
-										<div class="layui-field-box col-lg-4">
+										<div class="layui-field-box layui-col-lg4">
 											<input type="text" class="menu-input" placeholder="请输入新的金额..."/>
 										</div>
-										<div class="layui-field-box col-lg-4">
+										<div class="layui-field-box layui-col-lg4">
 											<input type="text" class="menu-input" placeholder="请输入新的套餐时限..."/>
 										</div>
 									</div>
-									<div class="col-lg-12">
-										<div class="layui-field-box col-lg-4">
+									<div class="layui-col-lg12">
+										<div class="layui-field-box layui-col-lg4">
 											<span class="name-span">套餐C</span>
 										</div>
-										<div class="layui-field-box col-lg-4">
+										<div class="layui-field-box layui-col-lg4">
 											<input type="text" class="menu-input" placeholder="请输入新的金额..."/>
 										</div>
-										<div class="layui-field-box col-lg-4">
+										<div class="layui-field-box layui-col-lg4">
 											<input type="text" class="menu-input" placeholder="请输入新的套餐时限..."/>
 										</div>
 									</div>-->
-									<div class="col-lg-12">
+									<div class="layui-col-lg12">
 										<button class="sertain-btn btn hvr-shutter-in-vertical" @click="confirmupdate()">确定</button>
 									</div>
 								</div>
@@ -332,24 +337,24 @@
                                 	时间：2019-09-17
                                 	描述：新增一个套餐
                                 -->
-                                <div class="col-lg-12" id="insert-menu" style="border-top: red 1px solid;">
+                                <div class="layui-col-lg12" id="insert-menu" style="border-top: red 1px solid;">
                                 	<div>
                                 		<span class="op-word">新套餐设定</span>
                                 	</div>
                                 	<div style="margin-top: 40px;">
-                                		<div class="col-lg-4">
+                                		<div class="layui-col-lg4">
                                 			<span class="name-span">套餐名:</span>
                                 			<input id="new-name" type="text" class="menu-input" placeholder="新套餐名..."/>
                                 			<br>
 											<span class="show-check" style="font-size: 15px;"></span>
 										</div>
-                                		<div class="col-lg-4">
+                                		<div class="layui-col-lg4">
                                 			<span class="name-span">套餐资费:</span>
                                 			<input id="new-price" type="text" class="menu-input" placeholder="新套餐资费..."/>
 											<br>
 											<span class="show-check" style="font-size: 15px;"></span>
 										</div>
-                                		<div class="col-lg-4">
+                                		<div class="layui-col-lg4">
                                 			<span class="name-span">套餐年限:</span>
                                 			<input id="new-period" type="text" class="menu-input" placeholder="新套餐的年限..."/>
 											<br>
@@ -365,7 +370,7 @@
                                 	时间：2019-09-17
                                 	描述：删除一个套餐
                                 -->
-                                <div class="col-lg-12" id="del-menu" style="border-top: red 1px solid;">
+                                <div class="layui-col-lg12" id="del-menu" style="border-top: red 1px solid;">
                                 	<div>
                                 		<span class="op-word">删除套餐</span>
                                 		<span class="layui-badge">高危操作!</span>

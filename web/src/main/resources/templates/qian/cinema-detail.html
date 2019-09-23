@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <title>影院详情</title>
+  <link rel="stylesheet" href="/web/layui/css/layui.css?t=2" media="all">
+  <link rel="stylesheet" href="/web/css/common.css?t=2" media="all">
+  <link href="/web/css/hover.css" rel="stylesheet" media="all">
+  <link href="/web/css/demo-page.css" rel="stylesheet" media="all">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+  <link href="/web/css/splitpage.css" rel="stylesheet" media="all" />
+  <style type="text/css">
+  	.table-header{
+  		font-size: 20px;
+  		font-family: "franklin gothic demi";
+  		margin-left: 30px;
+  	}
+  	.msg-title{
+  		font-size: 17px;
+  		font-family: fantasy;
+  		text-align: center;
+  		display: block;
+  		text-decoration: none;
+  		color: black;
+  		font-weight: 700;
+  	}
+  	.msg-title:hover{
+  		text-decoration: none;
+  		color: red;
+  	}
+  	.msg{
+  		text-align: center;
+  		display: block;
+  		font-size: 13px;
+  		font-family: "felix titling";
+  		font-weight: 600;
+  	}
+  </style>
+</head>
+<style type="text/css" id="LAY_layadmin_theme"></style>
+<body>
+<div id="LAY_WRAP">
+  <div id='LAY_app' class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+          <div class="layui-logo" lay-href=""> <span>导航菜单</span> </div>
+          <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+          <ul class="layui-nav layui-nav-left layui-nav-tree" lay-filter="layui-nav-left">
+              <li class="layui-nav-item">
+                  <a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >套餐管理</cite></a>
+                  <dl class="layui-nav-child">
+                      <dd>
+                        <a class="" href="javascript:;"> <cite >查看套餐</cite></a>
+                      </dd>
+                  </dl>
+              </li>
+              <li class="layui-nav-item">
+                  <a href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >影院管理</cite></a>
+                  <dl class="layui-nav-child">
+                      <dd><a href="javascript:;"> <cite >影院资料</cite></a>
+                      	<dl class="layui-nav-child layui-cite-2">
+                            <dd><a href="javascript:;"> <cite >影院详情</cite></a></dd>
+                            <dd><a href="javascript:;"> <cite >即将到期</cite></a></dd>
+                        </dl>
+                      </dd>
+                  </dl>
+              </li>
+               <li class="layui-nav-item">
+                  <a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >日志管理</cite></a>
+                  <dl class="layui-nav-child">
+                      <dd>
+                        <a class="" href="javascript:;"> <cite >查看日志</cite></a>
+                      </dd>
+                  </dl>
+              </li>
+              <li class="layui-nav-item">
+                  <a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >收益管理</cite></a>
+                  <dl class="layui-nav-child">
+                      <dd>
+                        <a class="" href="javascript:;"> <cite >查看收益</cite></a>
+                      </dd>
+                  </dl>
+              </li>
+          </ul>
+      </div>
+  </div>  
+
+  <!--主体-->
+  <div class="layui-body" id="LAY_app_body">
+  	<!-- 头部区域 -->
+    <div class="layui-header head">
+          <ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
+            <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+              <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+              </a>
+            </li>
+            <li class="layui-nav-item" lay-unselect="">
+              <a href="#" layadmin-event="refresh" title="刷新">
+                <i class="layui-icon layui-icon-refresh-3"></i>
+              </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+        			<form action="#" method="post">
+            		<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+            		<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
+            	</form>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+            <li class="layui-nav-item stage-title" lay-unselect="">
+             	 爱乐后台管理系统
+            </li>
+            <li class="layui-nav-item" lay-unselect=""> 
+              <a href="javascript:;"> <span>管理员名称</span> <span class="layui-nav-more"></span></a> 
+              <dl class="layui-nav-child"> 
+                  <dd><a lay-href="set/user/info">基本资料</a></dd>
+                  <dd><a lay-href="set/user/password">修改密码</a></dd> 
+                  <hr> 
+                  <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd> 
+              </dl> 
+            </li>
+        </ul>
+      </div>
+    <div class="layui-fluid">
+      <div id="app" class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+          <div class="layui-card">
+            <div class="layui-card-header">
+            	<span id="mainame" style="font-size:20px;color:red">越界影城</span>
+            	<img id="mainpic" src="" style="width: 120px;height: 40px;margin-left: 30px;"/>
+            </div>
+            <div class="layui-card-body">
+            	<span class="layui-badge hvr-radial-out" style="margin-bottom: 5px;background-color: orange;" v-text="timestate"></span>
+            	<span style="font-size: 17px;" v-text="'套餐到期时间:'+overtime"></span>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md12">
+            <div id="sidename" class="table-header"></div>
+            <div class="layui-card-body" style="margin-top: 30px;">
+            	<div class="cinema-msg">
+            		<div>
+            			<div class="layui-col-lg3">
+            			<a href="javascript:;" class="msg-title">放映点</a>
+	            		</div>
+	            		<div class="layui-col-lg3">
+	            			<a href="javascript:;" class="msg-title">详细地址</a>
+	            		</div>
+	            		<div class="layui-col-lg3">
+	            			<a href="javascript:;" class="msg-title">联系电话</a>
+	            		</div>
+	            		<div class="layui-col-lg3">
+	            			<a href="javascript:;" class="msg-title">所在城市</a>
+	            		</div>
+            		</div>
+            		<hr color="#10E327" />
+            		<div v-for="cinema in details">
+                        <div>
+                            <div class="layui-col-lg3">
+                                <span class="msg" v-text="cinema.cname"></span>
+                            </div>
+                            <div class="layui-col-lg3">
+                                <span class="msg" v-text="cinema.caddress"></span>
+                            </div>
+                            <div class="layui-col-lg3" v-if="cinema.phone==null||cinema.phone==''">
+                                <span class="msg">暂无</span>
+                            </div>
+                            <div class="layui-col-lg3" v-else>
+                                <span class="msg" v-text="cinema.phone"></span>
+                            </div>
+                            <div class="layui-col-lg3">
+                                <span class="msg" v-text="cinema.city"></span>
+                            </div>
+                        </div>
+                        <hr color="#10E327"/>
+            		</div>
+                    <div style="background-color: #F8F8F8!important;">
+                        <div>
+                            <div class="page"  v-show="show">
+                                <div class="pagelist">
+                                    <span class="jump" :class="{disabled:pstart}" @click="prev()">上一页</span>
+                                    <span v-show="mypage.pageIndex>5" class="jump" @click="jumpPage(1)">1</span>
+                                    <span class="ellipsis"  v-show="efont">...</span>
+                                    <span class="jump" v-for="num in indexs" :class="{bgprimary:mypage.pageIndex==num}" @click="jumpPage(num)">{{num}}</span>
+                                    <span class="ellipsis"  v-show="ebehind">...</span>
+
+                                    <span :class="{disabled:pend}" class="jump" onclick="nextpage()">下一页</span>
+                                    <span v-show="mypage.pageIndex<mypage.pageCount-4" class="jump" @click="jumpPage(mypage.pageCount)">{{mypage.pageCount}}</span>
+
+                                    <span class="jumppoint">跳转到：</span>
+                                    <span class="jumpinp"><input type="text" v-model="changePage"></span>
+                                    <span class="jump gobtn" @click="jumpPage(changePage)">GO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--辅助作用一般用于手机遮罩层-->
+<div class="layui-layer-shade mobilenav" id="mobilenav" onClick="clearmobilenav()" style="z-index: 998; background-color: rgb(0, 0, 0); opacity: 0.3;display:none"></div>
+</body>
+<script type="text/javascript" src="/web/js/jquery.min.js"></script>
+<script type="text/javascript" src="/web/layui/layui.js?t=2"></script>
+<script type="text/javascript" src="/web/js/common.js?t=2"></script>
+<script type="text/javascript" src="/web/js/vue.js"></script>
+<script>
+    var newlist = new Vue({
+        el: '#app',
+        data: {
+            changePage:'',//跳转页
+            details:[],
+            mypage:{},
+            timestate:'',
+            overtime:''
+        },
+        created:function(){
+            var myvue = this;
+            var url = decodeURI(location.search); //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                var arr = str.split("&");
+                var aid = arr[0].split("=")[1];
+                $("#mainame").text(arr[1].split("=")[1]);
+                $("#sidename").text(arr[1].split("=")[1]+"放映厅详址");
+                $("#mainpic").attr("src",arr[2].split("=")[1]);
+                $.ajax({
+                    url:"/cinema-stage/cinema/byaid",
+                    data:{"pageIndex":1,"aid":aid},
+                    dataType:"json",
+                    type:"get",
+                    success:function (rt) {
+                        myvue.mypage = rt.object;
+                        myvue.details = rt.list;
+                        myvue.timestate = rt.code;
+                        myvue.overtime = rt.message;
+                    }
+                });
+            }
+        },
+        computed:{
+            show:function(){
+                return this.mypage.pageCount;
+            },
+            pstart: function() {
+                return this.mypage.pageIndex == 1;
+            },
+            pend: function() {
+                return this.mypage.pageIndex == this.mypage.pageCount;
+            },
+            efont: function() {
+                if (this.mypage.pageCount <= 7) return false;
+                return this.mypage.pageIndex > 5
+            },
+            ebehind: function() {
+                if (this.mypage.pageCount <= 7) return false;
+                var nowAy = this.indexs;
+                return nowAy[nowAy.length - 1] != this.mypage.pageCount;
+            },
+            indexs: function() {
+                var left = 1,
+                    right = this.mypage.pageCount,
+                    ar = [];
+                if (this.mypage.pageCount >= 7) {
+                    if (this.mypage.pageIndex > 5 && this.mypage.pageIndex < this.mypage.pageCount - 4) {
+                        left = Number(this.mypage.pageIndex) - 3;
+                        right = Number(this.mypage.pageIndex) + 3;
+                    } else {
+                        if (this.mypage.pageIndex <= 5) {
+                            left = 1;
+                            right = 7;
+                        } else {
+                            right = this.mypage.pageCount;
+
+                            left = this.mypage.pageCount - 6;
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left);
+                    left++;
+                }
+                return ar;
+            },
+        }
+    })
+    function nextpage () {
+        var pagenow = null;
+        if(newlist.mypage.pageIndex<newlist.mypage.pageCount){
+            pagenow = newlist.mypage.pageIndex+1;
+            sendAjax(pagenow);
+        }
+    }
+    function prev() {
+        if(newlist.mypage.pageIndex>1){
+            var pagenow = newlist.mypage.pageIndex-1;
+            sendAjax(pagenow);
+        }
+    }
+    function jumpPage(id) {
+        sendAjax(id);
+    }
+    function sendAjax(pageIndex) {
+        var url = decodeURI(location.search); //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            var aid = str.split("=")[1];
+            $.ajax({
+                url: "/cinema-stage/cinema/byaid",
+                data: {"pageIndex": pageIndex, "aid":aid},
+                dataType: "json",
+                type: "get",
+                success: function (rt) {
+                    newlist.mypage = rt.object;
+                    newlist.details = rt.list;
+                }
+            });
+        }
+    }
+</script>
+</html>

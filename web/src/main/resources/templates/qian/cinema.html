@@ -6,7 +6,6 @@
   <title>平台后端管理系统</title>
   <link rel="stylesheet" href="/web/layui/css/layui.css?t=2" media="all">
   <link rel="stylesheet" href="/web/css/common.css?t=2" media="all">
-  <link href="/web/css/bootstrap.min.css" rel="stylesheet">
   <link href="/web/css/hover.css" rel="stylesheet" media="all">
   <link href="/web/css/splitpage.css" rel="stylesheet" media="all" />
   <style type="text/css">
@@ -39,6 +38,7 @@
   		font-size: 13px;
   		font-style: italic;
   		text-align: center;
+        padding-top: 10px;
   	}
   </style>
 </head>
@@ -135,51 +135,52 @@
           </div>
         </div>
         <div class="layui-col-md12 main-body" id="app">
-        	<div class="col-lg-10 col-lg-offset-1" style="background-color: white;">
+        	<div class="layui-col-lg10 layui-col-lg-offset1" style="background-color: white;">
         		<div class="cinema-title">
         			<span>影院列表</span>
         		</div>
         		<hr />
-        		<div class="col-lg-12">
-        			<div class="col-lg-2 list-title">
+        		<div class="layui-col-lg12">
+        			<div class="layui-col-lg2 list-title">
         				<span>用户名</span>
         			</div>
-        			<div class="col-lg-2 list-title">
+        			<div class="layui-col-lg2 list-title">
         				<span>密码</span>
         			</div>
-        			<div class="col-lg-2 list-title">
+        			<div class="layui-col-lg2 list-title">
         				<span>电话</span>
         			</div>
-        			<div class="col-lg-2 list-title">
+        			<div class="layui-col-lg2 list-title">
         				<span>影城名</span>
         			</div>
-        			<div class="col-lg-2 list-title">
+        			<div class="layui-col-lg2 list-title">
         				<span>LOGO</span>
         			</div>
-        			<div class="col-lg-2 list-title">
+        			<div class="layui-col-lg2 list-title">
         				<span>过期时间</span>
         			</div>
         		</div>
         		<hr />
-        		<div class="col-lg-12" v-for="admin in cinemas">
-        			<div class="col-lg-2 list-detail">
+        		<div class="layui-col-lg12" v-for="admin in cinemas">
+        			<div class="layui-col-lg2 list-detail">
         				<span v-text="admin.username"></span>
         			</div>
-        			<div class="col-lg-2 list-detail">
+        			<div class="layui-col-lg2 list-detail">
         				<span v-text="admin.password"></span>
         			</div>
-        			<div class="col-lg-2 list-detail">
+        			<div class="layui-col-lg2 list-detail">
         				<span v-text="admin.phone"></span>
         			</div>
-        			<div class="col-lg-2" style="text-align: center;">
-        					<button class="btn btn-danger" onclick="checkdetail()" v-text="admin.name"></button>
+        			<div class="layui-col-lg2" style="text-align: center;">
+                        <span v-text="admin.id" hidden="hidden"></span>
+                        <button class="layui-btn layui-btn-danger" onclick="checkdetail(this)" v-text="admin.name"></button>
         			</div>
-        			<div class="col-lg-2 list-detail">
+        			<div class="layui-col-lg2 list-detail" style="padding-bottom: 20px">
         				<span>
-        					<img :src="admin.logo" alt="图片找不到！" style="width: 80px;height: 40px;margin-bottom: 10px;">
+        					<img :src="admin.logo" alt="图片找不到！" style="width: 80px;height: 40px;">
         				</span>
         			</div>
-        			<div class="col-lg-2 list-detail">
+        			<div class="layui-col-lg2 list-detail">
         				<span v-text="admin.overDate"></span>
         			</div>
                     <hr />
@@ -314,8 +315,13 @@
             }
         });
     }
-    function checkdetail() {
-
+    function checkdetail(t) {
+        var aid = $(t).prev().text();
+        var name = $(t).text();
+        var mysrc = $(t).parent().next().children().children().attr("src");
+        alert("mysrc---"+mysrc);
+        window.location.href="/web/qian/cinema-detail.html?aid="+aid+
+        "&name="+name+"&mysrc="+mysrc;
     }
 </script>
 </html>
