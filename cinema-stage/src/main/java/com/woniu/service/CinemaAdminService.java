@@ -11,5 +11,11 @@ public interface CinemaAdminService {
     public List<Admin> selectCinemaAdmins(Integer pageIndex, Integer num);
     //查询影院管理员总数
     public Integer count();
+    //根据用户名查询管理员
+    public Admin login(String username);
+    //根据电话号码查询管理员
+    public Admin selectByPhone(String phone);
+    //将影院管理员注册信息写入数据库
+    public void insert(Admin admin);
 
 }

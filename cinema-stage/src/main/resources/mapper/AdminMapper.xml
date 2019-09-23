@@ -124,4 +124,10 @@
   <select id="count" resultType="java.lang.Integer">
     select count(*) from admin where level=2
   </select>
+    <select id="login" resultMap="BaseResultMap" parameterType="string">
+      select * from admin where username=#{username}
+    </select>
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
+    select * from admin where phone=#{phone}
+  </select>
 </mapper>

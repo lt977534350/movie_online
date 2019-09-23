@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<title>影片资料管理</title>
+		<link rel="stylesheet" href="/web/layui/css/layui.css?t=2" media="all">
+		<link rel="stylesheet" href="/web/css/common.css?t=2" media="all">
+		<link href="/web/css/hover.css" rel="stylesheet" media="all">
+		<script type="text/javascript" src="/web/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/web/layui/layui.js?t=2"></script>
+		<script type="text/javascript" src="/web/js/common.js?t=2"></script>
+		<style type="text/css">
+			.movie-list-title{
+				font-size: 17px;
+				font-style: italic;
+				font-weight: 700;
+			}
+			.movie-detail{
+				height: 160px;
+				background-color: white;
+			}
+			.side-line{
+				height: 100%;
+				width: 20px;
+				background: rgba(156,102,31,0.3);
+				border-radius: 5px;
+				float: left;
+			}
+			.movie-msg{
+				margin-left: 200px;
+				width: 840px;
+				height: 100%;
+			}
+			.title-msg{
+				height: 40px;
+				font-size: 17px;
+				font-weight: 800;
+				font-family:"微软雅黑";
+				text-align: center;
+				line-height: 40px;
+			}
+			.msg-detail{
+				height: 100px;
+				font-size: 20px;
+				font-weight: 700;
+				font-family: "宋体";
+				text-align: center;
+				line-height: 100px;
+			}
+		</style>
+	</head>
+	<style type="text/css" id="LAY_layadmin_theme"></style>
+
+	<body>
+		<div id="LAY_WRAP">
+			<div id='LAY_app' class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<div class="layui-logo" lay-href=""> <span>导航菜单</span> </div>
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-left layui-nav-tree" lay-filter="layui-nav-left">
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>套餐管理</cite></a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a class="" href="/web/qian/check-list.html"> <cite>查看套餐</cite></a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+		                  <a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >影片管理</cite></a>
+		                  <dl class="layui-nav-child">
+		                      <dd>
+		                        <a class="" href="/web/qian/movie-manage.html"><cite >影片资料</cite></a>
+		                      </dd>
+		                      <dd>
+		                        <a class="" href="javascript:;"><cite >新增影片</cite></a>
+		                      </dd>
+		                  </dl>
+		              	</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>影院管理</cite></a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="/web/qian/cinema.html"> <cite>影院资料</cite></a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>日志管理</cite></a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a class="" href="javascript:;"> <cite>查看日志</cite></a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--主体-->
+			<div class="layui-body" id="LAY_app_body">
+				<!-- 头部区域 -->
+				<div class="layui-header head">
+					<ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
+						<li class="layui-nav-item layadmin-flexible" lay-unselect="">
+							<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+								<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item" lay-unselect="">
+							<a href="#" layadmin-event="refresh" title="刷新">
+								<i class="layui-icon layui-icon-refresh-3"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item layui-hide-xs" lay-unselect="">
+							<form action="#" method="post">
+								<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+								<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
+							</form>
+						</li>
+					</ul>
+					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+						<li class="layui-nav-item stage-title" lay-unselect="">
+							爱乐后台管理系统
+						</li>
+						<li class="layui-nav-item" lay-unselect="">
+							<a href="javascript:;"> <span>管理员名称</span> <span class="layui-nav-more"></span></a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a lay-href="set/user/info">基本资料</a>
+								</dd>
+								<dd>
+									<a lay-href="set/user/password">修改密码</a>
+								</dd>
+								<hr>
+								<dd layadmin-event="logout" style="text-align: center;">
+									<a>退出</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+				<div class="layui-fluid">
+					<div class="layui-row layui-col-space15">
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div style="font-size:20px;color:red" class="layui-card-header">上映影片管理</div>
+								<div class="layui-card-body" style="margin-top: 30px;">
+									<span class="movie-list-title">影片列表</span>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="movie-detail layui-col-lg10 layui-col-lg-offset1">
+									<div class="side-line"></div>
+									<div class="movie-msg">
+										<div class="layui-col-lg2" style="height: 100%;">
+											<img src="image/head-pic.jpg" style="height: 100%;width:100%"/>
+										</div>
+										<div class="layui-col-lg9 layui-col-lg-offset1" style="height: 100%;">
+											<div class="layui-col-lg4" style="height: 100%;">
+												<div class="title-msg">
+													<span class="layui-badge-dot layui-bg-orange"></span>
+													<span>影片名</span>
+												</div>
+												<div class="msg-detail">
+													<span>雪人奇缘</span>
+												</div>
+											</div>
+											<div class="layui-col-lg4" style="height: 100%;">
+												<div class="title-msg">
+													<span class="layui-badge-dot layui-bg-green"></span>
+													<span>上映国家</span>
+												</div>
+												<div class="msg-detail">
+													<span>美国/中国</span>
+												</div>
+											</div>
+											<div class="layui-col-lg4" style="height: 100%;border-left: orange 5px solid;">
+												<div style="line-height: 160px;text-align: right;">
+													<span class="layui-badge">危险</span>
+													<button class="layui-btn layui-btn-radius del-btn">
+														<span>删除影片</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!--辅助作用一般用于手机遮罩层-->
+		<div class="layui-layer-shade mobilenav" id="mobilenav" onClick="clearmobilenav()" style="z-index: 998; background-color: rgb(0, 0, 0); opacity: 0.3;display:none"></div>
+
+	</body>
+</html>

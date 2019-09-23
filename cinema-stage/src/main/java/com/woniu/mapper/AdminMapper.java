@@ -21,4 +21,8 @@ public interface AdminMapper {
     List<Admin> selectCinemaAdmins(HashMap<String, Integer> map);
 
     Integer count();
+
+    Admin login(String username);
+
+    Admin selectByPhone(String phone);
 }

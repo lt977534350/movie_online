@@ -32,4 +32,21 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
         Integer count = adminMapper.count();
         return count;
     }
+
+    @Override
+    public Admin login(String username) {
+        Admin admin = adminMapper.login(username);
+        return admin;
+    }
+
+    @Override
+    public Admin selectByPhone(String phone) {
+        Admin adminByPhone = adminMapper.selectByPhone(phone);
+        return adminByPhone;
+    }
+
+    @Override
+    public void insert(Admin admin) {
+        adminMapper.insertSelective(admin);
+    }
 }
