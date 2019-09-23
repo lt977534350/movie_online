@@ -8,17 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="/web/backstage/backstagecss/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/backstage/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="/web/backstage/backstagecss/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/backstage/css/font-awesome.min.css">
     <!-- Fontastic Custom icon font-->
-    <link rel="stylesheet" href="/web/backstage/backstagecss/fontastic.css">
+    <link rel="stylesheet" href="/web/backstage/css/fontastic.css">
     <!-- Google fonts - Poppins -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="/web/backstage/backstagecss/cinemabackstage.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="/web/backstage/backstagecss/custom.css">
+    <link rel="stylesheet" href="/web/backstage/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
     <style type="text/css">
@@ -62,11 +62,17 @@
                       <input id="login-password" type="password" name="password" required data-msg="Please enter your password" class="input-material">
                       <label for="login-password" class="label-material">密码：</label>
                     </div>
+                    <div class="form-group terms-conditions">
+                      <input id="login-remember" name="login-remember" type="checkbox" value="" class="checkbox-template">
+                      <label for="login-remember">记住我</label>
+                    </div>
 	                    <input type="hidden" name="telphone" value="" />
 	                    <input type="hidden" name="code" value="" />
-                    <input type="submit" id="loginbyaccount" class="btn btn-primary" value="登录" />
+                    <div class="form-group" style="text-align: right">
+                      <input type="submit" id="loginbyaccount" class="btn btn-primary" value="登录" />
+                    </div>
                   </form>
-                  <small>密码忘了吗?&nbsp;&nbsp;没关系点我使用</small><a onclick="changetotellogin(this)" class="forgot-pass">电话登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/backstage/register.html" class="signup">注册</a>
+                  <small>密码忘了吗?&nbsp;&nbsp;没关系点我使用</small><a onclick="changetotellogin(this)" class="forgot-pass">电话登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/feng/backstage/register.html" class="signup">注册</a>
                 </div>
               </div>
             </div>
@@ -88,9 +94,11 @@
                     </div>
 	                    <input type="hidden" name="username" value="" />
 	                    <input type="hidden" name="password" value="" />
-                    <input type="submit" id="loginbytel" class="btn btn-primary" value="登录" />
+                    <div class="form-group" style="text-align: right">
+                      <input type="submit" id="loginbytel" class="btn btn-primary" value="登录" />
+                    </div>
                   </form>
-                  <small>我有账户&nbsp;&nbsp;&nbsp;&nbsp;使用</small><a onclick="changetopwdlogin(this)" class="forgot-pass">密码登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/backstage/register.html" class="signup">注册</a>
+                  <small>我有账户&nbsp;&nbsp;&nbsp;&nbsp;使用</small><a onclick="changetopwdlogin(this)" class="forgot-pass">密码登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/feng/backstage/register.html" class="signup">注册</a>
                 </div>
               </div>
             </div>
@@ -101,14 +109,14 @@
       </div>
     </div>
     <!-- JavaScript files-->
-    <script src="/web/backstage//web/backstage/vendor/jquery/jquery.min.js"></script>
-    <script src="/web/backstage//web/backstage/vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="/web/backstage//web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/web/backstage//web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="/web/backstage//web/backstage/vendor/chart.js/Chart.min.js"></script>
-    <script src="/web/backstage//web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/web/backstage/vendor/jquery/jquery.min.js"></script>
+    <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+    <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
-    <script src="/web/backstage//web/backstage/js/front.js"></script>
+    <script src="/web/backstage/js/front.js"></script>
     <script type="text/javascript">
      function changetotellogin(){
      	$(".login1").css("display","none");
