@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    	<meta name="robots" content="all,follow">
+    	<link rel="stylesheet" href="css/backstagecss/bootstrap.min.css">
+		<link rel="stylesheet" href="css/backstagecss/font-awesome.min.css">
+		<link rel="stylesheet" href="css/backstagecsscss/fontastic.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+		<link rel="stylesheet" href="css/backstagecss/cinemabackstage.css" id="theme-stylesheet">
+		<link rel="stylesheet" href="css/backstagecss/custom.css">
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="page">
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">影片设置</h2>
+					</div>
+				</header>
+				<section class="col-lg-6">
+					<form id="filmsdeal" action="" method="post">
+						<select class="form-control" id="playpoint" name="playpoint">
+							<option value="0" selected="selected" disabled="disabled">请选择需要排片的门店</option>
+							<option value="万达影城（江北店）">万达影城（江北店）</option>
+							<option value="万达影城（北碚店）">万达影城（北碚店）</option>
+						</select>
+						<select class="form-control" id="filmname" name="filmname">
+							<option value="0" selected="selected" disabled="disabled">请选择需要安排片场的电影名</option>
+							<option value="速度与激情">速度与激情</option>
+							<option value="雪人奇缘">雪人奇缘</option>
+							<option value="名侦探柯南">名侦探柯南</option>
+							<option value="小Q">小Q</option>
+						</select>
+					</form>
+				</section>
+				<section class=" filmsetdiv" id="app">
+					<div class="col-lg-6 offset-2">
+	                  <div class="card">
+	                    <div class="card-close">
+	                      <div class="dropdown">
+	                        <button type="button" id="closeCard4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">O</button>
+	                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow">
+	                        	<a class="dropdown-item remove"> <i class="fa fa-times"></i>关闭窗口</a>
+	                        	<a class="dropdown-item edit" data-toggle="modal" data-target="#myModal"> <i class="fa fa-gear"></i>新增排片</a>
+	                        </div>
+	                      </div>
+	                    </div>
+	                    <div class="card-header d-flex align-items-center">
+	                      <h5>速度与激情</h5><h3 class="h4">————当前选中影片排片详情</h3>
+	                    </div>
+	                    <div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-striped table-sm">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>电影名</th>
+											<th>上映时间</th>
+											<th>放映点设置</th>
+											<th>放映日期</th>
+											<th>放映时间</th>
+											<th>影厅设置</th>
+											<th>票价</th>
+											<th>设置</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">1</th>
+											<td>速度与激情</td>
+											<td>2019-9-13</td>
+											<td>万达影城(江北店)</td>
+											<td>2019/9/20</td>
+											<td>14：35</td>
+											<td>10号厅</td>
+											<td>35元</td>
+											<td onclick="editfilm(this)" class="">编辑</td>
+										</tr>
+										<tr>
+											<th scope="row">2</th>
+											<td>速度与激情</td>
+											<td>2019-9-13</td>
+											<td>万达影城(江北店)</td>
+											<td>2019/9/20</td>
+											<td>16：15</td>
+											<td>7号厅</td>
+											<td>35元</td>
+											<td onclick="editfilm(this)">编辑</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+								<div role="document" class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 id="exampleModalLabel" class="modal-title">影片排片增加	</h4>
+											<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+										</div>
+										<div class="modal-body">
+											<p>本影片排片增加</p>
+											<form>
+												<input type="hidden" name="mid" id="mid" value="1" />
+				                                <div class="form-group">
+				                                  <label>放映日期</label>
+				                                  <input type="date" name="playdate" value="2019-09-15" class="form-control">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label>放映时间</label>
+				                                  <input type="time" name="playtime" value="14:35" class="form-control">
+				                                </div>
+				                                <div class="form-group">       
+				                                  <label>播放影厅</label>
+				                                  <select class="form-control" name="room">
+				                                  	<option value="0" selected="selected" disabled="disabled">选择影厅</option>
+				                                  	<option value="1">1号厅</option>
+				                                  	<option value="2">2号厅</option>
+				                                  	<option value="3">3号厅</option>
+				                                  </select>
+				                                </div>
+				                                <div class="form-group">       
+				                                  <label>电影票价</label>
+				                                  <input type="text" placeholder="售价" value="35" class="form-control">
+				                                </div>
+				                                <div class="form-group">       
+				                                  <input type="submit" value="保存设置" class="btn btn-primary">
+				                                </div>
+			                              </form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+	                  </div>
+	                </div>
+	                <div class="col-lg-6 offset-2 "id="filmdeal" style="display: none;" >
+	                	<div class="card">
+		                	<div class="card-header d-flex align-items-center">
+	                      		<h5>速度与激情</h5><h3 class="h4">————影片排片设置</h3>
+	                    	</div>
+	                    	<div class="card-body">
+	                    		<form>
+	                                <div class="form-group">
+	                                  <label>放映日期</label>
+	                                  <input type="date" id="playdate" name="playdate" value="2019-09-15" class="form-control">
+	                                </div>
+	                                <div class="form-group">
+	                                  <label>放映时间</label>
+	                                  <input type="time" id="playtime" name="playtime" value="14:35" class="form-control">
+	                                </div>
+	                                <div class="form-group">       
+	                                  <label>播放影厅</label>
+	                                  <select class="form-control" name="room">
+	                                  	<option value="0" selected="selected" disabled="disabled">选择影厅</option>
+	                                  	<option value="1">1号厅</option>
+	                                  	<option value="2">2号厅</option>
+	                                  	<option value="3">3号厅</option>
+	                                  </select>
+	                                </div>
+	                                <div class="form-group">       
+	                                  <label>电影票价</label>
+	                                  <input type="text" placeholder="售价" value="35" class="form-control">
+	                                </div>
+	                                <div class="form-group">       
+	                                  <input type="submit" value="保存设置" class="btn btn-primary">
+	                                </div>
+                              </form>
+	                    	</div>
+	                	</div>
+	                </div>
+				</section>
+			</div>
+		</div>
+		<!-- JavaScript files-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+    <!-- Main File-->
+    <script src="js/front.js"></script>
+    <script type="text/javascript">
+    	$("#playpoint").change(function(){
+    		alert("放映点更改，查询当前放映点所有影片");
+    	});
+    	$("#filmname").change(function(){
+    		alert("选中影片"+ $("#filmname").val() +"，查询当前影片在当前放映点的所有排片详情")
+    	});
+    	
+    	function editfilm(obj){
+      		//先根据this拿到不同id 修改vue渲染的数据
+      		
+      		//再打开隐藏div
+    		$("#filmdeal").css("display","block");
+//  		$("#playtime").attr("value","14:35");
+    	}
+    </script>
+	</body>
+</html>
