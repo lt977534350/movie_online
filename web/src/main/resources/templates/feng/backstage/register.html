@@ -62,7 +62,7 @@
                     </div>
                     <label for="register-password1" id="register-password1-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
-                      <input id="register-telphone" type="text" name="telphone" required data-msg="Please enter a valid phonenumber" class="input-material">
+                      <input id="register-telphone" type="text" maxlength="11" name="telphone" required class="input-material">
                       <label for="register-telphone" class="label-material">电话号码：      </label>
                     </div>
                     <label for="register-telphone" id="register-telphone-error" class="error" style="display: none;color: red;"></label>
@@ -101,21 +101,59 @@
     <script type="text/javascript">
 			$( "#registform" ).validate({
 				  rules: {
-
+                    username:{
+                      notblank:true,
+                      userrule:true,
+                      rangelength:[6,18]
+                    },
+                    password:{
+                      notblank:true,
+                      rangelength:[6,24]
+                    },
 				    passwordagain: {
 				      equalTo: "#register-password"
-				    }
+				    },
+                    telphone:{
+                      minlength:11,
+                      maxlength:11,
+                      isMobile: true
+                    }
 				  },
 				  messages:{
-					  	passwordagain: {
-	            equalTo: "两次密码输入不一致,请重新输入"
-							}
+				    username:{
+                      userrule:"请正确填写用户名，长度在6-18位之间，必须含有数字和大小写字母中至少两种且不包含空格",
+                      notblank:"用户名长度在6-18位之间,且不允许包含空格",
+                      rangelength:"用户名长度在6-18位之间"
+                    },
+                    password:{
+                      notblank:"密码长度在6-24位之间,且不允许包含空格",
+                      rangelength:"密码长度在6-24位之间"
+                    },
+                    passwordagain: {
+                      equalTo: "两次密码输入不一致,请重新输入"
+                    },
+                    telphone:{
+                      minlength:"请正确填写11位手机号码",
+                      maxlength:"请正确填写11位手机号码"
+                    }
 				  },
-				  errorPlacement: function(error, element) {  
-            	error.appendTo(element.parent());  
-	        }
 			});
-			
+			//校验手机号码格式
+            jQuery.validator.addMethod("isMobile", function(value, element) {
+              var length = value.length;
+              var mobile = /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(16[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+              return this.optional(element) || (length == 11 && mobile.test(value));
+            }, "请正确填写手机号码");
+            //校验是否含有空格
+            jQuery.validator.addMethod("notblank", function(value, element) {
+              var pwdblank = /^\S*$/;
+              return this.optional(element) ||(pwdblank.test(value));
+            }, "密码不可包含空格");
+            //用户名必须需包含数字和大小写字母中至少两种
+            jQuery.validator.addMethod("userrule", function(value, element) {
+              var userblank = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)[0-9A-Za-z]{5,10}$/;
+              return this.optional(element) ||(userblank.test(value));
+            }, "需包含数字和大小写字母中至少两种字符的5-10位字符");
     </script>
   </body>
 </html>
