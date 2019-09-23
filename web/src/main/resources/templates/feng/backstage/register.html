@@ -44,38 +44,41 @@
             </div>
             <!-- Form Panel    -->
             <div class="col-lg-6 bg-white">
+              <style>
+                span{
+                  color: #f03d37;
+                }
+              </style>
               <div class="form d-flex align-items-center">
                 <div class="content">
                   <form id="registform" class="form-validate">
                     <div class="form-group">
                       <input id="register-cinemaname" type="text" name="cinemaName" required data-msg="Please enter your cinemaname" class="input-material">
-                      <label for="register-cinemaname" class="label-material"><span style="color: #f03d37">*</span>影城名字：<span style="color: #f03d37">（必填）</span></label>
+                      <label for="register-cinemaname" class="label-material"><span>*</span>影城名字：<span>（必填）</span></label>
                     </div>
                     <div class="form-group">
                       <input id="register-username" type="text" name="username" required data-msg="Please enter your username" class="input-material">
-                      <label for="register-username" class="label-material"><span style="color: #f03d37">*</span>用户名：</label>
+                      <label for="register-username" class="label-material"><span>*</span>用户名：</label>
                     </div>
                     <label for="register-username" id="register-username-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
                       <input id="register-password" type="password" name="password" required data-msg="Please enter your password" class="input-material">
-                      <label for="register-password" class="label-material"><span style="color: #f03d37">*</span>密码：        </label>
+                      <label for="register-password" class="label-material"><span>*</span>密码：        </label>
                     </div><label for="register-password" id="register-password-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
                       <input id="register-password1" type="password" name="passwordagain" required data-msg="Please enter your password again" class="input-material">
-                      <label for="register-password1" class="label-material" ><span style="color: #f03d37">*</span>确认密码：        </label>
+                      <label for="register-password1" class="label-material" ><span>*</span>确认密码：        </label>
                     </div>
                     <label for="register-password1" id="register-password1-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
                       <input id="register-telphone" type="text" maxlength="11" name="telphone" required class="input-material">
-                      <label for="register-telphone" class="label-material"><span style="color: #f03d37">*</span>电话号码：      </label>
+                      <label for="register-telphone" class="label-material"><span>*</span>电话号码：      </label>
                     </div>
                     <label for="register-telphone" id="register-telphone-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
-                      <input id="register-getcode" type="button" name="getcode" value="获取验证码" class="input-material">
-                    </div>
-                    <div class="form-group">
-                      <input id="register-code" type="text" name="code" maxlength="6" required data-msg="Please enter your code" class="input-material">
+                      <input id="register-code" type="text" name="code" maxlength="6" required data-msg="Please enter your code" class="input-material" style="width: 53%;">
                       <label for="register-code" class="label-material">验证码：      </label>
+                      <input id="register-getcode" type="button" name="getcode" value="获取验证码" class="btn btn-default" style="width: 45%;">
                     </div>
                     <label for="register-code" id="register-code-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group terms-conditions">
