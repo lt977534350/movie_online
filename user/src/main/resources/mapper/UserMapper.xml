@@ -264,4 +264,7 @@
       select * from `user`
       where username=#{username}
   </select>
+    <select id="selectByPhone" resultMap="BaseResultMap">
+      select * from user where phone=#{phone}
+    </select>
 </mapper>

@@ -66,4 +66,10 @@ public class UserServiceImpl implements UserService {
         User userByName = userMapper.getUserByName(username);
         return userByName;
     }
+
+    @Override
+    public User selectByPhone(String phonenum) throws Exception {
+        User user = userMapper.selectByPhone(phonenum);
+        return user;
+    }
 }

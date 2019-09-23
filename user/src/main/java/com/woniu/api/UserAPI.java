@@ -190,8 +190,12 @@ public class UserAPI {
             if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
                 String num = (String) session.getAttribute("phonenum");
                 String mobile_code = (String) session.getAttribute("mobile_code");
+                User user = userService.selectByPhone(phonenum);
+                if(user==null){
+                    return new Result("fail","该电话号码不存在！",null,null);
+                }
                 if(num.equals(phonenum)&&mobile_code.equals(code)){
-                    session.setAttribute("user");
+                    session.setAttribute("user",user);
                     session.removeAttribute("mobile_code");
                     session.removeAttribute("phonenum");
                     return new Result("success","登录成功！",null,null);
@@ -231,6 +235,7 @@ public class UserAPI {
      */
     @RequestMapping("sendCode")
     public Result getCode(String phone, HttpSession session) throws Exception {
+        System.out.println("请求进来了---"+phone);
         if (phone != null && !"".equals(phone)) {
             String Url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
             HttpClient client = new HttpClient();
@@ -241,7 +246,9 @@ public class UserAPI {
 
             int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
 
-            String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
+            /*String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");*/
+            String content = new String("您的电影还有30分钟就开始了，请尽快到达电影院，影片开始30分钟后将不可退票。");
+
             //提交短信
             NameValuePair[] data = {
                     //查看用户名是登录用户中心->验证码短信->产品总览->APIID

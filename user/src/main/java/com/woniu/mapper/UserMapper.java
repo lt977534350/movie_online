@@ -32,4 +32,6 @@ public interface UserMapper {
     User getUser(Integer uid);
 
     User getUserByName(String username);
+
+    User selectByPhone(String phone);
 }

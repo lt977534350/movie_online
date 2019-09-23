@@ -13,5 +13,7 @@ public interface UserService {
     void insertUser(User user)throws Exception;
     /*根据用户名查询信息*/
     User selectByName(String username) throws Exception;
+    /*根据手机号查询用户*/
+    User selectByPhone(String phonenum) throws Exception;
 
 }
