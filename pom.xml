@@ -26,6 +26,7 @@
         <module>orders-stage</module>
         <module>movie-stage</module>
         <module>jobs</module>
+        <module>entity</module>
 
     </modules>
     <dependencies>

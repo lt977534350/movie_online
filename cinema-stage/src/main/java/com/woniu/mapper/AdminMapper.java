@@ -1,6 +1,7 @@
 package com.woniu.mapper;
 
-import com.woniu.entity.Admin;
+
+import com.woniu.myutil.myeneity.Admin;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.woniu.serviceimpl;
 
-import com.woniu.entity.Menu;
 import com.woniu.mapper.MenuMapper;
+import com.woniu.myutil.myeneity.Menu;
 import com.woniu.service.MenuService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,8 @@
 package com.woniu.serviceimpl;
 
-import com.woniu.entity.Admin;
+import com.woniu.myutil.myeneity.Admin;
 import com.woniu.mapper.AdminMapper;
 import com.woniu.service.CinemaAdminService;
-import com.woniu.util.MenuTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,5 +47,10 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     @Override
     public void insert(Admin admin) {
         adminMapper.insertSelective(admin);
+    }
+
+    @Override
+    public void update(Admin admin) {
+        adminMapper.updateByPrimaryKeySelective(admin);
     }
 }

@@ -1,8 +1,7 @@
 package com.woniu.util;
 
-import com.woniu.entity.Admin;
+import com.woniu.myutil.myeneity.Admin;
 import lombok.Data;
-
 import java.util.List;
 
 @Data

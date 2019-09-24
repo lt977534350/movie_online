@@ -1,6 +1,6 @@
 package com.woniu.service;
 
-import com.woniu.entity.Menu;
+import com.woniu.myutil.myeneity.Menu;
 
 import java.util.List;
 

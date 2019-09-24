@@ -1,10 +1,9 @@
 package com.woniu.service;
 
 
-import com.woniu.entity.Admin;
+import com.woniu.myutil.myeneity.Admin;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CinemaAdminService {
     //查出所有的影院管理员信息,将即将到期的管理员账号封装好
@@ -17,5 +16,7 @@ public interface CinemaAdminService {
     public Admin selectByPhone(String phone);
     //将影院管理员注册信息写入数据库
     public void insert(Admin admin);
+    //更新管理员信息
+    public void update(Admin admin);
 
 }

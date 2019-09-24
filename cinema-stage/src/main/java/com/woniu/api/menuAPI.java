@@ -1,13 +1,11 @@
 package com.woniu.api;
 
-import com.woniu.entity.Menu;
 import com.woniu.service.MenuService;
 import com.woniu.util.Result;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

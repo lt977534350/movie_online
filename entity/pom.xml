@@ -12,6 +12,7 @@
     <artifactId>entity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>entity</name>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>

@@ -1,12 +1,14 @@
 package com.woniu.api;
 
-import com.woniu.entity.Admin;
+
 import com.woniu.service.CinemaAdminService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.woniu.myutil.myeneity.Admin;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -50,6 +52,9 @@ public class AdminAPI {
                     return new Result("fail","密码错误！",null,null);
                 }
                 //用户名密码均正确，将登录信息存入session
+                if((int)admin.getLevel()==2){
+                    session.setAttribute("cinemaAdmin",admin);
+                }
                 session.setAttribute("admin",admin);
                 return new Result("success","登录验证成功！",admin,null);
             }
@@ -61,6 +66,7 @@ public class AdminAPI {
                 if(adminByPhone==null){
                     return new Result("fail","该电话号码不存在！",null,null);
                 }
+
                 if(num.equals(adminByPhone)&&mobile_code.equals(check_code)){
                     session.setAttribute("admin",adminByPhone);
                     session.removeAttribute("admin_mobile_code");
@@ -157,5 +163,44 @@ public class AdminAPI {
         } else {
             return new Result("false", "手机号不能为空", null, null);
         }
+    }
+
+    @PutMapping("update")
+    public Result updateAdmin(HttpSession session, Integer aid, String username, String password, String phone){
+        Admin admin = (Admin) session.getAttribute("admin");
+        //没有参数传入
+        if((username==null||"".equals(username))&&(password==null||"".equals(password))&&(phone==null||"".equals(phone))){
+            return new Result("fail","无更新内容，请检查操作",null,null);
+        }
+        //管理员处于登录状态
+        if(admin!=null){
+            Admin updateAdmin = new Admin();
+            updateAdmin.setId(aid);
+            if(username!=null&&!"".equals(username)){
+                updateAdmin.setUsername(username);
+            }
+            if(password!=null&&!"".equals(password)){
+                updateAdmin.setPassword(password);
+            }
+            if(phone!=null&&!"".equals(phone)){
+                updateAdmin.setPhone(phone);
+            }
+            cinemaAdminService.update(admin);
+            session.removeAttribute("admin");
+            return new Result("success","更新成功！",null,null);
+        }else{
+            return new Result("fail","非法操作！未登录！",null,null);
+        }
+    }
+    /**
+     * 从session中获取admin
+     */
+    @RequestMapping("getAdmin")
+    public Result getAdminFromSession(HttpSession session){
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin==null){
+            return new Result("fail","未登录！",null,null);
+        }
+        return new Result("success",null,admin,null);
     }
 }
