@@ -28,4 +28,6 @@ public interface CinemaService {
     List<Cinema> getCinemas(String cinema,String city,String cinemaHall,Integer num,Integer pageIndex)throws Exception;
     // 查询数据总条数
     int getCountNum(String cinema,String city,String cinemaHall)throws Exception;
+
+    List<Cinema> selectAllByAid(Integer aid) throws Exception;
 }

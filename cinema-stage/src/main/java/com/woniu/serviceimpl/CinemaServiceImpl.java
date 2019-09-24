@@ -142,4 +142,10 @@ public class CinemaServiceImpl implements CinemaService {
     public int getCountNum(String cinema, String city, String cinemaHall) throws Exception {
         return cinemaMapper.getCountNum(cinema,city,cinemaHall);
     }
+
+    @Override
+    public List<Cinema> selectAllByAid(Integer aid) throws Exception {
+        return cinemaMapper.selectAllByAid(aid);
+    }
+
 }

@@ -37,4 +37,6 @@ public interface CinemaMapper {
         List<Cinema> getCinemas(@Param("cinema") String cinema, @Param("city") String city, @Param("cinemaHall") String cinemaHall,@Param("num") Integer num,@Param("start") Integer start);
         /*查询数据总条数*/
         int getCountNum(@Param("cinema") String cinema, @Param("city") String city, @Param("cinemaHall") String cinemaHall);
+
+    List<Cinema> selectAllByAid(Integer aid);
 }

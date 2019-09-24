@@ -191,4 +191,10 @@
   <select id="getCountNumByCity" resultType="Integer">
     select count(id) from cinema where city=#{city}
   </select>
+
+
+  <select id="selectAllByAid" resultMap="BaseResultMap" parameterType="int">
+    select * from cinema where aid=#{aid}
+  </select>
+
 </mapper>

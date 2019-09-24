@@ -134,4 +134,19 @@ public class CinemaAPI {
         /*调用方法执行业务*/
         return new Result("success",null,page,cinemaService.getCinemas(cinema,city,cinemaHall, num, pageIndex));
     }
+
+    /**
+     * 根据aid查询所有的影院
+     * @return
+     * @throws Exception
+     */
+    @GetMapping
+    @RequestMapping("/all")
+    public Result selectAllCinemaByAid(Integer aid)throws Exception{
+        List<Cinema> cinemas = cinemaService.selectAllByAid(aid);
+        return new Result("success",null,null,cinemas);
+    }
+
+
+
 }

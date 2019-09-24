@@ -93,13 +93,11 @@
 														<h4 class="modal-title" v-if="JSON.stringify(nowMovie) == '{}'">暂未选择任何电影</h4>
 														<h4 class="modal-title" v-else v-text="nowMovie.mname"></h4>
 														<h4 id="exampleModalLabel" class="modal-title">----新增排片</h4>
-														<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+														<button type="button" id="closeInsert" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
 													</div>
 													<div class="modal-body">
 														<p>本影片排片增加</p>
 														<form id="insertForm">
-															<input type="hidden" name="mid" :value="nowMovie.id" />
-															<input type="hidden" name="cid" :value="nowMovie.id" />
 															<div class="form-group">
 																<label>放映日期</label>
 																<input type="date" name="insertDate" value="" id="p1date" class="form-control">
@@ -124,7 +122,7 @@
 																<input type="text" placeholder="售价" name="money" value="" class="form-control">
 															</div>
 															<div class="form-group">
-																<input type="button" value="确认新增" class="btn btn-primary" onclick="insertShowTime()">
+																<input type="button" value="确认新增" class="btn btn-primary" @click="insertShowTime()">
 																<input type="reset" id="insertReset" value="重置" class="btn-warning">
 															</div>
 														</form>
@@ -245,6 +243,7 @@
 					selectShowTime:function () {
 						var _this=this;
 						var cid=parseInt($("#playpoint").val());
+						alert(cid)
 						var mid=parseInt($("#filmname").val());
 						if(!(cid>0 && mid >0)){
 							return false;
@@ -259,7 +258,9 @@
 							},
 							dataType:"json",
 							success:function (data) {
+								console.log("查当前影院")
 								_this.nowCinema=data.object;
+								console.log(_this.nowCinema)
 							}
 						});
 						//根据cid查询所有得到影厅信息
@@ -271,7 +272,6 @@
 							},
 							dataType:"json",
 							success:function (data) {
-								console.log(data);
 								_this.roomList=data.list;
 							}
 						});
@@ -288,6 +288,8 @@
 								//格式胡电影上映时间
 								data.object.uptime=getTime(data.object.uptime).split(" ")[0]
 								_this.nowMovie=data.object;
+								console.log("查当前电影")
+								console.log(_this.nowMovie)
 							}
 						})
 
@@ -318,13 +320,55 @@
 					},
 
 
+					//新增排片信息
+					insertShowTime : function () {
+						var _this=this;
+						var formData=new FormData($("#insertForm")[0]);
+						formData.append("playtime",formData.get("insertDate")+" "+formData.get("insertTime")+":00")
+						formData.append("cid",_this.nowCinema.id)
+						formData.append("mid",_this.nowMovie.id)
+						$.ajax({
+							url:"/movie-stage/showtime/insert",
+							type:"post",
+							data:formData,
+							processData: false,
+							contentType: false,
+							dataType:"json",
+							success:function (data) {
+								if(data.code=="success"){
+									$("#insertReset").click();
+									$("#closeInsert").click();
+									//根据cid和mid查询排片信息
+									$.ajax({
+										url:"/movie-stage/showtime/select",
+										type:"get",
+										data:{
+											"cid":_this.nowCinema.id,
+											"mid":_this.nowMovie.id
+										},
+										dataType:"json",
+										success:function (data) {
+											for(var i=0;i<data.list.length;i++){
+												//格式化放映时间
+												var datetime=getTime(data.list[i].playtime);
+												data.list[i].play1=datetime.split(" ")[0];
+												data.list[i].play2=datetime.split(" ")[1];
+											}
+											_this.movieshow=data.list;
+										}
+									})
+
+								}
+							}
+						});
+
+
+
+
+					},
+
 					//编辑拍片信息的方法
 					editShow:function () {
-
-
-
-
-
 						$("#filmdeal").css("display","block");
 					},
 
@@ -349,6 +393,7 @@
 		 */
 		function getTime(second) {
 			var date =new Date(second);
+			console.log(date)
 			var year = date.getFullYear()
 			if((date.getMonth()+1)<=9){
 				var month ="0"+(date.getMonth()+1);
@@ -380,27 +425,8 @@
 		}
 
 
-		//新增排片信息
-		function insertShowTime() {
-			var formData=new FormData($("#insertForm")[0]);
-			formData.set("playtime",formData.get("insertDate")+" "+formData.get("insertTime")+":00")
-			console.log(formData.get("playtime"))
-			$.ajax({
-				url:"/movie-stage/showtime/insert",
-				type:"post",
-				data:formData,
-				processData: false,
-				contentType: false,
-				dataType:"json",
-				success:function (data) {
-					if(data.code=="success"){
-						$("#insertReset").click();
-						$("#myModal").attr("aria-hidden",true);
-						alert("新增排片成功！")
-					}
-				}
-			})
-		}
+
+
 
 
 
