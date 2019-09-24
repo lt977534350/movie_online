@@ -18,5 +18,5 @@ public interface CinemaRoomService {
      * @param cid
      * @return
      */
-    List<CinemaRoom> selectAllByCid(Integer cid);
+    List<CinemaRoom> selectAllByCid(Integer cid) throws Exception;
 }

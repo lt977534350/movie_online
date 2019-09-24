@@ -14,7 +14,7 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     @Resource
     private AdminMapper adminMapper;
     @Override
-    public List<Admin> selectCinemaAdmins(Integer pageIndex, Integer num) {
+    public List<Admin> selectCinemaAdmins(Integer pageIndex, Integer num) throws Exception {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("start", (pageIndex-1)*num);
         map.put("num", num);
@@ -27,30 +27,36 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     }
 
     @Override
-    public Integer count() {
+    public Integer count() throws Exception {
         Integer count = adminMapper.count();
         return count;
     }
 
     @Override
-    public Admin login(String username) {
+    public Admin login(String username) throws Exception {
         Admin admin = adminMapper.login(username);
         return admin;
     }
 
     @Override
-    public Admin selectByPhone(String phone) {
+    public Admin selectByPhone(String phone) throws Exception {
         Admin adminByPhone = adminMapper.selectByPhone(phone);
         return adminByPhone;
     }
 
     @Override
-    public void insert(Admin admin) {
+    public void insert(Admin admin) throws Exception {
         adminMapper.insertSelective(admin);
     }
 
     @Override
-    public void update(Admin admin) {
+    public void update(Admin admin) throws Exception {
         adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+    @Override
+    public Admin selectByAid(Integer aid) throws Exception {
+        Admin adminByAid = adminMapper.selectByPrimaryKey(aid);
+        return adminByAid;
     }
 }
