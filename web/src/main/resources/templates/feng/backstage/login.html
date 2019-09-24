@@ -53,23 +53,24 @@
             <div class="login1 col-lg-6 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form action="api-user/login" method="post" class="form-validate">
+                  <form id="accountlogin" method="post" class="form-validate">
                     <div class="form-group">
-                      <input id="login-username" type="text" name="username" required data-msg="Please enter your username" class="input-material">
+                      <input id="login-username" type="text" name="username" required data-msg="用户名不能为空" class="input-material">
                       <label for="login-username" class="label-material">用户名：</label>
                     </div>
+                    <label for="login-username" id="login-username-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
-                      <input id="login-password" type="password" name="password" required data-msg="Please enter your password" class="input-material">
+                      <input id="login-password" type="password" name="password" required data-msg="密码不能为空" class="input-material">
                       <label for="login-password" class="label-material">密码：</label>
                     </div>
+                    <label for="login-password" id="login-password-error" class="error" style="display: none;color: red;"></label>
+                    <span id="loginfail" class="error" style="color: red;"></span>
                     <div class="form-group terms-conditions">
-                      <input id="login-remember" name="login-remember" type="checkbox" value="" class="checkbox-template">
+                      <input id="login-remember" name="rememberme" type="checkbox" value="" class="checkbox-template">
                       <label for="login-remember">记住我</label>
                     </div>
-	                    <input type="hidden" name="telphone" value="" />
-	                    <input type="hidden" name="code" value="" />
                     <div class="form-group" style="text-align: right">
-                      <input type="submit" id="loginbyaccount" class="btn btn-primary" value="登录" />
+                      <input type="button" id="loginbyaccount" class="btn btn-primary" value="登录" />
                     </div>
                   </form>
                   <small>密码忘了吗?&nbsp;&nbsp;没关系点我使用</small><a onclick="changetotellogin(this)" class="forgot-pass">电话登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/feng/backstage/register.html" class="signup">注册</a>
@@ -80,22 +81,21 @@
             <div class="login2 col-lg-6 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form action="api-user/login" method="post" class="form-validate">
+                  <form id="tellogin" method="post" class="form-validate">
                     <div class="form-group">
-                      <input id="login-telphone" type="text" name="telphone" required data-msg="Please enter a valid phonenumber" class="input-material">
+                      <input id="login-telphone" maxlength="11" type="text" name="phone_num" required  class="input-material">
                       <label for="login-telphone" class="label-material">电话号码：      </label>
                     </div>
+                    <label for="login-telphone" id="login-telphone-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
                       <input id="login-getcode" onclick="havecode()" type="button" name="getcode" value="获取验证码" class="input-material">
                     </div>
                     <div class="form-group">
-                      <input id="login-code" type="text" name="code" maxlength="6" required data-msg="Please enter your code" class="input-material">
+                      <input id="login-code" type="text" name="check_code" maxlength="6" required data-msg="Please enter your code" class="input-material">
                       <label for="login-code" class="label-material">验证码：</label>
                     </div>
-	                    <input type="hidden" name="username" value="" />
-	                    <input type="hidden" name="password" value="" />
                     <div class="form-group" style="text-align: right">
-                      <input type="submit" id="loginbytel" class="btn btn-primary" value="登录" />
+                      <input type="button" id="loginbytel" class="btn btn-primary" value="登录" />
                     </div>
                   </form>
                   <small>我有账户&nbsp;&nbsp;&nbsp;&nbsp;使用</small><a onclick="changetopwdlogin(this)" class="forgot-pass">密码登录</a><br><small>没有账户?&nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="/web/feng/backstage/register.html" class="signup">注册</a>
@@ -120,14 +120,14 @@
     <script type="text/javascript">
      function changetotellogin(){
      	$(".login1").css("display","none");
- 		  $(".login2").css("display","block");	
+ 		  $(".login2").css("display","block");
      };
      function changetopwdlogin(){
      	$(".login1").css("display","block");
- 		  $(".login2").css("display","none");	
+ 		  $(".login2").css("display","none");
      }
-     function havecode(){
-       console.log("请求进入。。。。")
+     //点击获取验证码
+     $("#login-getcode").click(function () {
        var num = $("#login-telphone").val();
        if (num == null || num == "") {
          alert("电话号码不可为空！")
@@ -142,7 +142,76 @@
            alert(rt.message);
          }
        });
-     }
+     });
+     //账户密码登录时发送登录请求
+     $("#loginbyaccount").click(function () {
+        $( "#accountlogin" ).valid();
+        $.ajax({
+            url:"/cinema-stage/admin/login",
+            data: $("#accountlogin").serialize(),
+            dataType: "json",
+            type:"get",
+            success:function (data) {
+              if(data.code == "fail"){
+                $("#loginfail").text(data.message);
+              }
+              if(data.code == "success"){
+                if(data.object.level == 1){
+                  window.location.href="/web/qian/stage-index.html"
+                }
+                if(data.object.level == 2){
+                  window.location.href="/web/feng/backstage/backstageIndex.html"
+                }
+              }
+            }
+        });
+    });
+     //电话登录校验
+     $( "#tellogin" ).validate({
+       rules: {
+         telphone:{
+           minlength:11,
+           maxlength:11,
+           isMobile: true
+         }
+       },
+       messages:{
+         telphone:{
+           minlength:"请正确填写11位手机号码",
+           maxlength:"请正确填写11位手机号码"
+         }
+       },
+     });
+     //校验手机号码格式
+     jQuery.validator.addMethod("isMobile", function(value, element) {
+       var length = value.length;
+       var mobile = /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(16[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+       return this.optional(element) || (length == 11 && mobile.test(value));
+     }, "请正确填写手机号码");
+     //手机号码登录时发送登录请求
+     $("#loginbytel").click(function () {
+       $( "#tellogin" ).valid();
+       $.ajax({
+           url:"/cinema-stage/admin/login",
+           data: $("#tellogin").serialize(),
+           dataType: "json",
+           type:"get",
+           success:function (data) {
+             if(data.code == "fail"){
+               $("#loginfail").text(data.message);
+             }
+             if(data.code == "success"){
+               if(data.object.level == 1){
+                 window.location.href="/web/qian/stage-index.html"
+               }
+               if(data.object.level == 2){
+                 window.location.href="/web/feng/backstage/backstageIndex.html"
+               }
+             }
+           }
+       });
+     });
+
     </script>
   </body>
 </html>
