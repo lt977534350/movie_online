@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
@@ -8,9 +7,11 @@
 		<link rel="stylesheet" href="/web/layui/css/layui.css?t=2" media="all">
 		<link rel="stylesheet" href="/web/css/common.css?t=2" media="all">
 		<link href="/web/css/hover.css" rel="stylesheet" media="all">
+		<link href="/web/css/splitpage.css" rel="stylesheet" media="all" />
 		<script type="text/javascript" src="/web/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/web/layui/layui.js?t=2"></script>
 		<script type="text/javascript" src="/web/js/common.js?t=2"></script>
+		<script type="text/javascript" src="/web/js/vue.js?t=2"></script>
 		<style type="text/css">
 			.movie-list-title{
 				font-size: 17px;
@@ -53,7 +54,7 @@
 	</head>
 	<style type="text/css" id="LAY_layadmin_theme"></style>
 
-	<body>
+	<body style="background-color: #F8F8F8">
 		<div id="LAY_WRAP">
 			<div id='LAY_app' class="layui-side layui-bg-black">
 				<div class="layui-side-scroll">
@@ -100,105 +101,235 @@
 			</div>
 
 			<!--主体-->
-			<div class="layui-body" id="LAY_app_body">
-				<!-- 头部区域 -->
-				<div class="layui-header head">
-					<ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
-						<li class="layui-nav-item layadmin-flexible" lay-unselect="">
-							<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-								<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
-							</a>
-						</li>
-						<li class="layui-nav-item" lay-unselect="">
-							<a href="#" layadmin-event="refresh" title="刷新">
-								<i class="layui-icon layui-icon-refresh-3"></i>
-							</a>
-						</li>
-						<li class="layui-nav-item layui-hide-xs" lay-unselect="">
-							<form action="#" method="post">
-								<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
-								<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
-							</form>
-						</li>
-					</ul>
-					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-						<li class="layui-nav-item stage-title" lay-unselect="">
-							爱乐后台管理系统
-						</li>
-						<li class="layui-nav-item" lay-unselect="">
-							<a href="javascript:;"> <span>管理员名称</span> <span class="layui-nav-more"></span></a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a lay-href="set/user/info">基本资料</a>
-								</dd>
-								<dd>
-									<a lay-href="set/user/password">修改密码</a>
-								</dd>
-								<hr>
-								<dd layadmin-event="logout" style="text-align: center;">
-									<a>退出</a>
-								</dd>
-							</dl>
-						</li>
-					</ul>
-				</div>
-				<div class="layui-fluid">
-					<div class="layui-row layui-col-space15">
-						<div class="layui-col-md12">
-							<div class="layui-card">
-								<div style="font-size:20px;color:red" class="layui-card-header">上映影片管理</div>
-								<div class="layui-card-body" style="margin-top: 30px;">
-									<span class="movie-list-title">影片列表</span>
+				<div class="layui-body" id="LAY_app_body">
+					<!-- 头部区域 -->
+					<div class="layui-header head">
+						<ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
+							<li class="layui-nav-item layadmin-flexible" lay-unselect="">
+								<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+									<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+								</a>
+							</li>
+							<li class="layui-nav-item" lay-unselect="">
+								<a href="#" layadmin-event="refresh" title="刷新">
+									<i class="layui-icon layui-icon-refresh-3"></i>
+								</a>
+							</li>
+							<li class="layui-nav-item layui-hide-xs" lay-unselect="">
+								<form action="#" method="post">
+									<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+									<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
+								</form>
+							</li>
+						</ul>
+						<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+							<li class="layui-nav-item stage-title" lay-unselect="">
+								爱乐后台管理系统
+							</li>
+							<li class="layui-nav-item" lay-unselect="">
+								<a href="javascript:;"> <span><img src="/web/images/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" /></span> <span class="layui-nav-more"></span></a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a lay-href="set/user/password" href="javascript:;" v-text="admin.username"></a>
+									</dd>
+									<dd>
+										<a lay-href="set/user/info" href="/web/qian/person.html">基本资料</a>
+									</dd>
+									<hr>
+									<dd layadmin-event="logout" style="text-align: center;">
+										<a>退出</a>
+									</dd>
+								</dl>
+							</li>
+						</ul>
+					</div>
+					<div class="layui-fluid" id="app">
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-md12">
+								<div class="layui-card">
+									<div style="font-size: 20px;background-color: #F8F8F8" class="layui-card-header">上映影片管理</div>
 								</div>
 							</div>
-						</div>
-						<div class="layui-col-md12">
-							<div class="layui-card">
-								<div class="movie-detail layui-col-lg10 layui-col-lg-offset1">
-									<div class="side-line"></div>
-									<div class="movie-msg">
-										<div class="layui-col-lg2" style="height: 100%;">
-											<img src="image/head-pic.jpg" style="height: 100%;width:100%"/>
+							<div class="layui-col-md12">
+								<div class="layui-card">
+									<div class="layui-card-body" style="margin-bottom: 30px;">
+										<span class="movie-list-title">影片列表</span>
+									</div>
+										<div class="movie-detail layui-col-lg10 layui-col-lg-offset1" style="margin-top: 20px" v-for="movie in movies">
+											<div class="side-line"></div>
+											<div class="movie-msg">
+												<div class="layui-col-lg2" style="height: 100%;">
+													<img :src="movie.mpic" style="height: 100%;width:100%"/>
+												</div>
+												<div class="layui-col-lg9 layui-col-lg-offset1" style="height: 100%;">
+													<div class="layui-col-lg4" style="height: 100%;">
+														<div class="title-msg">
+															<span class="layui-badge-dot layui-bg-orange"></span>
+															<span>影片名</span>
+														</div>
+														<div class="msg-detail">
+															<span v-text="movie.mname"></span>
+														</div>
+													</div>
+													<div class="layui-col-lg4" style="height: 100%;">
+														<div class="title-msg">
+															<span class="layui-badge-dot layui-bg-green"></span>
+															<span>上映国家</span>
+														</div>
+														<div class="msg-detail">
+															<span v-text="movie.comntry"></span>
+														</div>
+													</div>
+													<div class="layui-col-lg4" style="height: 100%;border-left: orange 5px solid;">
+														<div style="line-height: 160px;text-align: right;">
+															<span class="layui-badge">危险</span>
+															<input type="text" v-model="movie.id" hidden="hidden" name="mid">
+															<button class="layui-btn layui-btn-radius del-btn" onclick="delmovie(this)">
+																<span>删除影片</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="layui-col-lg9 layui-col-lg-offset1" style="height: 100%;">
-											<div class="layui-col-lg4" style="height: 100%;">
-												<div class="title-msg">
-													<span class="layui-badge-dot layui-bg-orange"></span>
-													<span>影片名</span>
-												</div>
-												<div class="msg-detail">
-													<span>雪人奇缘</span>
-												</div>
-											</div>
-											<div class="layui-col-lg4" style="height: 100%;">
-												<div class="title-msg">
-													<span class="layui-badge-dot layui-bg-green"></span>
-													<span>上映国家</span>
-												</div>
-												<div class="msg-detail">
-													<span>美国/中国</span>
-												</div>
-											</div>
-											<div class="layui-col-lg4" style="height: 100%;border-left: orange 5px solid;">
-												<div style="line-height: 160px;text-align: right;">
-													<span class="layui-badge">危险</span>
-													<button class="layui-btn layui-btn-radius del-btn">
-														<span>删除影片</span>
-													</button>
-												</div>
-											</div>
+										<hr color="white"/>
+								</div>
+							</div>
+							<div style="background-color: #F8F8F8!important;">
+								<div>
+									<div class="page"  v-show="show">
+										<div class="pagelist">
+											<span class="jump" :class="{disabled:pstart}" onclick="prev()">上一页</span>
+											<span v-show="mypage.pageIndex>5" class="jump" onclick="jumpPage(1)">1</span>
+											<span class="ellipsis"  v-show="efont">...</span>
+											<span class="jump" v-for="num in indexs" :class="{bgprimary:mypage.pageIndex==num}" @click="jumpPage(num)">{{num}}</span>
+											<span class="ellipsis"  v-show="ebehind">...</span>
+
+											<span :class="{disabled:pend}" class="jump" onclick="nextpage()">下一页</span>
+											<span v-show="mypage.pageIndex<mypage.pageCount-4" class="jump" @click="jumpPage(mypage.pageCount)">{{mypage.pageCount}}</span>
+
+											<span class="jumppoint">跳转到：</span>
+											<span class="jumpinp"><input type="text" v-model="changePage"></span>
+											<span class="jump gobtn" @click="jumpPage(changePage)">GO</span>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 		</div>
 		<!--辅助作用一般用于手机遮罩层-->
 		<div class="layui-layer-shade mobilenav" id="mobilenav" onClick="clearmobilenav()" style="z-index: 998; background-color: rgb(0, 0, 0); opacity: 0.3;display:none"></div>
+		<script>
+			var newlist = new Vue({
+				el: '#app',
+				data: {
+					changePage:'',//跳转页
+					movies:[],
+					mypage:{}
+				},
+				created:function(){
+					var v = this;
+					//查询所有电影的信息
+					$.ajax({
+						url:"/movie-stage/movie/movies",
+						data:{"pageIndex":1},
+						type:"get",
+						dataType:"json",
+						success:function (rt) {
+							v.movies = rt.list;
+							v.mypage = rt.object;
+						}
+					});
+				},
+				computed:{
+					show:function(){
+						return this.mypage.pageCount;
+					},
+					pstart: function() {
+						return this.mypage.pageIndex == 1;
+					},
+					pend: function() {
+						return this.mypage.pageIndex == this.mypage.pageCount;
+					},
+					efont: function() {
+						if (this.mypage.pageCount <= 7) return false;
+						return this.mypage.pageIndex > 5
+					},
+					ebehind: function() {
+						if (this.mypage.pageCount <= 7) return false;
+						var nowAy = this.indexs;
+						return nowAy[nowAy.length - 1] != this.mypage.pageCount;
+					},
+					indexs: function() {
+						var left = 1,
+								right = this.mypage.pageCount,
+								ar = [];
+						if (this.mypage.pageCount >= 7) {
+							if (this.mypage.pageIndex > 5 && this.mypage.pageIndex < this.mypage.pageCount - 4) {
+								left = Number(this.mypage.pageIndex) - 3;
+								right = Number(this.mypage.pageIndex) + 3;
+							} else {
+								if (this.mypage.pageIndex <= 5) {
+									left = 1;
+									right = 7;
+								} else {
+									right = this.mypage.pageCount;
 
+									left = this.mypage.pageCount - 6;
+								}
+							}
+						}
+						while (left <= right) {
+							ar.push(left);
+							left++;
+						}
+						return ar;
+					},
+				}
+			})
+			function nextpage () {
+				var pagenow = null;
+				if(newlist.mypage.pageIndex<newlist.mypage.pageCount){
+					pagenow = newlist.mypage.pageIndex+1;
+					sendAjax(pagenow);
+				}
+			}
+			function prev() {
+				if(newlist.mypage.pageIndex>1){
+					var pagenow = newlist.mypage.pageIndex-1;
+					sendAjax(pagenow);
+				}
+			}
+			function jumpPage(id) {
+				sendAjax(id);
+			}
+			function sendAjax(pageIndex) {
+				$.ajax({
+					url: "/movie-stage/movie/movies",
+					data: {"pageIndex": pageIndex},
+					dataType: "json",
+					type: "get",
+					success: function (rt) {
+						newlist.mypage = rt.object;
+						newlist.movies = rt.list;
+					}
+				});
+			}
+			function delmovie(t) {
+				var mid = $(t).prev().val();
+				$.ajax({
+					url:"/movie-stage/movie/delete",
+					data:{"mid":mid},
+					dataType:"json",
+					type:"delete",
+					success:function (rt) {
+						window.location.reload();
+					}
+				});
+			}
+		</script>
 	</body>
 </html>

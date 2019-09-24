@@ -251,5 +251,12 @@
   <select id="selectAllMovies" resultMap="BaseResultMap">
     select * from movie
   </select>
+    <select id="selectByPage" resultMap="BaseResultMap">
+      select * from movie
+      limit #{start},#{num}
+    </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from movie
+  </select>
 
 </mapper>

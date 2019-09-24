@@ -85,4 +85,25 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.selectByPrimaryKey(mid);
     }
 
+    @Override
+    public List<Movie> selectByPage(Integer pageIndex, Integer num) {
+        Integer start = (pageIndex-1)*num;
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("start",start);
+        map.put("num",num);
+        List<Movie> movies = movieMapper.selectByPage(map);
+        return movies;
+    }
+
+    @Override
+    public Integer count() {
+        Integer count = movieMapper.count();
+        return count;
+    }
+
+    @Override
+    public void delMovie(Integer mid) {
+        movieMapper.deleteByPrimaryKey(mid);
+    }
+
 }

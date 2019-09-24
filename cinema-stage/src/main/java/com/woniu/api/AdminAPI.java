@@ -166,6 +166,7 @@ public class AdminAPI {
 
     @PutMapping("update")
     public Result updateAdmin(HttpSession session, Integer aid, String username, String password, String phone){
+        System.out.println("-----"+username);
         Admin admin = (Admin) session.getAttribute("admin");
         //没有参数传入
         if((username==null||"".equals(username))&&(password==null||"".equals(password))&&(phone==null||"".equals(phone))){
@@ -188,18 +189,19 @@ public class AdminAPI {
             session.removeAttribute("admin");
             return new Result("success","更新成功！",null,null);
         }else{
-            return new Result("fail","非法操作！未登录！",null,null);
+            return new Result("nopermission","非法操作！未登录！",null,null);
         }
     }
     /**
      * 从session中获取admin
      */
-    @RequestMapping("getAdmin")
+    @GetMapping("getAdmin")
     public Result getAdminFromSession(HttpSession session){
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin==null){
             return new Result("fail","未登录！",null,null);
         }
+        System.out.println("请求进入=---"+admin);
         return new Result("success",null,admin,null);
     }
 }

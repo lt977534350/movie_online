@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>测试内容</title>
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/web/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
     <ul id="ul"></ul>
     <script>
-        $.ajax({
-            url:"/cinema-stage/cinema",
-            dataType:"json",
-            type:"get",
-            success:function (rt) {
-                alert(rt.code);
-            }
-        });
+        $(function () {
+            var a = {username:'admin',password:'123456',phone:'88888888'};
+            window.location.href="/web/qian/stage-index.html?myadmin="
+                +encodeURIComponent(JSON.stringify(a));
+        })
     </script>
 </body>
 </html>

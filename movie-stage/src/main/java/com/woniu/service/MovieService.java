@@ -82,4 +82,19 @@ public interface MovieService {
      * @return
      */
     Movie selectByPrimarykey(Integer mid);
+
+    /**
+     * 分页查所有电影
+     */
+    List<Movie> selectByPage(Integer pageIndex, Integer num);
+
+    /**
+     * 查询电影的总数
+     */
+    Integer count();
+
+    /**
+     * 根据电影id删除影片
+     */
+    void delMovie(Integer mid);
 }

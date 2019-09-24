@@ -3,6 +3,7 @@ package com.woniu.mapper;
 import com.woniu.entity.Movie;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface MovieMapper {
@@ -29,4 +30,9 @@ public interface MovieMapper {
     List<Movie> selectMovieListByTime(Integer num);
 
     List<Movie> selectAllMovies();
+
+    List<Movie> selectByPage(HashMap<String, Integer> map);
+
+    Integer count();
+
 }

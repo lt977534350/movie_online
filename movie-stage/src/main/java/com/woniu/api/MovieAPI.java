@@ -4,11 +4,9 @@ import com.woniu.entity.Movie;
 import com.woniu.entity.MoviePerson;
 import com.woniu.service.MoviePersonService;
 import com.woniu.service.MovieService;
+import com.woniu.util.Page;
 import com.woniu.util.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -100,5 +98,28 @@ public class MovieAPI {
         Movie movie=movieService.selectByPrimarykey(mid);
         return new Result("success",null,movie,null);
     }
+
+    @GetMapping("movies")
+    public Result selectByPage(Integer pageIndex) throws Exception{
+        Integer num = 3;
+        if(pageIndex==null||pageIndex.equals("")){
+            pageIndex = 1;
+        }
+        List<Movie> movies = movieService.selectByPage(pageIndex, num);
+        Integer movieCount = movieService.count();
+        Page page = new Page();
+        page.setDataCount(movieCount);
+        page.setPageIndex(pageIndex);
+        page.setPageCount(movieCount%3==0?movieCount/num:movieCount/num+1);
+        System.out.println("电影----"+movies);
+        return new Result("success","查询成功！",page,movies);
+    }
+
+    @DeleteMapping("delete")
+    public Result delMovie(Integer mid) throws Exception{
+        movieService.delMovie(mid);
+        return new Result("success","删除成功！",null,null);
+    }
+
 
 }

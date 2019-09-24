@@ -108,20 +108,24 @@
             <li class="layui-nav-item stage-title" lay-unselect="">
              	 爱乐后台管理系统
             </li>
-            <li class="layui-nav-item" lay-unselect=""> 
-              <a href="javascript:;"> <span>
-              	<img src="image/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" />
-              </span> <span class="layui-nav-more"></span></a> 
-              <dl class="layui-nav-child"> 
-              	  <dd><a lay-href="set/user/info" href="javascript:;">管理员名</a></dd>
-                  <dd><a lay-href="set/user/info" href="">基本资料</a></dd>
-                  <hr> 
-                  <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd> 
-              </dl> 
+            <li class="layui-nav-item" lay-unselect="">
+                <a href="javascript:;"> <span><img src="/web/images/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" /></span> <span class="layui-nav-more"></span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a lay-href="set/user/password" href="javascript:;" v-text="admin.username"></a>
+                    </dd>
+                    <dd>
+                        <a lay-href="set/user/info" href="#">基本资料</a>
+                    </dd>
+                    <hr>
+                    <dd layadmin-event="logout" style="text-align: center;">
+                        <a>退出</a>
+                    </dd>
+                </dl>
             </li>
         </ul>
       </div>
-    <div class="layui-fluid">
+    <div class="layui-fluid" id="app">
       <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
           <div class="layui-card" style="border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">
@@ -147,17 +151,18 @@
     				<div class="layui-col-lg12" style="margin-top: 15px;"></div>
         			<form id="form">
         				<div class="layui-col-lg4 detail-word">
-        					<span class="span-word">admin</span>
-        					<input class="input-box" type="text" style="display: none;" placeholder="请输入新的账户名" />
+        					<span class="span-word" v-text="admin.username"></span>
+        					<input class="input-box" name="username" type="text" style="display: none;" placeholder="请输入新的账户名" />
         				</div>
         				<div class="layui-col-lg4 detail-word">
-        					<span class="span-word">123456</span>
-        					<input class="input-box" type="text" style="display: none;" placeholder="请输入新的密码" />
+        					<span class="span-word" v-text="admin.password"></span>
+        					<input class="input-box" name="password" type="text" style="display: none;" placeholder="请输入新的密码" />
         				</div>
         				<div class="layui-col-lg4 detail-word">
-        					<span class="span-word">88888888</span>
-        					<input class="input-box" type="text" style="display: none;" placeholder="请输入新的电话号码" />
+        					<span class="span-word" v-text="admin.phone"></span>
+        					<input class="input-box" name="phone" type="text" style="display: none;" placeholder="请输入新的电话号码" />
         				</div>
+                        <input type="text" name="aid" hidden="hidden" v-model="admin.id">
         			</form>
         			<hr color="#009F95"/>
         			<br /><br />
@@ -179,7 +184,25 @@
 <script type="text/javascript" src="/web/js/jquery.min.js"></script>
 <script type="text/javascript" src="/web/layui/layui.js?t=2"></script>
 <script type="text/javascript" src="/web/js/common.js?t=2"></script>
+<script type="text/javascript" src="/web/js/vue.js?t=2"></script>
 <script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            admin:{}
+        },
+        created:function () {
+            var v = this;
+            $.ajax({
+               url:"/cinema-stage/admin/getAdmin",
+               dataType:"json",
+               type:"get",
+               success:function (rt) {
+                   v.admin = rt.object;
+               }
+            });
+        }
+    });
 	function change(t){
 		$(".span-word").hide();
 		$(".input-box").show();
@@ -192,5 +215,25 @@
 		$(th).prev().prev().show();
 		$(".input-box").hide();
 	}
+	function sure() {
+        $.ajax({
+            url:"/cinema-stage/admin/update",
+            data:$("#form").serialize(),
+            dataType:"json",
+            type:"put",
+            success:function (rt) {
+                if(rt.code=="fail"){
+                    alert(rt.message);
+                    window.location.reload();
+                }else if(rt.code=="nopermission"){
+                    alert(rt.message);
+                    window.location.href="/web/feng/backstage/login.html";
+                }else{
+                    alert(rt.message);
+                }
+
+            }
+        });
+    }
 </script>
 </html>

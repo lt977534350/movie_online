@@ -115,14 +115,20 @@
             <li class="layui-nav-item stage-title" lay-unselect="">
              	 爱乐后台管理系统
             </li>
-            <li class="layui-nav-item" lay-unselect=""> 
-              <a href="javascript:;"> <span>管理员名称</span> <span class="layui-nav-more"></span></a> 
-              <dl class="layui-nav-child"> 
-                  <dd><a lay-href="set/user/info">基本资料</a></dd>
-                  <dd><a lay-href="set/user/password">修改密码</a></dd> 
-                  <hr> 
-                  <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd> 
-              </dl> 
+            <li class="layui-nav-item" lay-unselect="">
+                <a href="javascript:;"> <span><img src="/web/images/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" /></span> <span class="layui-nav-more"></span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a lay-href="set/user/password" href="javascript:;" v-text="admin.username"></a>
+                    </dd>
+                    <dd>
+                        <a lay-href="set/user/info" href="/web/qian/person.html">基本资料</a>
+                    </dd>
+                    <hr>
+                    <dd layadmin-event="logout" style="text-align: center;">
+                        <a>退出</a>
+                    </dd>
+                </dl>
             </li>
         </ul>
       </div>
