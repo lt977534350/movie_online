@@ -18,10 +18,14 @@ public interface CinemaService {
     public Integer delete(Integer cid);
     //根据id更新一家影院
     public Integer update(Cinema cinema);
-    //根据城市id查询当地的影院
-    public List<Cinema> selectByCity(Integer ctid, Integer pageIndex, Integer num);
+    //根据城市名查询当地的影院
+    List<Cinema> selectByCity(String city, Integer pageIndex, Integer num)throws Exception;
+    //根据城市名查询数据总条数
+    int getCountNumByCity(String city);
     //获取到该影厅上级影院套餐到期时间
     public List<String> getTime(Integer aid);
-
-    List<Cinema> selectAllByAid(Integer aid) throws Exception;
+    //条件查询影院信息
+    List<Cinema> getCinemas(String cinema,String city,String cinemaHall,Integer num,Integer pageIndex)throws Exception;
+    // 查询数据总条数
+    int getCountNum(String cinema,String city,String cinemaHall)throws Exception;
 }

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- //for-mobile-apps -->
+    <link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="/web/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/web/css/contactstyle.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/web/css/faqstyle.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/web/css/viwStyle.css"/>
+    <link href="/web/css/single.css" rel='stylesheet' type='text/css'/>
+    <link href="/web/css/medile.css" rel='stylesheet' type='text/css'/>
+    <!-- banner-slider -->
+    <link href="/web/css/jquery.slidey.min.css" rel="stylesheet">
+    <!-- //banner-slider -->
+    <!-- pop-up -->
+    <link href="/web/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- //pop-up -->
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css"/>
+    <!-- //font-awesome icons -->
+    <!-- js -->
+    <script type="text/javascript" src="/web/js/jquery-2.1.4.min.js"></script>
+    <!-- //js -->
+    <!-- banner-bottom-plugin -->
+    <link href="/web/css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+    <!--mtype-->
+    <link rel="stylesheet" href="/web/css/mtypestyle.css">
+
+    <script src="/web/js/owl.carousel.js"></script>
+    <style>
+        .title {
+            font-family: "楷体";
+            font-weight: 800;
+            font-style: italic;
+        }
+
+        #webtitle-bottom {
+            font-size: 17px;
+        }
+
+        .form-legend {
+            font-size: 15px;
+            color: maroon;
+            font-family: fantasy;
+        }
+
+        .check-lable {
+            font-weight: lighter;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .forget-a {
+            color: red;
+            font-size: 13px;
+            font-style: italic;
+            float: right;
+            text-decoration: underline;
+        }
+
+        .switch-log {
+            font-size: 13px;
+            float: right;
+        }
+
+        .navbar-nav > li {
+            width: 210px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+
+                autoPlay: 3000, //Set AutoPlay to 3 seconds
+
+                items: 5,
+                itemsDesktop: [640, 4],
+                itemsDesktopSmall: [414, 3]
+
+            });
+
+        });
+    </script>
+    <!-- //banner-bottom-plugin -->
+    <!---<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>--->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="/web/js/move-top.js"></script>
+    <script type="text/javascript" src="/web/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+    <!-- start-smoth-scrolling -->
+</head>
+
+<body>
+<!-- header -->
+<div class="head_div2">
+    <div class="header">
+        <div class="container">
+            <div class="w3layouts_logo">
+                <a href="index.html"><h1 class="title">爱乐<span id="webtitle-bottom1">电影</span></h1></a>
+            </div>
+            <div class="w3l_search_city">
+                <form action="#" method="post">
+                    <input type="text" list="city" value="重庆"/>
+                    <datalist id="city">
+                        <option>北京</option>
+                    </datalist>
+                </form>
+            </div>
+            <div class="w3_search">
+                <form action="#" method="post">
+                    <input type="text" name="Search" placeholder="搜索一部你期待的电影吧" required="required">
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+            <div class="w3l_sign_in_register">
+                <ul>
+                    <li><i class="glyphicon glyphicon-user"></i></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal">登录</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- //header -->
+    <!-- bootstrap-pop-up -->
+
+    <!-- //bootstrap-pop-up -->
+    <!-- nav -->
+    <div class="movies_nav">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="navbar-header navbar-left">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                    <nav>
+                        <ul class="nav navbar-nav">
+                            <li><a href="/web/index.html">首页</a></li>
+                            <li class="active"><a href="series.html">电影</a></li>
+                            <li><a href="series.html">影院</a></li>
+                            <li><a href="NEWs.html">热点</a></li>
+                            <li><a href="short-codes.html">榜单</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                欢迎使用爱乐电影
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <section>
+                <div class="modal-body">
+                    <div class="w3_login_module">
+                        <div class="module form-module">
+                            <div class="toggle"><i class="fa fa-times fa-pencil"></i>
+                                <div class="tooltip">点击注册</div>
+                            </div>
+                            <div class="form">
+                                <fieldset>
+                                    <legend class="form-legend">账号登录</legend>
+                                    <div class="log-toggle"><i class="switch-log">账号密码登录</i>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <input type="text" name="Username" placeholder="请输入用户名" required="required">
+                                        <input type="password" name="Password" placeholder="请输入密码" required="required">
+                                        <label class="check-lable"><input type="checkbox" name="remember"/>记住我</label>
+                                        <a href="#" class="forget-a">忘记密码？</a>
+                                        <input class="btn btn-success" type="submit" value="登录">
+                                    </form>
+                                </fieldset>
+                            </div>
+                            <!--
+                                作者：971872973@qq.com
+                                时间：2019-09-07
+                                描述：手机验证的表单
+                            -->
+                            <!--<div class="log-form">
+                                <fieldset>
+                                    <legend class="form-legend">账号登录</legend>
+                                    <form action="#" method="post">
+                                    <input type="text" name="Username" placeholder="请输入手机号" required="required">
+                                    <input type="password" name="Password" placeholder="请输入验证码" required="required">
+                                    <input type="button" class="code-button" name="getcode" value="获取验证码"/>
+                                    <input class="btn btn-success" type="submit" value="登录">
+                                  </form>
+                              </fieldset>
+                            </div>-->
+                            <div class="form">
+                                <fieldset>
+                                    <legend class="form-legend">注册账户</legend>
+                                    <form action="#" method="post">
+                                        <input type="text" name="username" placeholder="新用户名" required="">
+                                        <input type="password" name="password" placeholder="新密码" required="">
+                                        <input type="password" name="checkpwd" placeholder="请确认密码" required="">
+                                        <input type="text" name="phone" placeholder="电话" required="">
+                                        <input type="submit" value="注册">
+                                    </form>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- //nav -->
+<!-- banner -->
+<!--<div class="marginTop_indexhead" style="display:none;">
+    <ul>
+        <li><img src="/web/images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
+        <li><img src="/web/images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
+        <li><img src="/web/images/3.jpg" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
+        <li><img src="/web/images/4.jpg" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
+        <li><img src="/web/images/6.jpg" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
+        <li><img src="/web/images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
+    </ul>
+</div>-->
+<script src="/web/js/jquery.slidey.js"></script>
+<script src="/web/js/jquery.dotdotdot.min.js"></script>
+<script type="text/javascript">
+    $("#slidey").slidey({
+        interval: 8000,
+        listCount: 5,
+        autoplay: false,
+        showList: true
+    });
+    /*$(".slidey-list-description").dotdotdot();*/
+</script>
+<!-- //banner -->
+<!-- banner-bottom -->
+<div class="banner-bottom" id="app">
+    <div class="container">
+        <!--头部分类信息-->
+        <div class="mtype-top mtype-head">
+            <table class="table table-hover">
+                <tr>
+                    <td>
+                        <label>品牌 :</label>
+                        <div>
+                            <ul class="m-li">
+                                <li style="display: none">品牌</li>
+                                <li class="mtype-active">全部</li>
+                                <li>万达影城</li>
+                                <li>保利万和国际影城</li>
+                                <li>大地影院</li>
+                                <li>UME国际影城</li>
+                                <li>金逸影城</li>
+                                <li>越界影城</li>
+                                <li>横店电影城</li>
+                                <li>CGV影城</li>
+                                <li>星美国际影城</li>
+                                <li>百丽宫影城</li>
+                                <li>橙天嘉禾影城</li>
+                                <li>华谊兄弟影院</li>
+                                <li>博纳国际影城</li>
+                                <li>耀莱成龙国际影城</li>
+                                <li>恒大影城</li>
+                                <li>中影国际影城</li>
+                                <li>万象影城</li>
+                                <li>17.5影城</li>
+                                <li>环艺电影城</li>
+                                <li>沃美影城</li>
+                                <li>卢米埃影城</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>地区 :</label>
+                        <span>
+								<ul class="m-li">
+									<li style="display: none">地区</li>
+									<li class="mtype-active">全部</li>
+									<li v-for="city in citys" v-text="city.cityname"></li>
+								</ul>
+							</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>特殊影厅 :</label>
+                        <div>
+                            <ul class="m-li">
+                                <li style="display: none">影厅</li>
+                                <li class="mtype-active">全部</li>
+                                <li>IMAX厅</li>
+                                <li>CGS中国巨幕厅</li>
+                                <li>杜比全景声厅</li>
+                                <li>Dolby Cinema厅</li>
+                                <li>RealD厅</li>
+                                <li>RealD 6FL厅</li>
+                                <li>LUXE巨幕厅</li>
+                                <li>4DX厅</li>
+                                <li>DTS:X 临境音厅</li>
+                                <li>儿童厅</li>
+                                <li>4K厅</li>
+                                <li>4D厅</li>
+                                <li>巨幕厅</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--影院地址，点击购票-->
+        <div class="cinema-div">
+            <h4><span class="cinema-left">影院列表</span></h4>
+            <div class="cinema-tips" v-if="cinemas.length==0">暂无该类型影院信息</div>
+            <div v-for="cinema in cinemas" class="cinema-left">
+                <div class="col-md-8 cinema-address">
+                    <!--影院名称-->
+                    <div>
+                        <span v-text="cinema.cname"></span>
+                    </div>
+                    <!--地址-->
+                    <div>
+                        地址：<span v-text="cinema.caddress"></span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-md-4 cinema-address">
+                    <div class="ticket">点击购票</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--分页-->
+   <!-- <div class="limit">
+        <div class="limit1">
+            <span class="btn btn-default limit-span">上一页</span>
+            &lt;!&ndash;padding30px&ndash;&gt;
+            <span></span>
+            <ul class="mtype-display">
+                <li class="btn btn-default mtype-active">1</li>
+                <li class="btn btn-default">2</li>
+            </ul>
+            <span class="btn btn-default limit-span">下一页</span>
+            <span>
+				第<input />页
+			</span>
+            <span class="btn btn-default limit-span">跳转</span>
+        </div>
+    </div>-->
+    <div class="limit">
+        <input type="button" value="上一页" @click="pre()" class="btn btn-default">
+        <ul>
+            <li v-if="page.pageIndex>1" v-text="page.pageIndex-1" id="pre"></li>
+            <li v-text="page.pageIndex" class="mtype-active"></li>
+            <li>2</li>
+            <li>3</li>
+            <li v-if="page.pageIndex<page.pageCount" v-text="page.pageIndex-(-1)"></li>
+        </ul>
+        <input type="button" value="下一页" class="btn btn-default" @click="next()">
+        <input class="jump" >
+        <input type="button" value="跳转" class="btn btn-default">
+    </div>
+</div>
+<script src="/web/js/vue.js"></script>
+<script>
+    $(function () {
+        window.setTimeout("liclick()", 2000);
+    });
+    var _data;
+    var pageIndex=1;
+    var app = new Vue({
+        el: "#app",
+        data: {
+            citys: [],
+            cinemas: [],
+            page:{}
+
+        },
+        created: function () {
+            _data = this;
+            var pid = 394;//需要从头部地址取值,此处默认重庆;
+            /*查询区域信息*/
+            $.ajax({
+                url: "/api-general/city/" + pid,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == "success") {
+                        _data.citys = data.list;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+            /*根据地区名称查询影院信息*/
+            var city = "重庆";
+            $.ajax({
+                url: "/cinema-stage/cinema/" + city,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == "success") {
+                        _data.cinemas = data.list;
+                        _data.page = data.object;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+
+        },
+        methods:{
+            /*上一页*/
+            pre:function () {
+                if(_data.page.pageIndex>1){
+                    _data.page.pageIndex=_data.page.pageIndex-1
+                    /*发送ajax请求*/
+                    pageIndex=_data.page.pageIndex;
+                    liclick();
+                }
+            },
+            /*下一页*/
+            next:function () {
+                if(_data.page.pageIndex>_data.page.pageCount){
+                    _data.page.pageIndex=_data.page.pageIndex-(-1);
+                    /*发送ajax请求*/
+                    pageIndex=_data.page.pageIndex;
+                    liclick();
+                }
+
+            }
+        }
+    });
+
+    /*设置分页按钮选中*/
+    $(function () {
+        $(".limit li").click(function () {
+            /*先删除全部样式*/
+            $(".limit li").removeClass("mtype-active");
+            /*再添加样式*/
+            $(this).addClass("mtype-active");
+            pageIndex=$(this).text();
+            liclick();
+        });
+    });
+    /*设置点击选中（分类查询）*/
+    function liclick() {
+        /*根据获取的内容*/
+        var cinema = "default";
+        var city = "default";
+        var cinemaHall = "default";
+        $(".m-li li").click(function () {
+            $(this).parent().children("li").removeClass("mtype-active");
+            $(this).addClass("mtype-active");
+            var type = $(this).parent().children().eq(0).text();
+
+            /*获取选中标签文本信息*/
+            if (type == "品牌") {
+                cinema = $(this).text();
+                if (cinema == "全部") {
+                    alert(cinema);
+                    cinema = "default";
+                }
+            } else if (type == "地区") {
+                city = $(this).text();
+                if (city == "全部") {
+                    city = "default";
+                }
+            } else if (type == "影厅") {
+                cinemaHall = $(this).text();
+                if (cinemaHall == "全部") {
+                    cinemaHall = "default";
+                }
+            }
+            /*发送查询ajax请求*/
+            $.ajax({
+                url: "/cinema-stage/cinema/cinemas",
+                type: "get",
+                data: {"cinema": cinema, "city": city, "cinemaHall": cinemaHall, "pageIndex": pageIndex},
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == "success") {
+                        _data.cinemas = data.list;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+<div>
+</div>
+<!-- //Latest-tv-series -->
+<!-- footer -->
+<div class="cinema-top footer1">
+    <div class="container">
+        <div class="w3ls_footer_grid">
+            <div class="col-md-6 w3ls_footer_grid_left">
+                <div class="w3ls_footer_grid_left1">
+                    <h3>关于爱乐</h3>
+                    <div class="w3ls_footer_grid_left1_pos">
+                        <div class="bottom-row">
+                            <span>商务合作邮箱：971872973@qq.com</span>
+                            <span class="bt-line">|</span>
+                            <span>客服电话：17603649546</span>
+                        </div>
+                        <div class="bottom-row">
+                            <span>用户投诉邮箱：1099773854@qq.com</span>
+                            <span class="bt-line">|</span>
+                            <span>友情链接：<a href="https://cq.meituan.com/?utm_source=wwwmaoyan"
+                                          class="bottom-chain">美团网</a></span>
+                        </div>
+                        <div class="bottom-row">
+                            <a href="#" class="bottom-chain">中华人民共和国增值电信业务经营许可证&nbsp;渝A1-20190909</a>
+                        </div>
+                        <div class="bottom-row">
+                            <a href="#" class="bottom-chain">网络文化经营许可证&nbsp;京网文(2019)3897-330号</a>
+                        </div>
+                        <div class="bottom-row">
+                            <a href="#" class="bottom-chain">爱乐用户服务协议</a>
+                            <span class="bt-line">|</span>
+                            <a href="#" class="bottom-chain">爱乐平台交易规则总则</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 w3ls_footer_grid_right">
+                <a href="/web/index.html"><h2 class="title">爱乐<span id="webtitle-bottom">电影</span></h2></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-5 w3ls_footer_grid1_left">
+            <p>重庆爱乐文化传媒有限公司©2016 爱乐电影 aiyue.com </p>
+        </div>
+        <div class="col-md-7 w3ls_footer_grid1_right">
+            <div class="col-lg-6 card-left">
+                <a href="#"><img src="/web/images/web-permission.png"/></a>
+
+            </div>
+            <div class="col-lg-6 card-right">
+                <a href="#"><img src="/web/images/permission-card.png"/></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- //footer -->
+<!-- Bootstrap Core JavaScript -->
+<script src="/web/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+<!-- //Bootstrap Core JavaScript -->
+<!-- here stars scrolling icon -->
+<script type="text/javascript">
+    $('.toggle').click(function () {
+        // Switches the Icon
+        $(this).children('i').toggleClass('fa-pencil');
+        // Switches the forms
+        $('.form').animate({
+            height: "toggle",
+            'padding-top': 'toggle',
+            'padding-bottom': 'toggle',
+            opacity: "toggle"
+        }, "slow");
+    });
+    //手机验证与密码验证切换（待处理）
+    /*$('.log-toggle').click(function(){
+        if($(this).children('i').val()=='账号密码登录'){
+            $(this).children('i').val('手机验证码登录')
+        }else if($(this).children('i').val()=='手机验证码登录'){
+            $(this).children('i').val('账号密码登录')
+        }
+        $('.log-form').animate({
+        height: "toggle",
+        'padding-top': 'toggle',
+        'padding-bottom': 'toggle',
+        opacity: "toggle"
+      }, "slow");
+    });*/
+    $(document).ready(function () {
+        /*
+            var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+            };
+        */
+
+        $().UItoTop({easingType: 'easeOutQuart'});
+
+    });
+</script>
+<!-- //here ends scrolling icon -->
+</body>
+</html>

@@ -146,21 +146,49 @@
       on cp.pid=p.id
     </select>
   <select id="selectByCity" resultMap="BaseResultMap">
-    select c.*
-    from cinema c
-    left join city ct
-    on c.city=ct.cityname
-    where ct.id=#{ctid}
+    select *
+    from cinema
+    where city=#{city}
     limit #{start},#{num}
   </select>
-    <select id="getOverTime" parameterType="java.lang.Integer" resultType="java.util.Date">
+    <select id="getOverTime" resultType="java.util.Date">
         select overtime
         from admin
         where id=#{aid}
     </select>
-
-  <select id="selectAllByAid" resultMap="BaseResultMap" parameterType="int">
-    select * from cinema where aid=#{aid}
+  <!--条件查询影院信息-->
+  <select id="getCinemas" resultMap="BaseResultMap">
+    select distinct c.* from cinema c left join cinema_room cr on c.id=cr.cid
+    where 1=1
+    <if test="cinema!='default'">
+      and c.c_name like '%${cinema}%'
+    </if>
+    <if test="city!='default'">
+      and c.c_address like '%${city}%'
+    </if>
+    <if test="cinemaHall!='default'">
+      and cr.type=#{cinemaHall}
+    </if>
+    <if test="num!=null and start!=null">
+      limit #{start},#{num}
+    </if>
   </select>
+  <!--查询数据总条数-->
+  <select id="getCountNum" resultType="Integer">
+    select count(distinct c.id) from cinema c left join cinema_room cr on c.id=cr.cid
+    where 1=1
+    <if test="cinema!='default'">
+      and c.c_name like '%${cinema}%'
+    </if>
+    <if test="city!='default'">
+      and c.c_address like '%${city}%'
+    </if>
+    <if test="cinemaHall!='default'">
+      and cr.type=#{cinemaHall}
+    </if>
 
+  </select>
+  <select id="getCountNumByCity" resultType="Integer">
+    select count(id) from cinema where city=#{city}
+  </select>
 </mapper>

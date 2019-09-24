@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 @Service
 public class CinemaServiceImpl implements CinemaService {
-
     @Resource
     private CinemaMapper cinemaMapper;
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
+
     @Override
     @Cacheable
     public List<Cinema> selectByAid(Integer pageIndex, Integer num, Integer aid) {
@@ -66,15 +66,33 @@ public class CinemaServiceImpl implements CinemaService {
         return row;
     }
 
+    /**
+     * 根据城市名称查询影院信息
+     * @param city
+     * @param pageIndex
+     * @param num
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<Cinema> selectByCity(Integer ctid, Integer pageIndex, Integer num) {
+    public List<Cinema> selectByCity(String city, Integer pageIndex, Integer num)throws Exception {
         Integer start = (pageIndex-1)*num;
-        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("start",start);
         map.put("num",num);
-        map.put("ctid",ctid);
+        map.put("city",city);
         List<Cinema> cinemas = cinemaMapper.selectByCity(map);
         return cinemas;
+    }
+
+    /**
+     *根据城市名称查询数据总条数
+     * @param city
+     * @return
+     */
+    @Override
+    public int getCountNumByCity(String city) {
+        return cinemaMapper.getCountNumByCity(city);
     }
 
     @Override
@@ -99,8 +117,29 @@ public class CinemaServiceImpl implements CinemaService {
         return list;
     }
 
+    /**
+     * 条件查询影院信息
+     * @param cinema
+     * @param city
+     * @param cinemaHall
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<Cinema> selectAllByAid(Integer aid) throws Exception {
-        return cinemaMapper.selectAllByAid(aid);
+    public List<Cinema> getCinemas(String cinema, String city, String cinemaHall,Integer num,Integer pageIndex) throws Exception {
+        return cinemaMapper.getCinemas(cinema,city,cinemaHall,num,(pageIndex-1)*num);
+    }
+
+    /**
+     * 条件查询数据总条数
+     * @param cinema
+     * @param city
+     * @param cinemaHall
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int getCountNum(String cinema, String city, String cinemaHall) throws Exception {
+        return cinemaMapper.getCountNum(cinema,city,cinemaHall);
     }
 }

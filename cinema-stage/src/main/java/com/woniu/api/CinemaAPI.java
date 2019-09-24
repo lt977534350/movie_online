@@ -36,6 +36,7 @@ public class CinemaAPI {
     @GetMapping("bycid")
     public Result selectCinema(Integer cid){
         Cinema cinema = cinemaService.selectById(cid);
+        System.out.println(cinema);
         return new Result("success",null,cinema,null);
     }
     @PostMapping("insert")
@@ -83,29 +84,54 @@ public class CinemaAPI {
         return new Result("success",null,null,null);
     }
 
-    @GetMapping("byCity")
-    public Result selectByCity(Integer ctid,Integer pageIndex){
+    /**
+     * 根据城市名称查询cinema信息
+     * @param city
+     * @param pageIndex
+     * @return
+     */
+    @GetMapping("/{city}")
+    public Result selectByCity(@PathVariable("city") String city,Integer pageIndex)throws Exception{
         if(pageIndex==null){
             pageIndex = 1;
         }
-        Integer num = 3;
-        List<Cinema> cinemas = cinemaService.selectByCity(ctid, pageIndex, num);
-        return new Result("success",null,null,cinemas);
+        /*设置每页显示条数*/
+        Integer num = 5;
+        /*查询数据总条数*/
+        int countNumByCity = cinemaService.getCountNumByCity(city);
+        /*计算总页数*/
+        int pageCount=countNumByCity%num==0?countNumByCity/num:countNumByCity/num+1;
+        /*封装page对象*/
+        Page page=new Page(pageIndex,pageCount,countNumByCity);
+        List<Cinema> cinemas = cinemaService.selectByCity(city, pageIndex, num);
+        return new Result("success",null,page,cinemas);
     }
 
-
     /**
-     * 根据aid查询所有的影院
+     * 条件查询影院信息;
+     * @param cinema
+     * @param city
+     * @param cinemaHall
      * @return
      * @throws Exception
      */
-    @GetMapping
-    @RequestMapping("/all")
-    public Result selectAllCinemaByAid(Integer aid)throws Exception{
-        List<Cinema> cinemas = cinemaService.selectAllByAid(aid);
-        return new Result("success",null,null,cinemas);
+    @GetMapping("cinemas")
+    public Result getCinemas(String cinema,String city,String cinemaHall,Integer pageIndex)throws Exception{
+        if(pageIndex==null){
+            pageIndex=1;
+        }
+        /*设置每页显示5条影院数据*/
+        int num=5;
+        /*查询数据总条数*/
+        int countNum = cinemaService.getCountNum(cinema, city, cinemaHall);
+        /*计算总页数*/
+        int pageCount=1;
+        if(countNum>num){
+            pageCount=countNum%num==0?countNum/num:countNum/num+1;
+        }
+        /*封装pge对象；*/
+        Page page=new Page(pageIndex,countNum,pageCount);
+        /*调用方法执行业务*/
+        return new Result("success",null,page,cinemaService.getCinemas(cinema,city,cinemaHall, num, pageIndex));
     }
-
-
-
 }

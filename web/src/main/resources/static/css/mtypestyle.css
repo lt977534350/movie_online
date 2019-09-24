@@ -12,12 +12,14 @@
 .m-li li{
 	list-style: none;
 	margin-left: 19px;
-	width: 50px;
+	/*width: 100px;*/
 	border-radius:30%;
 	text-align: center;
 	color: #000;
 	display: inline-block;
 	margin-top: 15px;
+	display: inline-block;
+	padding: 5px;
 }
 .m-li li:hover{
 	background-color: #5bc0de;
@@ -34,23 +36,74 @@
 }
 .limit{
 	width:100%;
-	margin-top: -50px;
 	text-align: center;
-	margin-bottom: 20px;
+	float: left;
+	margin-top: 20px;
 }
-.limit-span{
-	width: 65px;
-	height: 33px;
-	text-align: center;
+.jump{
+	width: 50px;
+	height: 22px;
+	border-radius: 35%;
 }
 .limit input{
-	width: 60px;
-	height: 24px;
-	border-radius:20%;
+	margin-left: 20px;
 }
-.limit1 span{
-	margin-left: 30px;
+.limit li{
+	width: 25px;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	border: 1px solid lightgrey;
+	margin-left: 10px;
+	border-radius: 25%;
+	display: inline-block;
+}
+.limit li:hover{
+	background-color: lightgrey;
+	cursor: pointer;
+}
+.limit ul{
+	display: inline-block;
+	margin-left: 10px;
 }
 .mtype-display{
 	display: inline-block;
+}
+.mtype-display1{
+	display: none;
+}
+.cinema-div{
+	width: 100%;
+	margin-bottom: 100px;
+	margin-top: 50px;
+}
+.cinema-left{
+	/*margin-left: 5%;*/
+}
+.cinema-address{
+	margin-top: 30px;
+	color: darkgrey;
+}
+.cinema-top{
+	margin-top: 90px;
+}
+.ticket{
+	height: 34px;
+	background-color: burlywood;
+	border-radius: 50%;
+	padding: 8px;
+	color: black;
+	font-size: 15px;
+	width: 80px;
+	margin-top: 14px;
+	text-align: center;
+}
+.ticket:hover{
+	background-color: #00FFFF;
+	cursor: pointer;
+}
+.cinema-tips{
+	margin-top: 100px;
+	margin-left: 200px;
+	color: red;
 }
