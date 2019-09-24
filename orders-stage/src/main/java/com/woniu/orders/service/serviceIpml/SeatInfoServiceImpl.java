@@ -1,14 +1,14 @@
 package com.woniu.orders.service.serviceIpml;
 
 import com.woniu.orders.entity.Seatinfo;
-import com.woniu.orders.mapper.SeatinfoMapper;
+import com.woniu.orders.mapper.auto.SeatinfoMapper;
 import com.woniu.orders.service.SeatInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * @program: tickets-online
@@ -22,7 +22,7 @@ public  class SeatInfoServiceImpl implements SeatInfoService {
     private SeatinfoMapper seatinfoMapper;
     @Override
     public List<Seatinfo> selectSeat(Integer msid ) throws Exception {
-           return seatinfoMapper.selectSeat(1);
+           return seatinfoMapper.selectSeat(msid);
     }
 
     @Override

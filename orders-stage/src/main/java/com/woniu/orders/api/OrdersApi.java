@@ -14,13 +14,16 @@ import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
 import com.woniu.orders.entity.User;
 import com.woniu.orders.service.OrderService;
+import com.woniu.orders.util.Count;
 import com.woniu.orders.util.Page;
 import com.woniu.orders.util.Result;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 import java.text.ParseException;
@@ -29,7 +32,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/profile/orders")
 public class OrdersApi {
-    @Autowired
+    @Resource
     private OrderService orderService;
     //创建订单
     @GetMapping("/confirm/")
@@ -43,11 +46,10 @@ public class OrdersApi {
 
         String orderId = null;
         try {
-            orderId = orderService.insertCreateOrders(id, 1, 2);
+            orderId = orderService.insertCreateOrders(id, 1, 1);
             System.out.println(orderId);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(2);
             return new Result("500","选座失败",null,null);
         }
         System.out.println(1);
@@ -62,7 +64,7 @@ public class OrdersApi {
             pageIndex=1;
         }
         List<Order> orders = orderService.selectOrder(1, pageIndex);
-        int count = orderService.selectCount(1);
+        int count = (int)orderService.selectCount(1);
         Page page = new Page();
         page.setDataCount(count);
         page.setPageCount(count%Constant.Page.PAGE_DISPLAYED.getpageData()==0?count/Constant.Page.PAGE_DISPLAYED.getpageData():count/Constant.Page.PAGE_DISPLAYED.getpageData()+1);
@@ -72,16 +74,26 @@ public class OrdersApi {
     }
 
 
-    //查看订单详情
+    /**
+     *
+     * 根据订单号查看详情
+     * @param oid 订单号
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("detail")
-    //根据订单号参看详情
     @ResponseBody
     public Result  detail( String oid) throws Exception {
-
         Order order = orderService.selectDatail(oid);
         return new Result("200",null,order,null);
     }
-    //用户删除订单，改变数据库字段，不物理删除，方便统计数据
+
+    /**
+     * 用户删除订单，改变数据库字段，不物理删除，方便统计数据
+     * @param oid
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping
     @ResponseBody
     public Result  del(String oid) throws Exception {
@@ -93,6 +105,16 @@ public class OrdersApi {
               return new Result("200","删除成功",null,null);
         }
        return new Result("500","删除失败",null,null);
+    }
+    @GetMapping ("test")
+    @ResponseBody
+    public Count selectOrderSuccessOrFail() throws Exception {
+        int success = orderService.selectOrdersSuccess();
+        int fail = orderService.selectOrdersFail();
+        Count count = new Count();
+        count.setSuccess(success);
+        count.setFail(fail);
+        return count;
     }
 }
   

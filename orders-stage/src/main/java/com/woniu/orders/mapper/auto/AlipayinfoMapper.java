@@ -1,9 +1,10 @@
-package com.woniu.orders.mapper;
+package com.woniu.orders.mapper.auto;
 
 import com.woniu.orders.entity.Alipayinfo;
 import com.woniu.orders.entity.AlipayinfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AlipayinfoMapper {
     long countByExample(AlipayinfoExample example);

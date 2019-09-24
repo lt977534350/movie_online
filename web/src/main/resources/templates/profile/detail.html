@@ -204,9 +204,11 @@
                 请在<span class="minute"></span>分钟<span class="second"></span>秒内完成支付
             </p>
         </div>
+        <div v-if="msg.object.code!=null" style="margin-left: 0px ;width: 80px"><img :src="msg.object.code" alt="" style="height: 100px "></div>
 
 
         <div class="order-note">
+
             <span class="order-id" v-text="'爱乐订单号:'+msg.object.orderId"></span>
             <span class="contact">（有订单问题可拨打爱乐客服电话<i>1010-5335</i>，工作时间: 9:00-24:00）</span>
         </div>
@@ -343,7 +345,7 @@
 
                     clearInterval(timer);
                     $("#ordertime").show();
-                    console.log(2)
+
                     $(".ok-btn").click(function () {
                         $("#ordertime").hide();
                     })

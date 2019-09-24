@@ -29,9 +29,22 @@ public class Order {
     private Double money;
 
     /**
-     * 影院id
+     * 放映点id
      */
     private Integer cid;
+
+    public Integer getAid() {
+        return aid;
+    }
+
+    public void setAid(Integer aid) {
+        this.aid = aid;
+    }
+
+    /**
+     * 影院id
+     */
+    private Integer aid;
 
     /**
      * 订单状态，

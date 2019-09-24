@@ -1,4 +1,4 @@
-package com.woniu.orders.mapper;
+package com.woniu.orders.mapper.auto;
 
 import com.woniu.orders.entity.Cinema;
 

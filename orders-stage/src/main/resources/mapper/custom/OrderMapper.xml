@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.orders.mapper.custom.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.woniu.orders.entity.Order">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="c_time" jdbcType="TIMESTAMP" property="cTime"/>
+        <result column="money" jdbcType="DOUBLE" property="money"/>
+        <result column="cid" jdbcType="INTEGER" property="cid"/>
+        <result column="aid" jdbcType="INTEGER" property="aid"/>
+        <result column="ostate" jdbcType="TINYINT" property="ostate"/>
+        <result column="pay_state" jdbcType="TINYINT" property="payState"/>
+        <result column="payway" jdbcType="TINYINT" property="payway"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="order_id" property="orderId"/>
+        <result column="mpic" jdbcType="VARCHAR" property="posterUrl"/>
+        <result column="mName" property="movieName"/>
+        <result column="c_name" property="cinemaName"/>
+        <result column="c_address" property="cinemaAddress"/>
+        <result column="playtime" jdbcType="TIMESTAMP" property="palyTime"/>
+        <result column="name" property="roomName"/>
+        <result column="money" property="money"/>
+        <result column="phone" property="phone"/>
+        <result column="movie_showtime_id" jdbcType="INTEGER" property="msid"/>
+        <result column="seat_id" jdbcType="VARCHAR" property="seatId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+
+
+    </resultMap>
+
+    <select id="selectOrderByUid" resultMap="BaseResultMap">
+        SELECT o.c_time ,o.ostate,o.code,o.order_id ,o.seat,o.money ,cr.name ,o.pay_state,
+        m.mpic ,m.mName,c.c_name,c.c_address,ms.playtime from `orders` o
+        LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
+        LEFT JOIN cinema c on ms.cid = c.id
+        LEFT JOIN movie m on ms.mid = m.id
+        LEFT JOIN cinema_room cr on ms.room_id = cr.id and cr.cid=ms.cid
+        WHERE o.uid=#{uid} and isdel!=1 and o.ostate between 1 and 49 ORDER BY o.c_time desc
+        LIMIT #{start}, #{num}
+    </select>
+
+
+    <select id="selectDetail" resultMap="BaseResultMap" parameterType="string">
+        SELECT o.uid,o.c_time ,o.code,o.seat_id,o.ostate,o.order_id ,o.seat,o.money ,cr.name ,
+        o.pay_state,m.mpic ,m.mName,c.aid,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
+        LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
+        LEFT JOIN cinema c on ms.cid = c.id
+        LEFT JOIN movie m on ms.mid = m.id
+        LEFT JOIN cinema_room cr on ms.room_id = cr.id
+        WHERE o.order_id=#{oid} and cr.cid=ms.cid and o.ostate between 0 and 49;
+    </select>
+
+    <select id="selectOrder" resultType="com.woniu.orders.entity.Order" resultMap="BaseResultMap" parameterType="map">
+        SELECT o.c_time ,o.ostate,o.code,o.order_id ,o.seat,o.money ,cr.name ,o.pay_state,m.mpic
+        ,m.mName,c.c_name,c.c_address,ms.playtime from `orders` o
+        LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
+        LEFT JOIN cinema c on ms.cid = c.id
+        LEFT JOIN movie m on ms.mid = m.id
+        LEFT JOIN cinema_room cr on ms.room_id = cr.id
+        WHERE o.uid=#{uid} and cr.cid=ms.cid and isdel!=1 and o.ostate between 1 and 49 ORDER BY o.c_time desc LIMIT
+        #{start}, #{num};
+
+    </select>
+
+
+</mapper>

@@ -1,12 +1,10 @@
-package com.woniu.orders.mapper;
+package com.woniu.orders.mapper.auto;
 
 import com.woniu.orders.entity.Seatinfo;
 import com.woniu.orders.entity.SeatinfoExample;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface SeatinfoMapper {
     long countByExample(SeatinfoExample example);
@@ -33,7 +31,7 @@ public interface SeatinfoMapper {
     //根据list 对象查询订单状态
     List<Seatinfo> selectStateByList(List<Seatinfo> list);
 
-    int updateState( List<Seatinfo> list);
+    int updateState(List<Seatinfo> list);
     int updateStateToN(List<Seatinfo> list);
 
 }

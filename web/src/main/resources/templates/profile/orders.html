@@ -221,7 +221,7 @@
                     -->
                     <div class="order-box" v-for="orders in msg.list" :data-orderid=orders.orderId>
                         <div class="order-header">
-                            <span class="order-date" v-text="orders.ctime">2019-09-09</span>
+                            <span class="order-date" v-text="orders.ctime"></span>
                             <span class="order-id" v-text="'爱乐订单号：'+orders.orderId"></span>
                             <span class="del-order" @click="del($event)" :data-orderid="orders.orderId"></span>
                         </div>
@@ -240,7 +240,6 @@
                                 </div>
                                 <div class="show-time" v-html="orders.formatTime"></div>
                             </div>
-
                             <div class="order-price" v-text="'￥'+orders.money"></div>
 
                             <div class="order-status" v-text="orders.ostateMsg">

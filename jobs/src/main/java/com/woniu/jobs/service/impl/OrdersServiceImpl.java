@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @program: tickets-online
@@ -28,20 +29,25 @@ public class OrdersServiceImpl implements OrderService {
 
     @Override
     public int updateOstate(String oid) throws Exception {
+
+
         Orders ordersInfo = ordersMapper.selectSeatIdByOid(oid);
         String seat = ordersInfo.getSeatId();
         String[] split = seat.split("-");
         List<Seatinfo> seatinfoList = new ArrayList<>();
-        for (int i = 0; i < split.length; i++) {
-            Seatinfo seatinfo = new Seatinfo();
-            seatinfo.setId(Integer.parseInt(split[i]));
-            seatinfoList.add(seatinfo);
+        //如果订单未付款，则还原座位信息
+        if (ordersInfo.getOstate() == 10) {
+            System.out.println("还原座位表信息");
+            for (int i = 0; i < split.length; i++) {
+                Seatinfo seatinfo = new Seatinfo();
+                seatinfo.setId(Integer.parseInt(split[i]));
+                seatinfoList.add(seatinfo);
+            }
+            //还原座位表信息
+            int i = seatInfoService.updateStateToN(seatinfoList);
         }
-        //还原座位表信息
-        int i = seatInfoService.updateStateToN(seatinfoList);
         Orders orders = new Orders();
         orders.setOstate((byte) 0);
-
         OrdersExample ordersExample = new OrdersExample();
         OrdersExample.Criteria criteria = ordersExample.createCriteria();
         criteria.andOrderIdEqualTo(oid);

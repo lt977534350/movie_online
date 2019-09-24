@@ -1,13 +1,12 @@
 package com.woniu.orders.service.serviceIpml;
 
 import com.woniu.orders.entity.MovieShowInfo;
-import com.woniu.orders.mapper.MovieShowtimeMapper;
+import com.woniu.orders.mapper.auto.MovieShowtimeMapper;
 import com.woniu.orders.service.SeatService;
 import com.woniu.orders.util.DateUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @program: tickets-online

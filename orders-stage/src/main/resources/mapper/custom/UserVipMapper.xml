@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.orders.mapper.custom.UserVipMapper">
+    <insert id="addUserVip" >
+        insert into user_vip (`uid`, vid, consume,aid
+        )
+        values (#{uid,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, #{consume,jdbcType=DOUBLE},#{aid,jdbcType=DOUBLE}
+        ) on duplicate key UPDATE consume = consume + VALUES(consume);
+
+    </insert>
+    <select id="selectConsume" resultType="com.woniu.orders.entity.UserVip">
+       SELECT * FROM user_vip WHERE uid =#{uid} and aid =#{aid}
+    </select>
+    <update id="updateUserVip">
+        update  user_vip set  vid=#{vid,jdbcType=INTEGER},consume=consume+#{consume,jdbcType=DOUBLE}
+         where aid=#{aid,jdbcType=INTEGER} and uid=#{uid,jdbcType=INTEGER}
+
+    </update>
+
+</mapper>

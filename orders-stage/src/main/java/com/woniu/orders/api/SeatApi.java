@@ -31,10 +31,8 @@ public class SeatApi {
     @RequestMapping("selectSeat")
     @ResponseBody
     public Result select (Integer msid) throws Exception {
-        List<Seatinfo> seatinfos = seatInfoService.selectSeat(msid);
-        String s = JSON.toJSONString(seatinfos);
-        System.out.println(seatinfos);
-        System.out.println(s);
+        List<Seatinfo> seatinfos = seatInfoService.selectSeat(1);
+
         return new Result("200","c",null,seatinfos);
     }
     @RequestMapping("selectCinema")

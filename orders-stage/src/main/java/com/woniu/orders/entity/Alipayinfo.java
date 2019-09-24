@@ -5,10 +5,18 @@ import java.util.Date;
 
 
 public class Alipayinfo {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /**
      * 商家订单主键
      */
-    private Integer clubOrderId;
+    private Integer id;
 
     /**
      * 商户订单号
@@ -89,13 +97,18 @@ public class Alipayinfo {
      * 卖家支付宝用户号
      */
     private String sellerId;
+    /**
+     * 退款说明
+     */
 
-    public Integer getClubOrderId() {
-        return clubOrderId;
+    private String redundmsg;
+
+    public String getRedundmsg() {
+        return redundmsg;
     }
 
-    public void setClubOrderId(Integer clubOrderId) {
-        this.clubOrderId = clubOrderId;
+    public void setRedundmsg(String redundmsg) {
+        this.redundmsg = redundmsg;
     }
 
     public String getOutTradeNo() {
@@ -229,7 +242,7 @@ public class Alipayinfo {
     @Override
     public String toString() {
         return "Alipayinfo{" +
-                "clubOrderId=" + clubOrderId +
+                "id=" + id +
                 ", outTradeNo='" + outTradeNo + '\'' +
                 ", tradeStatus=" + tradeStatus +
                 ", totalAmount=" + totalAmount +

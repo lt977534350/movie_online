@@ -1,6 +1,8 @@
 package com.woniu.orders.service;
 
 import com.alipay.api.AlipayApiException;
+import com.woniu.orders.entity.Alipayinfo;
+import com.woniu.orders.entity.Order;
 import com.woniu.orders.util.Result;
 /*import com.woniu.common.ServerResponse;*/
 
@@ -59,5 +61,5 @@ public interface AlipayService {
      */
     String refundQuery(String outTradeNo, String outRequestNo) throws Exception;
 
-    String insertAliCallback(Map<String, String> conversionParams) throws Exception;
+    int insertAliPayNoticeLog(Alipayinfo alipayinfo);
 }

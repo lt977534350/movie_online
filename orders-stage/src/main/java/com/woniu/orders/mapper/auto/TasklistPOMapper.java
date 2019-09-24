@@ -1,11 +1,11 @@
-package com.woniu.orders.mapper;
+package com.woniu.orders.mapper.auto;
 
 import com.woniu.orders.entity.Tasklist;
 import com.woniu.orders.entity.TasklistExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface TasklistMapper {
+public interface TasklistPOMapper {
     long countByExample(TasklistExample example);
 
     int deleteByExample(TasklistExample example);

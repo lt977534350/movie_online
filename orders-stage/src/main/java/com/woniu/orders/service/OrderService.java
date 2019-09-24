@@ -11,6 +11,7 @@
 package com.woniu.orders.service;
 
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.util.Count;
 
 import java.text.ParseException;
 import java.util.List;
@@ -18,13 +19,23 @@ import java.util.List;
 public interface OrderService {
 
     List<Order> selectOrder(int uid, Integer PageIndex) throws Exception;
-    int selectCount(int uid)throws Exception;
+
+    long selectCount(int uid) throws Exception;
 
     Order selectDatail(String oid) throws Exception;
-    void updatebyOid(String oid, Byte ostate, int a_pid)throws Exception;
+    void updatebyOid(String oid, Byte ostate, int a_pid,String code)throws Exception;
     int updateStateByOid(String oid, Byte ostate)throws Exception;
     int deleteByOid(String Oid)throws Exception;
+
     String insertCreateOrders(Integer id [],Integer uid ,Integer msid)throws Exception;
+
+    int updateOrderSuccess(Order order, int alipayNoticeLogId);
+
+    int  selectOrdersSuccess()throws Exception;
+
+    int selectOrdersFail() throws  Exception;
+
+
 
 }
   
