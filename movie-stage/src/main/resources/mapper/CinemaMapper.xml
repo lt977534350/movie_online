@@ -6,7 +6,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="c_name" jdbcType="VARCHAR" property="cName" />
     <result column="c_address" jdbcType="VARCHAR" property="cAddress" />
-    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="copy_right" jdbcType="VARCHAR" property="copyRight" />
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="aid" jdbcType="INTEGER" property="aid" />

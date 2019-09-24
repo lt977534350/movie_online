@@ -6,7 +6,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="c_name" jdbcType="VARCHAR" property="cName" />
     <result column="c_address" jdbcType="VARCHAR" property="cAddress" />
-    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="copy_right" jdbcType="VARCHAR" property="copyRight" />
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -15,7 +14,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, c_name, c_address, id_card, logo, copy_right, facility
+    id, c_name, c_address, copy_right, facility
   </sql>
   <resultMap id="CinemaPicResultMap" type="com.woniu.entity.Cinema">
     <!--@mbg.generated-->
@@ -34,7 +33,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="CinemaPicResultMap">
     select c.*,p.url
     from cinema c
-    inner join
+    left join
     cinema_photo cp
     on c.id=cp.cid
     left join photo p
@@ -48,11 +47,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Cinema" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into cinema (c_name, c_address, id_card, 
-      logo, copy_right, facility
+    insert into cinema (c_name, c_address, copy_right, facility
       )
-    values (#{cName,jdbcType=VARCHAR}, #{cAddress,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
-      #{logo,jdbcType=VARCHAR}, #{copyRight,jdbcType=VARCHAR}, #{facility,jdbcType=VARCHAR}
+    values (#{cName,jdbcType=VARCHAR}, #{cAddress,jdbcType=VARCHAR}, #{copyRight,jdbcType=VARCHAR}, #{facility,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Cinema" useGeneratedKeys="true">
@@ -64,9 +61,6 @@
       </if>
       <if test="cAddress != null">
         c_address,
-      </if>
-      <if test="logo != null">
-        logo,
       </if>
       <if test="copyRight != null">
         copy_right,
@@ -81,9 +75,6 @@
       </if>
       <if test="cAddress != null">
         #{cAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="logo != null">
-        #{logo,jdbcType=VARCHAR},
       </if>
       <if test="copyRight != null">
         #{copyRight,jdbcType=VARCHAR},
@@ -103,12 +94,6 @@
       <if test="cAddress != null">
         c_address = #{cAddress,jdbcType=VARCHAR},
       </if>
-      <if test="idCard != null">
-        id_card = #{idCard,jdbcType=VARCHAR},
-      </if>
-      <if test="logo != null">
-        logo = #{logo,jdbcType=VARCHAR},
-      </if>
       <if test="copyRight != null">
         copy_right = #{copyRight,jdbcType=VARCHAR},
       </if>
@@ -123,7 +108,6 @@
     update cinema
     set c_name = #{cName,jdbcType=VARCHAR},
       c_address = #{cAddress,jdbcType=VARCHAR},
-      logo = #{logo,jdbcType=VARCHAR},
       copy_right = #{copyRight,jdbcType=VARCHAR},
       facility = #{facility,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
