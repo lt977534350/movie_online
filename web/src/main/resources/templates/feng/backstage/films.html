@@ -6,8 +6,8 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     	<meta name="robots" content="all,follow">
     	<link rel="stylesheet" href="/web/backstage/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/web/backstage/css/rbackstagecss/font-awesome.min.css">
-		<link rel="stylesheet" href="/web/backstage/csscss/fontastic.css">
+		<link rel="stylesheet" href="/web/backstage/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/web/backstage/css/fontastic.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
 		<link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
 		<link rel="stylesheet" href="/web/backstage/css/custom.css">
@@ -26,24 +26,20 @@
 				</header>
 				<section class="col-lg-6">
 					<form id="filmsdeal" action="" method="post">
-						<select class="form-control" id="playpoint" name="playpoint">
+						<select class="form-control" id="playpoint" name="playpoint" @change="selectShowTime()">
 							<option value="0" selected="selected" disabled="disabled">请选择需要排片的门店</option>
-							<option value="万达影城（江北店）">万达影城（江北店）</option>
-							<option value="万达影城（北碚店）">万达影城（北碚店）</option>
+							<option v-for="cinema in cinemaList" :value="cinema.id" v-text="cinema.cname">万达影城（江北店）</option>
 						</select>
-						<select class="form-control" id="filmname" name="filmname">
+						<select class="form-control" id="filmname" name="filmname" @change="selectShowTime()">
 							<option value="0" selected="selected" disabled="disabled">请选择需要安排片场的电影名</option>
-							<option value="速度与激情">速度与激情</option>
-							<option value="雪人奇缘">雪人奇缘</option>
-							<option value="名侦探柯南">名侦探柯南</option>
-							<option value="小Q">小Q</option>
+							<option v-for="movie in movieList" :value="movie.id" v-text="movie.mname">速度与激情</option>
 						</select>
 					</form>
 				</section>
-				<section class=" filmsetdiv" id="app">
+				<section class=" filmsetdiv">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-lg-6 ">
+							<div class="col-lg-12 ">
 								<div class="card">
 									<div class="card-close">
 										<div class="dropdown">
@@ -55,7 +51,9 @@
 										</div>
 									</div>
 									<div class="card-header d-flex align-items-center">
-										<h5>速度与激情</h5><h3 class="h4">————当前选中影片排片详情</h3>
+										<h5 v-if="JSON.stringify(nowMovie) == '{}'">暂未选择任何电影</h5>
+										<h5 v-else v-text="nowMovie.mname"></h5>
+										<h3 class="h4">————当前选中影片排片详情</h3>
 									</div>
 									<div class="card-body">
 										<div class="table-responsive">
@@ -74,27 +72,16 @@
 												</tr>
 												</thead>
 												<tbody>
-												<tr>
-													<th scope="row">1</th>
-													<td>速度与激情</td>
-													<td>2019-9-13</td>
-													<td>万达影城(江北店)</td>
-													<td>2019/9/20</td>
-													<td>14：35</td>
-													<td>10号厅</td>
-													<td>35元</td>
-													<td onclick="editfilm(this)" class="">编辑</td>
-												</tr>
-												<tr>
-													<th scope="row">2</th>
-													<td>速度与激情</td>
-													<td>2019-9-13</td>
-													<td>万达影城(江北店)</td>
-													<td>2019/9/20</td>
-													<td>16：15</td>
-													<td>7号厅</td>
-													<td>35元</td>
-													<td onclick="editfilm(this)">编辑</td>
+												<tr v-for="(show,index) in movieshow">
+													<th scope="row" v-text="index+1"></th>
+													<td v-text="nowMovie.mname">速度与激情</td>
+													<td v-text="nowMovie.uptime">2019-9-13</td>
+													<td v-text="nowCinema.cname">万达影城(江北店)</td>
+													<td v-text="show.play1">2019-9-20</td>
+													<td v-text="show.play2">14：35</td>
+													<td v-text="show.cinemaRoom.name">10号厅</td>
+													<td v-text="show.money+'元'">35元</td>
+													<td @click="editShow()" class="">编辑</td>
 												</tr>
 												</tbody>
 											</table>
@@ -103,36 +90,42 @@
 											<div role="document" class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h4 id="exampleModalLabel" class="modal-title">影片排片增加	</h4>
+														<h4 class="modal-title" v-if="JSON.stringify(nowMovie) == '{}'">暂未选择任何电影</h4>
+														<h4 class="modal-title" v-else v-text="nowMovie.mname"></h4>
+														<h4 id="exampleModalLabel" class="modal-title">----新增排片</h4>
 														<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
 													</div>
 													<div class="modal-body">
 														<p>本影片排片增加</p>
-														<form>
-															<input type="hidden" name="mid" id="mid" value="1" />
+														<form id="insertForm">
+															<input type="hidden" name="mid" :value="nowMovie.id" />
+															<input type="hidden" name="cid" :value="nowMovie.id" />
 															<div class="form-group">
 																<label>放映日期</label>
-																<input type="datetime-local" name="playdate" value="2019-09-15" class="form-control">
+																<input type="date" name="insertDate" value="" id="p1date" class="form-control">
 															</div>
 															<div class="form-group">
 																<label>放映时间</label>
-																<input type="time" name="playtime" value="14:35" class="form-control">
+																<input type="time" name="insertTime" value="" id="p1time" class="form-control">
 															</div>
+<!--															<div class="form-group">-->
+<!--																<label>放映时间</label>-->
+<!--																<input type="time" name="playtime" value="14:35" class="form-control">-->
+<!--															</div>-->
 															<div class="form-group">
 																<label>播放影厅</label>
-																<select class="form-control" name="room">
+																<select class="form-control" name="roomId">
 																	<option value="0" selected="selected" disabled="disabled">选择影厅</option>
-																	<option value="1">1号厅</option>
-																	<option value="2">2号厅</option>
-																	<option value="3">3号厅</option>
+																	<option v-for="room in roomList" :value="room.id" v-text="room.name"></option>
 																</select>
 															</div>
 															<div class="form-group">
 																<label>电影票价</label>
-																<input type="text" placeholder="售价" value="35" class="form-control">
+																<input type="text" placeholder="售价" name="money" value="" class="form-control">
 															</div>
 															<div class="form-group">
-																<input type="submit" value="保存设置" class="btn btn-primary">
+																<input type="button" value="确认新增" class="btn btn-primary" onclick="insertShowTime()">
+																<input type="reset" id="insertReset" value="重置" class="btn-warning">
 															</div>
 														</form>
 													</div>
@@ -142,7 +135,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-5 offset-1 "id="filmdeal" style="display: none;" >
+							<div class="col-lg-8 offset-2 "id="filmdeal" style="display: none;" >
 								<div class="card">
 									<div class="card-header d-flex align-items-center">
 										<h5>速度与激情</h5><h3 class="h4">————影片排片设置</h3>
@@ -150,13 +143,13 @@
 									<div class="card-body">
 										<form>
 											<div class="form-group">
-												<label>放映日期</label>
-												<input type="date" id="playdate" name="playdate" value="2019-09-15" class="form-control">
-											</div>
-											<div class="form-group">
 												<label>放映时间</label>
-												<input type="time" id="playtime" name="playtime" value="14:35" class="form-control">
+												<input type="time" id="playdate" name="playdate" value="" class="form-control">
 											</div>
+<!--											<div class="form-group">-->
+<!--												<label>放映时间</label>-->
+<!--												<input type="time" id="playtime" name="playtime" value="14:35" class="form-control">-->
+<!--											</div>-->
 											<div class="form-group">
 												<label>播放影厅</label>
 												<select class="form-control" name="room">
@@ -191,34 +184,223 @@
     <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
     <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
+	<script src="/web/js/vue.js"></script>
     <!-- Main File-->
     <script src="/web/backstage/js/front.js"></script>
     <script type="text/javascript">
-    	$("#playpoint").change(function(){
-    		alert("放映点更改，查询当前放映点所有影片");
-    	});
-    	$("#filmname").change(function(){
-    		alert("选中影片"+ $("#filmname").val() +"，查询当前影片在当前放映点的所有排片详情")
-    	});
-    	
-    	function editfilm(obj){
-      		//先根据this拿到不同id 修改vue渲染的数据
-      		
-      		//再打开隐藏div
-    		$("#filmdeal").css("display","block");
-//  		$("#playtime").attr("value","14:35");
-    	}
+    	// $("#playpoint").change(function(){
+    	// 	alert($("#playpoint").val());
+    	// });
+    	// $("#filmname").change(function(){
+    	// 	alert("选中影片"+ $("#filmname").val() +"，查询当前影片在当前放映点的所有排片详情")
+    	// });
+
 
     	$(function () {
 			new Vue({
 				el:"#app",
-				data:{},
+				data:{
+					cinemaList:[],
+					movieList:[],
+					nowMovie:{},
+					nowCinema:{},
+					movieshow:[],
+					roomList:[]
+
+                },
+				created:function () {
+					var _this=this;
+					//查询当前登录用户
+
+                    //查询当前登录影院的所有放映点//aid
+                    $.ajax({
+						url:"/cinema-stage/cinema/all",
+						data:{
+							"aid":1
+						},
+						type:"get",
+						dataType:"json",
+						success:function (data) {
+							console.log(data)
+							_this.cinemaList=data.list;
+						}
+					});
+
+                    //查询所有可拍片电影
+					$.ajax({
+						url:"/movie-stage/movie/all",
+						type:"get",
+						dataType:"json",
+						success:function (data) {
+							console.log(data);
+							_this.movieList=data.list;
+						}
+					})
+
+
+
+				},
+				methods:{
+
+					selectShowTime:function () {
+						var _this=this;
+						var cid=parseInt($("#playpoint").val());
+						var mid=parseInt($("#filmname").val());
+						if(!(cid>0 && mid >0)){
+							return false;
+						}
+
+						//根据cid查询影院信息
+						$.ajax({
+							url:"/cinema-stage/cinema/bycid",
+							type:"get",
+							data:{
+								"cid":cid
+							},
+							dataType:"json",
+							success:function (data) {
+								_this.nowCinema=data.object;
+							}
+						});
+						//根据cid查询所有得到影厅信息
+						$.ajax({
+							url:"/cinema-stage/room/bycid",
+							type:"get",
+							data:{
+								"cid":cid
+							},
+							dataType:"json",
+							success:function (data) {
+								console.log(data);
+								_this.roomList=data.list;
+							}
+						});
+
+						//根据mid查出电影信息
+						$.ajax({
+							url:"/movie-stage/movie/byid",
+							type:"get",
+							data:{
+								"mid":mid
+							},
+							dataType:"json",
+							success:function (data) {
+								//格式胡电影上映时间
+								data.object.uptime=getTime(data.object.uptime).split(" ")[0]
+								_this.nowMovie=data.object;
+							}
+						})
+
+
+
+						//根据cid和mid查询排片信息
+						$.ajax({
+							url:"/movie-stage/showtime/select",
+							type:"get",
+							data:{
+								"cid":cid,
+								"mid":mid
+							},
+							dataType:"json",
+							success:function (data) {
+								for(var i=0;i<data.list.length;i++){
+									//格式化放映时间
+									var datetime=getTime(data.list[i].playtime);
+									data.list[i].play1=datetime.split(" ")[0];
+									data.list[i].play2=datetime.split(" ")[1];
+								}
+								_this.movieshow=data.list;
+							}
+						})
+
+
+
+					},
+
+
+					//编辑拍片信息的方法
+					editShow:function () {
+
+
+
+
+
+						$("#filmdeal").css("display","block");
+					},
+
+
+
+
+
+
+				}
 
 			})
 
 
 
 		})
+
+		/**
+		 * 格式化时间
+		 * @param second
+		 * @param getDateType
+		 * @returns {string|number}
+		 */
+		function getTime(second) {
+			var date =new Date(second);
+			var year = date.getFullYear()
+			if((date.getMonth()+1)<=9){
+				var month ="0"+(date.getMonth()+1);
+			}else {
+				return date.getMonth()+1;
+				var month =date.getMonth()+1;
+			}
+			if(date.getDate()<=9){
+				var day =  "0"+date.getDate();
+			}else {
+				var day =   date.getDate();
+			}
+			if(date.getHours()<=9){
+				var hour =  "0"+date.getHours();
+			}else {
+				var hour =  date.getHours();
+			}
+			if(date.getMinutes()<=9){
+				var minutes =  "0"+date.getMinutes();
+			}else {
+				var minutes =  date.getMinutes();
+			}
+			if(date.getSeconds ()<=9){
+				var seconds = "0" + date.getSeconds ();
+			}else{
+				var seconds =  date.getSeconds ();
+			}
+			return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
+		}
+
+
+		//新增排片信息
+		function insertShowTime() {
+			var formData=new FormData($("#insertForm")[0]);
+			formData.set("playtime",formData.get("insertDate")+" "+formData.get("insertTime")+":00")
+			console.log(formData.get("playtime"))
+			$.ajax({
+				url:"/movie-stage/showtime/insert",
+				type:"post",
+				data:formData,
+				processData: false,
+				contentType: false,
+				dataType:"json",
+				success:function (data) {
+					if(data.code=="success"){
+						$("#insertReset").click();
+						$("#myModal").attr("aria-hidden",true);
+						alert("新增排片成功！")
+					}
+				}
+			})
+		}
 
 
 

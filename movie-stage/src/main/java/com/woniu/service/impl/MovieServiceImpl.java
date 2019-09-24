@@ -75,4 +75,14 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.selectMovieListByTime(num);
     }
 
+    @Override
+    public List<Movie> selectAllMovies() throws Exception {
+        return movieMapper.selectAllMovies();
+    }
+
+    @Override
+    public Movie selectByPrimarykey(Integer mid) {
+        return movieMapper.selectByPrimaryKey(mid);
+    }
+
 }

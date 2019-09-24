@@ -1,10 +1,12 @@
 package com.woniu.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
-public class MovieShowtime {
+public class MovieShowtime implements Serializable {
     /**
     * 电影放映表id
     */
@@ -23,6 +25,7 @@ public class MovieShowtime {
     /**
     * 放映时间
     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date playtime;
 
     /**

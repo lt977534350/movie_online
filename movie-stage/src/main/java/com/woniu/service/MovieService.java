@@ -68,4 +68,18 @@ public interface MovieService {
      */
     List<Movie> selectMovieListOrderByTime(Integer num) throws Exception;
 
+
+    /**
+     * 查询所有可排片影片
+     * @return
+     * @throws Exception
+     */
+    List<Movie> selectAllMovies()throws Exception;
+
+    /**
+     * 根据id查影片信息
+     * @param mid
+     * @return
+     */
+    Movie selectByPrimarykey(Integer mid);
 }

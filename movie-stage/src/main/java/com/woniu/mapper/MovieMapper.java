@@ -27,4 +27,6 @@ public interface MovieMapper {
     List<Movie> selectMovieListByScore(Integer num);
 
     List<Movie> selectMovieListByTime(Integer num);
+
+    List<Movie> selectAllMovies();
 }

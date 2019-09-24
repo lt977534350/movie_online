@@ -158,4 +158,9 @@
         from admin
         where id=#{aid}
     </select>
+
+  <select id="selectAllByAid" resultMap="BaseResultMap" parameterType="int">
+    select * from cinema where aid=#{aid}
+  </select>
+
 </mapper>

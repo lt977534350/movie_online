@@ -82,4 +82,23 @@ public class MovieAPI {
         return new Result("success",null,MoviesMap,null);
     }
 
+    /**
+     * 查询所有的电影信息
+     * @return
+     * @throws Exception
+     */
+    @GetMapping
+    @RequestMapping("/all")
+    public Result selectAllMovies()throws Exception{
+        List<Movie> movies = movieService.selectAllMovies();
+        return new Result("success",null,null,movies);
+    }
+
+    @GetMapping
+    @RequestMapping("/byid")
+    public Result selectByPPimarykey(Integer mid)throws Exception{
+        Movie movie=movieService.selectByPrimarykey(mid);
+        return new Result("success",null,movie,null);
+    }
+
 }

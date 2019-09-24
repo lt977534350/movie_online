@@ -2,6 +2,8 @@ package com.woniu.mapper;
 
 import com.woniu.entity.MovieShowtime;
 
+import java.util.List;
+
 public interface MovieShowtimeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface MovieShowtimeMapper {
     int updateByPrimaryKeySelective(MovieShowtime record);
 
     int updateByPrimaryKey(MovieShowtime record);
+
+    List<MovieShowtime> selectByCidAndMid(Integer cid,Integer mid);
 }

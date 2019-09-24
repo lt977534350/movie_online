@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 @Service
 public class CinemaServiceImpl implements CinemaService {
+
     @Resource
     private CinemaMapper cinemaMapper;
     @Resource
@@ -96,5 +97,10 @@ public class CinemaServiceImpl implements CinemaService {
         }
         list.add("状态正常");
         return list;
+    }
+
+    @Override
+    public List<Cinema> selectAllByAid(Integer aid) throws Exception {
+        return cinemaMapper.selectAllByAid(aid);
     }
 }

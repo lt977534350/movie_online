@@ -92,4 +92,10 @@
       `type` = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllByCid" resultMap="BaseResultMap" parameterType="int">
+    select * from cinema_room where cid=#{cid}
+  </select>
+
+
 </mapper>

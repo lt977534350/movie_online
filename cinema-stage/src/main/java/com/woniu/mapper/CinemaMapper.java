@@ -29,4 +29,5 @@ public interface CinemaMapper {
 
     Date getOverTime(Integer aid);
 
+    List<Cinema> selectAllByAid(Integer aid);
 }

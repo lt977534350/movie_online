@@ -2,6 +2,8 @@ package com.woniu.mapper;
 
 import com.woniu.entity.CinemaRoom;
 
+import java.util.List;
+
 public interface CinemaRoomMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,5 @@ public interface CinemaRoomMapper {
     int updateByPrimaryKeySelective(CinemaRoom record);
 
     int updateByPrimaryKey(CinemaRoom record);
+
 }

@@ -103,4 +103,32 @@
       money = #{money,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+  <resultMap id="myMap" type="com.woniu.entity.MovieShowtime">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="playtime" jdbcType="TIMESTAMP" property="playtime" />
+    <result column="room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <association property="cinemaRoom" javaType="com.woniu.entity.CinemaRoom">
+      <id property="id" column="rid"></id>
+      <result property="coordinate" column="coordinate"></result>
+      <result property="type" column="type"></result>
+      <result property="name" column="name"></result>
+      <result property="cid" column="cid"></result>
+    </association>
+  </resultMap>
+
+
+  <select id="selectByCidAndMid" resultMap="myMap">
+
+  select ms.*,cr.id rid,coordinate,cr.name,cr.type from movie_showtime ms
+  left join cinema_room cr
+  on ms.room_id=cr.id
+  where ms.cid=#{param1} and ms.mid=#{param2}
+  </select>
+
 </mapper>

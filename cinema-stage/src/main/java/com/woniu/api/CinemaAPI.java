@@ -36,7 +36,6 @@ public class CinemaAPI {
     @GetMapping("bycid")
     public Result selectCinema(Integer cid){
         Cinema cinema = cinemaService.selectById(cid);
-        System.out.println(cinema);
         return new Result("success",null,cinema,null);
     }
     @PostMapping("insert")
@@ -93,5 +92,20 @@ public class CinemaAPI {
         List<Cinema> cinemas = cinemaService.selectByCity(ctid, pageIndex, num);
         return new Result("success",null,null,cinemas);
     }
+
+
+    /**
+     * 根据aid查询所有的影院
+     * @return
+     * @throws Exception
+     */
+    @GetMapping
+    @RequestMapping("/all")
+    public Result selectAllCinemaByAid(Integer aid)throws Exception{
+        List<Cinema> cinemas = cinemaService.selectAllByAid(aid);
+        return new Result("success",null,null,cinemas);
+    }
+
+
 
 }

@@ -22,4 +22,6 @@ public interface CinemaService {
     public List<Cinema> selectByCity(Integer ctid, Integer pageIndex, Integer num);
     //获取到该影厅上级影院套餐到期时间
     public List<String> getTime(Integer aid);
+
+    List<Cinema> selectAllByAid(Integer aid) throws Exception;
 }
