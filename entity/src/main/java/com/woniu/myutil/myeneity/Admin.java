@@ -1,8 +1,9 @@
 package com.woniu.myutil.myeneity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Admin {
+public class Admin implements Serializable {
     /**
      * 管理员id
      */

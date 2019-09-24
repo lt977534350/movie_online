@@ -1,5 +1,5 @@
-package com.woniu.entity;
-import com.woniu.entity.Type;
+package com.woniu.myutil.myeneity;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;

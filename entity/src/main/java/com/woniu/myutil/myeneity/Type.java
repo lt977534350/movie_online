@@ -1,4 +1,4 @@
-package com.woniu.entity;
+package com.woniu.myutil.myeneity;
 
 public class Type {
     private Integer id;
