@@ -30,6 +30,7 @@ public class MovieShowtimeAPI {
     public Result insertShowtime(MovieShowtime movieShowtime)throws Exception{
         System.out.println("请求进来了");
         System.out.println(movieShowtime);
+        movieShowtimeService.insertOneData(movieShowtime);
         return new Result("success",null,null,null);
     }
 

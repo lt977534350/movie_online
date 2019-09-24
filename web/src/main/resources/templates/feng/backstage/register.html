@@ -53,9 +53,10 @@
                 <div class="content">
                   <form id="registform" class="form-validate">
                     <div class="form-group">
-                      <input id="register-cinemaname" type="text" name="cinemaName" required data-msg="Please enter your cinemaname" class="input-material">
+                      <input id="register-cinemaname" type="text" name="name" required data-msg="Please enter your cinemaname" class="input-material">
                       <label for="register-cinemaname" class="label-material"><span>*</span>影城名字：<span>（必填）</span></label>
                     </div>
+                    <label for="register-cinemaname" id="register-cinemaname-error" class="error" style="display: none;color: red;"></label>
                     <div class="form-group">
                       <input id="register-username" type="text" name="username" required data-msg="Please enter your username" class="input-material">
                       <label for="register-username" class="label-material"><span>*</span>用户名：</label>
@@ -81,12 +82,13 @@
                       <input id="register-getcode" type="button" name="getcode" value="获取验证码" class="btn btn-default" style="width: 45%;">
                     </div>
                     <label for="register-code" id="register-code-error" class="error" style="display: none;color: red;"></label>
+                    <span id="register-error" class="error" style="color: red;"></span>
                     <div class="form-group terms-conditions">
                       <input id="register-agree" name="registerAgree" type="checkbox" required value="1" data-msg="Your agreement is required" class="checkbox-template">
                       <label for="register-agree">请同意隐私条例</label>
                     </div>
                     <div class="form-group" style="text-align: right">
-                      <button id="regidter" type="submit" name="registerSubmit" class="btn btn-primary">确认注册</button>
+                      <button id="regidterbtn" type="button" name="registerSubmit" class="btn btn-primary">确认注册</button>
                     </div>
                   </form><small>已经有账户了? &nbsp;&nbsp;&nbsp;&nbsp;前往</small><a href="login.html" class="signup">登录</a>
                 </div>
@@ -106,61 +108,93 @@
     <!-- Main File-->
     <script src="/web/backstage/js/front.js"></script>
     <script type="text/javascript">
-			$( "#registform" ).validate({
-				  rules: {
-                    username:{
-                      notblank:true,
-                      userrule:true,
-                      rangelength:[6,18]
-                    },
-                    password:{
-                      notblank:true,
-                      rangelength:[6,24]
-                    },
-				    passwordagain: {
-				      equalTo: "#register-password"
-				    },
-                    telphone:{
-                      minlength:11,
-                      maxlength:11,
-                      isMobile: true
-                    }
-				  },
-				  messages:{
-				    username:{
-                      userrule:"请正确填写用户名，长度在6-18位之间，必须含有数字和大小写字母中至少两种且不包含空格",
-                      notblank:"用户名长度在6-18位之间,且不允许包含空格",
-                      rangelength:"用户名长度在6-18位之间"
-                    },
-                    password:{
-                      notblank:"密码长度在6-24位之间,且不允许包含空格",
-                      rangelength:"密码长度在6-24位之间"
-                    },
-                    passwordagain: {
-                      equalTo: "两次密码输入不一致,请重新输入"
-                    },
-                    telphone:{
-                      minlength:"请正确填写11位手机号码",
-                      maxlength:"请正确填写11位手机号码"
-                    }
-				  },
-			});
-			//校验手机号码格式
-            jQuery.validator.addMethod("isMobile", function(value, element) {
-              var length = value.length;
-              var mobile = /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(16[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
-              return this.optional(element) || (length == 11 && mobile.test(value));
-            }, "请正确填写手机号码");
-            //校验是否含有空格
-            jQuery.validator.addMethod("notblank", function(value, element) {
-              var pwdblank = /^\S*$/;
-              return this.optional(element) ||(pwdblank.test(value));
-            }, "密码不可包含空格");
-            //用户名必须需包含数字和大小写字母中至少两种
-            jQuery.validator.addMethod("userrule", function(value, element) {
-              var userblank = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)[0-9A-Za-z]{5,10}$/;
-              return this.optional(element) ||(userblank.test(value));
-            }, "需包含数字和大小写字母中至少两种字符的5-10位字符");
+    $( "#registform" ).validate({
+          rules: {
+            username:{
+              notblank:true,
+              userrule:true,
+              rangelength:[4,18]
+            },
+            password:{
+              notblank:true,
+              rangelength:[6,24]
+            },
+            passwordagain: {
+              equalTo: "#register-password"
+            },
+            telphone:{
+              minlength:11,
+              maxlength:11,
+              isMobile: true
+            }
+          },
+          messages:{
+            username:{
+              userrule:"请正确填写用户名，长度在4-18位之间，必须含有数字和大小写字母中至少两种且不包含空格",
+              notblank:"用户名长度在4-18位之间,且不允许包含空格",
+              rangelength:"用户名长度在4-18位之间"
+            },
+            password:{
+              notblank:"密码长度在6-24位之间,且不允许包含空格",
+              rangelength:"密码长度在6-24位之间"
+            },
+            passwordagain: {
+              equalTo: "两次密码输入不一致,请重新输入"
+            },
+            telphone:{
+              minlength:"请正确填写11位手机号码",
+              maxlength:"请正确填写11位手机号码"
+            }
+          },
+    });
+    //校验手机号码格式
+    jQuery.validator.addMethod("isMobile", function(value, element) {
+      var length = value.length;
+      var mobile = /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(16[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+      return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请正确填写手机号码");
+    //校验是否含有空格
+    jQuery.validator.addMethod("notblank", function(value, element) {
+      var pwdblank = /^\S*$/;
+      return this.optional(element) ||(pwdblank.test(value));
+    }, "密码不可包含空格");
+    //用户名必须需包含数字和大小写字母中至少两种
+    jQuery.validator.addMethod("userrule", function(value, element) {
+      var userblank = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)[0-9A-Za-z]{4,18}$/;
+      return this.optional(element) ||(userblank.test(value));
+    }, "需包含数字和大小写字母中至少两种字符的4-18位字符");
+    //发送验证码
+    $("#register-getcode").click(function () {
+      if($("#register-telphone").valid()){
+        var num = $("#register-telphone").val();
+        $.ajax({
+          url: "/cinema-stage/admin/sendCode",
+          data: {"phone": num},
+          dataType: "json",
+          type: "get",
+          success: function (rt) {
+            alert("验证码发送成功");
+          }
+        });
+      }
+    });
+    $("#regidterbtn").click(function () {
+      if($("#registform").valid()){
+        $.ajax({
+          url: "/cinema-stage/admin/register",
+          data: $("#registform").serialize(),
+          dataType: "json",
+          type: "get",
+          success: function (data) {
+            if(data.code == "success"){
+              window.location.href="/web/feng/backstage/login.html"
+            }else{
+              $("#register-error").text(data.message);
+            }
+          }
+        });
+      }
+    })
     </script>
   </body>
 </html>

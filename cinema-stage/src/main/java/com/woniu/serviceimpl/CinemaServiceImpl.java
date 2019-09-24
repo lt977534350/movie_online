@@ -38,7 +38,6 @@ public class CinemaServiceImpl implements CinemaService {
 //    @Cacheable
     public Cinema selectById(Integer cid) {
         Cinema cinema = cinemaMapper.selectByPrimaryKey(cid);
-        System.out.println(cinema);
         return cinema;
     }
 

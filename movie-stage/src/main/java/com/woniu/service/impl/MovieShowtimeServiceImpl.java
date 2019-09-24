@@ -16,4 +16,9 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
     public List<MovieShowtime> selectByCidAndMid(Integer cid,Integer mid) throws Exception {
         return movieShowtimeMapper.selectByCidAndMid(cid,mid);
     }
+
+    @Override
+    public void insertOneData(MovieShowtime movieShowtime) {
+        movieShowtimeMapper.insertSelective(movieShowtime);
+    }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MovieShowtimeService {
     List<MovieShowtime> selectByCidAndMid(Integer cid,Integer mid)throws Exception;
+    void insertOneData(MovieShowtime movieShowtime);
 }

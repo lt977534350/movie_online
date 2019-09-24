@@ -26,7 +26,6 @@ public class CinemaAPI {
         }
         Integer num = 4;
         List<Cinema> cinemas = cinemaService.selectByAid(pageIndex,num,aid);
-        System.out.println(cinemas);
         Integer count = cinemaService.count();
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);
         List<String> msgs = cinemaService.getTime(aid);
@@ -36,7 +35,7 @@ public class CinemaAPI {
     @GetMapping("bycid")
     public Result selectCinema(Integer cid){
         Cinema cinema = cinemaService.selectById(cid);
-        System.out.println(cinema);
+        System.out.println(cid);
         return new Result("success",null,cinema,null);
     }
     @PostMapping("insert")

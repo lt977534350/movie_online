@@ -195,7 +195,7 @@
 
 
     	$(function () {
-			new Vue({
+			var app=new Vue({
 				el:"#app",
 				data:{
 					cinemaList:[],
@@ -241,7 +241,6 @@
 				methods:{
 
 					selectShowTime:function () {
-						var _this=this;
 						var cid=parseInt($("#playpoint").val());
 						alert(cid)
 						var mid=parseInt($("#filmname").val());
@@ -258,9 +257,8 @@
 							},
 							dataType:"json",
 							success:function (data) {
-								console.log("查当前影院")
-								_this.nowCinema=data.object;
-								console.log(_this.nowCinema)
+								console.log(data)
+								app.nowCinema=data.object;
 							}
 						});
 						//根据cid查询所有得到影厅信息
@@ -272,7 +270,7 @@
 							},
 							dataType:"json",
 							success:function (data) {
-								_this.roomList=data.list;
+								app.roomList=data.list;
 							}
 						});
 
@@ -286,10 +284,9 @@
 							dataType:"json",
 							success:function (data) {
 								//格式胡电影上映时间
-								data.object.uptime=getTime(data.object.uptime).split(" ")[0]
-								_this.nowMovie=data.object;
-								console.log("查当前电影")
-								console.log(_this.nowMovie)
+								var formatTime=getTime(data.object.uptime);
+								data.object.uptime=formatTime.split(" ")[0]
+								app.nowMovie=data.object;
 							}
 						})
 
@@ -311,7 +308,7 @@
 									data.list[i].play1=datetime.split(" ")[0];
 									data.list[i].play2=datetime.split(" ")[1];
 								}
-								_this.movieshow=data.list;
+								app.movieshow=data.list;
 							}
 						})
 
@@ -322,11 +319,10 @@
 
 					//新增排片信息
 					insertShowTime : function () {
-						var _this=this;
 						var formData=new FormData($("#insertForm")[0]);
 						formData.append("playtime",formData.get("insertDate")+" "+formData.get("insertTime")+":00")
-						formData.append("cid",_this.nowCinema.id)
-						formData.append("mid",_this.nowMovie.id)
+						formData.append("cid",app.nowCinema.id)
+						formData.append("mid",app.nowMovie.id)
 						$.ajax({
 							url:"/movie-stage/showtime/insert",
 							type:"post",
@@ -343,8 +339,8 @@
 										url:"/movie-stage/showtime/select",
 										type:"get",
 										data:{
-											"cid":_this.nowCinema.id,
-											"mid":_this.nowMovie.id
+											"cid":app.nowCinema.id,
+											"mid":app.nowMovie.id
 										},
 										dataType:"json",
 										success:function (data) {
@@ -354,7 +350,7 @@
 												data.list[i].play1=datetime.split(" ")[0];
 												data.list[i].play2=datetime.split(" ")[1];
 											}
-											_this.movieshow=data.list;
+											app.movieshow=data.list;
 										}
 									})
 
@@ -393,7 +389,6 @@
 		 */
 		function getTime(second) {
 			var date =new Date(second);
-			console.log(date)
 			var year = date.getFullYear()
 			if((date.getMonth()+1)<=9){
 				var month ="0"+(date.getMonth()+1);

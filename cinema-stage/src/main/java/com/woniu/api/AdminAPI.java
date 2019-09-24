@@ -60,13 +60,13 @@ public class AdminAPI {
         }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
             if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
                 String num = (String) session.getAttribute("admin_phonenum");
-                String mobile_code = (String) session.getAttribute("admin_mobile_code");
+                String mobile_code = session.getAttribute("admin_mobile_code").toString();
                 Admin adminByPhone = cinemaAdminService.selectByPhone(phone_num);
                 if(adminByPhone==null){
                     return new Result("fail","该电话号码不存在！",null,null);
                 }
 
-                if(num.equals(adminByPhone)&&mobile_code.equals(check_code)){
+                if(num.equals(adminByPhone.getPhone())&&mobile_code.equals(check_code)){
                     session.setAttribute("admin",adminByPhone);
                     session.removeAttribute("admin_mobile_code");
                     session.removeAttribute("admin_phonenum");
@@ -83,20 +83,24 @@ public class AdminAPI {
     public Result register(HttpSession session, String username, String password, String telphone, String code, String name) throws Exception {
         //注册信息验证
         String phonenum = (String) session.getAttribute("admin_phonenum");
-        String mobile_code = (String) session.getAttribute("admin_mobile_code");
+        String mobile_code = session.getAttribute("admin_mobile_code").toString();
         if(!phonenum.equals(telphone)||!code.equals(mobile_code)){
             return new Result("fail","验证码错误!",null,null);
         }
         Admin admin = cinemaAdminService.login(username);
-        if(admin!=null){
+        Admin adminByPhone = cinemaAdminService.selectByPhone(phonenum);
+        if(admin != null){
             return new Result("fail","用户名已存在!",null,null);
+        }
+        if(adminByPhone != null){
+            return new Result("fail","该手机已被注册!",null,null);
         }
         Admin newadmin = new Admin();
         newadmin.setUsername(username);
         newadmin.setPassword(password);
         newadmin.setPhone(telphone);
         newadmin.setLevel(Byte.parseByte("2"));
-        if(name!=null&&"".equals(name)){
+        if(name!=null&&!"".equals(name)){
             newadmin.setName(name);
         }
         cinemaAdminService.insert(newadmin);
