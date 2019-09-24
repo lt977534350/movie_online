@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.mapper.MenuMapper">
-  <resultMap id="BaseResultMap" type="com.woniu.entity.Menu">
+  <resultMap id="BaseResultMap" type="com.woniu.myutil.myeneity.Menu">
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -24,14 +24,14 @@
     delete from menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Menu" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Menu" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into menu (`name`, money, period
       )
     values (#{name,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, #{period,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Menu" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Menu" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.entity.Menu">
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.myutil.myeneity.Menu">
     <!--@mbg.generated-->
     update menu
     <set>
@@ -73,7 +73,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.woniu.entity.Menu">
+  <update id="updateByPrimaryKey" parameterType="com.woniu.myutil.myeneity.Menu">
     <!--@mbg.generated-->
     update menu
     set `name` = #{name,jdbcType=VARCHAR},

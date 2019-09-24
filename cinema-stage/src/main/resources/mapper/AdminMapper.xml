@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.woniu.mapper.AdminMapper">
-  <resultMap id="BaseResultMap" type="com.woniu.util.entity.Admin">
+  <resultMap id="BaseResultMap" type="com.woniu.myutil.myeneity.Admin">
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -27,14 +27,14 @@
     delete from admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Admin" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Admin" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into admin (username, phone, `password`, 
       `level`)
     values (#{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{level,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Admin" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Admin" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into admin
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -66,7 +66,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.entity.Admin">
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.myutil.myeneity.Admin">
     <!--@mbg.generated-->
     update admin
     <set>
@@ -85,7 +85,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.woniu.entity.Admin">
+  <update id="updateByPrimaryKey" parameterType="com.woniu.myutil.myeneity.Admin">
     <!--@mbg.generated-->
     update admin
     set username = #{username,jdbcType=VARCHAR},
@@ -94,7 +94,7 @@
       `level` = #{level,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <resultMap id="ResultMap" type="com.woniu.entity.Admin">
+  <resultMap id="ResultMap" type="com.woniu.myutil.myeneity.Admin">
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -104,7 +104,7 @@
     <result column="logo" jdbcType="VARCHAR" property="logo"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
     <result column="overtime" jdbcType="DATE" property="overTime"/>
-    <association property="menu" javaType="com.woniu.entity.Menu">
+    <association property="menu" javaType="com.woniu.myutil.myeneity.Menu">
       <id column="id" jdbcType="INTEGER" property="id"/>
       <result column="name" jdbcType="VARCHAR" property="name"/>
       <result column="money" jdbcType="DOUBLE" property="money"/>

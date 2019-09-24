@@ -1,5 +1,6 @@
 package com.woniu.api;
 
+import com.woniu.myutil.myeneity.Menu;
 import com.woniu.service.MenuService;
 import com.woniu.util.Result;
 import org.springframework.data.redis.core.RedisTemplate;

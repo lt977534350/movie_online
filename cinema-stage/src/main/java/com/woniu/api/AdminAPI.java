@@ -35,7 +35,6 @@ public class AdminAPI {
         List<Admin> admins = cinemaAdminService.selectCinemaAdmins(pageIndex, num);
         Integer count = cinemaAdminService.count();
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);
-        System.out.println(admins);
         return new Result("success",null,page,admins);
     }
     @GetMapping("login")
@@ -58,7 +57,7 @@ public class AdminAPI {
                 session.setAttribute("admin",admin);
                 return new Result("success","登录验证成功！",admin,null);
             }
-        }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||"".equals(check_code))){//手机验证码登录
+        }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
             if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
                 String num = (String) session.getAttribute("admin_phonenum");
                 String mobile_code = (String) session.getAttribute("admin_mobile_code");
