@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.orders.mapper.auto.VipPoMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.orders.entity.VipPo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vname" jdbcType="VARCHAR" property="vname" />
+    <result column="vdiscount" jdbcType="DOUBLE" property="vdiscount" />
+    <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="quota" jdbcType="DOUBLE" property="quota" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, vname, vdiscount, aid, quota
+  </sql>
+  <select id="selectByExample" parameterType="com.woniu.orders.entity.VipPoExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from vip
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from vip
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.woniu.orders.entity.VipPoExample">
+    <!--@mbg.generated-->
+    delete from vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.orders.entity.VipPo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vip (vname, vdiscount, aid, 
+      quota)
+    values (#{vname,jdbcType=VARCHAR}, #{vdiscount,jdbcType=DOUBLE}, #{aid,jdbcType=INTEGER}, 
+      #{quota,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.orders.entity.VipPo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vname != null">
+        vname,
+      </if>
+      <if test="vdiscount != null">
+        vdiscount,
+      </if>
+      <if test="aid != null">
+        aid,
+      </if>
+      <if test="quota != null">
+        quota,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vname != null">
+        #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="vdiscount != null">
+        #{vdiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="aid != null">
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="quota != null">
+        #{quota,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.woniu.orders.entity.VipPoExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from vip
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update vip
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.vname != null">
+        vname = #{record.vname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vdiscount != null">
+        vdiscount = #{record.vdiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.aid != null">
+        aid = #{record.aid,jdbcType=INTEGER},
+      </if>
+      <if test="record.quota != null">
+        quota = #{record.quota,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update vip
+    set id = #{record.id,jdbcType=INTEGER},
+      vname = #{record.vname,jdbcType=VARCHAR},
+      vdiscount = #{record.vdiscount,jdbcType=DOUBLE},
+      aid = #{record.aid,jdbcType=INTEGER},
+      quota = #{record.quota,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.orders.entity.VipPo">
+    <!--@mbg.generated-->
+    update vip
+    <set>
+      <if test="vname != null">
+        vname = #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="vdiscount != null">
+        vdiscount = #{vdiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="aid != null">
+        aid = #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="quota != null">
+        quota = #{quota,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.woniu.orders.entity.VipPo">
+    <!--@mbg.generated-->
+    update vip
+    set vname = #{vname,jdbcType=VARCHAR},
+      vdiscount = #{vdiscount,jdbcType=DOUBLE},
+      aid = #{aid,jdbcType=INTEGER},
+      quota = #{quota,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
