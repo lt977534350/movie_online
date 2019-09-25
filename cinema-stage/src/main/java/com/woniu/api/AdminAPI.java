@@ -27,7 +27,7 @@ public class AdminAPI {
     private CinemaAdminService cinemaAdminService;
     //获取电影院管理员的所有信息
     @GetMapping("all")
-    public Result selectCinemaAdmins(Integer pageIndex){
+    public Result selectCinemaAdmins(Integer pageIndex) throws Exception{
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
@@ -38,7 +38,7 @@ public class AdminAPI {
         return new Result("success",null,page,admins);
     }
     @GetMapping("login")
-    public Result login(HttpSession session, String username, String password, String phone_num, String check_code){
+    public Result login(HttpSession session, String username, String password, String phone_num, String check_code) throws Exception{
         //管理员以账号密码登录
         if(username!=null&&password!=null&&!"".equals(username)&&!"".equals(password)){
             if((phone_num==null||phone_num=="")&&(check_code==null||"".equals(check_code))){
@@ -58,7 +58,7 @@ public class AdminAPI {
                 return new Result("success","登录验证成功！",admin,null);
             }
         }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
-            if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
+            if((username==null||"".equals(username))&&(password==null||"".equals(password))){
                 String num = (String) session.getAttribute("admin_phonenum");
                 String mobile_code = session.getAttribute("admin_mobile_code").toString();
                 Admin adminByPhone = cinemaAdminService.selectByPhone(phone_num);
@@ -169,7 +169,7 @@ public class AdminAPI {
     }
 
     @PutMapping("update")
-    public Result updateAdmin(HttpSession session, Integer aid, String username, String password, String phone){
+    public Result updateAdmin(HttpSession session, Integer aid, String username, String password, String phone) throws Exception{
         System.out.println("-----"+username);
         Admin admin = (Admin) session.getAttribute("admin");
         //没有参数传入
@@ -200,12 +200,46 @@ public class AdminAPI {
      * 从session中获取admin
      */
     @GetMapping("getAdmin")
-    public Result getAdminFromSession(HttpSession session){
+    public Result getAdminFromSession(HttpSession session) throws Exception{
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin==null){
             return new Result("fail","未登录！",null,null);
         }
         System.out.println("请求进入=---"+admin);
         return new Result("success",null,admin,null);
+    }
+    /**
+     * 影院管理员账户更改
+     */
+    @PutMapping("updatecinema")
+    public Result updateCinemaAdmin(HttpSession session, Integer aid, String username, String newpassword, String oldpassword, String phone) throws Exception{
+        String cinemaAdmin = (String) session.getAttribute("cinemaAdmin");
+        //没有参数传入
+        if((username==null||"".equals(username))&&(newpassword==null||"".equals(newpassword))&&(phone==null||"".equals(phone))){
+            return new Result("fail","无更新内容，请检查操作",null,null);
+        }
+        //管理员处于登录状态
+        if(cinemaAdmin!=null){
+            Admin adminByAid = cinemaAdminService.selectByAid(aid);
+            if(!adminByAid.getPassword().equals(oldpassword)){
+                return new Result("fail","旧密码输入不正确",null,null);
+            }
+            Admin updateAdmin = new Admin();
+            updateAdmin.setId(aid);
+            if(username!=null&&!"".equals(username)){
+                updateAdmin.setUsername(username);
+            }
+            if(newpassword!=null&&!"".equals(newpassword)){
+                updateAdmin.setPassword(newpassword);
+            }
+            if(phone!=null&&!"".equals(phone)){
+                updateAdmin.setPhone(phone);
+            }
+            cinemaAdminService.update(updateAdmin);
+            session.removeAttribute("cinemaAdmin");
+            return new Result("success","更新成功！",null,null);
+        }else{
+            return new Result("nopermission","非法操作！未登录！",null,null);
+        }
     }
 }

@@ -23,7 +23,7 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     @Cacheable
-    public List<Cinema> selectByAid(Integer pageIndex, Integer num, Integer aid) {
+    public List<Cinema> selectByAid(Integer pageIndex, Integer num, Integer aid) throws Exception {
         Integer start = (pageIndex-1)*num;
         HashMap<String, Integer> map = new HashMap<>();
         map.put("start",start);
@@ -36,31 +36,31 @@ public class CinemaServiceImpl implements CinemaService {
     }
     @Override
 //    @Cacheable
-    public Cinema selectById(Integer cid) {
+    public Cinema selectById(Integer cid) throws Exception {
         Cinema cinema = cinemaMapper.selectByPrimaryKey(cid);
         return cinema;
     }
 
     @Override
-    public Integer count() {
+    public Integer count() throws Exception {
         Integer count = cinemaMapper.count();
         return count;
     }
 
     @Override
-    public Integer insert(Cinema cinema) {
+    public Integer insert(Cinema cinema) throws Exception {
         cinemaMapper.insert(cinema);
         return null;
     }
 
     @Override
-    public Integer delete(Integer cid) {
+    public Integer delete(Integer cid) throws Exception {
         int row = cinemaMapper.deleteByPrimaryKey(cid);
         return row;
     }
 
     @Override
-    public Integer update(Cinema cinema) {
+    public Integer update(Cinema cinema) throws Exception {
         int row = cinemaMapper.updateByPrimaryKeySelective(cinema);
         return row;
     }
@@ -90,12 +90,12 @@ public class CinemaServiceImpl implements CinemaService {
      * @return
      */
     @Override
-    public int getCountNumByCity(String city) {
+    public int getCountNumByCity(String city) throws Exception {
         return cinemaMapper.getCountNumByCity(city);
     }
 
     @Override
-    public List<String> getTime(Integer aid) {
+    public List<String> getTime(Integer aid) throws Exception {
         Date overTime = cinemaMapper.getOverTime(aid);
         SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
         String mytime = simple.format(overTime);

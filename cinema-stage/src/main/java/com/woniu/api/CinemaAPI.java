@@ -20,7 +20,7 @@ public class CinemaAPI {
     private CinemaService cinemaService;
     @GetMapping
     @RequestMapping("byaid")
-    public Result selectCinemas(Integer pageIndex, Integer aid){
+    public Result selectCinemas(Integer pageIndex, Integer aid) throws Exception{
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
@@ -33,14 +33,14 @@ public class CinemaAPI {
         return new Result(msgs.get(1),msgs.get(0),page,cinemas);
     }
     @GetMapping("bycid")
-    public Result selectCinema(Integer cid){
+    public Result selectCinema(Integer cid) throws Exception{
         Cinema cinema = cinemaService.selectById(cid);
         System.out.println(cid);
         return new Result("success",null,cinema,null);
     }
     @PostMapping("insert")
     public Result insertCinema(MultipartFile file, String c_name, String c_address,
-                               String copy_right, Integer aid, String phone, String city, HttpServletRequest req){
+                               String copy_right, Integer aid, String phone, String city, HttpServletRequest req) throws Exception{
         String path = req.getSession().getServletContext().getRealPath("/");
         String imgPath = path.split("\\\\")[0]+"\\projectImg\\";
         File mk = new File(imgPath);
@@ -71,13 +71,13 @@ public class CinemaAPI {
         return new Result("success",null,null,null);
     }
     @DeleteMapping
-    public Result deleteCinema(Integer cid){
+    public Result deleteCinema(Integer cid) throws Exception{
         Integer row = cinemaService.delete(cid);
         return new Result("success",null,null,null);
     }
     //未完成
     @PutMapping
-    public Result updateCinema(){
+    public Result updateCinema() throws Exception{
         Cinema cinema = new Cinema();
         Integer row = cinemaService.update(cinema);
         return new Result("success",null,null,null);

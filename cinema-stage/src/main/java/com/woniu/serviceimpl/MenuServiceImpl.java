@@ -14,31 +14,31 @@ public class MenuServiceImpl implements MenuService {
     private MenuMapper menuMapper;
     @Override
     @Cacheable
-    public List<Menu> selectMenus() {
+    public List<Menu> selectMenus() throws Exception {
         List<Menu> menus = menuMapper.selectAll();
         return menus;
     }
 
     @Override
-    public Integer deleteById(Integer mid) {
+    public Integer deleteById(Integer mid) throws Exception {
         int row = menuMapper.deleteByPrimaryKey(mid);
         return row;
     }
 
     @Override
-    public Integer insert(Menu menu) {
+    public Integer insert(Menu menu) throws Exception {
         int row = menuMapper.insertSelective(menu);
         return row;
     }
 
     @Override
-    public Integer updateById(Menu menu) {
+    public Integer updateById(Menu menu) throws Exception {
         int row = menuMapper.updateByPrimaryKeySelective(menu);
         return row;
     }
 
     @Override
-    public Menu selectByAid(Integer aid) {
+    public Menu selectByAid(Integer aid) throws Exception {
         Menu menu = menuMapper.selectByAid(aid);
         return menu;
     }

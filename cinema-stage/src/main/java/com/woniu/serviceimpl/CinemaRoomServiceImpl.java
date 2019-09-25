@@ -18,7 +18,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     }
 
     @Override
-    public List<CinemaRoom> selectAllByCid(Integer cid) {
+    public List<CinemaRoom> selectAllByCid(Integer cid) throws Exception {
         return cinemaRoomMapper.selectAllByCid(cid);
     }
 }
