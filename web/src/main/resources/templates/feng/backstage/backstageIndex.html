@@ -77,9 +77,6 @@
 						<li onclick="changetofilms(this)">
 							<a>影片设置 </a>
 						</li>
-						<li onclick="changetocharts(this)">
-							<a>图表 </a>
-						</li>
 						<li id="ullist">
 							<a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">其他功能 </a>
 							<ul id="exampledropdownDropdown" class="collapse list-unstyled ">
@@ -135,13 +132,6 @@
 				$("#ullist ul li").removeClass("active");
 			};
 			
-			function changetocharts(obj) {
-				$("#changehtml").attr("src", "/web/feng/backstage/charts.html");
-				$(obj).addClass("active");
-				$(obj).siblings().removeClass("active");
-				$("#ullist ul li").removeClass("active");
-			};
-
 			function changetoform(obj) {
 				$("#changehtml").attr("src", "/web/feng/backstage/forms.html");
 				$(obj).addClass("active");

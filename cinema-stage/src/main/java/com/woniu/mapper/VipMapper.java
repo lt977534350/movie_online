@@ -18,4 +18,5 @@ public interface VipMapper {
     int updateByPrimaryKey(Vip record);
 
     List<Vip> selectVipByAid(Integer aid);
+
 }

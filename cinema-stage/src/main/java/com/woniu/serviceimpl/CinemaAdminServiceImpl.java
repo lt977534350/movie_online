@@ -76,4 +76,10 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     public void updateVip(Vip vip) throws Exception {
         vipMapper.updateByPrimaryKeySelective(vip);
     }
+
+    @Override
+    public void insertVipByAid(Vip vip) {
+        vipMapper.insertSelective(vip);
+    }
+
 }

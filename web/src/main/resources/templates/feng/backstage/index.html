@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
     <link rel="stylesheet" href="/web/backstage/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/web/backstage/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/web/backstage/css/fontastic.css">
-		<link rel="stylesheet" href="/web/backstage/https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-		<link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
-		<link rel="stylesheet" href="/web/backstage/css/custom.css">
-		<link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
+    <link rel="stylesheet" href="/web/backstage/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/backstage/css/fontastic.css">
+    <link rel="stylesheet" href="/web/backstage/https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="/web/backstage/css/custom.css">
+    <link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
     <style type="text/css">
     	.rightarea{
           right: 0px;
@@ -23,7 +23,7 @@
   </head>
   <body>
     <div class="page">
-        <div class="content-inner">
+        <div class="content-inner" id="app">
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
@@ -52,178 +52,72 @@
                     <div class="icon bg-green"></div>
                     <div class="text">
                       <strong>套餐到期时间：<br>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>2019-06-17</small>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small v-text="overTime">2019-06-17</small>
                       </strong><br><br>
-                      <a class="rightarea" href="/web/backstage/"><span >前往续费</span></a></div>
+                      <a class="rightarea" href="javascript;:" data-toggle="modal" data-target="#renewModal"><span >前往续费</span></a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="renewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+              <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 id="exampleModalLabel" class="modal-title">影院套餐购买	</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>平台套餐信息</p>
+                    <form id="meal">
+                      <input name="aid" type="hidden" value="1">
+                      <div class="form-group">
+                        <label>套餐等级:</label>
+                        <select name="name" id="meallevel" class="form-control">
+                          <option value="0" selected="selected" disabled="disabled">请选择套餐等级</option>
+                          <option value="1">A套餐</option>
+                          <option value="2">B套餐</option>
+                          <option value="3">C套餐</option>
+                        </select>
+                      </div>
+                      <label for="meallevel" id="meallevel-error" class="error" style="display: none;color: red;"></label>
+                      <div class="form-group">
+                        <label>套餐价格:</label>
+                        <input name="money" type="text" class="form-control" value="10000">
+                      </div>
+                      <div class="form-group">
+                        <label>套餐时限:</label>
+                        <input name="period" type="text" value="1" class="form-control">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="closetobuy" type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                    <button id="buy" type="button" class="btn btn-primary">保存修改</button>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-          <!-- Projects Section-->
-          <section class="projects no-padding-top">
-            <div class="container-fluid">
-              <!-- Project-->
-              <div class="project">
-                <div class="row bg-white has-shadow">
-                  <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-                    <div class="project-title d-flex align-items-center">
-                      <div class="image has-shadow"><img src="/web/backstage//web/backstage/img/project-1.jpg" alt="..." class="img-fluid"></div>
-                      <div class="text">
-                        <h3 class="h4">Project Title</h3><small>Lorem Ipsum Dolor</small>
-                      </div>
-                    </div>
-                    <div class="project-date"><span class="hidden-sm-down">Today at 4:24 AM</span></div>
-                  </div>
-                  <div class="right-col col-lg-6 d-flex align-items-center">
-                    <div class="time"><i class="fa fa-clock-o"></i>12:00 PM </div>
-                    <div class="comments"><i class="fa fa-comment-o"></i>20</div>
-                    <div class="project-progress">
-                      <div class="progress">
-                        <div role="progressbar" style="width: 45%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-red"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Project-->
-              <div class="project">
-                <div class="row bg-white has-shadow">
-                  <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-                    <div class="project-title d-flex align-items-center">
-                      <div class="image has-shadow"><img src="/web/backstage//web/backstage/img/project-2.jpg" alt="..." class="img-fluid"></div>
-                      <div class="text">
-                        <h3 class="h4">Project Title</h3><small>Lorem Ipsum Dolor</small>
-                      </div>
-                    </div>
-                    <div class="project-date"><span class="hidden-sm-down">Today at 4:24 AM</span></div>
-                  </div>
-                  <div class="right-col col-lg-6 d-flex align-items-center">
-                    <div class="time"><i class="fa fa-clock-o"></i>12:00 PM </div>
-                    <div class="comments"><i class="fa fa-comment-o"></i>20</div>
-                    <div class="project-progress">
-                      <div class="progress">
-                        <div role="progressbar" style="width: 60%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Project-->
-              <div class="project">
-                <div class="row bg-white has-shadow">
-                  <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-                    <div class="project-title d-flex align-items-center">
-                      <div class="image has-shadow"><img src="/web/backstage//web/backstage/img/project-3.jpg" alt="..." class="img-fluid"></div>
-                      <div class="text">
-                        <h3 class="h4">Project Title</h3><small>Lorem Ipsum Dolor</small>
-                      </div>
-                    </div>
-                    <div class="project-date"><span class="hidden-sm-down">Today at 4:24 AM</span></div>
-                  </div>
-                  <div class="right-col col-lg-6 d-flex align-items-center">
-                    <div class="time"><i class="fa fa-clock-o"></i>12:00 PM </div>
-                    <div class="comments"><i class="fa fa-comment-o"></i>20</div>
-                    <div class="project-progress">
-                      <div class="progress">
-                        <div role="progressbar" style="width: 50%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Project-->
-              <div class="project">
-                <div class="row bg-white has-shadow">
-                  <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-                    <div class="project-title d-flex align-items-center">
-                      <div class="image has-shadow"><img src="/web/backstage//web/backstage/img/project-4.jpg" alt="..." class="img-fluid"></div>
-                      <div class="text">
-                        <h3 class="h4">Project Title</h3><small>Lorem Ipsum Dolor</small>
-                      </div>
-                    </div>
-                    <div class="project-date"><span class="hidden-sm-down">Today at 4:24 AM</span></div>
-                  </div>
-                  <div class="right-col col-lg-6 d-flex align-items-center">
-                    <div class="time"><i class="fa fa-clock-o"></i>12:00 PM </div>
-                    <div class="comments"><i class="fa fa-comment-o"></i>20</div>
-                    <div class="project-progress">
-                      <div class="progress">
-                        <div role="progressbar" style="width: 50%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-orange"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- Client Section-->
           <section class="client no-padding-top">
             <div class="container-fluid">
               <div class="row">
-                <!-- Work Amount  -->
-                <div class="col-lg-4">
-                  <div class="work-amount card">
+                <div class="col-lg-11">
+                  <div class="line-chart-example card">
                     <div class="card-close">
                       <div class="dropdown">
                         <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
                         <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="/web/backstage/#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="/web/backstage/#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
                       </div>
                     </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">营业额统计</h3>
+                    </div>
                     <div class="card-body">
-                      <h3>Work Hours</h3><small>Lorem ipsum dolor sit amet.</small>
-                      <div class="chart text-center">
-                        <div class="text"><strong>90</strong><br><span>Hours</span></div>
-                        <canvas id="pieChart"></canvas>
-                      </div>
-                    </div>
-                  </div>
-                </div><div class="tlinks">Collect from <a href="/web/backstage/http://www.cssmoban.com/"  title="网站模板">网站模板</a></div>
-                <!-- Client Profile -->
-                <div class="col-lg-4">
-                  <div class="client card">
-                    <div class="card-close">
-                      <div class="dropdown">
-                        <button type="button" id="closeCard2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                        <div aria-labelledby="closeCard2" class="dropdown-menu dropdown-menu-right has-shadow"><a href="/web/backstage/#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="/web/backstage/#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
-                      </div>
-                    </div>
-                    <div class="card-body text-center">
-                      <div class="client-avatar"><img src="/web/backstage//web/backstage/img/avatar-2.jpg" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                      <div class="client-title">
-                        <h3>Jason Doe</h3><span>Web Developer</span><a href="/web/backstage/#">Follow</a>
-                      </div>
-                      <div class="client-info">
-                        <div class="row">
-                          <div class="col-4"><strong>20</strong><br><small>Photos</small></div>
-                          <div class="col-4"><strong>54</strong><br><small>Videos</small></div>
-                          <div class="col-4"><strong>235</strong><br><small>Tasks</small></div>
-                        </div>
-                      </div>
-                      <div class="client-social d-flex justify-content-between"><a href="/web/backstage/#" target="_blank"><i class="fa fa-facebook"></i></a><a href="/web/backstage/#" target="_blank"><i class="fa fa-twitter"></i></a><a href="/web/backstage/#" target="_blank"><i class="fa fa-google-plus"></i></a><a href="/web/backstage/#" target="_blank"><i class="fa fa-instagram"></i></a><a href="/web/backstage/#" target="_blank"><i class="fa fa-linkedin"></i></a></div>
+                      <canvas id="lineChartExample"></canvas>
                     </div>
                   </div>
                 </div>
-                <!-- Total Overdue             -->
-                <div class="col-lg-4">
-                  <div class="overdue card">
-                    <div class="card-close">
-                      <div class="dropdown">
-                        <button type="button" id="closeCard3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                        <div aria-labelledby="closeCard3" class="dropdown-menu dropdown-menu-right has-shadow"><a href="/web/backstage/#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="/web/backstage/#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <h3>Total Overdue</h3><small>Lorem ipsum dolor sit amet.</small>
-                      <div class="number text-center">$20,000</div>
-                      <div class="chart">
-                        <canvas id="lineChart1">                               </canvas>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </section>
@@ -238,7 +132,178 @@
     <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
     <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="/web/backstage/js/charts-home.js"></script>
+    <script src="/web/js/vue.js"></script>
     <!-- Main File-->
     <script src="/web/backstage/js/front.js"></script>
+    <script type="text/javascript">
+      var app = new Vue({
+        el:"#app",
+        data:{
+          cadmin:{},
+          overTime:""
+        },
+        created:function () {
+          var v = this;
+          $.ajax({
+            url:"/cinema-stage/admin/cadmin",
+            dataType:"json",
+            type:"get",
+            success:function (rt) {
+              v.cadmin = rt.object;
+              v.overTime = v.cadmin.overTime;
+              v.overTime=getTime(v.overTime);
+              console.log(v.overTime);
+            }
+          });
+
+        }
+      });
+      function getTime(second) {
+        var date =new Date(second);
+        var year = date.getFullYear()
+        if((date.getMonth()+1)<=9){
+          var month ="0"+(date.getMonth()+1);
+        }else {
+          var month =date.getMonth()+1;
+        }
+        if(date.getDate()<=9){
+          var day =  "0"+date.getDate();
+        }else {
+          var day =   date.getDate();
+        }
+        if(date.getHours()<=9){
+          var hour =  "0"+date.getHours();
+        }else {
+          var hour =  date.getHours();
+        }
+        if(date.getMinutes()<=9){
+          var minutes =  "0"+date.getMinutes();
+        }else {
+          var minutes =  date.getMinutes();
+        }
+        if(date.getSeconds ()<=9){
+          var seconds = "0" + date.getSeconds ();
+        }else{
+          var seconds =  date.getSeconds ();
+        }
+        return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
+      }
+
+
+
+
+
+      $("#meallevel").change(function () {
+        if($("#meallevel").val() >=1 ){
+          $("#meallevel-error").css("display","none");
+        }
+      })
+      $("#buy").click(function () {
+        if($("#meallevel").val() == null||$("#meallevel").val() < 1){
+          $("#meallevel-error").css("display","block");
+          $("#meallevel-error").text("请选择套餐等级");
+        }
+        if($("#meallevel").val() >=1 ){
+          $("#meallevel-error").css("display","none");
+          $.ajax({
+            url:"/web/.....",
+            data:$("#meal").serialize(),
+            type:"post",
+            dataType:"json",
+            success:{
+
+            }
+          });
+        }
+      });
+
+      //销售额统计图：
+      $(function () {
+        'use strict';
+        var ctx1 = $("canvas").get(0).getContext("2d");
+        var gradient1 = ctx1.createLinearGradient(150, 0, 150, 300);
+        gradient1.addColorStop(0, 'rgba(133, 180, 242, 0.91)');
+        gradient1.addColorStop(1, 'rgba(255, 119, 119, 0.94)');
+        var gradient2 = ctx1.createLinearGradient(146.000, 0.000, 154.000, 300.000);
+        gradient2.addColorStop(0, 'rgba(104, 179, 112, 0.85)');
+        gradient2.addColorStop(1, 'rgba(76, 162, 205, 0.85)');
+        var LINECHARTEXMPLE   = $('#lineChartExample');
+        var lineChartExample = new Chart(LINECHARTEXMPLE, {
+          type: 'line',
+          options: {
+            legend: {labels:{fontColor:"#777", fontSize: 12}},
+            scales: {
+              xAxes: [{
+                display: true,
+                gridLines: {
+                  color: '#eee'
+                }
+              }],
+              yAxes: [{
+                display: true,
+                gridLines: {
+                  color: '#eee'
+                }
+              }]
+            },
+          },
+          data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+            datasets: [
+              {
+                label: "Data Set One",
+                fill: true,
+                lineTension: 0.3,
+                backgroundColor: gradient1,
+                borderColor: gradient1,
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                borderWidth: 1,
+                pointBorderColor: gradient1,
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: gradient1,
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [30, 50, 40, 161, 42, 35, 40,55,90,150,37,66],
+                spanGaps: false
+              },
+              {
+                label: "Data Set Two",
+                fill: true,
+                lineTension: 0.3,
+                backgroundColor: gradient2,
+                borderColor: gradient2,
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                borderWidth: 1,
+                pointBorderColor: gradient2,
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: gradient2,
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [50, 40, 50, 40, 45, 100, 30, 61, 40, 55, 90, 150],
+                spanGaps: false
+              }
+            ]
+          }
+        });
+      })
+
+
+
+    </script>
+
   </body>
 </html>

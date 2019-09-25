@@ -25,4 +25,6 @@ public interface CinemaAdminService {
     public List<Vip> selectVipByAid(Integer aid) throws Exception;
     //根据vip的id更改vip配置
     public void updateVip(Vip vip) throws Exception;
+    //新增vip设置
+    void insertVipByAid(Vip vip);
 }

@@ -5,10 +5,7 @@ import com.woniu.myutil.myeneity.Vip;
 import com.woniu.service.CinemaAdminService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.woniu.myutil.myeneity.Admin;
 
 import javax.annotation.Resource;
@@ -263,6 +260,7 @@ public class AdminAPI {
     }
     @PutMapping("updatevip")
     public Result updateVipByLevel(Integer level, Integer aid, Integer vid, Double discount, Double quote) throws Exception{
+        List<Vip> vips = cinemaAdminService.selectVipByAid(aid);
         String vname = null;
         if(level==1){
             vname = "novip";
@@ -271,14 +269,49 @@ public class AdminAPI {
         }else if(level==3){
             vname = "svip";
         }else{
-            return new Result("fail","非法的vip等级",null,null);
+            return new Result("fail","非法的vip等级",null,vips);
         }
         Vip vip = new Vip();
-        vip.setId(vid);
-        vip.setVdiscount(discount);
-        vip.setQuota(quote);
-        cinemaAdminService.updateVip(vip);
+        for (int i = 0; i < vips.size(); i++) {
+            if(aid==vips.get(i).getAid()){
+                vip.setId(vid);
+                vip.setVdiscount(discount);
+                vip.setQuota(quote);
+                cinemaAdminService.updateVip(vip);
+                List<Vip> newvips = cinemaAdminService.selectVipByAid(aid);
+                return new Result("success","更新成功",null,newvips);
+            }
+        }
+        return new Result("fail","当前vip等级不存在，请新增后修改",null,vips);
+    }
+    @PostMapping("addvip")
+    public Result insertVipByAid(Integer level, Integer aid, Double discount, Double quota)throws Exception{
         List<Vip> vips = cinemaAdminService.selectVipByAid(aid);
-        return new Result("success","更新成功",null,vips);
+        if(!(vips.size()<3)){
+            return new Result("fail","最多设置三种vip等级",null,vips);
+        }
+        String vname = null;
+        Vip vip = new Vip();
+        if(level==1){
+            vname = "novip";
+        }else if (level==2){
+            vname = "vip";
+        }else if(level==3){
+            vname = "svip";
+        }else{
+            return new Result("fail","非法的vip等级",null,vips);
+        }
+        for (int i = 0; i < vips.size(); i++) {
+            if(vname.equals(vips.get(i).getVname())){
+                return new Result("fail","当前vip等级已存在，请不要重复添加",null,vips);
+            }
+        }
+        vip.setVdiscount(discount);
+        vip.setVname(vname);
+        vip.setQuota(quota);
+        vip.setAid(aid);
+        cinemaAdminService.insertVipByAid(vip);
+        List<Vip> newvips = cinemaAdminService.selectVipByAid(aid);
+        return new Result("success","新增完成",null,newvips);
     }
 }

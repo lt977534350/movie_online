@@ -103,6 +103,7 @@
                     <div id="baseinfo" class="card-body">
                       <h5>影院管理员基本系信息管理</h5>
                       <form>
+                        <input type="hidden" id="aid" v-model="cadmin.id">
                         <div  class="form-group" style="display: block;">
                           <label class="form-control-label">用户名：<span style="color: #F20000;font-size: 0.3em;">*不可更改</span></label>
                           <input type="text" disabled ="disabled" placeholder="Username" class="form-control" v-model="cadmin.username">
@@ -147,8 +148,9 @@
                           <label class="form-control-label">确认密码：</label>
                           <input type="password" name="passwordagain" placeholder="Password" class="form-control">
                         </div>
-                        <div class="form-group">       
+                        <div class="form-group" style="text-align: right">
                           <input type="submit" value="保存" class="btn btn-primary">
+                          <input id="closeInfo" type="button" value="返回" class="btn btn-dark">
                         </div>
                       </form>
                     </div>
@@ -170,8 +172,44 @@
                       <h3 class="h4">修改VIP套餐</h3>
                     </div>
                     <div class="card-body text-center">
-                      <button type="button" class="btn btn-primary">查看当前已有VIP</button>
-                      <!-- Modal-->
+                      <input type="button" id="showvipsbtn" class="btn btn-primary" value="查看当前已有VIP"/>
+                      <div id="vipstable" style="display: none">
+                        <div class="card-header d-flex align-items-center">
+                          <h3 class="h4">当前已有VIP</h3>
+                          <input type="hidden" id="vsize" :value="vipsize">
+                        </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-striped">
+                              <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>VIP等级</th>
+                                <th>额度需求</th>
+                                <th>折扣度</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for="(vip,index) in vips">
+                                <th scope="row" v-text="index+1"></th>
+                                <td v-text="vip.vname"></td>
+                                <td v-text="vip.quota"></td>
+                                <td v-text="vip.vdiscount"></td>
+                              </tr>
+                              </tbody>
+                              <tfoot>
+                              <label for="addvipbtn" id="addvipbtn-error" class="error" style="display: none;color: red;"></label>
+                              <tr>
+                                <th colspan="2"><input id="addvipbtn" type="button" class="btn btn-info" data-toggle="modal" data-target="#addvipModal" value="新增VIP等级"></th>
+                                <th colspan="2"><input id="hidevipsbtn" type="button" class="btn btn-dark" value="隐藏"></th>
+                              </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 修改vip的Modal-->
                       <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
                         <div role="document" class="modal-dialog">
                           <div class="modal-content">
@@ -184,25 +222,58 @@
                               <form id="form">
                                 <div class="form-group">
                                   <label>VIP等级</label>
-                                  <input type="number" max="3" min="1" placeholder="选择套餐等级" class="form-control">
+                                  <input type="number" id="level" name="level" max="3" min="1" placeholder="选择套餐等级" class="form-control">
                                 </div>
+                                <label for="level" id="level-error" class="error" style="display: none;color: red;"></label>
                                 <div class="form-group">       
                                   <label>消费需求</label>
-                                  <input type="text" placeholder="最低消费额度" class="form-control">
+                                  <input type="text" name="quote" placeholder="最低消费额度" class="form-control">
                                 </div>
                                 <div class="form-group">       
                                   <label>折扣额度</label>
-                                  <input type="text" placeholder="折扣度" class="form-control">
+                                  <input type="text" name="discount" placeholder="折扣度" class="form-control">
                                 </div>
-                                <div class="form-group">       
-                                  <input type="submit" value="保存" class="btn btn-primary">
+                                <input type="text" v-model="cadmin.id" name="aid" hidden="hidden">
+                                <input type="text" id="vid" name="vid" hidden="hidden">
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" id="updateclose" data-dismiss="modal" class="btn btn-secondary">关闭窗口</button>
+                              <button type="button" class="btn btn-primary" onclick="saveup(this)">保存修改</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 新增vip的Modal-->
+                      <div id="addvipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                        <div role="document" class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 id="addvipModalLabel" class="modal-title">新增影院VIP设置	</h4>
+                              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>新增本影院VIP折扣</p>
+                              <form id="addvipform">
+                                <div class="form-group">
+                                  <label>VIP等级</label>
+                                  <input type="number" id="viplevel" name="level" max="3" min="1" placeholder="选择套餐等级" class="form-control">
+                                </div>
+                                <label for="viplevel" id="viplevel-error" class="error" style="display: none;color: red;"></label>
+                                <div class="form-group">
+                                  <label>消费需求</label>
+                                  <input type="text" name="quota" placeholder="最低消费额度" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                  <label>折扣额度</label>
+                                  <input type="text" name="discount" placeholder="折扣度" class="form-control">
                                 </div>
                                 <input type="text" v-model="cadmin.id" name="aid" hidden="hidden">
                               </form>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                              <button type="button" class="btn btn-primary" onclick="saveup(this)">保存修改</button>
+                              <button type="button" id="addclose" data-dismiss="modal" class="btn btn-dark">关闭</button>
+                              <button type="button" class="btn btn-primary" onclick="addvipup(this)">确认新增</button>
                             </div>
                           </div>
                         </div>
@@ -231,7 +302,8 @@
           el:"#app",
           data:{
             cadmin:{},
-            vips:[]
+            vips:[],
+            vipsize:""
           },
           created:function () {
             var v = this;
@@ -241,76 +313,124 @@
               type:"get",
               success:function (rt) {
                 v.cadmin = rt.object;
+                $.ajax({
+                  url:"/cinema-stage/admin/getvips",
+                  dataType:"json",
+                  data:{
+                    "aid":rt.object.id
+                  },
+                  type:"get",
+                  success:function (rt) {
+
+                    v.vips = rt.list;
+                    v.vipsize = rt.list.length;
+                  }
+                });
               }
             });
-            $.ajax({
-              url:"/cinema-stage/admin/getvips",
-              dataType:"json",
-              data:{"aid":v.cadmin.id},
-              type:"get",
-              success:function (rt) {
-                rt.vips = rt.list;
-              }
-            });
+
           }
         });
         function saveup(t){
-          var arr = app.vips;
-          var level = $(t).parent().prev().children().eq(1).children().eq(0).children().eq(1).val();
-          var levelname = null;
-          var vid = null;
-          if(level==1){
-            levelname="novip";
-          }else if(level==2){
-            levelname="vip";
-          }else if(level==3){
-            levelname="svip";
-          }
-          for(var i=0;i<arr.length;i++){
-            if (arr[i].vname==levelname){
-              vid = arr[i].id;
-              break;
+          var level = $("#level").val();
+          if(level <= 3 && level >= 1){
+            $("#level-error").css("display","none");
+            var arr = app.vips;
+            var levelname = null;
+            var vid = null;
+            if(level==1){
+              levelname="novip";
+            }else if(level==2){
+              levelname="vip";
+            }else if(level==3){
+              levelname="svip";
             }
+            for(var i=0;i<arr.length;i++){
+              if (arr[i].vname==levelname){
+                vid = arr[i].id;
+                break;
+              }
+            }
+            $("#vid").attr("value",vid);
+            $.ajax({
+              url:"/cinema-stage/admin/updatevip",
+              data:$("#form").serialize(),
+              dataType:"json",
+              type:"put",
+              success:function (rt) {
+                alert(rt.message);
+                app.vips = rt.list;
+                $("#updateclose").click;
+              }
+            });
+          }else{
+            $("#level-error").css("display","block");
+            $("#level-error").text("请选择正确套餐等级");
           }
-          var formobj = document.getElementById("form").files[0];
+          var formobj = $("#form").get(0).files[0];
           var data = new FormData();
           data.append("formobj",formobj);
           data.append("vid",vid);
+        }
+        $("#level").change(function () {
+          if(!($("#level").val() <= 3 && $("#level").val() >= 1)){
+            $("#level-error").css("display","block");
+            $("#level-error").text("请选择正确套餐等级");
+          }else{
+            $("#level-error").css("display","none");
+          }
+        });
+        $("#addvipbtn").click(function () {
+          if($("#vsize").val() < 3){
+            $("#addvipbtn-error").css("display","none");
+            $("#addvipModal").css("display","block");
+          }else{
+            $("#addvipbtn-error").css("display","block");
+            $("#addvipbtn-error").text("最多设置三种vip等级");
+          }
+        });
+        function addvipup(obj){
           $.ajax({
-            url:"/cinema-stage/admin/updatevip",
-            data:data,
+            url:"/cinema-stage/admin/addvip",
+            data:$("#addvipform").serialize(),
             dataType:"json",
-            type:"put",
-            success:function (rt) {
-              alert("请求来了----"+rt.message);
-              app.vips = rt.list;
+            type:"post",
+            success:function (data) {
+              alert(data.message);
+              app.vips = data.list;
+              $("#addclose").click;
             }
           });
 
         }
+        $("#viplevel").change(function () {
+          if(!($("#viplevel").val() <= 3 && $("#viplevel").val() >= 1)){
+            $("#viplevel-error").css("display","block");
+            $("#viplevel-error").text("请选择正确套餐等级");
+          }else{
+            $("#viplevel-error").css("display","none");
+          }
+        });
         $("#tochange").click(function(){
-        $("#baseinfo").css("display","none");
-        $("#changeinfo").css("display","block");
+          $("#baseinfo").css("display","none");
+          $("#changeinfo").css("display","block");
         });
-
+        $("#closeInfo").click(function () {
+          $("#baseinfo").css("display","block");
+          $("#changeinfo").css("display","none");
+        });
         $("#telval").change(function(){
-        $("#changetel").css("display","block");
+          $("#changetel").css("display","block");
         });
 
-        $("#infoform").validate({
-            rules: {
-              passwordagain: {
-                equalTo: "#newpwd"
-              }
-            },
-            messages:{
-              passwordagain: {
-                equalTo: "请保持与新密码输入一致"
-              }
-            },
-            errorPlacement: function(error, element) {
-              error.appendTo(element.parent());
-            }
+        $("#showvipsbtn").click(function () {
+          $("#vipstable").css("display","block");
+          $("#showvipsbtn").attr("type","hidden");
+        });
+
+        $("#hidevipsbtn").click(function () {
+          $("#vipstable").css("display","none");
+          $("#showvipsbtn").attr("type","button");
         });
   	</script>
   </body>
