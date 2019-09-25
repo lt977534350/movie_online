@@ -3,10 +3,7 @@ package com.woniu.api;
 import com.woniu.entity.MovieShowtime;
 import com.woniu.service.MovieShowtimeService;
 import com.woniu.util.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,5 +30,18 @@ public class MovieShowtimeAPI {
         movieShowtimeService.insertOneData(movieShowtime);
         return new Result("success",null,null,null);
     }
+
+
+    @PutMapping
+    @RequestMapping("/update")
+    public Result updateById(MovieShowtime movieShowtime)throws Exception{
+
+        System.out.println(movieShowtime);
+        movieShowtimeService.updateById(movieShowtime);
+
+
+        return new Result("success",null,null,null);
+    }
+
 
 }
