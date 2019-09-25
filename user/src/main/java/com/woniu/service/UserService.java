@@ -1,6 +1,6 @@
 package com.woniu.service;
 
-import com.woniu.entity.User;
+import com.woniu.myutil.myeneity.User;
 
 public interface UserService {
     /*根据用户id查询用户信息；*/

@@ -1,7 +1,6 @@
 package com.woniu.service;
 
 import com.woniu.entity.Type;
-import com.woniu.entity.User;
 import com.woniu.entity.UserType;
 
 import java.util.List;
