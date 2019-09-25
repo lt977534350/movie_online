@@ -1,0 +1,799 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moviepoint - Online Movie,Vedio and TV Show HTML Template</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="/web/assets/img/favcion.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/bootstrap.min.css" media="all" />
+    <!-- Slick nav CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/slicknav.min.css" media="all" />
+    <!-- Iconfont CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/icofont.css" media="all" />
+    <!-- Owl carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/owl.carousel.css">
+    <!-- Popup CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/magnific-popup.css">
+    <!-- Main style CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/style.css" media="all" />
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" type="text/css" href="/web/assets/css/responsive.css" media="all" />
+    <!--自定义样式-->
+    <link rel="stylesheet" type="text/css" href="/web/css/movieinfostyle.css">
+    <link type="text/css" rel="stylesheet" href="/web/tao/css/citystyle.css"/>
+    <link type="text/css" rel="stylesheet" href="/web/css/mtypestyle.css"/>
+
+    <!--[if lt IE 9]>
+
+    <script src="http://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="/web/tao/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+    <!--地图api-->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=6ee71f2fd5eece7797fafe8b9f7a090a&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder"></script>
+</head>
+<body>
+<!-- Page loader -->
+<div id="preloader"></div>
+<!-- header section start -->
+<header class="header">
+    <div class="container">
+        <div class="header-area">
+            <div class="logo">
+                <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo" /></a>
+            </div>
+
+            <div class="header-right">
+                <div class="currcity">
+                    <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
+                        <li id="summary-stock">
+                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
+                            <div class="dd">
+                                <div id="store-selector">
+                                    <div class="text">
+                                        <div id="currcity"></div>
+                                        <b></b></div>
+                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+                                </div><!--store-selector end-->
+                                <div id="store-prompt"><strong></strong></div><!--store-prompt end---></div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
+                    <div class="mycity" @click="selectLocation()">
+                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
+                    </div>
+                    <div v-show="isShowCitys" class="city" id="city-div">
+                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
+              ">
+                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
+                        </div>
+                        <div class="city-wrapper city-wrapper-hook">
+                            <div class="scroller-hook">
+                                <div class="cities cities-hook">
+                                    <div v-for="i in cityData">
+                                        <div class="title">{{i.name}}</div>
+                                        <ul>
+                                            <li @dblclick="replay(item.name
+                            )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
+                                <!--<ul style="width: 100px;text-align: left;padding: 20px 0">
+                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
+                                </ul>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toast" v-show="toastShow">
+                        {{toastText}}
+                    </div>
+                </div>
+                <form action="#">
+                    <select>
+                        <option value="Movies">Movies</option>
+                        <option value="Movies">Movies</option>
+                        <option value="Movies">Movies</option>
+                    </select>
+                    <input type="text"/>
+                    <button><i class="icofont icofont-search"></i></button>
+                </form>
+                <ul>
+                    <li><a href="#">Welcome Guest!</a></li>
+                    <li><a v-if="user.username==null" v-text="Login" class="login-popup" href="#"></a></li>
+                    <li><img v-if="user.upic!=null" :src="user.upic" /></li>
+                </ul>
+            </div>
+            <div class="menu-area">
+                <div class="responsive-menu"></div>
+                <div class="mainmenu">
+                    <ul id="primary-menu">
+                        <li><a class="active" href="index.html">Home</a></li>
+                        <li><a href="movies.html">Movies</a></li>
+                        <li><a href="celebrities.html">CelebritiesList</a></li>
+                        <li><a href="top-movies.html">Top Movies</a></li>
+                        <li><a href="blog.html">News</a></li>
+                        <li><a class="active" href="#">Pages <i class="icofont icofont-simple-down"></i></a>
+                            <ul>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                                <li><a class="active" href="movie-details.html">Movie Details</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> Tickets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/web/tao/js/jquery-3.4.0.min.js"></script>
+    <script src="/web/js/vue.js"></script>
+    <script src="/web/tao/js/jquery-1.9.1.min.js"></script>
+    <script src="/web/tao/js/location.js"></script>
+    <script src="/web/tao/js/city.js"></script>
+    <script src="/web/tao/js/bscroll.min.js"></script>
+    <!--定位-->
+    <script>
+        window.onload=function () {
+            /*获取定位的值*/
+            var city=$("#qyxs").text();
+            $("#currcity").text(city);
+        }
+        var app = new Vue({
+            el: '#app1',
+            data: {
+                origin: 'http://192.168.99.205:800',
+                captchaBoxShow: false,
+                test: '测试',
+                countTime: 0,
+                countTimer: null,
+                time: 60,
+                location: '定位中',
+                submit: {
+                    sms_captcha  : '',
+                    captcha      : '',
+                    area_code    : '',
+                    _token       : '',
+                },
+                map: new AMap.Map("container", {
+                    resizeEnable: true,
+                    //city: citycode,
+                    zoom: 17, //地图显示的缩放级别
+                    keyboardEnable: false,
+                    citylimit: true,
+                    resizeEnable: true
+                }),
+                cityWrapper: document.querySelector('.city-wrapper-hook'),
+                cityScroller: document.querySelector('.scroller-hook'),
+                cities: document.querySelector('.cities-hook'),
+                shortcut: document.querySelector('.shortcut-hook'),
+                shortcutList: [],
+                cityData: cityData,// 数据源
+                scroll: null,
+                anchorMap: {},
+                touch: {},
+                toastShow: false,
+                isShowCitys: false,
+                toastText: '',
+            },
+            methods: {
+                replay:function(cityName){
+                    $("#qyxs").text(cityName);
+                    $("#city-div").hide();
+                },
+                replayspan:function(){
+                    var name=$("#qyxs").text();
+                    $("#qyxs1").text(name);
+                    $("#city-div").show();
+                },
+                toast (str) {
+                    let v = this
+                    v.toastText = str
+                    v.toastShow = true
+                    setTimeout(function(){
+                        v.toastShow = false
+                    }, 1500)
+                },
+                chooseCity (city) {
+                    let v = this
+                    v.countTime = 0
+                    v.countTimer = setInterval(function(e){v.countTime ++},1)
+                },
+                touchUp (item) {
+                    let v = this
+                    clearInterval(v.countTimer)
+                    if (v.countTime < 30) {
+                        this.isShowCitys = false
+                        this.location = item.name
+                        this.submit.area_code = item.code
+                    }
+                },
+                selectLocation () {
+                    let v = this
+                    this.isShowCitys = true
+                    this.$nextTick(function() {
+                        this.initCities()
+                    })
+                },
+                geocoder_CallBack: function (data) {
+                    let v = this
+                    var adcode3     = data.regeocode.addressComponent.adcode;
+                    var address     = data.regeocode.formattedAddress; //返回地址描述
+                    var csqy        = data.regeocode.addressComponent.district; //地区
+                    var csadcode    = data.regeocode.addressComponent.adcode; //区域编码
+                    this.submit.area_code = csadcode
+                    var citycode2   = csadcode.substr(0, 4) + "00"; //省份编码
+                    var codes       = adcode3.substr(0, 4) + "00";
+                    var citys2      = data.regeocode.addressComponent.city;
+                    var poiArr      = data.regeocode.pois; //坐标
+                    var resultCount = poiArr.length;
+                    v.location      = csqy
+                    var dz          = data.regeocode.formattedAddress;
+                    var lng         = data.regeocode.roads[0].location.lng;
+                    var lat         = data.regeocode.roads[0].location.lat;
+                },
+                zddw: function () {
+                    //初始定位
+                    let v = this;
+                    v.map.plugin('AMap.Geolocation', function() {
+                        geolocation = new AMap.Geolocation({
+                            enableHighAccuracy: true, //是否使用高精度定位，默认:true
+                            //timeout: 10000, //超过10秒后停止定位，默认：无穷大
+                            buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                            zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                            noIpLocate: 0, //IP定位，0-3，0都可以使用
+                            noGeoLocation: 0, //浏览器定位 0-3,
+                            showCircle: false, //去除定位蓝圈
+                            buttonPosition: 'RT',
+                            extensions: 'all'
+                        });
+                        v.map.addControl(geolocation);
+                        geolocation.getCurrentPosition();
+                        AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
+                        AMap.event.addListener(geolocation, 'error', onError); //返回定位出错信息
+
+                    });
+                    //解析定位结果
+                    function onComplete(data) {
+                        var str = [];
+                        str.push(data.position.lng);
+                        str.push(data.position.lat);
+                        var geocoder = new AMap.Geocoder({
+                            radius: 1000,
+                            extensions: "all"
+                        });
+                        geocoder.getAddress(str, function(status, result) {
+                            if (status === 'complete' && result.info === 'OK') {
+                                v.geocoder_CallBack(result);
+                            }
+                        });
+                    }
+                    // 解析定位错误信息
+                    function onError(data) {
+                        alert('定位失败,请手动选择所在区域');
+                    }
+                },
+                initCities: function () {
+                    let v = this;
+                    let y = 0;
+                    var titleHeight = 28
+                    var itemHeight = 44
+                    v.cityData.forEach(function(e){
+                        let name = e.name.substr(0, 1)
+                        let len = e.cities.length
+                        v.anchorMap[name] = y
+                        y -= titleHeight + len * itemHeight
+                    })
+                    v.shortcut = document.querySelector('.shortcut-hook')
+                    v.cityWrapper = document.querySelector('.city-wrapper-hook')
+                    v.shortcut.style.top = (v.cityWrapper.clientHeight - v.shortcut.clientHeight) / 2 + 'px';
+                    v.scroll = new window.BScroll(v.cityWrapper, {
+                        probeType: 3
+                    })
+                    // console.log(v.scroll, 'v.scroll')
+                    // v.scroll.hasVerticalScroll = true
+                    // v.scroll.wrapperHeight = $('body').height()
+                    v.scroll.scrollTo(0, 0);
+                },
+                touchIndex: function (e) {
+                    // console.log(e, 'e')
+                    let v = this
+                    let anchor = e.target.getAttribute('data-anchor')
+                    // console.log(anchor ,'anchor')
+                    let firstTouch = e.touches[0]
+                    v.touch.y1 = firstTouch.pageY
+                    v.touch.anchor = anchor
+                    v.scrollTo(anchor)
+                },
+                scrollTo: function (anchor) {
+                    let v = this
+                    v.cityScroller = document.querySelector('.scroller-hook')
+                    var maxScrollY = v.cityWrapper.clientHeight - v.cityScroller.clientHeight
+                    var y = Math.min(0, Math.max(maxScrollY, v.anchorMap[anchor]))
+                    if (typeof y !== 'undefined') {
+                        v.scroll.scrollTo(0, y);
+                    }
+                },
+            },
+            mounted: function () {
+                let v = this
+                this.zddw()
+                v.initCities()
+            },
+        })
+    </script>
+</header>
+    <div class="login-area">
+        <div class="login-box">
+            <a href="#"><i class="icofont icofont-close"></i></a>
+            <h2 >登录</h2>
+            <form  id ="form" action="/api-user/user/login">
+                <h6>用户名或手机号</h6>
+                <input type="text" name="username"/>
+                <h6>密码</h6>
+                <input type="password" name="password" placeholder="请输入密码"/>
+                <div class="login-remember">
+                    <input type="checkbox"/>
+                    <span>记住我</span>
+                </div>
+                <div class="login-signup">
+                    <span>注册</span>
+                </div>
+                <a @click="login()" class="theme-btn">登录</a>
+                <span>快捷登录</span>
+                <div class="login-social">
+                    <a href="#"><i class="icofont icofont-social-facebook"></i></a>
+                    <a href="#"><i class="icofont icofont-social-twitter"></i></a>
+                    <a href="#"><i class="icofont icofont-social-linkedin"></i></a>
+                    <a href="#"><i class="icofont icofont-social-google-plus"></i></a>
+                    <a href="#"><i class="icofont icofont-camera"></i></a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="buy-ticket">
+        <div class="container">
+            <div class="buy-ticket-area">
+                <a href="#"><i class="icofont icofont-close"></i></a>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="buy-ticket-box">
+                            <h4>Buy Tickets</h4>
+                            <h5>Seat</h5>
+                            <h6>Screen</h6>
+                            <div class="ticket-box-table">
+                                <table class="ticket-table-seat">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                    </tr>
+                                </table>
+                                <table class="ticket-table-seat">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                        <td class="active">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                    </tr>
+                                </table>
+                                <table class="ticket-table-seat">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="ticket-box-available">
+                                <input type="checkbox"/>
+                                <span>Available</span>
+                                <input type="checkbox" checked/>
+                                <span>Unavailable</span>
+                                <input type="checkbox"/>
+                                <span>Selected</span>
+                            </div>
+                            <a href="#" class="theme-btn">previous</a>
+                            <a href="#" class="theme-btn">Next</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="buy-ticket-box mtr-30">
+                            <h4>Your Information</h4>
+                            <ul>
+                                <li>
+                                    <p>Location</p>
+                                    <span>HB Cinema Box Corner</span>
+                                </li>
+                                <li>
+                                    <p>TIME</p>
+                                    <span>2018.07.09   20:40</span>
+                                </li>
+                                <li>
+                                    <p>Movie name</p>
+                                    <span>Home Alone</span>
+                                </li>
+                                <li>
+                                    <p>Ticket number</p>
+                                    <span>2 Adults, 2 Children, 2 Seniors</span>
+                                </li>
+                                <li>
+                                    <p>Price</p>
+                                    <span>89$</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- header section end -->
+    <!-- hero area start -->
+    <section class="hero-area" id="home">
+        <div class="container" >
+            <div class="row hero-area-slide"  >
+                <div class="col-lg-6 col-md-5">
+                    <div class="hero-area-content" >
+                        <img style="height: 702.19px;opacity:0.8;" id="actpic" :src="showmovie.mpic" alt="about"/>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-7" >
+                    <div class="hero-area-content pr-50">
+                        <h2 v-text="showmovie.mname"></h2>
+                        <div class="review">
+                            <div class="author-review">
+                                <i class="icofont icofont-star"></i>
+                                <i class="icofont icofont-star"></i>
+                                <i class="icofont icofont-star"></i>
+                                <i class="icofont icofont-star"></i>
+                                <i class="icofont icofont-star"></i>
+                            </div>
+                            <h4 v-text="showmovie.score"></h4>
+                        </div>
+                        <p v-text="showmovie.shortStory"></p>
+                        <div class="slide-trailor">
+                            <h3>Watch Trailer</h3>
+                            <a class="theme-btn theme-btn2" href="#"><i class="icofont icofont-play"></i> Tickets</a>
+                        </div>
+                    </div>
+                    <div style="width:100%;height:50%;background-color: transparent;position:absolute;bottom:0;left: 0">
+                        <div v-if="index<3" :id="'picdiv'+index" onclick="changepic(this)" v-for="(movie,index) in newMovie" style="width: 33.333333%;height: 100%;;position: relative;float: left" >
+                            <img :src="movie.mpic" alt="" style="width: 100%;height: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section><!-- hero area end -->
+    <!-- portfolio section start -->
+    <section class="portfolio-area pt-60">
+        <div class="container">
+            <div class="row flexbox-center">
+                <div class="col-lg-6 text-center text-lg-left">
+                    <div class="section-title">
+                        <h1><i class="icofont icofont-movie"></i> Spotlight This Month</h1>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row portfolio-item">
+                        <div class="col-md-4 col-sm-6 soon released" v-for="(movie,index) in newMovie">
+                            <div class="single-portfolio">
+                                <div class="single-portfolio-img">
+                                    <img style="height: 357px" :src="movie.mpic" alt="portfolio"/>
+                                    <a href="https://www.youtube.com/watch?v=RZXnugbhw_4" class="popup-youtube">
+                                        <i class="icofont icofont-ui-play"></i>
+                                    </a>
+                                </div>
+                                <div class="portfolio-content">
+                                    <h4 v-text="movie.mname">Boyz II Men</h4>
+                                    <div class="review">
+                                        <div class="author-review">
+                                            <i class="icofont icofont-star"></i>
+                                            <i class="icofont icofont-star"></i>
+                                            <i class="icofont icofont-star"></i>
+                                            <i class="icofont icofont-star"></i>
+                                            <i class="icofont icofont-star"></i>
+                                        </div>
+                                        <h4 v-text="movie.score">180k voters</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-center text-lg-left">
+                    <div class="portfolio-sidebar">
+                        <img src="/web/assets/img/sidebar/sidebar1.png" alt="sidebar"/>
+                        <img src="/web/assets/img/sidebar/sidebar2.png" alt="sidebar"/>
+                        <img src="/web/assets/img/sidebar/sidebar3.png" alt="sidebar"/>
+                        <img src="/web/assets/img/sidebar/sidebar4.png" alt="sidebar"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- portfolio section end -->
+    <!-- video section start -->
+    <section class="video ptb-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title pb-20">
+                        <h1><i class="icofont icofont-film"></i> Trailers & Videos</h1>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="video-area">
+                        <img style="width:100%;height: 403px;" :src="topmovie.mpic" alt="video"/>
+                        <a href="https://www.youtube.com/watch?v=RZXnugbhw_4" class="popup-youtube">
+                            <i class="icofont icofont-ui-play"></i>
+                        </a>
+                        <div class="video-text">
+                            <h2 v-text="topmovie.mname">Angle of Death</h2>
+                            <div class="review">
+                                <div class="author-review">
+                                    <i class="icofont icofont-star"></i>
+                                    <i class="icofont icofont-star"></i>
+                                    <i class="icofont icofont-star"></i>
+                                    <i class="icofont icofont-star"></i>
+                                    <i class="icofont icofont-star"></i>
+                                </div>
+                                <h4 v-text="topmovie.score">180k voters</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6" v-for="(movie,index) in newMovie">
+                            <div v-if="index<3&index>0" class="video-area">
+                                <img style="width: 100%;height: 182px;" :src="movie.mpic" alt="video"/>
+                                <a href="https://www.youtube.com/watch?v=RZXnugbhw_4" class="popup-youtube">
+                                    <i class="icofont icofont-ui-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- video section end -->
+    <!-- footer section start -->
+    <div class="footer">
+        <div class="container">
+            <div class="w3ls_footer_grid col-lg-12" >
+                <div class="col-lg-6 w3ls_footer_grid_left">
+                    <div class="w3ls_footer_grid_left1">
+                        <h3>关于爱乐</h3>
+                        <div class="w3ls_footer_grid_left1_pos">
+                            <div class="bottom-row">
+                                <span>商务合作邮箱：971872973@qq.com</span>
+                                <span class="bt-line">|</span>
+                                <span>客服电话：17603649546</span>
+                            </div>
+                            <div class="bottom-row">
+                                <span>用户投诉邮箱：1099773854@qq.com</span>
+                                <span class="bt-line">|</span>
+                                <span>友情链接：<a href="https://cq.meituan.com/?utm_source=wwwmaoyan"
+                                              class="bottom-chain">美团网</a></span>
+                            </div>
+                            <div class="bottom-row">
+                                <a href="#" class="bottom-chain">中华人民共和国增值电信业务经营许可证&nbsp;渝A1-20190909</a>
+                            </div>
+                            <div class="bottom-row">
+                                <a href="#" class="bottom-chain">网络文化经营许可证&nbsp;京网文(2019)3897-330号</a>
+                            </div>
+                            <div class="bottom-row">
+                                <a href="#" class="bottom-chain">爱乐用户服务协议</a>
+                                <span class="bt-line">|</span>
+                                <a href="#" class="bottom-chain">爱乐平台交易规则总则</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 w3ls_footer_grid_right" >
+                    <a href="index.html"><h2 class="title">爱乐<span class="webtitle-bottom">电影</span></h2></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-5 w3ls_footer_grid1_left">
+                <p>重庆爱乐文化传媒有限公司©2016 爱乐电影 aiyue.com </p>
+            </div>
+            <div class="col-md-7 w3ls_footer_grid1_right">
+                <div class="col-lg-6 card-left">
+                    <a href="#"><img src="images/web-permission.png"/></a>
+
+                </div>
+                <div class="col-lg-6 card-right">
+                    <a href="#"><img src="images/permission-card.png"/></a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- jquery main JS -->
+<script src="/web/js/vue.js" type="text/javascript"></script>
+<script src="/web/assets/js/jquery.min.js"></script>
+<!-- Slick nav JS -->
+<script src="/web/assets/js/jquery.slicknav.min.js"></script>
+<!-- owl carousel JS -->
+<script src="/web/assets/js/owl.carousel.min.js"></script>
+<!-- Popup JS -->
+<script src="/web/assets/js/jquery.magnific-popup.min.js"></script>
+<!-- Isotope JS -->
+<script src="/web/assets/js/isotope.pkgd.min.js"></script>
+<!-- main JS -->
+<script src="/web/assets/js/main.js"></script>
+
+
+</body>
+</html>
