@@ -1,6 +1,7 @@
 package com.woniu.service;
 
 
+import com.woniu.myutil.myeneity.Vip;
 import com.woniu.myutil.myeneity.Admin;
 
 import java.util.List;
@@ -20,5 +21,8 @@ public interface CinemaAdminService {
     public void update(Admin admin) throws Exception;
     //根据aid查询出管理员信息
     public Admin selectByAid(Integer aid) throws Exception;
-
+    //根据aid查询出影院的vip设置
+    public List<Vip> selectVipByAid(Integer aid) throws Exception;
+    //根据vip的id更改vip配置
+    public void updateVip(Vip vip) throws Exception;
 }

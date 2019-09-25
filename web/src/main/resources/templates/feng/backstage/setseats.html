@@ -2,11 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<title>jQuery在线选座(影院版)</title>
-<meta name="keywords" content="jQuery在线选座,jQuery选座系统" />
+<title>影院影厅管理</title>
+<meta name="keywords" content="选座系统" />
 <meta name="description" content="jquery.seat-charts是一款适合电影票、高铁票的在线选座插件。" />
 
 <link rel="stylesheet" type="text/css" href="/web/backstage/css/reset.css" />
+<link rel="stylesheet" href="/web/backstage/css/bootstrap.min.css">
+<link rel="stylesheet" href="/web/backstage/css/font-awesome.min.css">
+<link rel="stylesheet" href="/web/backstage/css/fontastic.css">
+<link rel="stylesheet" href="/web/backstage/https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+<link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
+<link rel="stylesheet" href="/web/backstage/css/custom.css">
+<link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
 <style type="text/css">
 .front{width: 30%;margin: 0 auto;background-color: #f0f0f0;	color: #666;text-align: center;padding: 0 5px;border-radius: 5px;}
 .booking_area {float: right;position: relative;width:200px;height: 450px; }
@@ -33,80 +40,230 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
 
 <script type="text/javascript" src="/web/backstage/js/jquery.min.js"></script>
 <script type="text/javascript" src="/web/backstage/js/jquery.seat-charts.min.js"></script>
+<!-- JavaScript files-->
+<script src="/web/backstage/vendor/popper.js/umd/popper.min.js"></script>
+<script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+<script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
+<!-- Main File-->
+<script src="/web/backstage/js/front.js"></script>
 <script src="/web/backstage/js/vue.js"></script>
 
 </head>
 <body>
+<div class="page">
+    <div class="content-inner">
+        <!-- Page Header-->
+        <header class="page-header">
+            <div class="container-fluid">
+                <h2 class="no-margin-bottom">影厅管理</h2>
+            </div>
+        </header>
 
-<div class="demo clearfix">
-	
-	
-	<div class="front-indicator">座位选择</div>
-	<!---左边座位列表----->
-	<div id="changexy">
-        <input type="text" style="width:30px;" id="x" value="20"> ×
-        <input type="text" style="width:30px;" id="y" value="40">
-     </div>
-      
-	<div id="frontbox">
-		<div class="front" style="margin: 0 auto;">屏幕</div>
-		
-	</div>
-	<div id="seat_area"></div>
-	
-	<!--座位布局的div-->
-	<!--<div id="seat-maps"></div>-->
-	
-	<div class="booking-details" id="app">
-      <ul id="selected-seats">
-      </ul>
-      <p><button class="checkout-button" @click="save()">保存</button></p>  
-      <p><button id="crea" hidden="hidden" @click="create()"></button></p>
-      <!--<div id="legend"></div>-->
+        <section class="tables">
+            <div class="container-fluid">
+                <div class="row">
+                    <select class="col-lg-2">
+                        <option value="0">请选择放映点</option>
+                        <option value="1">万达影城（江北店）</option>
+                    </select>
+                    <div class="col-lg-8 offset-3" style="margin-top: 20px">
+                        <div class="card">
+                            <div class="card-close">
+                                <div class="dropdown">
+                                    <button id="closeCard1" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" class="dropdown-toggle">O
+                                    </button>
+                                    <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow">
+                                        <a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>关闭窗口</a>
+                                        <a class="dropdown-item edit" data-toggle="modal" data-target="#roomModal"><i class="fa fa-gear"></i>新增影厅</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="h4" style="margin: 0 auto">万达影城（江北店）</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped text-center">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>影厅名</th>
+                                            <th>影厅类型</th>
+                                            <th>影厅座位总数</th>
+                                            <th>影厅座位设置</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>IMAX</td>
+                                            <td>102</td>
+                                            <td onclick="editroom(this)">编辑</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>中国巨幕</td>
+                                            <td>102</td>
+                                            <td onclick="editroom(this)">编辑</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>中文3D</td>
+                                            <td>102</td>
+                                            <td onclick="editroom(this)">编辑</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="roomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true" class="modal fade text-left">
+                                    <div role="document" class="modal-dialog" style="max-width: 95% !important;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 id="exampleModalLabel" class="modal-title">新增影厅 </h4>
+                                                <button type="button" data-dismiss="modal" aria-label="Close"
+                                                        class="close"><span aria-hidden="true">×</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>影厅设置</p>
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label>影厅名</label>
+                                                        <input id="roomname" name="roomname" type="text" placeholder="影厅名" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>影厅类型</label>
+                                                        <input id="roomtype" name="roomtype" type="text" placeholder="影厅类型" class="form-control">
+                                                    </div>
+                                                </form>
+                                                <div class="demo clearfix" >
+                                                    <div class="front-indicator">座位选择</div>
+                                                    <!---左边座位列表----->
+                                                    <div id="changexy">
+                                                        <input type="text" style="width:30px;" id="x" value="20"> ×
+                                                        <input type="text" style="width:30px;" id="y" value="40">
+                                                    </div>
+                                                    <div id="frontbox">
+                                                        <div class="front" style="margin: 0 auto;">屏幕</div>
+                                                    </div>
+                                                    <div id="seat_area"></div>
+                                                    <!--座位布局的div-->
+                                                    <!--<div id="seat-maps"></div>-->
+                                                    <div class="booking-details" id="app">
+                                                        <ul id="selected-seats">
+                                                        </ul>
+                                                        <div class="modal-footer">
+                                                            <button type="button" data-dismiss="modal" class="btn btn-secondary">
+                                                                Close
+                                                            </button>
+                                                            <button id="kbtn" @click="save()" type="button" class="btn btn-primary">保存修改</button>
+                                                        </div>
+                                                        <p><button id="crea" hidden="hidden" @click="create()"></button></p>
+                                                        <!--<div id="legend"></div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="editbox" style="display: none">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="modal-body">
+                        <p>影厅设置</p>
+                        <form>
+
+                            <div class="form-group">
+                                <label>影厅名</label>
+                                <input id="thisroomname" name="thisroomname" type="text" placeholder="影厅名" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>影厅类型</label>
+                                <input id="thisroomtype" name="thisroomtype" type="text" placeholder="影厅类型" class="form-control">
+                            </div>
+                        </form>
+                        <div class="demo clearfix" >
+                            <div class="front-indicator">座位选择</div>
+                            <!---左边座位列表----->
+                            <div id="changethisxy">
+                                <input type="text" style="width:30px;" id="thisx" value="20"> ×
+                                <input type="text" style="width:30px;" id="thisy" value="40">
+                            </div>
+                            <div id="thisfrontbox">
+                                <div class="front" style="margin: 0 auto;">屏幕</div>
+                            </div>
+                            <div id="thisseat_area"></div>
+                            <!--座位布局的div-->
+<!--                            <div id="thisseat-maps"></div>-->
+                            <div class="booking-details">
+                                <ul id="selected-seats ">
+                                </ul>
+                                <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn btn-secondary">
+                                        Close
+                                    </button>
+                                    <button id="thiskbtn" onclick="thissave()" type="button" class="btn btn-primary">保存修改</button>
+                                </div>
+                                <p><button id="thiscrea" hidden="hidden" onclick="thisregist()"></button></p>
+<!--                                <div id="thislegend"></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
+    new Vue({
+        el:"#app",
+        data:{
+            map:[]
+        },
+        created:function(){
+            this.map=registSeat();
+        },
+        methods:{
+            //新增影厅并设置座位
+            save:function(){
+                var coordinate = JSON.stringify(this.map);
+                console.log(coordinate);
+                $.ajax({
+                    url:"/cinema-stage/room",
+                    type:"post",
+                    data:{
+                        "coordinate":coordinate,
+                        "cid":3,
+                        "name":$("#roomname").val(),
+                        "type":$("#roomtype").val()
+                    },
+                    success:function(data){
+                        alert("aaa")
+                    }
 
-//console.log(registSeat());
+                })
+            },
+            create:function(){
+                this.map=registSeat();
+            }
 
-new Vue({
-	el:"#app",
-	data:{
-		map:[]
-	},
-	created:function(){
-		this.map=registSeat();
-	},
-	methods:{
-		save:function(){
-            var coordinate = Json.stringify(this.map);
-            $.ajax({
-                url:"/cinema-stage/room",
-                data:{
-                    "coordinate":coordinate,
-                    "cid":3,
-                    "name":"八号影厅",
-                    "type":"iMAX"
-                },
-                success:function(data){
-                    alert("aaa")
-                }
-
-            })
-
-		},
-		create:function(){
-			this.map=registSeat();
-		}
-		
-	}
-})
-
-
-
+        }
+    })
 });
 
 function registSeat(){
@@ -175,8 +332,80 @@ $("#changexy").change(function () {
     var w = $("#seat-maps").width();
     $("#frontbox").css("width",w+65);
 })
+//编辑座位  重写方法
+function editroom(obj) {
+    $("#editbox").css("display","block");
+    thisregist();
+}
+function thisregist() {
+    $("#thisseat-maps").remove();
+    $("#thislegend").remove();
+    $("#thisseat_area").append("<div id='thisseat-maps'></div>");
+    $("#thisseat_area").append("<div id='thislegend'></div>");
+    var x = parseInt($("#thisx").val());
+    var y = parseInt($("#thisy").val());
+    var seat = [];
+    for (var i = 0; i < x; i++) {
+        seat[i] = "";
+        for (var j = 0; j < y; j++) {
+            seat[i] += "e";
+        }
+    }
+    var sc = $('#thisseat-maps').seatCharts({
+        map: seat,
+        naming: {
+            top: false, //不显示顶部横坐标（行）
+            left: true,
+            getLabel: function (character, row, column) { //返回座位信息
+//                          return firstSeatLabel++;
+                return column;
+            }
+        },
+        legend: {
+            node: $('#thislegend'),
+            items: [
+                ['e', 'available', '位置'],
+                ['e', 'none', '过道']
+            ]
+        },
+        click: function () {
+            if (this.status() == 'available') { //若为可选座状态，添加座位
+                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "_" + seat[this.settings.row].substring(this.settings.column + 1);
+                return 'none';
+            } else {
+                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "e" + seat[this.settings.row].substring(this.settings.column + 1);
+                return "available";
+            }
 
+        }
 
+    });
+    return seat;
+}
+$("#changethisxy").change(function () {
+    $("#thiscrea").click();
+    var w = $("#thisseat-maps").width();
+    $("#thisfrontbox").css("width",w+65);
+})
+function thissave() {
+    var coordinate = JSON.stringify(thisregist());
+    console.log(coordinate);
+    $.ajax({
+        url:"/cinema-stage/room",
+        type:"post",
+        data:{
+            "coordinate":coordinate,
+            "cid":3,
+            "name":$("#thisroomname").val(),
+            "type":$("#thisroomtype").val()
+        },
+        success:function(data){
+            alert("aaa")
+            $("#editbox").css("display","none");
+        }
+
+    })
+}
 
 
 </script>

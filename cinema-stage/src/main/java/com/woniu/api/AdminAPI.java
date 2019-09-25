@@ -1,6 +1,7 @@
 package com.woniu.api;
 
 
+import com.woniu.myutil.myeneity.Vip;
 import com.woniu.service.CinemaAdminService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
@@ -209,6 +210,19 @@ public class AdminAPI {
         return new Result("success",null,admin,null);
     }
     /**
+     * 从session获取cinemaAdmin
+     */
+    @GetMapping("cadmin")
+    public Result getCinemaAdmin(HttpSession session) throws Exception{
+        Admin cinemaAdmin = (Admin) session.getAttribute("cinemaAdmin");
+        if (cinemaAdmin==null){
+            return new Result("fail","未登录！",null,null);
+        }
+        System.out.println("请求进入=---"+cinemaAdmin);
+        return new Result("success",null,cinemaAdmin,null);
+    }
+
+    /**
      * 影院管理员账户更改
      */
     @PutMapping("updatecinema")
@@ -241,5 +255,30 @@ public class AdminAPI {
         }else{
             return new Result("nopermission","非法操作！未登录！",null,null);
         }
+    }
+    @GetMapping("getvips")
+    public Result selectVipByAid(Integer aid) throws Exception{
+        List<Vip> vips = cinemaAdminService.selectVipByAid(aid);
+        return new Result("success","vip套餐列表",null,vips);
+    }
+    @PutMapping("updatevip")
+    public Result updateVipByLevel(Integer level, Integer aid, Integer vid, Double discount, Double quote) throws Exception{
+        String vname = null;
+        if(level==1){
+            vname = "novip";
+        }else if (level==2){
+            vname = "vip";
+        }else if(level==3){
+            vname = "svip";
+        }else{
+            return new Result("fail","非法的vip等级",null,null);
+        }
+        Vip vip = new Vip();
+        vip.setId(vid);
+        vip.setVdiscount(discount);
+        vip.setQuota(quote);
+        cinemaAdminService.updateVip(vip);
+        List<Vip> vips = cinemaAdminService.selectVipByAid(aid);
+        return new Result("success","更新成功",null,vips);
     }
 }

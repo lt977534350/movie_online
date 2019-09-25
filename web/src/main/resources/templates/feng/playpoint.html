@@ -404,7 +404,6 @@
 				if((date.getMonth()+1)<=9){
 					var month ="0"+(date.getMonth()+1);
 				}else {
-					return date.getMonth()+1;
 					var month =date.getMonth()+1;
 				}
 				if(date.getDate()<=9){
@@ -492,10 +491,14 @@
 								//格式化时间格式
 								for(i in data.list){
 									for(j in data.list[i].movieShowtimes){
-										data.list[i].movieShowtimes[j].playtime = getTime(data.list[i].movieShowtimes[j].playtime)
-										data.list[i].movieShowtimes[j].starttime=data.list[i].movieShowtimes[j].playtime.split(" ")[1];
+										data.list[i].movieShowtimes[j].playtime = getTime(data.list[i].movieShowtimes[j].playtime);
 
-										data.list[i].movieShowtimes[j].startday=data.list[i].movieShowtimes[j].playtime.split(" ")[0];
+										var dateTimeStr=data.list[i].movieShowtimes[j].playtime;
+
+
+										data.list[i].movieShowtimes[j].starttime=dateTimeStr.split(" ")[1];
+
+										data.list[i].movieShowtimes[j].startday=dateTimeStr.split(" ")[0];
 
 										var end = Date.parse(data.list[i].movieShowtimes[j].playtime)+data.list[i].longtime*60*1000;
 										data.list[i].movieShowtimes[j].endtime=getTime(end);
@@ -529,7 +532,6 @@
 							dataType:"json",
 							success:function (data) {
 								_this.cinema=data.object
-								console.log(data)
 							}
 						})
 					}

@@ -10,6 +10,7 @@
     <result column="level" jdbcType="TINYINT" property="level" />
     <result column="logo" jdbcType="VARCHAR" property="logo"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="copy_right" jdbcType="VARCHAR" property="copy_right"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -104,6 +105,7 @@
     <result column="logo" jdbcType="VARCHAR" property="logo"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
     <result column="overtime" jdbcType="DATE" property="overTime"/>
+    <result column="copy_right" jdbcType="VARCHAR" property="copy_right"/>
     <association property="menu" javaType="com.woniu.myutil.myeneity.Menu">
       <id column="id" jdbcType="INTEGER" property="id"/>
       <result column="name" jdbcType="VARCHAR" property="name"/>

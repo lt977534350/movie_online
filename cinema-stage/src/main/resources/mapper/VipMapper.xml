@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.mapper.VipMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.myutil.myeneity.Vip">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vname" jdbcType="VARCHAR" property="vname" />
+    <result column="vdiscount" jdbcType="DOUBLE" property="vdiscount" />
+    <result column="aid" jdbcType="INTEGER" property="aid" />
+    <result column="quota" jdbcType="DOUBLE" property="quota" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, vname, vdiscount, aid, quota
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from vip
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from vip
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Vip" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vip (vname, vdiscount, aid, 
+      quota)
+    values (#{vname,jdbcType=VARCHAR}, #{vdiscount,jdbcType=DOUBLE}, #{aid,jdbcType=INTEGER}, 
+      #{quota,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Vip" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vname != null">
+        vname,
+      </if>
+      <if test="vdiscount != null">
+        vdiscount,
+      </if>
+      <if test="aid != null">
+        aid,
+      </if>
+      <if test="quota != null">
+        quota,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vname != null">
+        #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="vdiscount != null">
+        #{vdiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="aid != null">
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="quota != null">
+        #{quota,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.myutil.myeneity.Vip">
+    <!--@mbg.generated-->
+    update vip
+    <set>
+      <if test="vname != null">
+        vname = #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="vdiscount != null">
+        vdiscount = #{vdiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="aid != null">
+        aid = #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="quota != null">
+        quota = #{quota,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.woniu.myutil.myeneity.Vip">
+    <!--@mbg.generated-->
+    update vip
+    set vname = #{vname,jdbcType=VARCHAR},
+      vdiscount = #{vdiscount,jdbcType=DOUBLE},
+      aid = #{aid,jdbcType=INTEGER},
+      quota = #{quota,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectVipByAid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select * from vip
+      where aid=#{aid}
+    </select>
+</mapper>

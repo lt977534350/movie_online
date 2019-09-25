@@ -81,11 +81,13 @@
 													<td v-text="show.play2">14：35</td>
 													<td v-text="show.cinemaRoom.name">10号厅</td>
 													<td v-text="show.money+'元'">35元</td>
-													<td @click="editShow()" class="">编辑</td>
+													<td class=""><a href="javascript:;" @click="editShow(show.id)">编辑</a></td>
 												</tr>
 												</tbody>
 											</table>
 										</div>
+
+<!--										新增排片信息的模态框-->
 										<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
 											<div role="document" class="modal-dialog">
 												<div class="modal-content">
@@ -133,36 +135,37 @@
 									</div>
 								</div>
 							</div>
+
+<!--							跟新的表单-->
 							<div class="col-lg-8 offset-2 "id="filmdeal" style="display: none;" >
 								<div class="card">
 									<div class="card-header d-flex align-items-center">
-										<h5>速度与激情</h5><h3 class="h4">————影片排片设置</h3>
+										<h5 v-text="nowMovie.mname">速度与激情</h5><h3 class="h4">————影片排片设置</h3>
 									</div>
 									<div class="card-body">
-										<form>
+										<form id="updateForm">
+											<input type="hidden" name="id" :value="updateShow.id">
+											<div class="form-group">
+												<label>放映日期</label>
+												<input type="date" name="updateDate" v-model="updateShow.play1" class="form-control">
+											</div>
 											<div class="form-group">
 												<label>放映时间</label>
-												<input type="time" id="playdate" name="playdate" value="" class="form-control">
+												<input type="time" name="updateTime" v-model="updateShow.play2" class="form-control">
 											</div>
-<!--											<div class="form-group">-->
-<!--												<label>放映时间</label>-->
-<!--												<input type="time" id="playtime" name="playtime" value="14:35" class="form-control">-->
-<!--											</div>-->
 											<div class="form-group">
 												<label>播放影厅</label>
 												<select class="form-control" name="room">
-													<option value="0" selected="selected" disabled="disabled">选择影厅</option>
-													<option value="1">1号厅</option>
-													<option value="2">2号厅</option>
-													<option value="3">3号厅</option>
+													<option value="0" disabled="disabled">选择影厅</option>
+													<option v-for="room in roomList" v-model="room.id" v-text="room.name" :selected="updateShow.roomId==room.id?true:false"></option>
 												</select>
 											</div>
 											<div class="form-group">
 												<label>电影票价</label>
-												<input type="text" placeholder="售价" value="35" class="form-control">
+												<input type="text" placeholder="售价" v-model="updateShow.money" class="form-control">
 											</div>
 											<div class="form-group">
-												<input type="submit" value="保存设置" class="btn btn-primary">
+												<input type="button" value="保存修改" class="btn btn-primary" @click="updateShowTime()">
 											</div>
 										</form>
 									</div>
@@ -186,24 +189,24 @@
     <!-- Main File-->
     <script src="/web/backstage/js/front.js"></script>
     <script type="text/javascript">
-    	// $("#playpoint").change(function(){
-    	// 	alert($("#playpoint").val());
-    	// });
-    	// $("#filmname").change(function(){
-    	// 	alert("选中影片"+ $("#filmname").val() +"，查询当前影片在当前放映点的所有排片详情")
-    	// });
-
-
     	$(function () {
 			var app=new Vue({
 				el:"#app",
 				data:{
+					// 当前登录人的所有影院
 					cinemaList:[],
+					// 所有可上映电影集合
 					movieList:[],
+					// 当前电影
 					nowMovie:{},
+					// 当前电影院
 					nowCinema:{},
+					// 当前影院当前电影的拍片集合
 					movieshow:[],
-					roomList:[]
+					// 当前影院的放映厅集合
+					roomList:[],
+					// 跟新的拍片信息
+					updateShow:{}
 
                 },
 				created:function () {
@@ -242,25 +245,31 @@
 
 					selectShowTime:function () {
 						var cid=parseInt($("#playpoint").val());
-						alert(cid)
 						var mid=parseInt($("#filmname").val());
 						if(!(cid>0 && mid >0)){
 							return false;
 						}
 
-						//根据cid查询影院信息
-						$.ajax({
-							url:"/cinema-stage/cinema/bycid",
-							type:"get",
-							data:{
-								"cid":cid
-							},
-							dataType:"json",
-							success:function (data) {
-								console.log(data)
-								app.nowCinema=data.object;
+						//查询当前选择的影院
+						for(var i=0;i<app.cinemaList.length;i++){
+							if(app.cinemaList[i].id==cid){
+								app.nowCinema=app.cinemaList[i];
+								break;
 							}
-						});
+						}
+
+						//查询当前选择的电影
+						for(var i=0;i<app.movieList.length;i++){
+							if(app.movieList[i].id==mid){
+								//格式胡电影上映时间
+								var formatTime=getTime(app.movieList[i].uptime);
+								app.movieList[i].uptime=formatTime.split(" ")[0]
+								app.nowMovie=app.movieList[i];
+								break;
+							}
+						}
+
+
 						//根据cid查询所有得到影厅信息
 						$.ajax({
 							url:"/cinema-stage/room/bycid",
@@ -273,23 +282,6 @@
 								app.roomList=data.list;
 							}
 						});
-
-						//根据mid查出电影信息
-						$.ajax({
-							url:"/movie-stage/movie/byid",
-							type:"get",
-							data:{
-								"mid":mid
-							},
-							dataType:"json",
-							success:function (data) {
-								//格式胡电影上映时间
-								var formatTime=getTime(data.object.uptime);
-								data.object.uptime=formatTime.split(" ")[0]
-								app.nowMovie=data.object;
-							}
-						})
-
 
 
 						//根据cid和mid查询排片信息
@@ -363,12 +355,25 @@
 
 					},
 
-					//编辑拍片信息的方法
-					editShow:function () {
+					//编辑排片方法回显
+					editShow:function (sid) {
+						for(var i=0;i<app.movieshow.length;i++){
+							if(app.movieshow[i].id==sid){
+								app.updateShow=app.movieshow[i];
+								break;
+							}
+						}
 						$("#filmdeal").css("display","block");
 					},
 
+					updateShowTime:function () {
+						app.updateShow.playtime=app.updateShow.play1+" "+app.updateShow.play2
 
+						console.log(app.updateShow)
+
+
+
+					}
 
 
 
@@ -380,7 +385,6 @@
 
 
 		})
-
 		/**
 		 * 格式化时间
 		 * @param second
@@ -393,7 +397,6 @@
 			if((date.getMonth()+1)<=9){
 				var month ="0"+(date.getMonth()+1);
 			}else {
-				return date.getMonth()+1;
 				var month =date.getMonth()+1;
 			}
 			if(date.getDate()<=9){
