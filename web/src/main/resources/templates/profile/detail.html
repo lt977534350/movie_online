@@ -7,45 +7,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
     <script src="/web/js/vue.js"></script>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
     <!-- //for-mobile-apps -->
-    <link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="/web/ltcss/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link rel="stylesheet" type="text/css" href="ltcss/order-detail.3a8a0a18.css"/>
-    <link href="/web/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-  <!--  <link rel="stylesheet" href="/web/css/faqstyle.css" type="text/css" media="all"/>-->
-   <!-- <link href="/web/css/medile.css" rel='stylesheet' type='text/css'/>
-    <link href="/web/css/single.css" rel='stylesheet' type='text/css'/>-->
-  <!--  <link rel="stylesheet" href="/web/css/contactstyle.css" type="text/css" media="all"/>-->
-    <!-- news-css -->
-    <!--<link rel="stylesheet" href="/web/news-css/news.css" type="text/css" media="all"/>-->
-    <!-- //news-css -->
-    <!-- list-css -->
-   <!-- <link rel="stylesheet" href="/web/list-css/list.css" type="text/css" media="all"/>-->
-    <!-- //list-css -->
-    <!-- font-awesome icons -->
-    <!--<link rel="stylesheet" href="/web/css/font-awesome.min.css"/>-->
-    <!-- //font-awesome icons -->
-    <!-- js -->
+    <link href="/web/ltcss/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/web/assets/css/icofont.css">
     <script type="text/javascript" src="/web/js/jquery-2.1.4.min.js"></script>
-    <!-- //js -->
-    <!---<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>--->
-    <!-- start-smoth-scrolling -->
     <script type="text/javascript" src="/web/js/move-top.js"></script>
     <script type="text/javascript" src="/web/js/easing.js"></script>
-
-    <!-- start-smoth-scrolling -->
-    <!-- tables -->
     <link rel="stylesheet" type="text/css" href="/web/ltcss/order-detail.3a8a0a18.css"/>
      <link rel="stylesheet" type="text/css" href="/web/ltcss/profile-profile.13d06bf4.css"/>
     <link rel="stylesheet" type="text/css" href="/web/list-css/basictable.css"/>
     <script type="text/javascript" src="/web/list-js/jquery.basictable.min.js"></script>
     <script type="text/javascript" src="/web/js/vue.js"></script>
+    <link rel="stylesheet" href="/web/ltcss/style1.css">
+    <link rel="icon" type="image/png" href="/web/assets/img/favcion.png"/>
 
 
     <!-- //tables -->
@@ -54,146 +30,83 @@
 
 <body>
 <!-- header -->
-<div class="header">
-    <div class="container container-head">
-        <div class="w3layouts_logo ">
-            <a href="/web/index.html">
-                <h1 class="title">爱乐<span id="webtitle-bottom">电影</span></h1></a>
-        </div>
-        <div class="w3l_search_city col-lg-3 col-xs-12 col-sm-6">
-            <form action="#" method="post">
-                <input type="text" list="city" value="重庆"/>
-                <datalist id="city">
-                    <option>北京</option>
-                </datalist>
-            </form>
-        </div>
-        <div class="w3_search col-lg-5 col-xs-12 col-sm-6">
-            <form action="#" method="post">
-                <input type="text" name="Search" placeholder="搜索一部你期待的电影吧" required="required">
-                <input type="submit" value="Go">
-            </form>
-        </div>
-
-        <div class="w3l_sign_in_register col-lg-1 col-xs-12 col-sm-6">
-            <ul class="text-center">
-                <li id="p-info">
-                    <img class="user-info" style="height: 40px;" src="/web/images/default_head.png"></img>
-                    <span class="caret"></span>
-                    <ul id="info" style="display:none;">
-                        <li><a href="#" data-toggle="modal" data-target="#myModal">登录</a></li>
-                        <li><a href="/web/profile/orders.html">我的订单</a></li>
-                        <li><a href="/web/profile/profile.html">我的信息</a></li>
-                        <li><a href="javascript:void 0">退出登录</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-
-
-        </div>
-    </div>
-</div>
-<script>
-    $(function () {
-
-        $("#p-info").mouseover(function () {
-            $("#info").show()
-        });
-        $("#p-info").click(function () {
-            $("#info").show()
-        });
-        $("#p-info").mouseout(function () {
-            $("#info").hide()
-        });
-    })
-</script>
-<!-- //header -->
-<!-- bootstrap-pop-up -->
-<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                欢迎使用爱乐电影
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
+<header class="header" style="background-color: #13151f">
+    <div class="container">
+        <div class="header-area">
+            <div class="logo">
+                <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo"/></a>
             </div>
-            <section>
-                <div class="modal-body">
-                    <div class="w3_login_module">
-                        <div class="module form-module">
-                            <div class="toggle"><i class="fa fa-times fa-pencil"></i>
-                                <div class="tooltip">点击注册</div>
-                            </div>
-                            <div class="form">
-                                <fieldset>
-                                    <legend class="form-legend">账号登录</legend>
-                                    <div class="log-toggle"><i class="switch-log">账号密码登录</i>
-                                    </div>
-                                    <form action="#" method="post">
-                                        <input type="text" name="Username" placeholder="请输入用户名" required="required">
-                                        <input type="password" name="Password" placeholder="请输入密码" required="required">
-                                        <label class="check-lable"><input type="checkbox" name="remember"/>记住我</label>
-                                        <a href="#" class="forget-a">忘记密码？</a>
-                                        <input class="btn btn-success" type="submit" value="登录">
-                                    </form>
-                                </fieldset>
-                            </div>
-                            <!--
-                                作者：971872973@qq.com
-                                时间：2019-09-07
-                                描述：手机验证的表单
-                            -->
-                            <!--<div class="log-form">
-                                <fieldset>
-                                    <legend class="form-legend">账号登录</legend>
-                                    <form action="#" method="post">
-                                    <input type="text" name="Username" placeholder="请输入手机号" required="required">
-                                    <input type="password" name="Password" placeholder="请输入验证码" required="required">
-                                    <input type="button" class="code-button" name="getcode" value="获取验证码"/>
-                                    <input class="btn btn-success" type="submit" value="登录">
-                                  </form>
-                              </fieldset>
-                            </div>-->
-                            <div class="form">
-                                <fieldset>
-                                    <legend class="form-legend">注册账户</legend>
-                                    <form action="#" method="post">
-                                        <input type="text" name="username" placeholder="新用户名" required="">
-                                        <input type="password" name="password" placeholder="新密码" required="">
-                                        <input type="password" name="checkpwd" placeholder="请确认密码" required="">
-                                        <input type="text" name="phone" placeholder="电话" required="">
-                                        <input type="submit" value="注册">
-                                    </form>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
+            <div class="header-right">
+                <form action="#">
+                    <select>
+                        <option value="Movies">电影</option>
+                        <option value="cinema">影院</option>
+                        <option value="celebrity">演员</option>
+                    </select>
+                    <input type="text"/>
+                    <button><i class="icofont icofont-search"></i></button>
+                </form>
+                <ul>
+                    <li><a href="#"> 爱乐电影</a></li>
+                    <li><a class="login-popup" href="#">登录</a></li>
+                </ul>
+            </div>
+            <div class="menu-area">
+                <div class="responsive-menu"></div>
+                <div class="mainmenu">
+                    <ul id="primary-menu">
+                        <li><a class="active" href="index.html">首页</a></li>
+                        <li><a href="movies.html">电影</a></li>
+                        <li><a href="celebrities.html">明星</a></li>
+                        <li><a href="top-movies.html">热映电影</a></li>
+                        <li><a href="blog.html">热点</a></li>
+                        <li><a href="#">Pages <i class="icofont icofont-simple-down"></i></a>
+                            <ul>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                                <li><a href="movie-details.html">Movie Details</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>
+                    </ul>
                 </div>
-            </section>
+            </div>
         </div>
+    </div>
+</header>
+<div class="login-area">
+    <div class="login-box">
+        <a href="#"><i class="icofont icofont-close"></i></a>
+        <h2>登录</h2>
+        <form action="#">
+            <h6>用户名或手机号</h6>
+            <input type="text" name="username"/>
+            <h6>密码</h6>
+            <input type="text" name="password" placeholder="请输入密码"/>
+            <div class="login-remember">
+                <input type="checkbox"/>
+                <span>记住我</span>
+            </div>
+            <div class="login-signup">
+                <span>注册</span>
+            </div>
+            <a href="#" class="theme-btn">登录</a>
+            <span>快捷登录</span>
+            <div class="login-social">
+                <a href="#"><i class="icofont icofont-social-facebook"></i></a>
+                <a href="#"><i class="icofont icofont-social-twitter"></i></a>
+                <a href="#"><i class="icofont icofont-social-linkedin"></i></a>
+                <a href="#"><i class="icofont icofont-social-google-plus"></i></a>
+                <a href="#"><i class="icofont icofont-camera"></i></a>
+            </div>
+        </form>
+
     </div>
 </div>
 
+<!-- hero area start -->
+<section class="hero-area" id="home">
 
-<script>
-    $('.toggle').click(function () {
-        // Switches the Icon
-        $(this).children('i').toggleClass('fa-pencil');
-        // Switches the forms
-        $('.form').animate({
-            height: "toggle",
-            'padding-top': 'toggle',
-            'padding-bottom': 'toggle',
-            opacity: "toggle"
-        }, "slow");
-    });
-</script>
-<!-- //bootstrap-pop-up -->
-<!-- nav -->
-
-
-<div class="container" id="app">
+<div class="container" id="app" >
 
     <div class="order-container" data-page-type="detail" :data-order-id="msg.object.orderId" >
 
@@ -243,9 +156,9 @@
 
 
         <div class="order-bottom">
-             <div class="col-lg-offset-11">
-                 <a v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn" >改签</a>
-                <a v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
+             <div class="col-lg-offset-10 col-lg-2">
+                 <a  style="padding-left: 5px" v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn" >改签</a>
+                <a  style=" margin-left: 45px" v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
             </div>
             <div class="clearfix">
                 <div class="cinema-info">
@@ -447,24 +360,20 @@
 <!-- //footer -->
 <!-- Bootstrap Core JavaScript -->
 <script src="/web/js/bootstrap.min.js"></script>
+    <!-- jquery main JS -->
+    <script src="/web/js/vue.js" type="text/javascript"></script>
+    <script src="/web/assets/js/jquery.min.js"></script>
+    <!-- Slick nav JS -->
+    <script src="/web/assets/js/jquery.slicknav.min.js"></script>
+    <!-- owl carousel JS -->
+    <script src="/web/assets/js/owl.carousel.min.js"></script>
+    <!-- Popup JS -->
+    <script src="/web/assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Isotope JS -->
+    <script src="/web/assets/js/isotope.pkgd.min.js"></script>
+    <!-- main JS -->
+    <script src="/web/assets/js/main.js"></script>
 
-<!-- //Bootstrap Core JavaScript -->
-<!-- here stars scrolling icon -->
-<script type="text/javascript">
-    $(document).ready(function () {
-        /*
-            var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 1200,
-            easingType: 'linear'
-            };
-        */
 
-        $().UItoTop({easingType: 'easeOutQuart'});
-
-    });
-</script>
-<!-- //here ends scrolling icon -->
 </body>
 </html>

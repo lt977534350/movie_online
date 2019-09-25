@@ -1,6 +1,7 @@
 package com.woniu.mapper;
 
 import com.woniu.entity.UserExample;
+
 import com.woniu.myutil.myeneity.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +18,7 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    List<User> selectByExample(UserExample example);
+    List<User> selectByExample(@Param("example") UserExample example);
 
     User selectByPrimaryKey(Integer id);
 

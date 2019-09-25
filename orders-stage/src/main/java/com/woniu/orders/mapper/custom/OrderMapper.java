@@ -14,4 +14,7 @@ public interface OrderMapper {
 
     List<Order> selectOrder(Map<String, Integer> map);
 
+    int selectOrderSuccess();
+    int selectOrderRefund();
+
 }

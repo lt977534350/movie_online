@@ -27,6 +27,7 @@
         <module>movie-stage</module>
         <module>jobs</module>
         <module>entity</module>
+        <module>user</module>
 
     </modules>
     <dependencies>

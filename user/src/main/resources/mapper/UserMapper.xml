@@ -71,7 +71,7 @@
   <sql id="Base_Column_List" >
     id, username, password, phone, birth, state, upic
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.woniu.entity.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.woniu.entity.UserExample"  resultType="com.woniu.myutil.myeneity.User">
     select
     <if test="distinct" >
       distinct
@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.woniu.entity.User" >
+  <insert id="insert" parameterType="com.woniu.myutil.myeneity.User" >
     insert into user (id, username, password, 
       phone, birth, state, upic
       )
@@ -109,7 +109,7 @@
       #{phone,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{state,jdbcType=TINYINT}, #{upic,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.woniu.entity.User" >
+  <insert id="insertSelective" parameterType="com.woniu.myutil.myeneity.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -209,7 +209,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.entity.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.myutil.myeneity.User" >
     update user
     <set >
       <if test="username != null" >
@@ -233,7 +233,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.woniu.entity.User" >
+  <update id="updateByPrimaryKey" parameterType="com.woniu.myutil.myeneity.User" >
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -264,7 +264,7 @@
       select * from `user`
       where username=#{username}
   </select>
-    <select id="selectByPhone" resultMap="BaseResultMap">
+    <select id="selectByPhone" resultMap="BaseResultMap" >
       select * from user where phone=#{phone}
     </select>
 </mapper>

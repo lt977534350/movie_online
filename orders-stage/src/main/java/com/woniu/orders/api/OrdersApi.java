@@ -12,21 +12,15 @@ package com.woniu.orders.api;
 
 import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
-import com.woniu.orders.entity.User;
 import com.woniu.orders.service.OrderService;
 import com.woniu.orders.util.Count;
 import com.woniu.orders.util.Page;
 import com.woniu.orders.util.Result;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
+import com.woniu.myutil.myeneity.User;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.xml.namespace.QName;
-import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -38,8 +32,8 @@ public class OrdersApi {
     @GetMapping("/confirm/")
     @ResponseBody
     public Result createOrders ( Integer id[],Integer msid,HttpSession session) throws Exception {
-//     User user =(User)session.getAttribute("user");
-//     user.getId();
+    User user =(User)session.getAttribute("user");
+     user.getId();
      if (id.length<=0||msid==null){
          return new Result("500","选座失败",null,null);
      }

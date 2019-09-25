@@ -62,6 +62,14 @@
         #{start}, #{num};
 
     </select>
+    <select id="selectOrderSuccess" resultType="int">
+        SELECT  count(o.id)FROM orders o  WHERE  o.ostate between
+         11 and 39 AND  to_days(o.c_time) = TO_DAYS(NOW())
+    </select>
+    <select id="selectOrderRefund" resultType="int">
+        SELECT  count(o.id)FROM orders o  WHERE  o.ostate
+        =40 AND  to_days(o.c_time) = TO_DAYS(NOW())
+    </select>
 
 
 </mapper>

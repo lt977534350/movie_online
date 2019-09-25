@@ -122,18 +122,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int selectOrdersFail() throws Exception {
-        OrdersPOExample ordersPOExample = new OrdersPOExample();
-        ordersPOExample.createCriteria().andOstateEqualTo(new Byte("40"));
-        long count = ordersPOMapper.countByExample(ordersPOExample);
-        return (int)count;
+       return orderMapper.selectOrderRefund();
     }
 
     @Override
     public int  selectOrdersSuccess() throws Exception {
-        OrdersPOExample ordersPOExample = new OrdersPOExample();
-        ordersPOExample.createCriteria().andOstateBetween(new Byte("20"),new Byte("30"));
-        long count = ordersPOMapper.countByExample(ordersPOExample);
-        return (int)count;
+         return orderMapper.selectOrderSuccess();
+
 
     }
 
