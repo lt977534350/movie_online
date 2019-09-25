@@ -1,5 +1,7 @@
 package com.woniu.serviceimpl;
 
+import com.woniu.myutil.myeneity.Vip;
+import com.woniu.mapper.VipMapper;
 import com.woniu.myutil.myeneity.Admin;
 import com.woniu.mapper.AdminMapper;
 import com.woniu.service.CinemaAdminService;
@@ -13,6 +15,8 @@ import java.util.*;
 public class CinemaAdminServiceImpl implements CinemaAdminService {
     @Resource
     private AdminMapper adminMapper;
+    @Resource
+    private VipMapper vipMapper;
     @Override
     public List<Admin> selectCinemaAdmins(Integer pageIndex, Integer num) throws Exception {
         HashMap<String, Integer> map = new HashMap<>();
@@ -58,5 +62,16 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     public Admin selectByAid(Integer aid) throws Exception {
         Admin adminByAid = adminMapper.selectByPrimaryKey(aid);
         return adminByAid;
+    }
+
+    @Override
+    public List<Vip> selectVipByAid(Integer aid) throws Exception {
+        List<Vip> vips = vipMapper.selectVipByAid(aid);
+        return vips;
+    }
+
+    @Override
+    public void updateVip(Vip vip) throws Exception {
+        vipMapper.updateByPrimaryKeySelective(vip);
     }
 }

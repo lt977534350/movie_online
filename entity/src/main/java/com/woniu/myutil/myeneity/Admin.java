@@ -54,6 +54,12 @@ public class Admin implements Serializable {
      */
     private Menu menu;
 
+    /**
+     * 影城版权信息
+     * @return
+     */
+    private String copy_right;
+
     public Integer getId() {
         return id;
     }
