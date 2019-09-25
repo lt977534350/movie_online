@@ -143,7 +143,7 @@
 										<h5 v-text="nowMovie.mname">速度与激情</h5><h3 class="h4">————影片排片设置</h3>
 									</div>
 									<div class="card-body">
-										<form>
+										<form id="updateForm">
 											<input type="hidden" name="id" :value="updateShow.id">
 											<div class="form-group">
 												<label>放映日期</label>
@@ -156,8 +156,8 @@
 											<div class="form-group">
 												<label>播放影厅</label>
 												<select class="form-control" name="room">
-													<option value="0" selected="selected" disabled="disabled">选择影厅</option>
-													<option v-for="room in roomList" v-model="room.id" v-text="room.name"></option>
+													<option value="0" disabled="disabled">选择影厅</option>
+													<option v-for="room in roomList" v-model="room.id" v-text="room.name" :selected="updateShow.roomId==room.id?true:false"></option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -189,14 +189,6 @@
     <!-- Main File-->
     <script src="/web/backstage/js/front.js"></script>
     <script type="text/javascript">
-    	// $("#playpoint").change(function(){
-    	// 	alert($("#playpoint").val());
-    	// });
-    	// $("#filmname").change(function(){
-    	// 	alert("选中影片"+ $("#filmname").val() +"，查询当前影片在当前放映点的所有排片详情")
-    	// });
-
-
     	$(function () {
 			var app=new Vue({
 				el:"#app",
@@ -375,9 +367,9 @@
 					},
 
 					updateShowTime:function () {
+						app.updateShow.playtime=app.updateShow.play1+" "+app.updateShow.play2
+
 						console.log(app.updateShow)
-
-
 
 
 

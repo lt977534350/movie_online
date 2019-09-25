@@ -89,8 +89,8 @@
 								<li onclick="tochangepics(this)">
 									<a>上传影院图片</a>
 								</li>
-								<li onclick="backtoindex(this)">
-									<a>。。。</a>
+								<li onclick="tochangeroom(this)">
+									<a>放映点影厅管理</a>
 								</li>
 							</ul>
 						</li>
@@ -168,7 +168,14 @@
 				$(obj).addClass("active");
 				$(obj).siblings().removeClass("active");
 				$("#mainmenu").children().removeClass("active");
-			}
+			};
+
+			function tochangeroom(obj) {
+				$("#changehtml").attr("src", "/web/feng/backstage/setseats.html");
+				$(obj).addClass("active");
+				$(obj).siblings().removeClass("active");
+				$("#mainmenu").children().removeClass("active");
+			};
 		</script>
 	</body>
 </html>
