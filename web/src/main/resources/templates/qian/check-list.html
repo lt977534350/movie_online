@@ -45,28 +45,26 @@
 			font-family: "楷体";
 			color: red;
 		}
-		
 		.menu-vue {
 			font-size: 15px;
 			font-family: "楷体";
 			color: red;
 			font-style: italic;
 		}
-		
 		input {
 			color: black;
 		}
 		.menu-input{
 			border: none;
 			outline: none;
-			background-color: #A7E4F9;
+			background-color: #F8F8F8;
 		}
 		.menu-input:hover{
 			border-bottom: #93ED52 3px solid;
 		}
 		.sertain-btn{
 			float: right;
-			background-color: #BA2939;
+			background-color: red;
 		}
 		.layui-field-title span{
 			margin-left: 13px;
@@ -99,9 +97,15 @@
 			font-family: "楷体";
 			font-size: 17px;
 		}
+		.top-title{
+			font-size: 20px;
+			font-weight: 900;
+			font-family: symbol;
+			color: black;
+			cursor: pointer;
+		}
 	</style>
-
-	<body style="background-image: url(/web/images/backpic.png);">
+	<body style="background-color: #F8F8F8">
 		<div id="LAY_WRAP">
 			<div id='LAY_app' class="layui-side layui-bg-black">
 				<div class="layui-side-scroll">
@@ -158,20 +162,16 @@
 							</a>
 						</li>
 						<li class="layui-nav-item" lay-unselect="">
-							<a href="#" layadmin-event="refresh" title="刷新">
+							<a href="#" onclick="flush()" layadmin-event="refresh" title="刷新">
 								<i class="layui-icon layui-icon-refresh-3"></i>
 							</a>
 						</li>
-						<li class="layui-nav-item layui-hide-xs" lay-unselect="">
-							<form action="#" method="post">
-								<span class="glyphicon glyphicon-search search-sign"></span>
-								<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
-								<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
-							</form>
+						<li style="margin-left: 50px!important;" class="layui-nav-item layui-hide-xs" lay-unselect="">
+							<a style="border-radius: 5px;margin-top: 5px;width: 100px;text-align: center" class="layui-btn layui-btn-danger hvr-buzz-out" href="/web/qian/stage-index.html">回到主页</a>
 						</li>
 					</ul>
 					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-						<li class="layui-nav-item stage-title" lay-unselect="">
+						<li style="cursor: pointer" class="layui-nav-item stage-title" lay-unselect="">
 							爱乐后台管理系统
 						</li>
 						<li class="layui-nav-item" lay-unselect="">
@@ -185,7 +185,7 @@
 								</dd>
 								<hr>
 								<dd layadmin-event="logout" style="text-align: center;">
-									<a>退出</a>
+									<a style="cursor: pointer" onclick="logout()">退出</a>
 								</dd>
 							</dl>
 						</li>
@@ -212,38 +212,6 @@
 								</div>
 							</div>
 						</div>
-						<!--<div class="layui-col-lg4" style="height: 100%;">
-							<div align="center" class="menu-pic">
-								<img src="image/menu.jpg" />
-							</div>
-							<div class="menu-name">
-								<span class="name-span">B套餐</span>
-								</br>
-								<span class="menu-detail">套餐资费:</span>
-								<span class="menu-vue" v-text="money"></span>
-								<span class="menu-detail">元</span>
-								</br>
-								<span class="menu-detail">使用期限:</span>
-								<span class="menu-vue" v-text="period"></span>
-								<span class="menu-detail">年</span>
-							</div>
-						</div>
-						<div class="layui-col-lg4" style="height: 100%;">
-							<div align="center" class="menu-pic">
-								<img src="image/menu.jpg" />
-							</div>
-							<div class="menu-name">
-								<span class="name-span">C套餐</span>
-								</br>
-								<span class="menu-detail">套餐资费:</span>
-								<span class="menu-vue" v-text="money"></span>
-								<span class="menu-detail">元</span>
-								</br>
-								<span class="menu-detail">使用期限:</span>
-								<span class="menu-vue" v-text="period"></span>
-								<span class="menu-detail">年</span>
-							</div>
-						</div>-->
 					</div>
 					<div class="layui-col-md12">
 						<div class="layui-card">
@@ -253,20 +221,20 @@
 								<div class="layui-nav">
 									<ul>
 									<li class="layui-nav-item">
-										<button class="btn btn-success hvr-float-shadow" @click="update()">修改套餐</button>
+										<button class="layui-btn layui-btn-normal hvr-float-shadow" @click="update()">修改套餐</button>
 									</li>
 									<li class="layui-nav-item">
-										<button class="btn btn-success hvr-float-shadow" @click="insert()">新增套餐</button>
+										<button class="layui-btn layui-btn-normal hvr-float-shadow" @click="insert()">新增套餐</button>
 									</li>
 									<li class="layui-nav-item">
-										<button class="btn btn-success hvr-float-shadow" @click="del()">删除套餐</button>
+										<button class="layui-btn layui-btn-normal hvr-float-shadow" @click="del()">删除套餐</button>
 									</li>
 									<div style="text-align:right;float: right;">
 										<li class="layui-nav-item">
-											<button class="btn hvr-shutter-out-horizontal" style="color: black;" @click="hideall()">控制台</button>
+											<button class="layui-btn layui-btn-normal hvr-shutter-out-horizontal" style="color: black;" @click="hideall()">控制台</button>
 										</li>
 										<li class="layui-nav-item">
-											<button class="btn hvr-bounce-to-top" style="color: black;">个人中心</button>
+											<button class="layui-btn layui-btn-normal hvr-bounce-to-top" style="color: black;">个人中心</button>
 										</li>
 										<span class="layui-nav-bar" style="width: 0px; left: 0px; opacity: 0;"></span>
 									</div>
@@ -298,30 +266,8 @@
 											</div>
 										</div>
 									</div>
-									<!--<div class="layui-col-lg12">
-										<div class="layui-field-box layui-col-lg4">
-											<span class="name-span">套餐B</span>
-										</div>
-										<div class="layui-field-box layui-col-lg4">
-											<input type="text" class="menu-input" placeholder="请输入新的金额..."/>
-										</div>
-										<div class="layui-field-box layui-col-lg4">
-											<input type="text" class="menu-input" placeholder="请输入新的套餐时限..."/>
-										</div>
-									</div>
 									<div class="layui-col-lg12">
-										<div class="layui-field-box layui-col-lg4">
-											<span class="name-span">套餐C</span>
-										</div>
-										<div class="layui-field-box layui-col-lg4">
-											<input type="text" class="menu-input" placeholder="请输入新的金额..."/>
-										</div>
-										<div class="layui-field-box layui-col-lg4">
-											<input type="text" class="menu-input" placeholder="请输入新的套餐时限..."/>
-										</div>
-									</div>-->
-									<div class="layui-col-lg12">
-										<button class="sertain-btn btn hvr-shutter-in-vertical" @click="confirmupdate()">确定</button>
+										<button class="sertain-btn layui-btn" @click="confirmupdate()">确定</button>
 									</div>
 								</div>
 								<!--
@@ -354,7 +300,7 @@
 										</div>
                                 	</div>
                                 	<div style="margin-top: 100px;">
-                                		<button class="sertain-btn btn hvr-shutter-in-vertical" @click="confirminsert()">确定</button>
+                                		<button class="sertain-btn layui-btn" @click="confirminsert()">确定</button>
                                 	</div>
                                 </div>
 								<!--
@@ -369,12 +315,12 @@
                                 	</div>
 									<!--<form id="form">-->
 									<div style="margin-top: 30px;margin-left: 50px;" v-for="(menu,index) in list">
-										<button class="btn btn-danger hvr-curl-top-left" v-text="menu.name" @click="choose($event)"></button>
+										<button class="layui-btn-radius layui-btn hvr-curl-top-left" v-text="menu.name" @click="choose($event)"></button>
 										<span class="show-check"></span>
 										<input type="checkbox" class="check-menu" name="mid" :value="menu.id"/>
 									</div>
 									<!--</form>-->
-                                	<button class="sertain-btn btn hvr-shutter-in-vertical" @click="confirmdel(this)">确定</button>
+                                	<button class="sertain-btn layui-btn" @click="confirmdel(this)">确定</button>
                                 </div>
 							</div>
 						</div>
@@ -397,16 +343,16 @@
 				update:function(){
 					$("#insert-menu").hide();
 					$("#del-menu").hide();
-					$("#update-menu").show();
+					$("#update-menu").slideDown();
 				},
 				insert:function(){
-					$("#insert-menu").show();
+					$("#insert-menu").slideDown();
 					$("#del-menu").hide();
 					$("#update-menu").hide();
 				},
 				del:function(){
 					$("#insert-menu").hide();
-					$("#del-menu").show();
+					$("#del-menu").slideDown();
 					$("#update-menu").hide();
 				},
 				hideall:function(){
@@ -556,6 +502,18 @@
 				$("#new-period").next().next().text("套餐使用期不得小于1年！");
 			}
 		});
+		function flush(){
+			window.location.reload();
+		}
+		function logout() {
+			$.ajax({
+				url:"/cinema-stage/admin/logout",
+				dataType:"json",
+				type:"delete",
+				success:function (rt) {
+					window.location.href="/web/feng/backstage/login.html";
+				}
+			});
+		}
 	</script>
-
 </html>

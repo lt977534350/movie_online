@@ -96,19 +96,16 @@
               </a>
             </li>
             <li class="layui-nav-item" lay-unselect="">
-              <a href="#" layadmin-event="refresh" title="刷新">
+              <a href="#" onclick="flush()" layadmin-event="refresh" title="刷新">
                 <i class="layui-icon layui-icon-refresh-3"></i>
               </a>
             </li>
-            <li class="layui-nav-item layui-hide-xs" lay-unselect="">
-        			<form action="#" method="post">
-            		<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
-            		<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
-            	</form>
+            <li style="margin-left: 50px!important;" class="layui-nav-item layui-hide-xs" lay-unselect="">
+                <a style="border-radius: 5px;margin-top: 5px;width: 100px;text-align: center" class="layui-btn layui-btn-danger hvr-buzz-out" href="/web/qian/stage-index.html">回到主页</a>
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-            <li class="layui-nav-item stage-title" lay-unselect="">
+            <li style="cursor: pointer" class="layui-nav-item stage-title" lay-unselect="">
              	 爱乐后台管理系统
             </li>
             <li class="layui-nav-item" lay-unselect="">
@@ -122,7 +119,7 @@
                     </dd>
                     <hr>
                     <dd layadmin-event="logout" style="text-align: center;">
-                        <a>退出</a>
+                        <a style="cursor: pointer" onclick="logout()">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -330,6 +327,19 @@
                 }
             });
         }
+    }
+    function flush(){
+        window.location.reload();
+    }
+    function logout() {
+        $.ajax({
+            url:"/cinema-stage/admin/logout",
+            dataType:"json",
+            type:"delete",
+            success:function (rt) {
+                window.location.href="/web/feng/backstage/login.html";
+            }
+        });
     }
 </script>
 </html>

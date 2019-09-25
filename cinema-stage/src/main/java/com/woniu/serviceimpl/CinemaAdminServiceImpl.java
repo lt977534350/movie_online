@@ -25,7 +25,9 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         List<Admin> admins = adminMapper.selectCinemaAdmins(map);
         for (Admin admin:admins) {
-           admin.setOverDate(format.format(admin.getOverTime()));
+            if(admin.getOverTime()!=null){
+                admin.setOverDate(format.format(admin.getOverTime()));
+            }
         }
         return admins;
     }
