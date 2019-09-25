@@ -1,7 +1,7 @@
 package com.woniu.api;
 
-import com.woniu.entity.User;
 import com.woniu.entity.UserType;
+import com.woniu.myutil.myeneity.User;
 import com.woniu.service.TypeService;
 import com.woniu.service.UserService;
 import com.woniu.util.Result;
@@ -188,17 +188,17 @@ public class UserAPI {
             }
         }else if((phonenum!=null||!"".equals(phonenum))&&(code!=null||"".equals(code))){//手机验证码登录
             if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
-                String num = (String) session.getAttribute("phonenum");
-                String mobile_code = (String) session.getAttribute("mobile_code");
+                String num = (String) session.getAttribute("user_phonenum");
+                String mobile_code = (String) session.getAttribute("user_mobile_code");
                 User user = userService.selectByPhone(phonenum);
                 if(user==null){
                     return new Result("fail","该电话号码不存在！",null,null);
                 }
                 if(num.equals(phonenum)&&mobile_code.equals(code)){
                     session.setAttribute("user",user);
-                    session.removeAttribute("mobile_code");
-                    session.removeAttribute("phonenum");
-                    return new Result("success","登录成功！",null,null);
+                    session.removeAttribute("user_mobile_code");
+                    session.removeAttribute("user_phonenum");
+                    return new Result("success","登录成功！",user,null);
                 }else{
                     return new Result("fail","验证码不正确！",null,null);
                 }
@@ -211,8 +211,8 @@ public class UserAPI {
     @RequestMapping("register")
     public Result register(HttpSession session, String username, String password, String telphone, String code) throws Exception {
         //注册信息验证
-        String phonenum = (String) session.getAttribute("phonenum");
-        String mobile_code = (String) session.getAttribute("mobile_code");
+        String phonenum = (String) session.getAttribute("user_phonenum");
+        String mobile_code = (String) session.getAttribute("user_mobile_code");
         if(!phonenum.equals(telphone)||!code.equals(mobile_code)){
             return new Result("fail","验证码错误!",null,null);
         }
@@ -225,8 +225,8 @@ public class UserAPI {
         newUser.setPassword(password);
         newUser.setPhone(telphone);
         userService.insertUser(newUser);
-        session.removeAttribute("phonenum");
-        session.removeAttribute("mobile_code");
+        session.removeAttribute("user_phonenum");
+        session.removeAttribute("user_mobile_code");
         return new Result("success","注册成功！",null,null);
     }
 
@@ -243,12 +243,8 @@ public class UserAPI {
 
             client.getParams().setContentCharset("utf-8");
             method.setRequestHeader("ContentType", "application/x-www-form-urlencoded;charset=utf-8");
-
             int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
-
-            /*String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");*/
-            String content = new String("您的电影还有30分钟就开始了，请尽快到达电影院，影片开始30分钟后将不可退票。");
-
+            String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
             //提交短信
             NameValuePair[] data = {
                     //查看用户名是登录用户中心->验证码短信->产品总览->APIID
@@ -280,8 +276,8 @@ public class UserAPI {
              */
             if ("2".equals(cod)) {
                 //将验证码和对应的手机号存入session
-                session.setAttribute("mobile_code", mobile_code);
-                session.setAttribute("phonenum", phone);
+                session.setAttribute("user_mobile_code", mobile_code);
+                session.setAttribute("user_phonenum", phone);
             }
             method.releaseConnection();
 

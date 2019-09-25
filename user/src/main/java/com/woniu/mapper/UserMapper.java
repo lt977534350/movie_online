@@ -1,7 +1,7 @@
 package com.woniu.mapper;
 
-import com.woniu.entity.User;
 import com.woniu.entity.UserExample;
+import com.woniu.myutil.myeneity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

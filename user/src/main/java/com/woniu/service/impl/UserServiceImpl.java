@@ -1,15 +1,12 @@
 package com.woniu.service.impl;
 
-import com.woniu.entity.Type;
-import com.woniu.entity.User;
 import com.woniu.entity.UserExample;
 import com.woniu.mapper.UserMapper;
+import com.woniu.myutil.myeneity.User;
 import com.woniu.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -155,9 +155,9 @@
 											</div>
 											<div class="form-group">
 												<label>播放影厅</label>
-												<select class="form-control" name="room">
+												<select class="form-control" name="room" v-model="updateShow.roomId">
 													<option value="0" disabled="disabled">选择影厅</option>
-													<option v-for="room in roomList" v-model="room.id" v-text="room.name" :selected="updateShow.roomId==room.id?true:false"></option>
+													<option v-for="room in roomList" :value="room.id" v-text="room.name" :selected="updateShow.roomId==room.id?true:false"></option>
 												</select>
 											</div>
 											<div class="form-group">
@@ -367,12 +367,45 @@
 					},
 
 					updateShowTime:function () {
-						app.updateShow.playtime=app.updateShow.play1+" "+app.updateShow.play2
-
+						app.updateShow.playtime=app.updateShow.play1+' '+app.updateShow.play2
 						console.log(app.updateShow)
 
-
-
+						$.ajax({
+							url:"/movie-stage/showtime/update",
+							data:{
+								"id":app.updateShow.id,
+								"cid":app.updateShow.cid,
+								"mid":app.updateShow.mid,
+								"playtime":app.updateShow.playtime,
+								"roomId":app.updateShow.roomId,
+								"money":app.updateShow.money
+							},
+							dataType:"json",
+							type:"put",
+							success:function (data) {
+								if(data.code=="success"){//修改成功
+									$("#filmdeal").css("display","none");
+									$.ajax({
+										url:"/movie-stage/showtime/select",
+										type:"get",
+										data:{
+											"cid":app.nowCinema.id,
+											"mid":app.nowMovie.id
+										},
+										dataType:"json",
+										success:function (data) {
+											for(var i=0;i<data.list.length;i++){
+												//格式化放映时间
+												var datetime=getTime(data.list[i].playtime);
+												data.list[i].play1=datetime.split(" ")[0];
+												data.list[i].play2=datetime.split(" ")[1];
+											}
+											app.movieshow=data.list;
+										}
+									})
+								}
+							}
+						})
 					}
 
 

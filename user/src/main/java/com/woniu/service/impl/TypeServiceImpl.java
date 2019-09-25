@@ -1,7 +1,6 @@
 package com.woniu.service.impl;
 
 import com.woniu.entity.Type;
-import com.woniu.entity.User;
 import com.woniu.entity.UserType;
 import com.woniu.entity.UserTypeExample;
 import com.woniu.mapper.TypeMapper;

@@ -21,4 +21,9 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
     public void insertOneData(MovieShowtime movieShowtime) {
         movieShowtimeMapper.insertSelective(movieShowtime);
     }
+
+    @Override
+    public void updateById(MovieShowtime movieShowtime) {
+        movieShowtimeMapper.updateByPrimaryKey(movieShowtime);
+    }
 }

@@ -2,10 +2,15 @@ package com.woniu.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MovieShowtime implements Serializable {
     /**
     * 电影放映表id
