@@ -245,7 +245,7 @@
     <result column="argue" property="argue" jdbcType="VARCHAR" />
     <result column="user_score" property="userScore" jdbcType="TINYINT" />
     <result column="time" property="time" jdbcType="DATE" />
-    <association property="user" javaType="com.woniu.entity.User">
+    <association property="user" javaType="com.woniu.myutil.myeneity.User">
       <result column="username" property="username" jdbcType="VARCHAR" />
       <result column="state" property="state" jdbcType="TINYINT" />
       <result column="upic" property="upic" jdbcType="VARCHAR" />

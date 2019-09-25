@@ -98,6 +98,10 @@
     <!-- start-smoth-scrolling -->
     <script type="text/javascript" src="/web/js/move-top.js"></script>
     <script type="text/javascript" src="/web/js/easing.js"></script>
+    <!--分页-->
+    <script src="/web/tao/js/bscroll.min.js"></script>
+    <script src="/web/tao/js/city.js"></script>
+    <script src="/web/tao/js/getping.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
@@ -380,15 +384,15 @@
     <div class="limit">
         <input type="button" value="上一页" @click="pre()" class="btn btn-default">
         <ul>
-            <li v-if="page.pageIndex>1" v-text="page.pageIndex-1" id="pre"></li>
-            <li v-text="page.pageIndex" class="mtype-active"></li>
+            <li @click="jum1(page.pageIndex-1)" v-if="page.pageIndex>1" v-text="page.pageIndex-1" id="pre"></li>
+            <li @click="jum1(page.pageIndex)" v-text="page.pageIndex" class="mtype-active"></li>
             <li>2</li>
             <li>3</li>
-            <li v-if="page.pageIndex<page.pageCount" v-text="page.pageIndex-(-1)"></li>
+            <li @click="jum1(page.pageIndex-(-1))" v-if="page.pageIndex<page.pageCount" v-text="page.pageIndex-(-1)"></li>
         </ul>
         <input type="button" value="下一页" class="btn btn-default" @click="next()">
         <input class="jump" >
-        <input type="button" value="跳转" class="btn btn-default">
+        <input id="jum" type="button" @click="jum()" value="跳转" class="btn btn-default">
     </div>
 </div>
 <script src="/web/js/vue.js"></script>
@@ -458,6 +462,15 @@
                     liclick();
                 }
 
+            },
+            /*跳转*/
+            jum:function () {
+                pageIndex=$("#jum").prev().val();
+                liclick();
+            },
+            jum1:function (pageIndex1) {
+                pageIndex=pageIndex1;
+                liclick();
             }
         }
     });
@@ -488,7 +501,6 @@
             if (type == "品牌") {
                 cinema = $(this).text();
                 if (cinema == "全部") {
-                    alert(cinema);
                     cinema = "default";
                 }
             } else if (type == "地区") {

@@ -1,7 +1,7 @@
 package com.woniu.api;
 
 import com.woniu.entity.Like;
-import com.woniu.entity.User;
+import com.woniu.myutil.myeneity.User;
 import com.woniu.service.LikeService;
 import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +46,9 @@ public class LikeAPI {
     @PostMapping("/{cid}")
     public Result insertLike(@PathVariable("cid") Integer cid,HttpSession session)throws Exception{
         User user = (User) session.getAttribute("user");
+        if(user==null){
+            return new Result("error","请登录后操作",null,null);
+        }
         likeService.insertList(new Like(user.getId(),cid));
         return new Result("success",null,null,null);
     }

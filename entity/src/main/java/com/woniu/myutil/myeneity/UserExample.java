@@ -1,4 +1,4 @@
-package com.woniu.entity;
+package com.woniu.myutil.myeneity;
 
 import java.util.ArrayList;
 import java.util.Date;

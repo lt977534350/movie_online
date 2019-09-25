@@ -1,5 +1,6 @@
 package com.woniu.entity;
 
+import com.woniu.myutil.myeneity.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

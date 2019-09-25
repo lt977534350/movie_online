@@ -1,7 +1,7 @@
 package com.woniu.api;
 
 import com.woniu.entity.Comment;
-import com.woniu.entity.User;
+import com.woniu.myutil.myeneity.User;
 import com.woniu.service.CommentService;
 import com.woniu.service.LikeService;
 import com.woniu.util.Page;

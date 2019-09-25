@@ -1,7 +1,6 @@
 package com.woniu.service.impl;
 
 import com.woniu.entity.Comment;
-import com.woniu.entity.CommentExample;
 import com.woniu.mapper.CommentMapper;
 import com.woniu.service.CommentService;
 import org.springframework.stereotype.Service;

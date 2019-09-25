@@ -12,12 +12,12 @@ import javax.annotation.Resource;
 
 @Configuration
 public class RedisTemplateConfig {
-    @Resource
+   /* @Resource
     private RedisTemplate redisTemplate;
     @Bean
     public RedisTemplate<String,Object> initRedisTemplate(){
         //修改键的序列化策略
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         return redisTemplate;
-    }
+    }*/
 }
