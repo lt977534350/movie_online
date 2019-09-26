@@ -60,36 +60,95 @@
               </div>
             </div>
             <div id="renewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-              <div role="document" class="modal-dialog">
+              <div role="document" class="modal-dialog" style="max-width: 80% !important;">
                 <div class="modal-content">
+                    <link rel="stylesheet" href="/web/backstage/css/normalize.min.css">
+                    <link rel="stylesheet" href="/web/backstage/css/mymenustyle.css">
                   <div class="modal-header">
                     <h4 id="exampleModalLabel" class="modal-title">影院套餐购买	</h4>
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                   </div>
-                  <div class="modal-body">
-                    <p>平台套餐信息</p>
-                    <form id="meal">
-                      <input name="aid" type="hidden" value="1">
-                      <div class="form-group">
-                        <label>套餐等级:</label>
-                        <select name="name" id="meallevel" class="form-control">
-                          <option value="0" selected="selected" disabled="disabled">请选择套餐等级</option>
-                          <option value="1">A套餐</option>
-                          <option value="2">B套餐</option>
-                          <option value="3">C套餐</option>
-                        </select>
-                      </div>
-                      <label for="meallevel" id="meallevel-error" class="error" style="display: none;color: red;"></label>
-                      <div class="form-group">
-                        <label>套餐价格:</label>
-                        <input name="money" type="text" class="form-control" value="10000">
-                      </div>
-                      <div class="form-group">
-                        <label>套餐时限:</label>
-                        <input name="period" type="text" value="1" class="form-control">
-                      </div>
-                    </form>
-                  </div>
+                    <div class="modal-body">
+                        <div class="mainbox">
+                            <div class='pricing pricing-palden'>
+                                <div class='pricing-item'>
+                                    <div class='pricing-deco'>
+                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
+                                             id='Layer_1'
+                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
+                                             width='300px' x='0px' xml:space='preserve'
+                                             xmlns:xlink='http://www.w3.org/1999/xlink'
+                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
+                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z'fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--3'd='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z'fill='#FFFFFF' opacity='0.7'></path>
+                                            <path class='deco-layer deco-layer--4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'fill='#FFFFFF'></path>
+                                        </svg>
+                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>100000</span>
+                                            <span class='pricing-period'>/ 年</span>
+                                        </div>
+                                        <h3 class='pricing-title'>普通版</h3>
+                                    </div>
+                                    <ul class='pricing-feature-list'>
+                                        <li class='pricing-feature'>1GB 空间</li>
+                                        <li class='pricing-feature'>1G 内存</li>
+                                        <li class='pricing-feature'>1G 宽带</li>
+                                    </ul>
+                                    <button class='pricing-action'>立即购买</button>
+                                </div>
+                                <div class='pricing-item pricing__item--featured'>
+                                    <div class='pricing-deco'>
+                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
+                                             id='Layer_1'
+                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
+                                             width='300px' x='0px' xml:space='preserve'
+                                             xmlns:xlink='http://www.w3.org/1999/xlink'
+                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
+                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z'fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--3'd='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z'fill='#FFFFFF' opacity='0.7'></path>
+                                            <path class='deco-layer deco-layer--4'd='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'fill='#FFFFFF'></path>
+                                        </svg>
+                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>180000</span>
+                                            <span class='pricing-period'>/ 2年</span>
+                                        </div>
+                                        <h3 class='pricing-title'>专业版</h3>
+                                    </div>
+                                    <ul class='pricing-feature-list'>
+                                        <li class='pricing-feature'>5GB 空间</li>
+                                        <li class='pricing-feature'>4G 内存</li>
+                                        <li class='pricing-feature'>2G 宽带</li>
+                                    </ul>
+                                    <button class='pricing-action'>立即购买</button>
+                                </div>
+                                <div class='pricing-item'>
+                                    <div class='pricing-deco'>
+                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
+                                             id='Layer_1'
+                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
+                                             width='300px' x='0px' xml:space='preserve'
+                                             xmlns:xlink='http://www.w3.org/1999/xlink'
+                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
+                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>
+                                            <path class='deco-layer deco-layer--3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>
+                                            <path class='deco-layer deco-layer--4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>
+                                        </svg>
+                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>255000</span>
+                                            <span class='pricing-period'>/ 3年</span>
+                                        </div>
+                                        <h3 class='pricing-title'>企业版</h3>
+                                    </div>
+                                    <ul class='pricing-feature-list'>
+                                        <li class='pricing-feature'>10GB 空间</li>
+                                        <li class='pricing-feature'>8G 内存</li>
+                                        <li class='pricing-feature'>4G 宽带</li>
+                                    </ul>
+                                    <button class='pricing-action'>立即购买</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   <div class="modal-footer">
                     <button id="closetobuy" type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
                     <button id="buy" type="button" class="btn btn-primary">保存修改</button>
