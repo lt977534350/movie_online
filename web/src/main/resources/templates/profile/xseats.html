@@ -482,9 +482,8 @@
                 <div class="has-ticket">
                     <span class="text">座位：</span>
                     <div class="ticket-container">
-
                         <span v-for=" (seat,index) in seatList" v-show="index>=0" class="ticket" :data-row-id="seat.row"
-                              :data-column-id="seat.column" :data-id="seat.id"
+                              :data-column-id="seat.column" :data-id="seat.id" :data-index="seat.row+'-'+seat.column"
                               v-text="seat.row+'排'+seat.column+'座'" @click="cancelTicket($event)"></span>
 
                     </div>
@@ -498,8 +497,7 @@
 
             <div class="confirm-order">
                 <div class="cellphone">
-                    <!--<span>手机号 :</span>
-                    <span class="phone-num">188****8460</span>-->
+
                 </div>
                 <div :class="seatList.length>0?'confirm-btn':'confirm-btn disable'" data-act="confirm-click" data-bid="b_0a0ep6pp" @click="confirmTicket($event)">
                     确认选座
@@ -517,22 +515,19 @@
             <div class="ok-btn btn" @click="btn($event)">我知道了</div>
         </div>
     </div>
-    <!--    <div class="modal-container" style="display:none">
-            <div class="modal1">
-                <span class="icon"></span>
-                <p class="tip"></p>
-                <div class="ok-btn btn">我知道了</div>
-            </div>
-        </div>-->
+
 </div>
 <script type="text/javascript">
     var href = window.location.href;
-    var id = href.split("=")[1];
+    var msid = href.split("=")[1].split("&")[0];
+    var mid= href.split("=")[2];
+
+
 
     function select(obj) {
         $.ajax({
             url: "/orders/selectSeat",
-            data: {"msid": id},
+            data: {"msid": msid},
             type: "get",
             dataType: "json",
             success: function (data) {
@@ -543,7 +538,7 @@
 
     function selectMovie(mid) {
         $.ajax({
-            url: "/movie-stage/movie/bymid/" + mid,
+            url: "/movie-stage/movie/bymid/" +mid ,
             type: "get",
             dataType: "json",
             success: function (data) {
@@ -552,9 +547,9 @@
         })
     }
 
-    function selectCinema(mid) {
+    function selectCinema(msid) {
         $.ajax({
-            url: "/orders/selectCinema?msid=" + mid,
+            url: "/orders/selectCinema?msid=" + msid,
             type: "get",
             dataType: "json",
             success: function (data) {
@@ -585,8 +580,8 @@
         created: function () {
             var obj = this
             select(obj);
-            selectMovie(1)
-            selectCinema(1)
+            selectMovie(mid)
+            selectCinema(msid)
 
         },
         methods: {
@@ -635,6 +630,7 @@
             },
             cancelTicket(e) {
                 var row = $(e.target).attr("data-row-id");
+
                 var column = $(e.target).attr("data-column-id");
                 var s = $(e.target).attr("data-index");
                 let index = -1;
@@ -646,7 +642,7 @@
                 this.seatList.splice(index, 1)
                 $(".selected").each(function () {
                     var e = $(this);
-                    if (e.data("index") === s) {
+                    if (e.data("index") == s) {
                         e.removeClass("selected");
                         e.addClass("selectable");
                     }
@@ -659,7 +655,7 @@
                 //不知道序列化数组对象，只有拼接
                 for (var i = 0; i < this.seatList.length; i++) {
                     var data = this.seatList[i].id;
-                    console.log(data)
+
                     if (i == 0) {
                         s = "id=" + data
                     } else {
@@ -669,7 +665,7 @@
                 }
                 $.ajax({
                     url: "/orders/profile/orders/confirm/",
-                    data: s + "&msid=" + 1,
+                    data: s + "&msid=" + msid,
                     type: "get",
                     dataType: "json",
                     success: function (data) {
@@ -735,11 +731,11 @@
         </div>
         <div class="col-md-7 w3ls_footer_grid1_right">
             <div class="col-lg-6 card-left">
-                <a href="#"><img src="images/web-permission.png"/></a>
+                <a href="#"><img src="/web/images/web-permission.png"/></a>
 
             </div>
             <div class="col-lg-6 card-right">
-                <a href="#"><img src="images/permission-card.png"/></a>
+                <a href="#"><img src="/web/images/permission-card.png"/></a>
             </div>
         </div>
         <div class="clearfix"></div>

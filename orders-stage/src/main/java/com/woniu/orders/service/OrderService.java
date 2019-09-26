@@ -12,6 +12,7 @@ package com.woniu.orders.service;
 
 import com.woniu.orders.entity.Order;
 import com.woniu.orders.util.Count;
+import com.woniu.orders.util.CountDetail;
 
 import java.text.ParseException;
 import java.util.List;
@@ -31,9 +32,9 @@ public interface OrderService {
 
     int updateOrderSuccess(Order order, int alipayNoticeLogId);
 
-    int  selectOrdersSuccess()throws Exception;
+    List<CountDetail> selectOrdersSuccess()throws Exception;
 
-    int selectOrdersFail() throws  Exception;
+    List<CountDetail> selectOrdersFail() throws  Exception;
 
 
 

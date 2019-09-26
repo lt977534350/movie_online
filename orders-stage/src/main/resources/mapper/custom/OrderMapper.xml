@@ -62,13 +62,54 @@
         #{start}, #{num};
 
     </select>
-    <select id="selectOrderSuccess" resultType="int">
-        SELECT  count(o.id)FROM orders o  WHERE  o.ostate between
-         11 and 39 AND  to_days(o.c_time) = TO_DAYS(NOW())
+    
+    <resultMap id="countmap" type="com.woniu.orders.util.CountDetail">
+        <result column="click_date" jdbcType="VARCHAR" property="date"/>
+        <result column="count" jdbcType="VARCHAR" property="count"/>
+    </resultMap>
+    <select id="selectOrderSuccess" resultType="com.woniu.orders.util.CountDetail" resultMap="countmap">
+               select date_format(a.click_date,'%m-%d') as click_date,ifnull(b.count,0)  as count
+            from (
+
+                SELECT date_sub(curdate(), interval 4 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 3 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 2 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 1 day) as click_date
+                    union all
+                    SELECT curdate() as click_date
+
+
+            ) a left join (
+              select date(c_time) as datetime, count(*) as count ,ostate
+              from orders where ostate BETWEEN 11 and 39
+              group by date(c_time)
+            ) b on a.click_date = b.datetime
+
     </select>
-    <select id="selectOrderRefund" resultType="int">
-        SELECT  count(o.id)FROM orders o  WHERE  o.ostate
-        =40 AND  to_days(o.c_time) = TO_DAYS(NOW())
+    <select id="selectOrderRefund" resultType="com.woniu.orders.util.CountDetail" resultMap="countmap">
+                  select date_format(a.click_date,'%m-%d') as click_date,ifnull(b.count,0)  as count
+            from (
+
+                SELECT date_sub(curdate(), interval 4 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 3 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 2 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 1 day) as click_date
+                    union all
+                    SELECT curdate() as click_date
+
+
+            ) a left join (
+              select date(c_time) as datetime, count(*) as count ,ostate
+              from orders where ostate =40
+              group by date(c_time)
+            ) b on a.click_date = b.datetime
+
     </select>
 
 

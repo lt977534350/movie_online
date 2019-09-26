@@ -12,14 +12,8 @@
 		<script type="text/javascript" src="/web/layui/layui.js?t=2"></script>
 		<script type="text/javascript" src="/web/js/common.js?t=2"></script>
 		<script type="text/javascript" src="/web/js/vue.js"></script>
+        <script type="text/javascript" src="/web/ltjs/echarts.min.js"></script>
 		<style type="text/css">
-			.top-title{
-				font-size: 20px;
-				font-weight: 900;
-				font-family: symbol;
-				color: black;
-				cursor: pointer;
-			}
 		</style>
 	</head>
 	<style type="text/css" id="LAY_layadmin_theme"></style>
@@ -71,290 +65,225 @@
 			</div>
 
 			<!--主体-->
-			<div id="app">
-				<div class="layui-body" id="LAY_app_body">
-					<!-- 头部区域 -->
-					<div class="layui-header head">
-						<ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
-							<li class="layui-nav-item layadmin-flexible" lay-unselect="">
-								<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-									<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
-								</a>
-							</li>
-							<li class="layui-nav-item" lay-unselect="">
-								<a href="#" onclick="flush()" layadmin-event="refresh" title="刷新">
-									<i class="layui-icon layui-icon-refresh-3"></i>
-								</a>
-							</li>
-							<li class="layui-nav-item layui-hide-xs" lay-unselect="">
-								<span class="layui-badge layui-bg-orange">管理员</span>
-								<span class="top-title" v-html="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+admin.username"></span>
-							</li>
-						</ul>
-						<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-							<li style="cursor: pointer" class="layui-nav-item stage-title" lay-unselect="">
-								爱乐后台管理系统
-							</li>
-							<li class="layui-nav-item" lay-unselect="">
-								<a href="javascript:;"> <span><img src="/web/images/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" /></span> <span class="layui-nav-more"></span></a>
-								<dl class="layui-nav-child">
-									<dd>
-										<a lay-href="set/user/password" href="javascript:;" v-text="admin.username"></a>
-									</dd>
-									<dd>
-										<a lay-href="set/user/info" :href="'/web/qian/person.html?admin-msg='+admin">基本资料</a>
-									</dd>
-									<hr>
-									<dd layadmin-event="logout" style="text-align: center;">
-										<a style="cursor: pointer" onclick="logout()">退出</a>
-									</dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-					<div class="layui-fluid">
-						<div class="layui-row layui-col-space15">
-							<div class="layui-col-md12">
-								<div class="layui-card">
-									<div style="font-size:20px;color:red" class="layui-card-header">爱乐电影，成就明天</div>
-								</div>
+			<div class="layui-body" id="LAY_app_body" id="app">
+				<!-- 头部区域 -->
+				<div class="layui-header head">
+					<ul class="layui-nav layui-layout-left" lay-filter="layadmin-layout-left">
+						<li class="layui-nav-item layadmin-flexible" lay-unselect="">
+							<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+								<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item" lay-unselect="">
+							<a href="#" layadmin-event="refresh" title="刷新">
+								<i class="layui-icon layui-icon-refresh-3"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item layui-hide-xs" lay-unselect="">
+							<form action="#" method="post">
+								<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+								<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
+							</form>
+						</li>
+					</ul>
+					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+						<li class="layui-nav-item stage-title" lay-unselect="">
+							爱乐后台管理系统
+						</li>
+						<li class="layui-nav-item" lay-unselect="">
+							<a href="javascript:;"> <span><img src="/web/images/head.jpg" style="border-radius: 50% ;width: 40px;height: 40px;" /></span> <span class="layui-nav-more"></span></a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a lay-href="set/user/password" href="javascript:;" v-text="admin.username"></a>
+								</dd>
+								<dd>
+									<a lay-href="set/user/info" :href="'/web/qian/person.html?admin-msg='+admin">基本资料</a>
+								</dd>
+								<hr>
+								<dd layadmin-event="logout" style="text-align: center;">
+									<a>退出</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+				<div class="layui-fluid">
+					<div class="layui-row layui-col-space15">
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div style="font-size:20px;color:red" class="layui-card-header">爱乐电影，成就明天</div>
 							</div>
-							<div class="layui-col-md12">
-								<div class="layui-card">
-									<div class="layui-card-body">
-										<div class="histogram-container" id="histogram-container">
-											<!--背景方格-->
-											<div class="histogram-bg-line">
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-												<ul>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-													<li>
-														<div></div>
-													</li>
-												</ul>
-											</div>
-											<!--柱状条-->
-											<div class="histogram-content">
-												<ul>
-													<li>
-														<span class="histogram-box"><a style="height:65%;" title="20%" class="aOne"></a></span>
-														<span class="name">周一</span>
-														<span class="histogram-box"><a style="height:13%" class="aOne1"title="20%"></a></span>
-														<span class="name"></span>
-													</li>
-													<li>
-														<span class="histogram-box"><a style="height:80%;" title="20%" class="aOne"></a></span>
-														<span class="name">周二</span>
-														<span class="histogram-box"><a style="height:16%" class="aOne1"title="20%"></a></span>
-														<span class="name"></span>
-													</li>
-													<li>
-														<span class="histogram-box"><a style="height:95%;" title="20%" class="aOne"></a></span>
-														<span class="name">周三</span>
-														<span class="histogram-box"><a style="height:13%" class="aOne1"title="20%"></a></span>
-														<span class="name"></span>
-													</li>
-													<li>
-														<span class="histogram-box"><a style="height:65%;" title="20%" class="aOne"></a></span>
-														<span class="name">周四</span>
-														<span class="histogram-box"><a style="height: 40%;" class="aOne1" title="20%"></a></span>
-														<span class="name"></span>
-													</li>
-													<li>
-														<span class="histogram-box"><a style="height:95%;" title="20%" class="aOne"></a></span>
-														<span class="name">周五</span>
-														<span class="histogram-box"><a style="height:13%" class="aOne1"title="20%"></a></span>
-														<span class="name"></span>
-													</li>
-												</ul>
-											</div>
-											<!--百分比 y轴-->
-											<div class="histogram-y">
-												<ul>
-													<li>160</li>
-													<li>140</li>
-													<li>120</li>
-													<li>100</li>
-													<li>80</li>
-													<li>60</li>
-													<li>40</li>
-													<li>20</li>
-													<li>0</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
+						</div>
+						<div class="layui-col-md12">
+							<div class="layui-card">
+                                <div id="main" style="width: 600px;height:400px; float: left"></div>
+                                <div id="two" style="width: 600px;height:400px; float: right"></div>
+                                <script type="text/javascript">
+                                    // 基于准备好的dom，初始化echarts实例
+                                    function init(data,num) {
+                                        var myChart = echarts.init(document.getElementById('main'));
+                                        // 指定图表的配置项和数据
+                                        myChart.title = '坐标轴刻度与标签对齐';
+                                        option = {
+                                            color: ['#3398DB'],
+                                            tooltip : {
+                                                trigger: 'axis',
+                                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                                }
+                                            },
+                                            grid: {
+                                                left: '3%',
+                                                right: '4%',
+                                                bottom: '3%',
+                                                containLabel: true
+                                            },
+                                            xAxis : [
+                                                {
+                                                    type : 'category',
+                                                    data : data,
+                                                    axisTick: {
+                                                        alignWithLabel: true
+                                                    }
+                                                }
+                                            ],
+                                            yAxis : [
+                                                {
+                                                    type : 'value'
+                                                }
+                                            ],
+                                            series : [
+                                                {
+                                                    name:'完成订单',
+                                                    type:'bar',
+                                                    barWidth: '60%',
+                                                    data:num,
+                                                }
+                                            ]
+                                        };
+
+                                        // 使用刚指定的配置项和数据显示图表。
+                                        myChart.setOption(option);
+                                        
+                                    }
+                                    function two(data,num) {
+                                        var myChart = echarts.init(document.getElementById('two'));
+                                        // 指定图表的配置项和数据
+                                        myChart.title = '坐标轴刻度与标签对齐';
+                                        option = {
+                                            color: ['#3398DB'],
+                                            tooltip : {
+                                                trigger: 'axis',
+                                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                                }
+                                            },
+                                            grid: {
+                                                left: '3%',
+                                                right: '4%',
+                                                bottom: '3%',
+                                                containLabel: true
+                                            },
+                                            xAxis : [
+                                                {
+                                                    type : 'category',
+                                                    data : data,
+                                                    axisTick: {
+                                                        alignWithLabel: true
+                                                    }
+                                                }
+                                            ],
+                                            yAxis : [
+                                                {
+                                                    type : 'value'
+                                                }
+                                            ],
+                                            series : [
+                                                {
+                                                    name:'退款',
+                                                    type:'bar',
+                                                    barWidth: '60%',
+                                                    data:num,
+                                                }
+                                            ]
+                                        };
+
+                                        // 使用刚指定的配置项和数据显示图表。
+                                        myChart.setOption(option);
+
+                                    }
+
+
+
+                                    $.ajax({
+                                        url:"/orders//profile/orders/count",
+                                        dataType:"json",
+                                        type:"get",
+                                        success:function (rt) {
+                                            var arrayObj = new Array();
+                                            var num = new Array();
+                                            var refundobj=new Array();
+
+                                            for (var i = 0; i < rt.finish.length; i++) {
+                                                arrayObj.push(rt.finish[i].date );
+                                                num.push(rt.finish[i].count)
+                                            }
+                                            for (var i = 0; i < rt.refund.length; i++) {
+
+                                                refundobj.push(rt.refund[i].count)
+                                            }
+                                            init(arrayObj,num)
+                                            two(arrayObj,refundobj)
+
+
+
+
+
+
+
+                                        }
+                                    });
+
+
+                                </script>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-		</div>
+		33</div>
 		<!--辅助作用一般用于手机遮罩层-->
 		<div class="layui-layer-shade mobilenav" id="mobilenav" onClick="clearmobilenav()" style="z-index: 998; background-color: rgb(0, 0, 0); opacity: 0.3;display:none"></div>
 	</body>
-	<script>
+	<script type="text/javascript">
+
+
+
+		function  selectCount(v) {
+
+		}
 		var app = new Vue({
 			el:"#app",
 			data:{
-				admin:{}
+				admin:{},
+				date:[],
+                countNum:""
 			},
 			created:function () {
+
 				var v = this;
+				selectCount(v);
 				$.ajax({
 					url:"/cinema-stage/admin/getAdmin",
 					dataType:"json",
 					type:"get",
 					success:function (rt) {
+						alert("username---"+rt.object.username);
 						v.admin = rt.object;
 					}
 				});
 			}
 		});
-		function flush(){
-			window.location.reload();
-		}
-		function logout() {
-			$.ajax({
-				url:"/cinema-stage/admin/logout",
-				dataType:"json",
-				type:"delete",
-				success:function (rt) {
-					window.location.href="/web/feng/backstage/login.html";
-				}
-			});
-		}
 	</script>
 </html>

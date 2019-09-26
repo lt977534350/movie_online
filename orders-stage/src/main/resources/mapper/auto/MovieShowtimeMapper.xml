@@ -24,8 +24,8 @@
     <result column="money" jdbcType="DOUBLE" property="money"/>
   </resultMap>
     <select id="selectMovieShowInfo" resultType="com.woniu.orders.entity.MovieShowInfo" resultMap="MovieShowInfoMap">
-      select c.c_name ,cr.name ,ms.playtime,ms.money FROM movie_showtime ms INNER JOIN cinema  c on ms.mid = c.id
-        INNER JOIN cinema_room cr on ms.room_id = cr.id WHERE ms.id=#{msid}
+      select c.c_name ,cr.name ,ms.playtime,ms.money FROM movie_showtime ms left JOIN cinema  c on ms.cid = c.id
+        left JOIN cinema_room cr on ms.room_id = cr.id WHERE ms.id=#{msid}
     </select>
     <select id="selectAid" resultType="int">
       select c.aid FROM movie_showtime ms LEFT JOIN  cinema c on ms.cid =  c.id WHERE ms.id=#{msid}

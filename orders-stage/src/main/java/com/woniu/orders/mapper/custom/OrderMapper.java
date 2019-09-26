@@ -1,6 +1,7 @@
 package com.woniu.orders.mapper.custom;
 
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.util.CountDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface OrderMapper {
 
     List<Order> selectOrder(Map<String, Integer> map);
 
-    int selectOrderSuccess();
-    int selectOrderRefund();
+    List<CountDetail> selectOrderSuccess();
+    List<CountDetail> selectOrderRefund();
 
 }

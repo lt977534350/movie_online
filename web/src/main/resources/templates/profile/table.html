@@ -13,24 +13,29 @@
         var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: 'ECharts 入门示例'
-            },
+        option = {
+            legend: {},
             tooltip: {},
-            legend: {
-                data:['销量']
+            dataset: {
+                source: [
+                    ['9-20', '2015', '2016', '2017'],
+                    ['9-21', 43.3, 85.8, 93.7],
+                    ['Milk Tea', 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                    ['e', 72.4, 53.9, 39.1]
+                ]
             },
-               xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
+            xAxis: {type: 'category'},
             yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
         };
+
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);

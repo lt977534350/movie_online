@@ -1,5 +1,7 @@
 package com.woniu.orders.util;
 
+import java.util.List;
+
 /**
  * @program: movie_online
  * @description:
@@ -7,23 +9,25 @@ package com.woniu.orders.util;
  * @create: 2019-09-24 16:42
  **/
 public class Count {
-    private int success;
+    private List<CountDetail> finish;
 
-    public int getSuccess() {
-        return success;
+    private List<CountDetail> refund;
+
+    public List<CountDetail> getFinish() {
+        return finish;
     }
 
-    public void setSuccess(int success) {
-        this.success = success;
+    public void setFinish(List<CountDetail> finish) {
+        this.finish = finish;
     }
 
-    public int getFail() {
-        return fail;
+    public List<CountDetail> getRefund() {
+        return refund;
     }
 
-    public void setFail(int fail) {
-        this.fail = fail;
+    public void setRefund(List<CountDetail> refund) {
+        this.refund = refund;
     }
 
-    private  int fail;
+
 }

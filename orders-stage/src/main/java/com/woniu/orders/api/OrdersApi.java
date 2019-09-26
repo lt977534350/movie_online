@@ -14,6 +14,7 @@ import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
 import com.woniu.orders.service.OrderService;
 import com.woniu.orders.util.Count;
+import com.woniu.orders.util.CountDetail;
 import com.woniu.orders.util.Page;
 import com.woniu.orders.util.Result;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,10 @@ public class OrdersApi {
     @GetMapping("/confirm/")
     @ResponseBody
     public Result createOrders ( Integer id[],Integer msid,HttpSession session) throws Exception {
-    User user =(User)session.getAttribute("user");
-     user.getId();
+    /*User user =(User)session.getAttribute("user");
+     user.getId();*/
      if (id.length<=0||msid==null){
+
          return new Result("500","选座失败",null,null);
      }
 
@@ -100,14 +102,15 @@ public class OrdersApi {
         }
        return new Result("500","删除失败",null,null);
     }
-    @GetMapping ("test")
+    @GetMapping ("count")
     @ResponseBody
     public Count selectOrderSuccessOrFail() throws Exception {
-        int success = orderService.selectOrdersSuccess();
-        int fail = orderService.selectOrdersFail();
+        List<CountDetail> success = orderService.selectOrdersSuccess();
+        List<CountDetail> refund = orderService.selectOrdersFail();
         Count count = new Count();
-        count.setSuccess(success);
-        count.setFail(fail);
+        count.setFinish(success);
+        count.setRefund(refund);
+        System.out.println(count);
         return count;
     }
 }

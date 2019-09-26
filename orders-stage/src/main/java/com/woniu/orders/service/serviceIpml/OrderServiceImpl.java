@@ -19,6 +19,7 @@ import com.woniu.orders.service.OrderService;
 import com.woniu.orders.service.SeatInfoService;
 import com.woniu.orders.service.VipService;
 import com.woniu.orders.util.Count;
+import com.woniu.orders.util.CountDetail;
 import com.woniu.orders.util.DateUtil;
 import com.woniu.orders.util.Seat;
 import lombok.extern.slf4j.Slf4j;
@@ -121,12 +122,12 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public int selectOrdersFail() throws Exception {
+    public List<CountDetail> selectOrdersFail() throws Exception {
        return orderMapper.selectOrderRefund();
     }
 
     @Override
-    public int  selectOrdersSuccess() throws Exception {
+    public List<CountDetail>  selectOrdersSuccess() throws Exception {
          return orderMapper.selectOrderSuccess();
 
 

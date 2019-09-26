@@ -39,6 +39,7 @@ public class SeatApi {
     @ResponseBody
     public Result selectCinema(Integer msid)throws Exception{
         MovieShowInfo movieShowInfo = seatService.selectMovieShowInfo(msid);
+        System.out.println(movieShowInfo);
        return new Result("200",null,movieShowInfo,null);
     }
 
