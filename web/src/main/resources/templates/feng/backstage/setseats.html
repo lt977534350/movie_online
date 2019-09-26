@@ -139,8 +139,6 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                         class="close"><span aria-hidden="true">×</span></button>
                             </div>
                             <div class="modal-body">
-                                <p>影厅设置</p>
-
                                 <form>
                                     <div class="form-group">
                                         <label>影厅名</label>
@@ -159,21 +157,18 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                         <input type="text" style="width:30px;" id="x" value="10"> ×
                                         <input type="text" style="width:30px;" id="y" value="30">
                                     </div>
-                                    <div id="frontbox">
-                                        <div class="front" style="margin: 0 auto;">屏幕</div>
+                                    <div id="seat_area">
+<!--                                        <div class="front">屏幕</div>-->
+
                                     </div>
-                                    <div id="seat_area"></div>
                                     <!--座位布局的div-->
                                     <!--<div id="seat-maps"></div>-->
-                                    <div class="booking-details" id="app">
-                                        <ul id="selected-seats">
-                                        </ul>
+                                    <div class="booking-details" id="insert">
                                         <div class="modal-footer">
                                             <input type="button" data-dismiss="modal" id="closeInsert" class="btn btn-secondary" value="关闭"/>
                                             <input id="kbtn" @click="save()" type="button" class="btn btn-primary" value="保存"/>
                                         </div>
                                         <p><input id="crea" hidden="hidden" @click="create()" /></p>
-                                        <!--<div id="legend"></div>-->
                                     </div>
                                 </div>
                             </div>
@@ -188,18 +183,15 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
             <div class="container-fluid">
                 <div class="row">
                     <div class="modal-body">
-                        <p>影厅设置</p>
-                        <form>
-
-                            <div class="form-group">
-                                <label>影厅名</label>
-                                <input id="thisroomname" name="thisroomname" type="text" placeholder="影厅名" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>影厅类型</label>
-                                <input id="thisroomtype" name="thisroomtype" type="text" placeholder="影厅类型" class="form-control">
-                            </div>
-                        </form>
+                        <input id="thisid" type="hidden" name="id" value=""/>
+                        <div class="form-group">
+                            <label>影厅名</label>
+                            <input id="thisroomname" name="roomname" type="text" placeholder="影厅名" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>影厅类型</label>
+                            <input id="thisroomtype" name="roomtype" type="text" placeholder="影厅类型" class="form-control">
+                        </div>
                         <div class="demo clearfix" >
                             <span id="thisadd-error" class="error" style="color: red;"></span>
                             <div class="front-indicator">座位选择</div>
@@ -208,23 +200,17 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                 <input type="text" style="width:30px;" id="thisx" value="10"> ×
                                 <input type="text" style="width:30px;" id="thisy" value="30">
                             </div>
-                            <div id="thisfrontbox">
-                                <div class="front" style="margin: 0 auto;">屏幕</div>
-                            </div>
                             <div id="thisseat_area">
-
                             </div>
+
                             <!--座位布局的div-->
-<!--                            <div id="thisseat-maps"></div>-->
-                            <div class="booking-details">
-                                <ul id="selected-seats ">
-                                </ul>
+                            <div id="thisseat-maps"></div>
+                            <div class="booking-details" id="update">
                                 <div class="modal-footer">
-                                    <input type="button" data-dismiss="modal" class="btn btn-secondary" value="关闭"/>
-                                    <input id="thiskbtn" onclick="thissave()" type="button" class="btn btn-primary" value="保存修改"/>
+                                    <input type="button" class="btn btn-secondary" @click="closeUpdate()" value="关闭"/>
+                                    <input id="thiskbtn" @click="updateRoom()" type="button" class="btn btn-primary" value="保存修改"/>
                                 </div>
-                                <p><input id="thiscrea" type="hidden" onclick="thisregist()"/></p>
-<!--                                <div id="thislegend"></div>-->
+                                <input id="thiscrea" type="hidden" @click="createSeats()"/>
                             </div>
                         </div>
                     </div>
@@ -240,144 +226,213 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
     //查询当前登录的用户
 
     //根据用户id查询当前用户管理的影院
-    var cin=new Vue({
-        el:"#cinemaArea",
-        data:{
-            //当前用户的所有影院
-            cinemaList:[],
-            //当前选择影院的id
-            cid:"",
-            //当前选择的影院信息
-            nowCinema:{},
-            cinemaRoomList:[],
+        var cin=new Vue({
+            el:"#cinemaArea",
+            data:{
+                //当前用户的所有影院
+                cinemaList:[],
+                //当前选择影院的id
+                cid:"",
+                //当前选择的影院信息
+                nowCinema:{},
+                cinemaRoomList:[],
 
-            //当前编辑的影厅
-            nowCinemaRoom:{}
-        },
-        created:function () {
-            this.cid='0'
-            //查询当前登录的用户
+                //当前编辑的影厅
+                nowCinemaRoom:{},
+                updateSeats:[]
+            },
+            created:function () {
+                this.cid='0'
+                //查询当前登录的用户
 
-            //根据用户id查询 当前用户管理的影院
-            //查询当前登录影院的所有放映点//aid
-            var _this=this;
-            $.ajax({
-                url:"/cinema-stage/cinema/all",
-                data:{
-                    "aid":1
-                },
-                type:"get",
-                dataType:"json",
-                success:function (data) {
-                    _this.cinemaList=data.list;
-                    console.log(data)
-                }
-            });
-        },
-        methods:{
-            selectCinema:function () {
-                if(cin.cid == 0){
-                    return;
-                }
-                for(var i=0;i<cin.cinemaList.length;i++){
-                    if(cin.cinemaList[i].id==cin.cid){
-                        cin.nowCinema=cin.cinemaList[i];
-                        break;
-                    }
-                }
-
-                //根据cid查询当前影院的所有影厅信息
+                //根据用户id查询 当前用户管理的影院
+                //查询当前登录影院的所有放映点//aid
+                var _this=this;
                 $.ajax({
-                    url:"/cinema-stage/room/bycid",
+                    url:"/cinema-stage/cinema/all",
                     data:{
-                        "cid":cin.cid
+                        "aid":1
                     },
                     type:"get",
                     dataType:"json",
                     success:function (data) {
+                        _this.cinemaList=data.list;
                         console.log(data)
-                        cin.cinemaRoomList=data.list;
                     }
                 });
+            },
+            methods:{
+                selectCinema:function () {
+                    if(cin.cid == 0){
+                        return;
+                    }
+                    for(var i=0;i<cin.cinemaList.length;i++){
+                        if(cin.cinemaList[i].id==cin.cid){
+                            cin.nowCinema=cin.cinemaList[i];
+                            break;
+                        }
+                    }
 
+                    //根据cid查询当前影院的所有影厅信息
+                    $.ajax({
+                        url:"/cinema-stage/room/bycid",
+                        data:{
+                            "cid":cin.cid
+                        },
+                        type:"get",
+                        dataType:"json",
+                        success:function (data) {
+                            console.log(data)
+                            cin.cinemaRoomList=data.list;
+                        }
+                    });
+
+
+                },
+
+                //编辑座位  重写方法
+                editroom : function (index) {
+                    //修改影厅信息回显
+                    cin.nowCinemaRoom = cin.cinemaRoomList[index];
+                    $("#thisid").val(cin.nowCinemaRoom.id);
+                    $("#thisroomname").val(cin.nowCinemaRoom.name);
+                    $("#thisroomtype").val(cin.nowCinemaRoom.type);
+                    var coordinate=cin.nowCinemaRoom.coordinate;
+                    var seat = coordinate.split(",")
+                    for(var i=0;i<seat.length;i++){
+                        seat[i]=seat[i].replace(/"/g,"").replace("[","").replace("]","");
+                    }
+
+                    $("#thisx").val(seat.length)
+                    $("#thisy").val(seat[0].length)
+
+
+
+                    $("#update-maps").remove()
+                    $("#thisseat_area").append("<div id='update-maps'></div>")
+
+                    //座位回显
+                    $('#update-maps').seatCharts({
+                        map: seat,
+                        naming: {
+                            top: false, //不显示顶部横坐标（行）
+                            left: true,
+                            getLabel: function (character, row, column) { //返回座位信息
+                                return column;
+                            }
+                        },
+                        click: function () {
+                            if (this.status() == 'available') { //若为可选座状态，添加座位
+                                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "_" + seat[this.settings.row].substring(this.settings.column + 1);
+                                cin.updateSeats=seat;
+                                console.log(cin.updateSeats)
+                                return 'none';
+                            } else {
+                                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "e" + seat[this.settings.row].substring(this.settings.column + 1);
+                                cin.updateSeats=seat;
+                                console.log(cin.updateSeats)
+                                return "available";
+                            }
+                        }
+                    })
+                    //把当前的座位信息赋值给vue的updateSeats属性
+                    $("#editbox").css("display","block");
+                }
 
             },
 
-            //编辑座位  重写方法
-            editroom : function (index) {
-                //修改影厅信息回显
-                cin.nowCinemaRoom = cin.cinemaRoomList[index];
 
-                $("#thisroomname").val(cin.nowCinemaRoom.name);
-                $("#thisroomtype").val(cin.nowCinemaRoom.type);
-                var coordinate=cin.nowCinemaRoom.coordinate;
-                var seat = coordinate.split(",")
-                for(var i=0;i<seat.length;i++){
-                    seat[i]=seat[i].replace(/"/g,"").replace("[","").replace("]","");
+        })
+
+
+        /**
+         * 新增放映厅的vue
+         */
+        new Vue({
+            el:"#insert",
+            data:{
+                map:[]
+            },
+            created:function(){
+                this.map=registSeat();
+            },
+            methods:{
+                //新增影厅并设置座位
+                save:function(){
+                    var _this=this;
+                    var coordinate = JSON.stringify(this.map);
+                    if(cin.cid>0){
+                        $.ajax({
+                            url:"/cinema-stage/room",
+                            type:"post",
+                            data:{
+                                "coordinate":coordinate,
+                                "cid":cin.cid,
+                                "name":$("#roomname").val(),
+                                "type":$("#roomtype").val()
+                            },
+                            success:function(data){
+                                _this.map=[];
+                                $("#closeModel").click()
+                                //根据cid查询当前影院的所有影厅信息
+                                $.ajax({
+                                    url:"/cinema-stage/room/bycid",
+                                    data:{
+                                        "cid":cin.cid
+                                    },
+                                    type:"get",
+                                    dataType:"json",
+                                    success:function (data) {
+                                        console.log(data)
+                                        cin.cinemaRoomList=data.list;
+                                    }
+                                });
+                                alert("添加影厅成功")
+                            }
+
+                        })
+                    }
+
+
+                },
+                create:function(){
+                    this.map=registSeat();
                 }
 
-                $("#thisx").val(seat.length)
-                $("#thisy").val(seat[0].length)
-                console.log(seat)
-
-                $("#update-maps").remove()
-                $("#thisseat_area").append("<div id='update-maps'></div>")
-
-                //座位回显
-                $('#update-maps').seatCharts({
-                    map: seat,
-                    naming: {
-                        top: false, //不显示顶部横坐标（行）
-                        left: true,
-                        getLabel: function (character, row, column) { //返回座位信息
-//                          return firstSeatLabel++;
-                            return column;
-                        }
-                    },
-                    click: function () {
-                        if (this.status() == 'available') { //若为可选座状态，添加座位
-                            seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "_" + seat[this.settings.row].substring(this.settings.column + 1);
-                            return 'none';
-                        } else {
-                            seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "e" + seat[this.settings.row].substring(this.settings.column + 1);
-                            return "available";
-                        }
-
-                    }
-                })
-                $("#editbox").css("display","block");
             }
+        })
 
-        }
-    })
 
-    new Vue({
-        el:"#app",
-        data:{
-            map:[]
-        },
-        created:function(){
-            this.map=registSeat();
-        },
-        methods:{
-            //新增影厅并设置座位
-            save:function(){
-                var _this=this;
-                var coordinate = JSON.stringify(this.map);
-                console.log(coordinate);
-                if(cin.cid>0){
+        /**
+         * 更新放映厅的vue
+         */
+        new Vue({
+            el:"#update",
+            data:{
+                map:[]
+            },
+            created:function(){
+                this.map=cin.updateSeats
+            },
+            methods:{
+                updateRoom:function () {
+                    var _this=this;
                     $.ajax({
                         url:"/cinema-stage/room",
-                        type:"post",
+                        type:"put",
                         data:{
-                            "coordinate":coordinate,
+                            "id":$("#thisid").val(),
+                            "coordinate":JSON.stringify(_this.map),
                             "cid":cin.cid,
-                            "name":$("#roomname").val(),
-                            "type":$("#roomtype").val()
+                            "name":$("#thisroomname").val(),
+                            "type":$("#thisroomtype").val()
                         },
-                        success:function(data){
-                            _this.map={};
-                            $("#closeModel").click()
+                        dataType:"json",
+                        success:function (data) {
+
+                            _this.map=[];
+                            //关闭修改框
+                            $("#editbox").css("display","none");
                             //根据cid查询当前影院的所有影厅信息
                             $.ajax({
                                 url:"/cinema-stage/room/bycid",
@@ -391,26 +446,26 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                     cin.cinemaRoomList=data.list;
                                 }
                             });
-                            alert("添加影厅成功")
+                            alert("跟新成功")
                         }
-
                     })
+                },
+                createSeats:function () {
+                    this.map=thisregist()
+                },
+                closeUpdate:function () {
+                    $("#editbox").css("display","none");
                 }
 
-
-            },
-            create:function(){
-                this.map=registSeat();
-                var w = $("#seat-maps").width();
-                $("#frontbox").css("width",w+65);
             }
 
-        }
-    })
+        })
+
+
+
 });
 
 function registSeat(){
-
 	$("#seat-maps").remove()
 	$("#seat_area").append("<div id='seat-maps'></div>")
 
@@ -447,21 +502,14 @@ function registSeat(){
       
     });
 	return seat;
-        // sc.get(['1_2', '4_1', '7_1', '7_2']).status('none');
-}    
+}
 
-// function clickCreated(){
-// 	$("#crea").click()
-// }
 $("#changexy").change(function () {
     if($("#y").val()>30 || $("#y").val()<=0){
         $("#add-error").text("请输入合法数值，每排座位不得小于1或大于30")
     }else{
         $("#add-error").text("");
         $("#crea").click();
-        var w = $("#seat-maps").width();
-
-        $("#frontbox").css("width",w+65);
     }
 })
 
@@ -485,7 +533,6 @@ function thisregist() {
             top: false, //不显示顶部横坐标（行）
             left: true,
             getLabel: function (character, row, column) { //返回座位信息
-//                          return firstSeatLabel++;
                 return column;
             }
         },
@@ -510,30 +557,11 @@ $("#changethisxy").change(function () {
     }else{
         $("#thisadd-error").text("");
         $("#thiscrea").click();
-        var w = $("#thisseat-maps").width();
-        $("#thisfrontbox").css("width",w+65);
     }
 
 })
-function thissave() {
-    var coordinate = JSON.stringify(thisregist());
-    console.log(coordinate);
-    $.ajax({
-        url:"/cinema-stage/room",
-        type:"post",
-        data:{
-            "coordinate":coordinate,
-            "cid":3,
-            "name":$("#thisroomname").val(),
-            "type":$("#thisroomtype").val()
-        },
-        success:function(data){
-            alert("aaa")
-            $("#editbox").css("display","none");
-        }
 
-    })
-}
+
 
 
 </script>

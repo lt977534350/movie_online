@@ -19,4 +19,10 @@ public interface CinemaRoomService {
      * @return
      */
     List<CinemaRoom> selectAllByCid(Integer cid) throws Exception;
+
+    /**
+     * 根据id修改数据
+     * @param cinemaRoom
+     */
+    void updateById(CinemaRoom cinemaRoom);
 }
