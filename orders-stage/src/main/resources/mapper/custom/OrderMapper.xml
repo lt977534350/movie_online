@@ -111,6 +111,9 @@
             ) b on a.click_date = b.datetime
 
     </select>
+    <update id="updateIsDel" parameterType="string">
+        update orders set  isdel =1 where order_id=#{oid,jdbcType=VARCHAR}
+    </update>
 
 
 </mapper>

@@ -152,9 +152,10 @@ public class OrderServiceImpl implements OrderService {
     public int deleteByOid(String Oid) throws Exception {
         //如果未支付，还原座位信息
         Order order = orderMapper.selectDetail(Oid);
+
+
         int num = 0;
         if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
-            Order orderinfo = orderMapper.selectDetail(Oid);
             String seatId = order.getSeatId();
             String[] split = seatId.split("-");
             List<Seatinfo> seatinfoList = new ArrayList<>();
@@ -163,10 +164,14 @@ public class OrderServiceImpl implements OrderService {
                 seatinfo.setId(Integer.parseInt(split[i]));
                 seatinfoList.add(seatinfo);
             }
-            num = seatInfoService.updateStateToN(seatinfoList);
+             seatInfoService.updateStateToN(seatinfoList);
         }
+        num =orderMapper.updateIsDel(Oid);
 
-//        return orderMapper.
+
+
+
+
         return num;
     }
 

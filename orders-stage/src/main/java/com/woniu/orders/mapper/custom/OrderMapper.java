@@ -18,4 +18,6 @@ public interface OrderMapper {
     List<CountDetail> selectOrderSuccess();
     List<CountDetail> selectOrderRefund();
 
+    int updateIsDel(String oid);
+
 }
