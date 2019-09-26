@@ -11,7 +11,7 @@ public interface CinemaService {
     //根据影院id查询影院的相应信息
     public Cinema selectById(Integer cid) throws Exception;
     //查询电影表中的总数
-    public Integer count() throws Exception;
+    public Integer count(Integer aid) throws Exception;
     //新增一家电影院
     public Integer insert(Cinema cinema) throws Exception;
     //根据id删除一家影院

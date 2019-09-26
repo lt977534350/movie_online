@@ -117,9 +117,9 @@
     where aid=#{aid}
     limit #{start},#{num}
   </select>
-  <select id="count" resultType="java.lang.Integer">
+  <select id="count" resultType="java.lang.Integer" parameterType="int">
     <!--@mbg.generated-->
-    select count(*) from cinema
+    select count(*) from cinema where aid=#{aid}
   </select>
     <select id="selectAll" resultMap="CinemaPicResultMap">
       select c.*,p.url
