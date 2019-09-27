@@ -43,7 +43,6 @@
     	<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPoint"/>
     </aop:config>
 	<!--日志记录切入点-->
-	<bean id="noticeObject" class="com.woniu.log.logAdvice"/>
 	<aop:config>
 		<aop:pointcut expression="execution(* com.woniu.api.AdminAPI.*(..))" id="pointcut"/>
 		<aop:aspect ref="log">

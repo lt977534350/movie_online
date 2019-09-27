@@ -13,6 +13,17 @@ public class Count {
 
     private List<CountDetail> refund;
 
+
+    private List<CountDetail>  turnover;
+
+    public List<CountDetail> getTurnover() {
+        return turnover;
+    }
+
+    public void setTurnover(List<CountDetail> turnover) {
+        this.turnover = turnover;
+    }
+
     public List<CountDetail> getFinish() {
         return finish;
     }

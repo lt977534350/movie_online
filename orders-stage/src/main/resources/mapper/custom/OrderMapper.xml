@@ -62,7 +62,7 @@
         #{start}, #{num};
 
     </select>
-    
+
     <resultMap id="countmap" type="com.woniu.orders.util.CountDetail">
         <result column="click_date" jdbcType="VARCHAR" property="date"/>
         <result column="count" jdbcType="VARCHAR" property="count"/>
@@ -112,8 +112,56 @@
 
     </select>
     <update id="updateIsDel" parameterType="string">
-        update orders set  isdel =1 where order_id=#{oid,jdbcType=VARCHAR}
+        update orders set isdel =1 where order_id=#{oid,jdbcType=VARCHAR}
     </update>
+    <select id="selectOneWeekOrderSuccess" resultMap="countmap" parameterType="int" >
+       select date_format(a.click_date,'%m-%d') as click_date,ifnull(b.count,0)  as count
+            from (
+                SELECT date_sub(curdate(), interval 6 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 5 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 4 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 3 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 2 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 1 day) as click_date
+                    union all
+                    SELECT curdate() as click_date
+            ) a left join (
+              select date(c_time) as datetime, count(*) as count ,ostate
+              from orders  INNER JOIN movie_showtime ms on orders.movie_showtime_id = ms .id INNER JOIN cinema c on ms.cid=c.id where ostate BETWEEN 11 and 39 and c.aid =#{aid,jdbcType=INTEGER}
+              group by date(c_time)
+            ) b on a.click_date = b.datetime
+
+
+    </select>
+    <select id="selectOneWeekOrderTurnover" resultMap="countmap" parameterType="int">
+     select date_format(a.click_date,'%m-%d') as click_date,ifnull(b.count,0)  as count
+            from (
+                SELECT date_sub(curdate(), interval 6 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 5 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 4 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 3 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 2 day) as click_date
+                union all
+                SELECT date_sub(curdate(), interval 1 day) as click_date
+                    union all
+                    SELECT curdate() as click_date
+
+
+            ) a left join (
+              select date(c_time) as datetime, sum(orders.money) as count ,ostate
+              from orders  INNER JOIN movie_showtime ms on orders.movie_showtime_id = ms .id INNER JOIN cinema c on ms.cid=c.id where ostate BETWEEN 11 and 39 and c.aid =#{aid,jdbcType=INTEGER}
+              group by date(c_time)
+            ) b on a.click_date = b.datetime
+     </select>
 
 
 </mapper>

@@ -34,6 +34,10 @@ public interface OrderService {
 
     List<CountDetail> selectOrdersSuccess()throws Exception;
 
+    List<CountDetail> selectOneWeekOrdersSuccess(Integer aid)throws Exception;
+    List<CountDetail> selectOneWeekOrdersturnover(Integer aid)throws Exception;
+
+
     List<CountDetail> selectOrdersFail() throws  Exception;
 
 

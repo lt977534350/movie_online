@@ -134,6 +134,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<CountDetail> selectOneWeekOrdersSuccess(Integer aid) throws Exception {
+         return orderMapper.selectOneWeekOrderSuccess(aid);
+    }
+
+    @Override
+    public List<CountDetail> selectOneWeekOrdersturnover(Integer aid) throws Exception {
+         return orderMapper.selectOneWeekOrderSuccess(aid);
+    }
+
+    @Override
     public int updateOrderSuccess(Order order, int alipayNoticeLogId) {
         OrdersPOExample example = new OrdersPOExample();
         example.createCriteria()

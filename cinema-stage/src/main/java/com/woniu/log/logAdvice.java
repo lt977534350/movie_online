@@ -27,8 +27,6 @@ import java.util.logging.LogManager;
 public class logAdvice {
     @Resource
     private LogService logService;
-
-
     public Object insertlog(ProceedingJoinPoint pjp) throws Throwable {
         Result result = null;
         try {

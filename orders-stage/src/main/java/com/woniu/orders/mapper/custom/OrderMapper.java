@@ -16,7 +16,10 @@ public interface OrderMapper {
     List<Order> selectOrder(Map<String, Integer> map);
 
     List<CountDetail> selectOrderSuccess();
+    List<CountDetail> selectOneWeekOrderSuccess(Integer aid);
     List<CountDetail> selectOrderRefund();
+    List<CountDetail> selectOneWeekOrderTurnover(Integer aid);
+
 
     int updateIsDel(String oid);
 

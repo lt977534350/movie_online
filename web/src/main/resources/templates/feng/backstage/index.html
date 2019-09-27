@@ -75,7 +75,8 @@
                         <div class="modal-body">
                             <div class="mainbox">
                                 <div class='pricing pricing-palden'>
-                                    <div :class="index!=1?'pricing-itemmoney':'pricing-item pricing__item--featured'" v-for ="(menu,index) in menuList">
+                                    <div :class="index!=1?'pricing-itemmoney':'pricing-item pricing__item--featured'"
+                                         v-for="(menu,index) in menuList">
                                         <div class='pricing-deco'>
                                             <svg class='pricing-deco-img' enable-background='new 0 0 300 100'
                                                  height='100px'
@@ -97,7 +98,8 @@
                                                       d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'
                                                       fill='#FFFFFF'></path>
                                         </svg>
-                                            <div class='pricing-price'><span class='pricing-currency'>¥</span><span v-text="menu.money"></span>
+                                            <div class='pricing-price'><span class='pricing-currency'>¥</span><span
+                                                    v-text="menu.money"></span>
                                                 <span class='pricing-period'>/ 年</span>
                                             </div>
                                             <h3 class='pricing-title' v-text="menu.name"></h3>
@@ -107,7 +109,7 @@
                                             <li class='pricing-feature'>统计报表</li>
 
                                         </ul>
-                                        <a  :href ="'/orders/createMenu?menuId='+menu.id" class='pricing-action' >立即购买</a>
+                                        <a :href="'/orders/createMenu?menuId='+menu.id" class='pricing-action'>立即购买</a>
                                     </div>
 
                                 </div>
@@ -184,7 +186,7 @@
         data: {
             cadmin: {},
             overTime: "",
-            menuList:''
+            menuList: ''
         },
         created: function () {
             var v = this;
@@ -193,16 +195,19 @@
                 dataType: "json",
                 type: "get",
                 success: function (rt) {
+                    console.log("sssssss")
                     v.cadmin = rt.object;
-
+                    var id =v.admin.id;
                     v.overTime = v.cadmin.overtime;
                     v.overTime = getTime(v.overTime);
-
+                    console.log(id)
+                    selectOrderWeek(id)
+                    console.log(222332)
                 }
             });
             selectMenu(v);
 
-        },methods:{
+        }, methods: {
             /*buy(e){
                  var  id =$(e.target).attr("id");
                 $.ajax({
@@ -220,7 +225,6 @@
     });
 
     function getTime(second) {
-        console.log(111)
         var date = new Date(second);
         var year = date.getFullYear()
         if ((date.getMonth() + 1) <= 9) {
@@ -248,7 +252,7 @@
         } else {
             var seconds = date.getSeconds();
         }
-        return year + "-" + month + "-" + day + " " + hour + ":" + minutes ;
+        return year + "-" + month + "-" + day + " " + hour + ":" + minutes;
     }
 
 
@@ -273,6 +277,25 @@
             });
         }
     });
+    var arrayobj=new Array();
+    var num=new Array();
+    var turnover= new Array();
+    function selectOrderWeek(id){
+          $.ajax({
+        url: "/orders/profile/orders/selectOrderWeek?aid="+id,
+        dataType: "json",
+        type: "get",
+        success: function (rt) {
+            for (var i = 0; i < rt.finish.length; i++) {
+                arrayobj.push(rt.finish[i].date);
+                num.push(rt.finish[i].count)
+            }
+            for (var i = 0; i < rt.turnover.length; i++){
+                turnover.push(rt.turnover[i].count)
+            }
+        }
+    });
+    }
 
     //销售额统计图：
     $(function () {
@@ -305,10 +328,10 @@
                 },
             },
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                labels:arrayobj,
                 datasets: [
                     {
-                        label: "Data Set One",
+                        label: "订单数统计",
                         fill: true,
                         lineTension: 0.3,
                         backgroundColor: gradient1,
@@ -327,11 +350,11 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
                         pointHitRadius: 10,
-                        data: [30, 50, 40, 161, 42, 35, 40, 55, 90, 150, 37, 66],
+                        data: num,
                         spanGaps: false
                     },
                     {
-                        label: "Data Set Two",
+                        label: "营业额统计",
                         fill: true,
                         lineTension: 0.3,
                         backgroundColor: gradient2,
@@ -350,7 +373,7 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
                         pointHitRadius: 10,
-                        data: [50, 40, 50, 40, 45, 100, 30, 61, 40, 55, 90, 150],
+                        data: [50, 40, 50, 40, 45, 100, 30],
                         spanGaps: false
                     }
                 ]
