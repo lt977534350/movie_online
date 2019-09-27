@@ -56,4 +56,9 @@ public class Cinema implements Serializable {
      */
     private String city;
 
+    /**
+     * 影厅的经纬度
+     */
+    private String coordinate;
+
 }

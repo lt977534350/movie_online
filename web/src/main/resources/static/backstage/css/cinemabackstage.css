@@ -39,7 +39,7 @@ span:focus {
 }
 
 section {
-  padding: 50px 0;
+  padding: 0px 0px;
 }
 
 canvas {
@@ -64,7 +64,7 @@ header.page-header {
 }
 
 table {
-  font-size: 0.9em;
+  font-size: 1.1em;
   color: #666;
 }
 

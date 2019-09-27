@@ -153,15 +153,15 @@
                                                 <form>
                                                     <div class="form-group">
                                                         <label>放映点名称</label>
-                                                        <input type="text" placeholder="放映点名称" class="form-control">
+                                                        <input type="text" id="insertCname" name="cname" placeholder="放映点名称" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>所在城市</label>
-                                                        <input type="text" placeholder="所在城市" class="form-control">
+                                                        <input type="text" id="insertCity" name="city" placeholder="所在城市" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>联系电话</label>
-                                                        <input type="text" placeholder="联系电话" class="form-control">
+                                                        <input type="text" id="insertPhone" name="phone" placeholder="联系电话" class="form-control">
                                                     </div>
                                                 </form>
                                             </div>
@@ -169,7 +169,7 @@
                                                 <button type="button" data-dismiss="modal" class="btn btn-secondary">
                                                     Close
                                                 </button>
-                                                <button id="sbtn" type="button" class="btn btn-primary" onclick="insertCinema()">保存修改</button>
+                                                <button id="sbtn" type="button" class="btn btn-primary" @click="insertCinema()">保存修改</button>
                                             </div>
                                         </div>
                                     </div>
@@ -247,9 +247,12 @@
     var cin=new Vue({
         el:"#cinemaManage",
         data:{
+            admin:{
+                id:1
+            },
             page:{},
             cinemaList:[],
-            nowCinema:{}
+            nowCinema:{},
         },
         created:function () {
             var _this=this;
@@ -325,8 +328,58 @@
                 $("#updatePhone").val(cinema.phone);
                 $("#lnglat").val(cinema.coordinate);
                 $("#address").val(cinema.caddress);
+            },
+            /**
+             * 新增一家影院
+             */
+            insertCinema:function () {
+                var _this=this;
+                var cname=$("#insertCname").val();
+                var city=$("#insertCity").val();
+                var phone=$("#insertPhone").val();
+                if(cname !=null && city!=null && phone!=null){
+                    $.ajax({
+                        url:"/cinema-stage/cinema/insertone",
+                        data:{
+                            "aid":1,
+                            "cName":cname,
+                            "city":city,
+                            "phone":phone
+                        },
+                        type:"post",
+                        dataType:"json",
+                        success:function (data) {
+                            //新增成功之后，展示最后一页数据
+                            var num=_this.page.dataCount%3==0?_this.page.pageCount+1:_this.page.pageCount;
+                            _this.page.pageIndex=num
+                            $.ajax({
+                                url:"/cinema-stage/cinema/byaid",
+                                data:{
+                                    "pageIndex":_this.page.pageIndex,
+                                    "aid":1
+                                },
+                                type:"get",
+                                dataType:"json",
+                                success:function (data) {
+                                    _this.cinemaList=data.list;
+                                    _this.page=data.object;
+                                    _this.updateCinema(data.list.length-1)
+                                }
+
+                            })
 
 
+
+                        }
+
+
+
+                    })
+
+
+
+
+                }
 
 
 

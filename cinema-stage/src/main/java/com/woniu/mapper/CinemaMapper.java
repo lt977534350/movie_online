@@ -39,4 +39,6 @@ public interface CinemaMapper {
         int getCountNum(@Param("cinema") String cinema, @Param("city") String city, @Param("cinemaHall") String cinemaHall);
 
     List<Cinema> selectAllByAid(Integer aid);
+
+        void insertOne(Cinema cinema);
 }

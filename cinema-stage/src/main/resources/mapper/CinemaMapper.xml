@@ -181,4 +181,13 @@
     select * from cinema where aid=#{aid}
   </select>
 
+  <insert id="insertOne" parameterType="com.woniu.entity.Cinema">
+    insert into cinema
+    (c_name,phone,aid,city)
+    values
+    (#{cName},#{phone},#{aid},#{city})
+
+  </insert>
+
+
 </mapper>

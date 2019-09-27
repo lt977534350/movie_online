@@ -147,4 +147,9 @@ public class CinemaServiceImpl implements CinemaService {
         return cinemaMapper.selectAllByAid(aid);
     }
 
+    @Override
+    public void insertOne(Cinema cinema) {
+        cinemaMapper.insertOne(cinema);
+    }
+
 }

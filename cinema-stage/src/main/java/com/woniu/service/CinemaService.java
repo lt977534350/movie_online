@@ -30,4 +30,6 @@ public interface CinemaService {
     int getCountNum(String cinema,String city,String cinemaHall)throws Exception;
 
     List<Cinema> selectAllByAid(Integer aid) throws Exception;
+
+    void insertOne(Cinema cinema);
 }

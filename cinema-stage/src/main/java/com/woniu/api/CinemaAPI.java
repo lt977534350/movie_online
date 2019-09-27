@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("cinema")
+@RequestMapping("/cinema")
 public class CinemaAPI {
     @Resource
     private CinemaService cinemaService;
@@ -146,6 +146,15 @@ public class CinemaAPI {
         List<Cinema> cinemas = cinemaService.selectAllByAid(aid);
         return new Result("success",null,null,cinemas);
     }
+
+
+    @PostMapping
+    @RequestMapping("/insertone")
+    public Result insertOneCinema(Cinema cinema) throws Exception{
+        cinemaService.insertOne(cinema);
+        return new Result("success",null,null,null);
+    }
+
 
 
 
