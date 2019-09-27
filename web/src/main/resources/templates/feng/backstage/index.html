@@ -197,12 +197,12 @@
                 success: function (rt) {
                     console.log("sssssss")
                     v.cadmin = rt.object;
-                    var id =v.admin.id;
+                    var id =rt.object.id;
                     v.overTime = v.cadmin.overtime;
                     v.overTime = getTime(v.overTime);
-                    console.log(id)
-                    selectOrderWeek(id)
-                    console.log(222332)
+
+                   selectOrderWeek(id)
+
                 }
             });
             selectMenu(v);
@@ -293,11 +293,8 @@
             for (var i = 0; i < rt.turnover.length; i++){
                 turnover.push(rt.turnover[i].count)
             }
-        }
-    });
-    }
 
-    //销售额统计图：
+             //销售额统计图：
     $(function () {
         'use strict';
         var ctx1 = $("canvas").get(0).getContext("2d");
@@ -373,13 +370,18 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
                         pointHitRadius: 10,
-                        data: [50, 40, 50, 40, 45, 100, 30],
+                        data: turnover,
                         spanGaps: false
                     }
                 ]
             }
         });
     })
+        }
+    });
+    }
+
+
 
 
 </script>

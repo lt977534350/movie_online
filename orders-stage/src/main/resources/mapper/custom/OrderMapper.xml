@@ -86,7 +86,7 @@
               select date(c_time) as datetime, count(*) as count ,ostate
               from orders where ostate BETWEEN 11 and 39
               group by date(c_time)
-            ) b on a.click_date = b.datetime
+            ) b on a.click_date = b.datetime ORDER BY click_date asc
 
     </select>
     <select id="selectOrderRefund" resultType="com.woniu.orders.util.CountDetail" resultMap="countmap">
@@ -108,7 +108,7 @@
               select date(c_time) as datetime, count(*) as count ,ostate
               from orders where ostate =40
               group by date(c_time)
-            ) b on a.click_date = b.datetime
+            ) b on a.click_date = b.datetime ORDER BY click_date asc
 
     </select>
     <update id="updateIsDel" parameterType="string">
@@ -134,7 +134,7 @@
               select date(c_time) as datetime, count(*) as count ,ostate
               from orders  INNER JOIN movie_showtime ms on orders.movie_showtime_id = ms .id INNER JOIN cinema c on ms.cid=c.id where ostate BETWEEN 11 and 39 and c.aid =#{aid,jdbcType=INTEGER}
               group by date(c_time)
-            ) b on a.click_date = b.datetime
+            ) b on a.click_date = b.datetime ORDER BY click_date asc
 
 
     </select>
@@ -160,7 +160,7 @@
               select date(c_time) as datetime, sum(orders.money) as count ,ostate
               from orders  INNER JOIN movie_showtime ms on orders.movie_showtime_id = ms .id INNER JOIN cinema c on ms.cid=c.id where ostate BETWEEN 11 and 39 and c.aid =#{aid,jdbcType=INTEGER}
               group by date(c_time)
-            ) b on a.click_date = b.datetime
+            ) b on a.click_date = b.datetime ORDER BY click_date asc
      </select>
 
 

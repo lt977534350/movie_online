@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<CountDetail> selectOneWeekOrdersturnover(Integer aid) throws Exception {
-         return orderMapper.selectOneWeekOrderSuccess(aid);
+         return orderMapper.selectOneWeekOrderTurnover(aid);
     }
 
     @Override
