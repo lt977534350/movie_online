@@ -36,7 +36,6 @@ public class OrdersApi {
     /*User user =(User)session.getAttribute("user");
      user.getId();*/
      if (id.length<=0||msid==null){
-
          return new Result("500","选座失败",null,null);
      }
 

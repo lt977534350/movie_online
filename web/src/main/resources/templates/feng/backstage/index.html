@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home</title>
@@ -15,269 +15,267 @@
     <link rel="stylesheet" href="/web/backstage/css/custom.css">
     <link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
     <style type="text/css">
-    	.rightarea{
-          right: 0px;
-          margin-left: 60%;
-    	}
+        .rightarea {
+            right: 0px;
+            margin-left: 60%;
+        }
     </style>
-  </head>
-  <body>
-    <div class="page">
-        <div class="content-inner" id="app">
-          <!-- Page Header-->
-          <header class="page-header">
+</head>
+<body>
+<div class="page">
+    <div class="content-inner" id="app">
+        <!-- Page Header-->
+        <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">主页</h2>
+                <h2 class="no-margin-bottom">主页</h2>
             </div>
-          </header>
-          <!-- Dashboard Header Section    -->
-          <section class="dashboard-header">
+        </header>
+        <!-- Dashboard Header Section    -->
+        <section class="dashboard-header">
             <div class="container-fluid">
-              <div class="row">
-                <!-- Line Chart            -->
-                <div class="chart col-lg-6 col-12">
-                  <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
-                   <!-- <canvas id="lineCahrt"></canvas>-->
-                  </div>
+                <div class="row">
+                    <!-- Line Chart            -->
+                    <div class="chart col-lg-6 col-12">
+                        <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
+                            <!-- <canvas id="lineCahrt"></canvas>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="chart col-lg-3 col-12">
+                        <!-- Bar Chart   -->
+                        <div class="bg-white">
+                            <div class="title"><strong class="text-violet">影院当前套餐:</strong><span>XXX平台</span><strong>A级套餐</strong>
+                            </div>
+                            <!--<canvas id="barChartHome"></canvas>-->
+                        </div>
+                        <!-- Numbers-->
+                        <div class="statistic d-flex align-items-center bg-white has-shadow">
+                            <div class="icon bg-green"></div>
+                            <div class="text">
+                                <strong>套餐到期时间：<br>
+                                    <br>&nbsp;&nbsp;&nbsp;<small v-text="overTime">2019-06-17</small>
+                                </strong><br><br>
+                                <a class="rightarea" href="javascript;:" data-toggle="modal"
+                                   data-target="#renewModal"><span>前往续费</span></a></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-2"></div>
-                <div class="chart col-lg-4 col-12">
-                  <!-- Bar Chart   -->
-                  <div class="bg-white">
-                    <div class="title"><strong class="text-violet">影院当前套餐:</strong><span>XXX平台</span><strong>A级套餐</strong></div>
-                    <!--<canvas id="barChartHome"></canvas>-->
-                  </div>
-                  <!-- Numbers-->
-                  <div class="statistic d-flex align-items-center bg-white has-shadow">
-                    <div class="icon bg-green"></div>
-                    <div class="text">
-                      <strong>套餐到期时间：<br>
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;<small v-text="overTime">2019-06-17</small>
-                      </strong><br><br>
-                      <a class="rightarea" href="javascript;:" data-toggle="modal" data-target="#renewModal"><span >前往续费</span></a></div>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div id="renewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-              <div role="document" class="modal-dialog" style="max-width: 95% !important;">
-                <div class="modal-content">
-                    <link rel="stylesheet" href="/web/backstage/css/normalize.min.css">
-                    <link rel="stylesheet" href="/web/backstage/css/mymenustyle.css">
-                  <div class="modal-header">
-                    <h4 id="exampleModalLabel" class="modal-title">影院套餐购买	</h4>
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                  </div>
-                    <div class="modal-body">
-                        <div class="mainbox">
-                            <div class='pricing pricing-palden'>
-                                <div class='pricing-item' >
-                                    <div class='pricing-deco'>
-                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
-                                             id='Layer_1'
-                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
-                                             width='300px' x='0px' xml:space='preserve'
-                                             xmlns:xlink='http://www.w3.org/1999/xlink'
-                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
-                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z'fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--3'd='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z'fill='#FFFFFF' opacity='0.7'></path>
-                                            <path class='deco-layer deco-layer--4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'fill='#FFFFFF'></path>
+            <div id="renewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                 class="modal fade text-left">
+                <div role="document" class="modal-dialog" style="max-width: 80% !important;">
+                    <div class="modal-content">
+                        <link rel="stylesheet" href="/web/backstage/css/normalize.min.css">
+                        <link rel="stylesheet" href="/web/backstage/css/mymenustyle.css">
+                        <div class="modal-header">
+                            <h4 id="exampleModalLabel" class="modal-title">影院套餐购买 </h4>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                                    aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mainbox">
+                                <div class='pricing pricing-palden'>
+                                    <div :class="index!=1?'pricing-itemmoney':'pricing-item pricing__item--featured'" v-for ="(menu,index) in menuList">
+                                        <div class='pricing-deco'>
+                                            <svg class='pricing-deco-img' enable-background='new 0 0 300 100'
+                                                 height='100px'
+                                                 id='Layer_1'
+                                                 preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
+                                                 width='300px' x='0px' xml:space='preserve'
+                                                 xmlns:xlink='http://www.w3.org/1999/xlink'
+                                                 xmlns='http://www.w3.org/2000/svg' y='0px'>
+                                            <path class='deco-layer deco-layer--1'
+                                                  d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'
+                                                  fill='#FFFFFF' opacity='0.6'></path>
+                                                <path class='deco-layer deco-layer--2'
+                                                      d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z'
+                                                      fill='#FFFFFF' opacity='0.6'></path>
+                                                <path class='deco-layer deco-layer--3'
+                                                      d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z'
+                                                      fill='#FFFFFF' opacity='0.7'></path>
+                                                <path class='deco-layer deco-layer--4'
+                                                      d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'
+                                                      fill='#FFFFFF'></path>
                                         </svg>
-                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>100000</span>
-                                            <span class='pricing-period'>/ 年</span>
+                                            <div class='pricing-price'><span class='pricing-currency'>¥</span><span v-text="menu.money"></span>
+                                                <span class='pricing-period'>/ 年</span>
+                                            </div>
+                                            <h3 class='pricing-title' v-text="menu.name"></h3>
                                         </div>
-                                        <h3 class='pricing-title'>普通版</h3>
+                                        <ul class='pricing-feature-list'>
+                                            <li class='pricing-feature'>专属客服</li>
+                                            <li class='pricing-feature'>统计报表</li>
+
+                                        </ul>
+                                        <a  :href ="'/orders/createMenu?menuId='+menu.id" class='pricing-action' >立即购买</a>
                                     </div>
-                                    <ul class='pricing-feature-list'>
-                                        <li class='pricing-feature'>1GB 空间</li>
-                                        <li class='pricing-feature'>1G 内存</li>
-                                        <li class='pricing-feature'>1G 宽带</li>
-                                    </ul>
-                                    <button class='pricing-action'>立即购买</button>
-                                </div>
-                                <div class='pricing-item pricing__item--featured'>
-                                    <div class='pricing-deco'>
-                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
-                                             id='Layer_1'
-                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
-                                             width='300px' x='0px' xml:space='preserve'
-                                             xmlns:xlink='http://www.w3.org/1999/xlink'
-                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
-                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z'fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--3'd='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z'fill='#FFFFFF' opacity='0.7'></path>
-                                            <path class='deco-layer deco-layer--4'd='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z'fill='#FFFFFF'></path>
-                                        </svg>
-                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>180000</span>
-                                            <span class='pricing-period'>/ 2年</span>
-                                        </div>
-                                        <h3 class='pricing-title'>专业版</h3>
-                                    </div>
-                                    <ul class='pricing-feature-list'>
-                                        <li class='pricing-feature'>5GB 空间</li>
-                                        <li class='pricing-feature'>4G 内存</li>
-                                        <li class='pricing-feature'>2G 宽带</li>
-                                    </ul>
-                                    <button class='pricing-action'>立即购买</button>
-                                </div>
-                                <div class='pricing-item'>
-                                    <div class='pricing-deco'>
-                                        <svg class='pricing-deco-img' enable-background='new 0 0 300 100' height='100px'
-                                             id='Layer_1'
-                                             preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100'
-                                             width='300px' x='0px' xml:space='preserve'
-                                             xmlns:xlink='http://www.w3.org/1999/xlink'
-                                             xmlns='http://www.w3.org/2000/svg' y='0px'>
-                                            <path class='deco-layer deco-layer--1'd='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&#x000A;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z'fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--2'd='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&#x000A;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>
-                                            <path class='deco-layer deco-layer--3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&#x000A;	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>
-                                            <path class='deco-layer deco-layer--4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&#x000A;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>
-                                        </svg>
-                                        <div class='pricing-price'><span class='pricing-currency'>¥</span><span>255000</span>
-                                            <span class='pricing-period'>/ 3年</span>
-                                        </div>
-                                        <h3 class='pricing-title'>企业版</h3>
-                                    </div>
-                                    <ul class='pricing-feature-list'>
-                                        <li class='pricing-feature'>10GB 空间</li>
-                                        <li class='pricing-feature'>8G 内存</li>
-                                        <li class='pricing-feature'>4G 宽带</li>
-                                    </ul>
-                                    <button class='pricing-action'>立即购买</button>
+
                                 </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button id="closetobuy" type="button" data-dismiss="modal" class="btn btn-secondary">Close
+                            </button>
+
+                        </div>
                     </div>
-                  <div class="modal-footer">
-                    <button id="closetobuy" type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                    <button id="buy" type="button" class="btn btn-primary">保存修改</button>
-                  </div>
                 </div>
-              </div>
             </div>
-          </section>
-          <section class="client no-padding-top">
+        </section>
+        <section class="client no-padding-top">
             <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-11">
-                  <div class="line-chart-example card">
-                    <div class="card-close">
-                      <div class="dropdown">
-                        <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                        <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="/web/backstage/#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="/web/backstage/#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
-                      </div>
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="line-chart-example card">
+                            <div class="card-close">
+                                <div class="dropdown">
+                                    <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" class="dropdown-toggle"><i
+                                            class="fa fa-ellipsis-v"></i></button>
+                                    <div aria-labelledby="closeCard1"
+                                         class="dropdown-menu dropdown-menu-right has-shadow"><a href="/web/backstage/#"
+                                                                                                 class="dropdown-item remove">
+                                        <i class="fa fa-times"></i>Close</a><a href="/web/backstage/#"
+                                                                               class="dropdown-item edit"> <i
+                                            class="fa fa-gear"></i>Edit</a></div>
+                                </div>
+                            </div>
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="h4">营业额统计</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="lineChartExample"></canvas>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-header d-flex align-items-center">
-                      <h3 class="h4">营业额统计</h3>
-                    </div>
-                    <div class="card-body">
-                      <canvas id="lineChartExample"></canvas>
-                    </div>
-                  </div>
+
                 </div>
-
-              </div>
             </div>
-          </section>
-        </div>
-      </div>
+        </section>
     </div>
-    <!-- JavaScript files-->
-    <script src="/web/backstage/vendor/jquery/jquery.min.js"></script>
-    <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
-    <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="/web/backstage/js/charts-home.js"></script>
-    <script src="/web/js/vue.js"></script>
-    <!-- Main File-->
-    <script src="/web/backstage/js/front.js"></script>
-    <script type="text/javascript">
-      var app = new Vue({
-        el:"#app",
-        data:{
-          cadmin:{},
-          overTime:""
+</div>
+</div>
+<!-- JavaScript files-->
+<script src="/web/backstage/vendor/jquery/jquery.min.js"></script>
+<script src="/web/backstage/vendor/popper.js/umd/popper.min.js"></script>
+<script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+<script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="/web/backstage/js/charts-home.js"></script>
+<script src="/web/js/vue.js"></script>
+<!-- Main File-->
+<script src="/web/backstage/js/front.js"></script>
+<script type="text/javascript">
+    function selectMenu(v) {
+        $.ajax({
+            url: "/cinema-stage/menu",
+            dataType: "json",
+            type: "get",
+            success: function (rt) {
+                v.menuList = rt.list;
+            }
+        });
+
+    }
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            cadmin: {},
+            overTime: "",
+            menuList:''
         },
-        created:function () {
-          var v = this;
-          $.ajax({
-            url:"/cinema-stage/admin/cadmin",
-            dataType:"json",
-            type:"get",
-            success:function (rt) {
-              v.cadmin = rt.object;
-              v.overTime = v.cadmin.overTime;
-              v.overTime=getTime(v.overTime);
-              console.log(v.overTime);
-            }
-          });
+        created: function () {
+            var v = this;
+            $.ajax({
+                url: "/cinema-stage/admin/cadmin",
+                dataType: "json",
+                type: "get",
+                success: function (rt) {
+                    v.cadmin = rt.object;
 
+                    v.overTime = v.cadmin.overtime;
+                    v.overTime = getTime(v.overTime);
+
+                }
+            });
+            selectMenu(v);
+
+        },methods:{
+            /*buy(e){
+                 var  id =$(e.target).attr("id");
+                $.ajax({
+                    url: "/orders/createMenu",
+                    data:{"menuId":id},
+                    dataType: "json",
+                    type: "get",
+                    success: function (rt) {
+                        v.menuList = rt.list;
+                    }
+                });
+
+            }*/
         }
-      });
-      function getTime(second) {
-        var date =new Date(second);
+    });
+
+    function getTime(second) {
+        console.log(111)
+        var date = new Date(second);
         var year = date.getFullYear()
-        if((date.getMonth()+1)<=9){
-          var month ="0"+(date.getMonth()+1);
-        }else {
-          var month =date.getMonth()+1;
+        if ((date.getMonth() + 1) <= 9) {
+            var month = "0" + (date.getMonth() + 1);
+        } else {
+            var month = date.getMonth() + 1;
         }
-        if(date.getDate()<=9){
-          var day =  "0"+date.getDate();
-        }else {
-          var day =   date.getDate();
+        if (date.getDate() <= 9) {
+            var day = "0" + date.getDate();
+        } else {
+            var day = date.getDate();
         }
-        if(date.getHours()<=9){
-          var hour =  "0"+date.getHours();
-        }else {
-          var hour =  date.getHours();
+        if (date.getHours() <= 9) {
+            var hour = "0" + date.getHours();
+        } else {
+            var hour = date.getHours();
         }
-        if(date.getMinutes()<=9){
-          var minutes =  "0"+date.getMinutes();
-        }else {
-          var minutes =  date.getMinutes();
+        if (date.getMinutes() <= 9) {
+            var minutes = "0" + date.getMinutes();
+        } else {
+            var minutes = date.getMinutes();
         }
-        if(date.getSeconds ()<=9){
-          var seconds = "0" + date.getSeconds ();
-        }else{
-          var seconds =  date.getSeconds ();
+        if (date.getSeconds() <= 9) {
+            var seconds = "0" + date.getSeconds();
+        } else {
+            var seconds = date.getSeconds();
         }
-        return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
-      }
+        return year + "-" + month + "-" + day + " " + hour + ":" + minutes ;
+    }
 
 
-
-
-
-      $("#meallevel").change(function () {
-        if($("#meallevel").val() >=1 ){
-          $("#meallevel-error").css("display","none");
+    $("#meallevel").change(function () {
+        if ($("#meallevel").val() >= 1) {
+            $("#meallevel-error").css("display", "none");
         }
-      })
-      $("#buy").click(function () {
-        if($("#meallevel").val() == null||$("#meallevel").val() < 1){
-          $("#meallevel-error").css("display","block");
-          $("#meallevel-error").text("请选择套餐等级");
+    })
+    $("#buy").click(function () {
+        if ($("#meallevel").val() == null || $("#meallevel").val() < 1) {
+            $("#meallevel-error").css("display", "block");
+            $("#meallevel-error").text("请选择套餐等级");
         }
-        if($("#meallevel").val() >=1 ){
-          $("#meallevel-error").css("display","none");
-          $.ajax({
-            url:"/web/.....",
-            data:$("#meal").serialize(),
-            type:"post",
-            dataType:"json",
-            success:{
-
-            }
-          });
+        if ($("#meallevel").val() >= 1) {
+            $("#meallevel-error").css("display", "none");
+            $.ajax({
+                url: "/web/.....",
+                data: $("#meal").serialize(),
+                type: "post",
+                dataType: "json",
+                success: {}
+            });
         }
-      });
+    });
 
-      //销售额统计图：
-      $(function () {
+    //销售额统计图：
+    $(function () {
         'use strict';
         var ctx1 = $("canvas").get(0).getContext("2d");
         var gradient1 = ctx1.createLinearGradient(150, 0, 150, 300);
@@ -286,83 +284,82 @@
         var gradient2 = ctx1.createLinearGradient(146.000, 0.000, 154.000, 300.000);
         gradient2.addColorStop(0, 'rgba(104, 179, 112, 0.85)');
         gradient2.addColorStop(1, 'rgba(76, 162, 205, 0.85)');
-        var LINECHARTEXMPLE   = $('#lineChartExample');
+        var LINECHARTEXMPLE = $('#lineChartExample');
         var lineChartExample = new Chart(LINECHARTEXMPLE, {
-          type: 'line',
-          options: {
-            legend: {labels:{fontColor:"#777", fontSize: 12}},
-            scales: {
-              xAxes: [{
-                display: true,
-                gridLines: {
-                  color: '#eee'
-                }
-              }],
-              yAxes: [{
-                display: true,
-                gridLines: {
-                  color: '#eee'
-                }
-              }]
+            type: 'line',
+            options: {
+                legend: {labels: {fontColor: "#777", fontSize: 12}},
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            color: '#eee'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            color: '#eee'
+                        }
+                    }]
+                },
             },
-          },
-          data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
-            datasets: [
-              {
-                label: "Data Set One",
-                fill: true,
-                lineTension: 0.3,
-                backgroundColor: gradient1,
-                borderColor: gradient1,
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                borderWidth: 1,
-                pointBorderColor: gradient1,
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: gradient1,
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [30, 50, 40, 161, 42, 35, 40,55,90,150,37,66],
-                spanGaps: false
-              },
-              {
-                label: "Data Set Two",
-                fill: true,
-                lineTension: 0.3,
-                backgroundColor: gradient2,
-                borderColor: gradient2,
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                borderWidth: 1,
-                pointBorderColor: gradient2,
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: gradient2,
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [50, 40, 50, 40, 45, 100, 30, 61, 40, 55, 90, 150],
-                spanGaps: false
-              }
-            ]
-          }
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [
+                    {
+                        label: "Data Set One",
+                        fill: true,
+                        lineTension: 0.3,
+                        backgroundColor: gradient1,
+                        borderColor: gradient1,
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        borderWidth: 1,
+                        pointBorderColor: gradient1,
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: gradient1,
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: [30, 50, 40, 161, 42, 35, 40, 55, 90, 150, 37, 66],
+                        spanGaps: false
+                    },
+                    {
+                        label: "Data Set Two",
+                        fill: true,
+                        lineTension: 0.3,
+                        backgroundColor: gradient2,
+                        borderColor: gradient2,
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        borderWidth: 1,
+                        pointBorderColor: gradient2,
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: gradient2,
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: [50, 40, 50, 40, 45, 100, 30, 61, 40, 55, 90, 150],
+                        spanGaps: false
+                    }
+                ]
+            }
         });
-      })
+    })
 
 
+</script>
 
-    </script>
-
-  </body>
+</body>
 </html>

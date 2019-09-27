@@ -5,6 +5,8 @@ import com.woniu.myutil.myeneity.Vip;
 import com.woniu.service.CinemaAdminService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.web.bind.annotation.*;
 import com.woniu.myutil.myeneity.Admin;
 
@@ -37,6 +39,7 @@ public class AdminAPI {
     }
     @GetMapping("login")
     public Result login(HttpSession session, String username, String password, String phone_num, String check_code) throws Exception{
+        System.out.println("请求进来了");
         //管理员以账号密码登录
         if(username!=null&&password!=null&&!"".equals(username)&&!"".equals(password)){
             if((phone_num==null||phone_num=="")&&(check_code==null||"".equals(check_code))){
@@ -46,6 +49,7 @@ public class AdminAPI {
                     return new Result("fail","用户名错误！",null,null);
                 }
                 if(!admin.getPassword().equals(password)){//密码不正确
+
                     return new Result("fail","密码错误！",null,null);
                 }
                 //用户名密码均正确，将登录信息存入session
@@ -53,6 +57,7 @@ public class AdminAPI {
                     session.setAttribute("cinemaAdmin",admin);
                 }
                 session.setAttribute("admin",admin);
+                System.out.println(111);
                 return new Result("success","登录验证成功！",admin,null);
             }
         }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
@@ -223,15 +228,19 @@ public class AdminAPI {
      * 影院管理员账户更改
      */
     @PutMapping("updatecinema")
-    public Result updateCinemaAdmin(HttpSession session, Integer aid, String username, String newpassword, String oldpassword, String phone) throws Exception{
-        String cinemaAdmin = (String) session.getAttribute("cinemaAdmin");
+    public Result updateCinemaAdmin(HttpSession session, Integer aid, String username, @RequestParam("newpwd")String newpassword, String oldpassword, String phone) throws Exception{
+        System.out.println(newpassword);
+        Admin cinemaAdmin = (Admin) session.getAttribute("cinemaAdmin");
+
         //没有参数传入
         if((username==null||"".equals(username))&&(newpassword==null||"".equals(newpassword))&&(phone==null||"".equals(phone))){
+
             return new Result("fail","无更新内容，请检查操作",null,null);
         }
         //管理员处于登录状态
         if(cinemaAdmin!=null){
             Admin adminByAid = cinemaAdminService.selectByAid(aid);
+
             if(!adminByAid.getPassword().equals(oldpassword)){
                 return new Result("fail","旧密码输入不正确",null,null);
             }
@@ -248,7 +257,7 @@ public class AdminAPI {
             }
             cinemaAdminService.update(updateAdmin);
             session.removeAttribute("cinemaAdmin");
-            return new Result("success","更新成功！",null,null);
+            return new Result("success","更新成功！",adminByAid.getUsername(),null);
         }else{
             return new Result("nopermission","非法操作！未登录！",null,null);
         }
@@ -314,13 +323,14 @@ public class AdminAPI {
         List<Vip> newvips = cinemaAdminService.selectVipByAid(aid);
         return new Result("success","新增完成",null,newvips);
     }
-    /**
-     * 平台管理员退出登录
-     */
-    @DeleteMapping("logout")
+      @DeleteMapping("logout")
     public Result logout(HttpSession session) throws Exception{
+          System.out.println("注销");
+          Admin admin =(Admin)session.getAttribute("admin");
+          String username=admin.getUsername();
+          System.out.println(admin.getUsername());
         //在session中删除平台管理员账号
         session.removeAttribute("admin");
-        return new Result("success","账号销毁",null,null);
+        return new Result("success","账号销毁",username,null);
     }
 }

@@ -17,9 +17,10 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver{
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
+		ex.printStackTrace();
 		ModelAndView mav=new ModelAndView();
 		if("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
-			ex.printStackTrace();
+
 			FastJsonJsonView view=new FastJsonJsonView();
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("codeMessage", "error");

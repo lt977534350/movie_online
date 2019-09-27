@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         //封装查询数据
         Map<String, Integer> map = new HashMap<>();
         map.put("uid", uid);
-        int num = 10;
+        int num = 5;
         map.put("start", (PageIndex - 1) * num);
         map.put("num", num);
 

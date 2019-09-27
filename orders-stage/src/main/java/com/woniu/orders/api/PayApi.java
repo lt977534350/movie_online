@@ -61,7 +61,7 @@ public class PayApi {
         //商品名
         String subject = order.getMovieName() + "-订单号：" + oid;
         String pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
-        System.out.println(pay);
+
         return pay;
     }
 

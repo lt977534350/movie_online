@@ -123,14 +123,15 @@
                     </div>
                     <div id="changeinfo" class="card-body" style="display: none;">
                       <h5>影院管理员基本系信息修改</h5>
-                      <form id="infoform" action="#" method="post">
+                      <form id="infoform" >
+                        <input type="hidden" name="aid" :value="cadmin.id">
                         <div class="form-group">
                           <label class="form-control-label">用户名：<span style="color: #F20000;font-size: 0.3em;">*不可更改</span></label>
                           <input type="text" disabled ="disabled" :placeholder="cadmin.username" class="form-control">
                         </div>
                         <div class="form-group">
                           <label class="form-control-label">手机号：</label>
-                          <input id="telval" maxlength="11" type="text" :placeholder="cadmin.phone" class="form-control">
+                          <input id="telval" maxlength="11" type="text" :placeholder="cadmin.phone"  name ="phone" class="form-control">
                         </div>
                         <div id="changetel" class="form-group" style="display: none;">
                           <input type="text" name="code" id="code" placeholder="请输入验证码" value="" />
@@ -138,7 +139,7 @@
                         </div>
                         <div class="form-group">       
                           <label class="form-control-label">旧密码：</label>
-                          <input type="password" id="oldpwd" placeholder="Password" class="form-control">
+                          <input type="password" id="oldpwd" name ="oldpassword" placeholder="Password" class="form-control">
                         </div>
                         <div class="form-group">       
                           <label class="form-control-label">新密码：</label>
@@ -149,7 +150,7 @@
                           <input type="password" name="passwordagain" placeholder="Password" class="form-control">
                         </div>
                         <div class="form-group" style="text-align: right">
-                          <input type="submit" value="保存" class="btn btn-primary">
+                          <input type="button" value="保存" @click="update()" class="btn btn-primary">
                           <input id="closeInfo" type="button" value="返回" class="btn btn-dark">
                         </div>
                       </form>
@@ -329,6 +330,24 @@
               }
             });
 
+          },methods:{
+            update(){
+              console.log($("#infoform").serialize());
+               $.ajax({
+                  url:"/cinema-stage/admin/updatecinema",
+                  dataType:"json",
+                  data:$("#infoform").serialize(),
+                  type:"put",
+                  success:function (rt) {
+                    if(rt.code=="success"){
+                      location.href="/web/feng/backstage/login.html"
+                    }else {
+                      alert("更新失败")
+                    }
+
+                  }
+                });
+            }
           }
         });
         function saveup(t){

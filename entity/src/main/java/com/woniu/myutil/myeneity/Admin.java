@@ -54,6 +54,34 @@ public class Admin implements Serializable {
      */
     private Menu menu;
 
+    private Date overtime;
+
+    public String getCopyRight() {
+        return copyRight;
+    }
+
+    public void setCopyRight(String copyRight) {
+        this.copyRight = copyRight;
+    }
+
+    private String copyRight;
+
+    public Date getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(Date overtime) {
+        this.overtime = overtime;
+    }
+
+    public String getCopy_right() {
+        return copy_right;
+    }
+
+    public void setCopy_right(String copy_right) {
+        this.copy_right = copy_right;
+    }
+
     /**
      * 影城版权信息
      * @return

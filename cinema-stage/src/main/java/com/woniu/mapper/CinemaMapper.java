@@ -22,7 +22,7 @@ public interface CinemaMapper {
 
         List<Cinema> selectByAid(HashMap<String, Integer> map);
 
-        Integer count(Integer aid);
+        Integer count();
 
         List<Cinema> selectAll();
 
