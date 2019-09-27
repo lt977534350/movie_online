@@ -314,4 +314,13 @@ public class AdminAPI {
         List<Vip> newvips = cinemaAdminService.selectVipByAid(aid);
         return new Result("success","新增完成",null,newvips);
     }
+    /**
+     * 平台管理员退出登录
+     */
+    @DeleteMapping("logout")
+    public Result logout(HttpSession session) throws Exception{
+        //在session中删除平台管理员账号
+        session.removeAttribute("admin");
+        return new Result("success","账号销毁",null,null);
+    }
 }
