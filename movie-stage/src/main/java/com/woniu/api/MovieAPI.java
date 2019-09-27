@@ -9,6 +9,7 @@ import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,4 +122,19 @@ public class MovieAPI {
         return new Result("success","删除成功！",null,null);
     }
 
+
+    //查询即将上映的电影
+    @GetMapping
+    @RequestMapping("/aftertoday")
+    public Result selectAfterMovies(Integer pageIndex)throws Exception{
+        Integer num=5;
+        //获取当前时间
+        Date today = new Date();
+
+        List<Movie> list=movieService.selectAfterMovies((pageIndex-1)*num,num,today);
+        Integer count=movieService.selectAfterCount(today);
+        Integer pageCount=count%num==0?count/num:count/num+1;
+        Page page = new Page(pageIndex, pageCount, count);
+        return new Result("success",null,page,list);
+    }
 }

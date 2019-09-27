@@ -42,8 +42,8 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public Integer count() throws Exception {
-        Integer count = cinemaMapper.count();
+    public Integer count(Integer aid) throws Exception {
+        Integer count = cinemaMapper.count(aid);
         return count;
     }
 

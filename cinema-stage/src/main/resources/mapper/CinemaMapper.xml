@@ -117,9 +117,9 @@
     where aid=#{aid}
     limit #{start},#{num}
   </select>
-  <select id="count" resultType="java.lang.Integer">
+  <select id="count" resultType="java.lang.Integer" parameterType="int">
     <!--@mbg.generated-->
-    select count(*) from cinema
+    select count(*) from cinema where aid=#{aid}
   </select>
     <select id="selectAll" resultMap="CinemaPicResultMap">
       select c.*,p.url
@@ -144,13 +144,13 @@
   <select id="getCinemas" resultMap="BaseResultMap">
     select distinct c.* from cinema c left join cinema_room cr on c.id=cr.cid
     where 1=1
-    <if test="cinema!='default'">
+    <if test="cinema!=null">
       and c.c_name like '%${cinema}%'
     </if>
-    <if test="city!='default'">
+    <if test="city!=null">
       and c.c_address like '%${city}%'
     </if>
-    <if test="cinemaHall!='default'">
+    <if test="cinemaHall!=null">
       and cr.type=#{cinemaHall}
     </if>
     <if test="num!=null and start!=null">

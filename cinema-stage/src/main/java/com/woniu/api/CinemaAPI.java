@@ -21,12 +21,13 @@ public class CinemaAPI {
     @GetMapping
     @RequestMapping("byaid")
     public Result selectCinemas(Integer pageIndex, Integer aid) throws Exception{
+        System.out.println(pageIndex+"+"+aid);
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
-        Integer num = 4;
+        Integer num = 3;
         List<Cinema> cinemas = cinemaService.selectByAid(pageIndex,num,aid);
-        Integer count = cinemaService.count();
+        Integer count = cinemaService.count(aid);
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);
         List<String> msgs = cinemaService.getTime(aid);
         System.out.println("过期信息------"+msgs.get(1));

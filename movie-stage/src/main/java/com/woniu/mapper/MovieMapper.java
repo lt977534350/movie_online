@@ -34,4 +34,7 @@ public interface MovieMapper {
 
     Integer count();
 
+    List<Movie> selectAfterMovies(Integer start, Integer num, Date today);
+
+    Integer selectAfterCount(Date today);
 }

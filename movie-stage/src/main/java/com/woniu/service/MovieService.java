@@ -97,4 +97,8 @@ public interface MovieService {
      * 根据电影id删除影片
      */
     void delMovie(Integer mid);
+
+    List<Movie> selectAfterMovies(Integer start, Integer num,Date today);
+
+    Integer selectAfterCount(Date today);
 }

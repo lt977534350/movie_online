@@ -106,4 +106,20 @@ public class MovieServiceImpl implements MovieService {
         movieMapper.deleteByPrimaryKey(mid);
     }
 
+    /**
+     * 查询即将上映的电影
+     * @param start
+     * @param num
+     * @return
+     */
+    @Override
+    public List<Movie> selectAfterMovies(Integer start, Integer num,Date today) {
+        return movieMapper.selectAfterMovies(start,num,today);
+    }
+
+    @Override
+    public Integer selectAfterCount(Date today) {
+        return movieMapper.selectAfterCount(today);
+    }
+
 }

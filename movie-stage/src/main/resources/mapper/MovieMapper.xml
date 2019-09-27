@@ -259,4 +259,37 @@
     select count(*) from movie
   </select>
 
+  <resultMap id="movieInfoMap" type="com.woniu.entity.Movie">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mName" jdbcType="VARCHAR" property="mname" />
+    <result column="tickets" jdbcType="DOUBLE" property="tickets" />
+    <result column="comntry" jdbcType="VARCHAR" property="comntry" />
+    <result column="uptime" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="score" jdbcType="LONGVARCHAR" property="score" />
+    <result column="short_story" jdbcType="VARCHAR" property="shortStory" />
+    <result column="pre_movie" jdbcType="VARCHAR" property="preMovie" />
+    <result column="longtime" jdbcType="VARCHAR" property="longtime" />
+    <result column="mpic" jdbcType="VARCHAR" property="mpic" />
+    <association property="moviePerson" javaType="com.woniu.entity.MoviePerson">
+      <id column="pid" jdbcType="INTEGER" property="id" />
+      <result column="director" jdbcType="VARCHAR" property="director" />
+      <result column="screenwriter" jdbcType="VARCHAR" property="screenwriter" />
+      <result column="tostar" jdbcType="VARCHAR" property="tostar" />
+      <result column="id" jdbcType="INTEGER" property="mid" />
+    </association>
+  </resultMap>
+
+
+
+  <select id="selectAfterMovies" resultMap="movieInfoMap">
+    select m.*,mp.id pid,mp.director,mp.screenwriter,mp.tostar from movie m
+    left join movie_person mp on m.id=mp.mid
+    where m.uptime>#{param3}
+    limit #{param1},#{param2}
+  </select>
+
+  <select id="selectAfterCount" parameterType="date" resultType="int">
+    select count(id) from movie where uptime>#{today}
+  </select>
+
 </mapper>

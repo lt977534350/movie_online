@@ -71,4 +71,9 @@ public class Movie {
      * 电影排片信息
      */
     private List<MovieShowtime> movieShowtimes;
+
+    /**
+     * 电影人员表
+     */
+    private MoviePerson moviePerson;
 }
