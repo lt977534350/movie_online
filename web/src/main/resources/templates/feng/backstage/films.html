@@ -21,7 +21,7 @@
 				<!-- Page Header-->
 				<header class="page-header">
 					<div class="container-fluid">
-						<h2 class="no-margin-bottom">影片设置</h2>
+						<h2 class="no-margin-bottom">影片排片设置</h2>
 					</div>
 				</header>
 				<section class="col-lg-6">
@@ -139,17 +139,31 @@
 									</div>
 								</div>
 							</div>
-
-							<div class="col-lg-4 ">
-
-							</div>
-
-
-<!--							跟新的表单-->
-							<div class="col-lg-8 offset-4 "id="filmdeal" style="display: none;" >
+						</div>
+					</div>
+				</section>
+				<section class=" filmsetdiv">
+					<div class="container-fluid">
+						<div class="row">
+							<div id="selectImg" class="col-lg-4 " style="display: none;">
 								<div class="card">
 									<div class="card-header d-flex align-items-center">
-										<h5 v-text="nowMovie.mname">速度与激情</h5><h3 class="h4">————影片排片设置</h3>
+										<h5 v-if="JSON.stringify(nowMovie) == '{}'">暂未选择任何电影</h5>
+										<h5 v-else v-text="nowMovie.mname"></h5>
+										<h3 class="h4">————当前选中影片详情</h3>
+									</div>
+									<div class="card-header d-flex align-items-center">
+										<img :src="nowMovie.mpic" height="440" style="margin: 0 auto;">
+									</div>
+
+
+
+								</div>
+							</div>
+							<div class="col-lg-8 "id="filmdeal" style="display: none;" >
+								<div class="card">
+									<div class="card-header d-flex align-items-center">
+										<h5 v-text="nowMovie.mname">速度与激情</h5><h3 class="h4">————影片排片修改(谨慎操作)</h3>
 									</div>
 									<div class="card-body">
 										<form id="updateForm">
@@ -182,9 +196,10 @@
 							</div>
 						</div>
 					</div>
-
-
 				</section>
+
+
+
 			</div>
 		</div>
 		<!-- JavaScript files-->
@@ -373,6 +388,7 @@
 							}
 						}
 						$("#filmdeal").css("display","block");
+						$("#selectImg").css("display","block");
 					},
 
 					updateShowTime:function () {
@@ -394,6 +410,7 @@
 							success:function (data) {
 								if(data.code=="success"){//修改成功
 									$("#filmdeal").css("display","none");
+									$("#selectImg").css("display","none");
 									$.ajax({
 										url:"/movie-stage/showtime/select",
 										type:"get",

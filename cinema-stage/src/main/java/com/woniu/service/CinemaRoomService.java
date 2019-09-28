@@ -18,11 +18,13 @@ public interface CinemaRoomService {
      * @param cid
      * @return
      */
-    List<CinemaRoom> selectAllByCid(Integer cid) throws Exception;
+    List<CinemaRoom> selectAllByCid(Integer cid,Integer start,Integer num) throws Exception;
 
     /**
      * 根据id修改数据
      * @param cinemaRoom
      */
     void updateById(CinemaRoom cinemaRoom);
+
+    Integer selectCountByCid(Integer cid);
 }

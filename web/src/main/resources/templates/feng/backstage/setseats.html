@@ -67,16 +67,21 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
         <section class="tables">
             <div class="container-fluid">
                 <div class="row" id="cinemaArea">
-                    <div class="col-lg-4">
-                        <select class=""  v-model="cid" @change="selectCinema()">
+                    <div class="col-lg-4" style="margin-top: 20px">
+                        <select  class="form-control"  v-model="cid" @change="selectCinema()">
                             <option value="0" selected="selected" disabled="disabled">请选择放映点</option>
                             <option :value="cinema.id" v-for="cinema in cinemaList" v-text="cinema.cname">万达影城（江北店）</option>
                         </select>
 
-
-                        <!--                        影片信息-->
-                        <div if="JSON.stringify(nowCinema)!='{}'">
-                            <img  :src="nowCinema.facility" alt=""/>
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 v-if="JSON.stringify(nowCinema) == '{}'">未选择影院</h5>
+                                <h5 v-else v-text="nowCinema.cname"></h5>
+                                <h3 class="h4">————影院详情</h3>
+                            </div>
+                            <div class="card-header d-flex align-items-center">
+                                <img  :src="nowCinema.facility" width="350" style="margin: 0 auto"/>
+                            </div>
                         </div>
 
 
@@ -111,13 +116,26 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                         </thead>
                                         <tbody>
                                         <tr v-for="(cinemaRoom,index) in cinemaRoomList">
-                                            <th scope="row" v-text="index+1">1</th>
+                                            <th scope="row" v-text="1+index+(page.pageIndex-1)*6">1</th>
                                             <td v-text="cinemaRoom.name">Mark</td>
                                             <td v-text="cinemaRoom.type">IMAX</td>
                                             <td>102</td>
                                             <td @click="editroom(index)">编辑</td>
                                         </tr>
                                         </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <td colspan="5">
+                                                当前第<span style="color: #f03d37"><strong v-text="page.pageIndex"></strong></span>页
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                总共<span style="color: #f03d37"><strong v-text="page.pageCount"></strong></span>页
+                                                <a href="javascript:;" style="float: right;position: relative" @click="nextPage()">下一页</a>
+                                                <span style="float: right;position: relative">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                <a href="javascript:;" style="float: right;position: relative" @click="prePage()">上一页</a>
+                                            </td>
+                                        </tr>
+                                        </tfoot>
+
                                     </table>
                                 </div>
 
@@ -237,6 +255,8 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                 nowCinema:{},
                 cinemaRoomList:[],
 
+                page:{},
+
                 //当前编辑的影厅
                 nowCinemaRoom:{},
                 updateSeats:[]
@@ -277,17 +297,65 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                     $.ajax({
                         url:"/cinema-stage/room/bycid",
                         data:{
-                            "cid":cin.cid
+                            "cid":cin.cid,
+                            "pageIndex":1,
+                            "num":6
+
                         },
                         type:"get",
                         dataType:"json",
                         success:function (data) {
                             console.log(data)
                             cin.cinemaRoomList=data.list;
+                            cin.page=data.object;
                         }
                     });
 
 
+                },
+
+                prePage:function () {
+                    var _this=this;
+                    if(this.page.pageIndex>1){
+                        $.ajax({
+                            url:"/cinema-stage/room/bycid",
+                            data:{
+                                "pageIndex":_this.page.pageIndex-1,
+                                "cid":cin.cid,
+                                "num":6
+                            },
+                            type:"get",
+                            dataType:"json",
+                            success:function (data) {
+                                cin.cinemaRoomList=data.list;
+                                cin.page=data.object;
+                            }
+
+                        })
+
+                    }
+
+
+                },
+                nextPage:function () {
+                    var _this=this;
+                    if(this.page.pageIndex<this.page.pageCount){
+                        $.ajax({
+                            url:"/cinema-stage/room/bycid",
+                            data:{
+                                "pageIndex":_this.page.pageIndex+1,
+                                "cid":cin.cid,
+                                "num":6
+                            },
+                            type:"get",
+                            dataType:"json",
+                            success:function (data) {
+                                cin.cinemaRoomList=data.list;
+                                cin.page=data.object;
+                            }
+
+                        })
+                    }
                 },
 
                 //编辑座位  重写方法

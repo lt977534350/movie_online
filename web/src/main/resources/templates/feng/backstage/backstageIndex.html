@@ -72,28 +72,28 @@
                 <li onclick="changetoindex(this)" class="active">
                     <a> 主页</a>
                 </li>
-                <li onclick="changetoform(this)">
-                    <a>影院资料管理 </a>
-                </li>
-                <li onclick="changetotable(this)">
-                    <a>放映点区 </a>
-                </li>
-                <li onclick="changetofilms(this)">
-                    <a>影片设置 </a>
-                </li>
                 <li id="ullist">
-                    <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">其他功能 </a>
+                    <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">影院管理</a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                        <li onclick="changetoform(this)">
+                            <a>基本信息管理 </a>
+                        </li>
                         <li onclick="tochangelogo(this)">
                             <a>修改影院logo</a>
                         </li>
                         <li onclick="tochangepics(this)">
                             <a>上传影院图片</a>
                         </li>
-                        <li onclick="tochangeroom(this)">
-                            <a>放映点影厅管理</a>
-                        </li>
                     </ul>
+                </li>
+                <li onclick="changetotable(this)">
+                    <a>放映点管理 </a>
+                </li>
+                <li onclick="tochangeroom(this)">
+                    <a>放映厅管理</a>
+                </li>
+                <li onclick="changetofilms(this)">
+                    <a>排片管理 </a>
                 </li>
                 <li onclick="changetoOrders(this)">
                     <a>订单查看 </a>
@@ -161,7 +161,7 @@
         $("#changehtml").attr("src", "/web/feng/backstage/forms.html");
         $(obj).addClass("active");
         $(obj).siblings().removeClass("active");
-        $("#ullist ul li").removeClass("active");
+        $("#mainmenu").children().removeClass("active");
     };
 
     function tochangelogo(obj) {
@@ -189,7 +189,7 @@
         $("#changehtml").attr("src", "/web/feng/backstage/setseats.html");
         $(obj).addClass("active");
         $(obj).siblings().removeClass("active");
-        $("#mainmenu").children().removeClass("active");
+        $("#ullist ul li").removeClass("active");
     };
      function changetoOrders(obj) {
         $("#changehtml").attr("src", "/web/feng/backstage/ordersgather.html");

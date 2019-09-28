@@ -17,5 +17,7 @@ public interface CinemaRoomMapper {
 
     int updateByPrimaryKey(CinemaRoom record);
 
-    List<CinemaRoom> selectAllByCid(Integer cid);
+    List<CinemaRoom> selectAllByCid(Integer cid,Integer start,Integer num);
+
+    Integer selectCountByCid(Integer cid);
 }

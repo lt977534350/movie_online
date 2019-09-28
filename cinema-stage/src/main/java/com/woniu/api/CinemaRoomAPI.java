@@ -2,6 +2,7 @@ package com.woniu.api;
 
 import com.woniu.entity.CinemaRoom;
 import com.woniu.service.CinemaRoomService;
+import com.woniu.util.Page;
 import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +33,18 @@ public class CinemaRoomAPI {
 
     @GetMapping
     @RequestMapping("/bycid")
-    public Result selectAllByCid(Integer cid)throws Exception{
-        List<CinemaRoom> list = cinemaRoomService.selectAllByCid(cid);
-        return new Result("success",null,null,list);
+    public Result selectAllByCid(Integer cid,Integer pageIndex,Integer num)throws Exception{
+
+        //查询cid放映点下的影厅数量
+        Integer dataCount = cinemaRoomService.selectCountByCid(cid);
+        Integer pageCount=dataCount%num==0?dataCount/num:dataCount/num+1;
+
+        Page page=new Page(pageIndex,pageCount,dataCount);
+
+        //查询第一页数据
+        Integer start = (pageIndex-1)*num;
+        List<CinemaRoom> list = cinemaRoomService.selectAllByCid(cid,start,num);
+        return new Result("success",null,page,list);
     }
 
 

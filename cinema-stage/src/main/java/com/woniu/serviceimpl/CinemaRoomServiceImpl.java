@@ -18,12 +18,17 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     }
 
     @Override
-    public List<CinemaRoom> selectAllByCid(Integer cid) throws Exception {
-        return cinemaRoomMapper.selectAllByCid(cid);
+    public List<CinemaRoom> selectAllByCid(Integer cid,Integer start,Integer num) throws Exception {
+        return cinemaRoomMapper.selectAllByCid(cid,start,num);
     }
 
     @Override
     public void updateById(CinemaRoom cinemaRoom) {
         cinemaRoomMapper.updateByPrimaryKey(cinemaRoom);
+    }
+
+    @Override
+    public Integer selectCountByCid(Integer cid) {
+        return cinemaRoomMapper.selectCountByCid(cid);
     }
 }

@@ -93,8 +93,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectAllByCid" resultMap="BaseResultMap" parameterType="int">
-    select * from cinema_room where cid=#{cid}
+  <select id="selectAllByCid" resultMap="BaseResultMap">
+    select * from cinema_room where cid=#{param1}
+    limit #{param2},#{param3}
+  </select>
+
+  <select id="selectCountByCid" resultType="int" parameterType="int">
+    select count(id) from cinema_room where cid=#{cid}
   </select>
 
 
