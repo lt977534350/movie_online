@@ -41,4 +41,6 @@ public interface CinemaMapper {
     List<Cinema> selectAllByAid(Integer aid);
 
         void insertOne(Cinema cinema);
+
+        int updateById(Cinema cinema);
 }

@@ -189,5 +189,17 @@
 
   </insert>
 
+  <update id="updateById" parameterType="com.woniu.entity.Cinema" >
+    update cinema
+    set
+    c_name=#{cName},
+    c_address=#{cAddress},
+    facility=#{facility},
+    phone=#{phone},
+    city=#{city},
+    coordinate=#{coordinate}
+    where id=#{id}
+  </update>
+
 
 </mapper>

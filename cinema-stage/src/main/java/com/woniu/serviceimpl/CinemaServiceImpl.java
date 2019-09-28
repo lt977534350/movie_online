@@ -61,8 +61,8 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     public Integer update(Cinema cinema) throws Exception {
-        int row = cinemaMapper.updateByPrimaryKeySelective(cinema);
-        return row;
+        return cinemaMapper.updateById(cinema);
+
     }
 
     /**

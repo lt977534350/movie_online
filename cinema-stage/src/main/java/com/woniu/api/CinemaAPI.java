@@ -76,11 +76,12 @@ public class CinemaAPI {
         Integer row = cinemaService.delete(cid);
         return new Result("success",null,null,null);
     }
-    //未完成
+
+
     @PutMapping
-    public Result updateCinema() throws Exception{
-        Cinema cinema = new Cinema();
-        Integer row = cinemaService.update(cinema);
+    @RequestMapping("/update")
+    public Result updateCinema(Cinema cinema) throws Exception{
+        cinemaService.update(cinema);
         return new Result("success",null,null,null);
     }
 
