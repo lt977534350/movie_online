@@ -365,29 +365,11 @@
         </div>
     </div>
     <!--分页-->
-   <!-- <div class="limit">
-        <div class="limit1">
-            <span class="btn btn-default limit-span">上一页</span>
-            &lt;!&ndash;padding30px&ndash;&gt;
-            <span></span>
-            <ul class="mtype-display">
-                <li class="btn btn-default mtype-active">1</li>
-                <li class="btn btn-default">2</li>
-            </ul>
-            <span class="btn btn-default limit-span">下一页</span>
-            <span>
-				第<input />页
-			</span>
-            <span class="btn btn-default limit-span">跳转</span>
-        </div>
-    </div>-->
     <div class="limit">
         <input type="button" value="上一页" @click="pre()" class="btn btn-default">
         <ul>
             <li @click="jum1(page.pageIndex-1)" v-if="page.pageIndex>1" v-text="page.pageIndex-1" id="pre"></li>
             <li @click="jum1(page.pageIndex)" v-text="page.pageIndex" class="mtype-active"></li>
-            <li>2</li>
-            <li>3</li>
             <li @click="jum1(page.pageIndex-(-1))" v-if="page.pageIndex<page.pageCount" v-text="page.pageIndex-(-1)"></li>
         </ul>
         <input type="button" value="下一页" class="btn btn-default" @click="next()">
@@ -450,30 +432,48 @@
                     _data.page.pageIndex=_data.page.pageIndex-1
                     /*发送ajax请求*/
                     pageIndex=_data.page.pageIndex;
-                    liclick();
+                    getCinemas();
                 }
             },
             /*下一页*/
             next:function () {
-                if(_data.page.pageIndex>_data.page.pageCount){
+                if(_data.page.pageIndex<_data.page.pageCount){
                     _data.page.pageIndex=_data.page.pageIndex-(-1);
                     /*发送ajax请求*/
                     pageIndex=_data.page.pageIndex;
-                    liclick();
+                    getCinemas();
                 }
 
             },
             /*跳转*/
             jum:function () {
                 pageIndex=$("#jum").prev().val();
-                liclick();
+                app.page.pageIndex=pageIndex;
+                getCinemas();
             },
             jum1:function (pageIndex1) {
                 pageIndex=pageIndex1;
-                liclick();
+                app.page.pageIndex=pageIndex;
+                getCinemas();
             }
         }
     });
+
+    function getCinemas(){
+        $.ajax({
+            url: "/cinema-stage/cinema/cinemas",
+            type: "get",
+            data: {"cinema": cinema, "city": city, "cinemaHall": cinemaHall, "pageIndex": pageIndex},
+            dataType: "json",
+            success: function (data) {
+                if (data.code == "success") {
+                    _data.cinemas = data.list;
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    }
 
     /*设置分页按钮选中*/
     $(function () {
@@ -486,12 +486,15 @@
             liclick();
         });
     });
+    var cinema = null;
+    var city = null;
+    var cinemaHall = null;
     /*设置点击选中（分类查询）*/
     function liclick() {
         /*根据获取的内容*/
-        var cinema = "default";
-        var city = "default";
-        var cinemaHall = "default";
+        cinema = null;
+        city = null;
+        cinemaHall = null;
         $(".m-li li").click(function () {
             $(this).parent().children("li").removeClass("mtype-active");
             $(this).addClass("mtype-active");
@@ -501,17 +504,17 @@
             if (type == "品牌") {
                 cinema = $(this).text();
                 if (cinema == "全部") {
-                    cinema = "default";
+                    cinema = null;
                 }
             } else if (type == "地区") {
                 city = $(this).text();
                 if (city == "全部") {
-                    city = "default";
+                    city = null;
                 }
             } else if (type == "影厅") {
                 cinemaHall = $(this).text();
                 if (cinemaHall == "全部") {
-                    cinemaHall = "default";
+                    cinemaHall = null;
                 }
             }
             /*发送查询ajax请求*/

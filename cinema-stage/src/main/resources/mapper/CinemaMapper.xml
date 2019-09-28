@@ -145,13 +145,13 @@
   <select id="getCinemas" resultMap="BaseResultMap">
     select distinct c.* from cinema c left join cinema_room cr on c.id=cr.cid
     where 1=1
-    <if test="cinema!=null">
+    <if test="cinema!=null and cinema!=''">
       and c.c_name like '%${cinema}%'
     </if>
-    <if test="city!=null">
+    <if test="city!=null and city!=''">
       and c.c_address like '%${city}%'
     </if>
-    <if test="cinemaHall!=null">
+    <if test="cinemaHall!=null and cinemaHall!=''">
       and cr.type=#{cinemaHall}
     </if>
     <if test="num!=null and start!=null">
@@ -162,13 +162,13 @@
   <select id="getCountNum" resultType="Integer">
     select count(distinct c.id) from cinema c left join cinema_room cr on c.id=cr.cid
     where 1=1
-    <if test="cinema!='default'">
+    <if test="cinema!=null and cinema!=''">
       and c.c_name like '%${cinema}%'
     </if>
-    <if test="city!='default'">
+    <if test="city!=null and city!=''">
       and c.c_address like '%${city}%'
     </if>
-    <if test="cinemaHall!='default'">
+    <if test="cinemaHall!=null and cinemaHall!=''">
       and cr.type=#{cinemaHall}
     </if>
 
