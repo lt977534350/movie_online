@@ -101,8 +101,11 @@ public class MovieAPI {
     }
 
     @GetMapping("movies")
-    public Result selectByPage(Integer pageIndex) throws Exception{
-        Integer num = 3;
+    public Result selectByPage(Integer pageIndex,Integer num) throws Exception{
+        if(num==null){
+            num=3;
+        }
+
         if(pageIndex==null||pageIndex.equals("")){
             pageIndex = 1;
         }
@@ -111,7 +114,7 @@ public class MovieAPI {
         Page page = new Page();
         page.setDataCount(movieCount);
         page.setPageIndex(pageIndex);
-        page.setPageCount(movieCount%3==0?movieCount/num:movieCount/num+1);
+        page.setPageCount(movieCount%num==0?movieCount/num:movieCount/num+1);
         System.out.println("电影----"+movies);
         return new Result("success","查询成功！",page,movies);
     }

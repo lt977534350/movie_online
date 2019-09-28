@@ -251,8 +251,8 @@
   <select id="selectAllMovies" resultMap="movieInfoMap">
     select * from movie m left join movie_person mp on m.id=mp.mid
   </select>
-    <select id="selectByPage" resultMap="BaseResultMap">
-      select * from movie
+    <select id="selectByPage" resultMap="movieInfoMap">
+      select * from movie m left join movie_person mp on m.id=mp.mid
       limit #{start},#{num}
     </select>
   <select id="count" resultType="java.lang.Integer">

@@ -25,16 +25,20 @@
 					</div>
 				</header>
 				<section class="col-lg-6">
-					<form id="filmsdeal" action="" method="post">
-						<select class="form-control" id="playpoint" name="playpoint" @change="selectShowTime()">
-							<option value="0" selected="selected" disabled="disabled">请选择需要排片的门店</option>
-							<option v-for="cinema in cinemaList" :value="cinema.id" v-text="cinema.cname">万达影城（江北店）</option>
-						</select>
-						<select class="form-control" id="filmname" name="filmname" @change="selectShowTime()">
-							<option value="0" selected="selected" disabled="disabled">请选择需要安排片场的电影名</option>
-							<option v-for="movie in movieList" :value="movie.id" v-text="movie.mname">速度与激情</option>
-						</select>
-					</form>
+					<div class="container-fluid">
+						<div class="row">
+							<form id="filmsdeal" action="" method="post">
+								<select class="form-control" id="playpoint" name="playpoint" @change="selectShowTime()">
+									<option value="0" selected="selected" disabled="disabled">请选择需要排片的门店</option>
+									<option v-for="cinema in cinemaList" :value="cinema.id" v-text="cinema.cname">万达影城（江北店）</option>
+								</select>
+								<select class="form-control" id="filmname" name="filmname" @change="selectShowTime()">
+									<option value="0" selected="selected" disabled="disabled">请选择需要安排片场的电影名</option>
+									<option v-for="movie in movieList" :value="movie.id" v-text="movie.mname">速度与激情</option>
+								</select>
+							</form>
+						</div>
+					</div>
 				</section>
 				<section class=" filmsetdiv">
 					<div class="container-fluid">
@@ -136,8 +140,13 @@
 								</div>
 							</div>
 
+							<div class="col-lg-4 ">
+
+							</div>
+
+
 <!--							跟新的表单-->
-							<div class="col-lg-8 offset-2 "id="filmdeal" style="display: none;" >
+							<div class="col-lg-8 offset-4 "id="filmdeal" style="display: none;" >
 								<div class="card">
 									<div class="card-header d-flex align-items-center">
 										<h5 v-text="nowMovie.mname">速度与激情</h5><h3 class="h4">————影片排片设置</h3>
