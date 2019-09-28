@@ -21,6 +21,12 @@ public class Menu {
     */
     private Integer period;
 
+    /**
+     * 套餐的图片
+     * @return
+     */
+    private String mpic;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +57,13 @@ public class Menu {
 
     public void setPeriod(Integer period) {
         this.period = period;
+    }
+
+    public String getMpic() {
+        return mpic;
+    }
+
+    public void setMpic(String mpic) {
+        this.mpic = mpic;
     }
 }

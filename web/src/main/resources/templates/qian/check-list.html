@@ -26,8 +26,8 @@
 		}
 		
 		.menu-pic img {
-			height: 100%;
-			width: 50%;
+			height: 100px;
+			width: 120px;
 		}
 		
 		.menu-name {
@@ -197,7 +197,7 @@
 						<div v-for="(menu,index) in list">
 							<div class="layui-col-lg4" style="height: 100%;">
 								<div align="center" class="menu-pic">
-									<img src="/web/images/menu.jpg" />
+									<img :src="menu.mpic" />
 								</div>
 								<div class="menu-name">
 									<span class="name-span" v-text="menu.name"></span>
@@ -432,8 +432,8 @@
 				},
 				confirmupdate:function () {
 					var v = this;
-					alert(v.list);
 					for(var i=0;i<v.list.length;i++){
+						console.log(v.list.period);
 						$.ajax({
 							url:"/cinema-stage/menu",
 							dataType:"json",

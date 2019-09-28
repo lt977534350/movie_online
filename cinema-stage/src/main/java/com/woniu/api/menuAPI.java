@@ -70,6 +70,7 @@ public class menuAPI {
         menu.setName(name);
         menu.setMoney(money);
         menu.setPeriod(period);
+        System.out.println("menu---"+menu);
         Integer row = menuService.updateById(menu);
         return new Result("success",null,null,null);
     }

@@ -7,6 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="money" jdbcType="DOUBLE" property="money" />
     <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="mpic" jdbcType="VARCHAR" property="mpic" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
