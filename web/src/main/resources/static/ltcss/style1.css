@@ -265,7 +265,9 @@ textarea,
 input,
 textarea::-webkit-input-placeholder ,
 input::-webkit-input-placeholder {
-    color: black;
+    color: #797979;
+    font-size: 13px;
+    font-family: 黑体;
 }
 
 /*--------------------------------------
@@ -379,7 +381,8 @@ option {
 	color: #fff;
     border: none;
     margin: 0;
-    border-left: 1px solid #ddd;
+    font-size: 15px;
+    /*border-left: 1px solid #ddd;*/
     margin-left: 20px;
 }
 

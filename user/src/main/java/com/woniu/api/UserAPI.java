@@ -1,5 +1,7 @@
 package com.woniu.api;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.woniu.entity.UserType;
 import com.woniu.myutil.myeneity.User;
 import com.woniu.service.TypeService;
@@ -8,10 +10,13 @@ import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.net.URLEncoder;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -170,41 +175,66 @@ public class UserAPI {
      * 用户登录验证
      */
     @RequestMapping("login")
-    public Result login(HttpSession session, String username, String password, String phonenum, String code) throws Exception {
+    public Result login(HttpServletResponse resp, HttpServletRequest req, HttpSession session, String username, String password, String phonenum, String code, Boolean rem) throws Exception {
+        //判断用户是否已登录，防止重复登录
+        Cookie[] cookies = req.getCookies();
+        if (cookies!=null&&cookies.length>0){
+            for (Cookie cookie:cookies) {
+                if ("loguser".equals(cookie.getName())&&cookie.getValue()!=null){
+                    return new Result("error","已在别处登录！",null,null);
+                }
+            }
+        }
         //如果是用户登录
         if(username!=null&&password!=null&&!"".equals(username)&&!"".equals(password)){
             if((phonenum==null||phonenum=="")&&(code==null||"".equals(code))){
                 //判断user传入的信息是否真实有效
                 User userByName = userService.selectByName(username);
                 if(userByName==null){//没有该用户名
-                    return new Result("fail","用户名错误！",null,null);
+                    return new Result("ufail","用户名错误！",null,null);
                 }
                 if(!userByName.getPassword().equals(password)){//密码不正确
-                    return new Result("fail","密码错误！",null,null);
+                    return new Result("pwdfail","密码错误！",null,null);
                 }
                 //用户名密码均正确，将登录信息存入session
                 session.setAttribute("user",userByName);
+                String string = JSONObject.toJSONString(userByName);
+                String mystring = URLEncoder.encode(string,"utf-8");
+                Cookie cookie = new Cookie("loguser",mystring);
+                //判断是否记住我
+                System.out.println("remember:"+rem);
+                if(rem!=null){
+                    cookie.setMaxAge(7*24*60*60);
+                }
+                cookie.setPath("/");
+                resp.addCookie(cookie);
                 return new Result("success","登录验证成功！",userByName,null);
             }
         }else if((phonenum!=null||!"".equals(phonenum))&&(code!=null||"".equals(code))){//手机验证码登录
-            if(username==null&&password==null&&"".equals(username)&&"".equals(password)){
+            if((username==null||"".equals(username))&&(password==null||"".equals(password))){
                 String num = (String) session.getAttribute("user_phonenum");
-                String mobile_code = (String) session.getAttribute("user_mobile_code");
+                String mobile_code = session.getAttribute("user_mobile_code").toString();
                 User user = userService.selectByPhone(phonenum);
+                System.out.println("user---"+user);
                 if(user==null){
-                    return new Result("fail","该电话号码不存在！",null,null);
+                    return new Result("pfail","该电话号码不存在！",null,null);
                 }
                 if(num.equals(phonenum)&&mobile_code.equals(code)){
+                    String string = JSONObject.toJSONString(user);
+                    String mystring = URLEncoder.encode(string,"utf-8");
+                    Cookie cookie = new Cookie("loguser",mystring);
+                    cookie.setPath("/");
+                    resp.addCookie(cookie);
                     session.setAttribute("user",user);
                     session.removeAttribute("user_mobile_code");
                     session.removeAttribute("user_phonenum");
                     return new Result("success","登录成功！",user,null);
                 }else{
-                    return new Result("fail","验证码不正确！",null,null);
+                    return new Result("cfail","验证码不正确！",null,null);
                 }
             }
         }
-        return new Result("error","验证信息格式有误！",null,null);
+        return new Result("badmsg","验证信息格式有误！",null,null);
 
     }
     //用户注册
@@ -212,7 +242,7 @@ public class UserAPI {
     public Result register(HttpSession session, String username, String password, String telphone, String code) throws Exception {
         //注册信息验证
         String phonenum = (String) session.getAttribute("user_phonenum");
-        String mobile_code = (String) session.getAttribute("user_mobile_code");
+        String mobile_code = session.getAttribute("user_mobile_code").toString();
         if(!phonenum.equals(telphone)||!code.equals(mobile_code)){
             return new Result("fail","验证码错误!",null,null);
         }
@@ -287,9 +317,22 @@ public class UserAPI {
         }
     }
 
-
-
-
-
+    /**
+     *用户注销，将其从session删除
+     */
+    @DeleteMapping("userlogout")
+    public Result userLogout(HttpSession session, HttpServletResponse resp){
+        System.out.println("---"+session.getAttribute("user"));
+        User user = (User) session.getAttribute("user");
+        if(user==null){
+            System.out.println("请求进入");
+            return new Result("fail","非法操作！",null,null);
+        }
+        Cookie cookie = new Cookie("loguser", null);
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
+        session.removeAttribute("user");
+        return new Result("success","注销成功",null,null);
+    }
 
 }

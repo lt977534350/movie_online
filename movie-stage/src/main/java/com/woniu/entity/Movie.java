@@ -38,6 +38,16 @@ public class Movie {
     private String score;
 
     /**
+     * 评分星星数
+     */
+    private Integer starnum;
+
+    /**
+     * 空星星的数量
+     */
+    private Integer emstarnum;
+
+    /**
     * 简介
     */
     private String shortStory;

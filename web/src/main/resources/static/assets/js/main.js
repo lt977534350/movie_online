@@ -32,9 +32,13 @@
 		return false;
 	});
 	$('.login-popup').on('click', function () {
-		$('.login-area').show();
+		$('#myidlogin').slideDown(1500);
 		return false;
 	});
+    $('.register-popup').on('click', function () {
+        $('#myregister').slideDown(1500);
+        return false;
+    });
 	$('.login-box > a').on('click', function () {
 		$('.login-area').hide();
 		return false;
