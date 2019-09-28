@@ -11,8 +11,87 @@
 		<script type="text/javascript" src="/web/js/jquery-3.4.0.min.js"></script>
 		<script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/web/js/vue.js"></script>
+		<script type="text/javascript"
+				src="https://webapi.amap.com/maps?v=1.4.15&key=cbd8272c32373d5520b11efc4a523161"></script>
+<!--		地图样式-->
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
 		<style type="text/css">
+			#container {
+				height: 220px;
+				width: 220px;
+			}
 
+			.content-window-card {
+				position: relative;
+				box-shadow: none;
+				bottom: 0;
+				left: 0;
+				width: auto;
+				padding: 0;
+			}
+
+			.content-window-card p {
+				height: 2rem;
+			}
+
+			.custom-info {
+				border: solid 1px silver;
+			}
+
+			div.info-top {
+				position: relative;
+				background: none repeat scroll 0 0 #F9F9F9;
+				border-bottom: 1px solid #CCC;
+				border-radius: 5px 5px 0 0;
+			}
+
+			div.info-top div {
+				display: inline-block;
+				color: #333333;
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 31px;
+				padding: 0 10px;
+			}
+
+			div.info-top img {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				transition-duration: 0.25s;
+			}
+
+			div.info-top img:hover {
+				box-shadow: 0px 0px 5px #000;
+			}
+
+			div.info-middle {
+				font-size: 12px;
+				padding: 10px 6px;
+				line-height: 20px;
+			}
+
+			div.info-bottom {
+				height: 0px;
+				width: 100%;
+				clear: both;
+				text-align: center;
+			}
+
+			div.info-bottom img {
+				position: relative;
+				z-index: 104;
+			}
+
+			span {
+				margin-left: 5px;
+				font-size: 11px;
+			}
+
+			.info-middle img {
+				float: left;
+				margin-right: 6px;
+			}
 		</style>
 	</head>
 
@@ -228,7 +307,8 @@
 							</div>
 						</div>
 						<div class="mapdiv col-sm-2 col-sm-offset-1 text-right">
-							<div class="filmmap">
+							<div class="filmmap" id="container">
+<!--								<div id="container"></div>-->
 							</div>
 						</div>
 					</div>
@@ -329,7 +409,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 
 			</div>
@@ -361,7 +440,6 @@
                                     <a href="#" class="bottom-chain">爱乐用户服务协议</a>
                                     <span class="bt-line">|</span>
                                     <a href="#" class="bottom-chain">爱乐平台交易规则总则</a>
-
                                 </div>
                             </div>
                         </div>
@@ -369,7 +447,7 @@
                     <div class="col-md-6 w3ls_footer_grid_right">
                         <a href="/web/index.html"><h2 class="title">爱乐<span id="webtitle-bottom">电影</span></h2></a>
                     </div>
-                    <div class="clearfix"> </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="col-md-5 w3ls_footer_grid1_left">
                     <p>重庆爱乐文化传媒有限公司©2016 爱乐电影 aiyue.com </p>
@@ -533,6 +611,31 @@
 							dataType:"json",
 							success:function (data) {
 								_this.cinema=data.object
+								console.log(_this.cinema)
+								//渲染地图
+								var centerPoint=_this.cinema.coordinate.split(",");
+
+
+								var map = new AMap.Map("container", {
+									resizeEnable: true,
+									center: centerPoint,
+									zoom: 16
+								});
+
+								//实例化信息窗体
+								var title = '方恒假日酒店<span style="font-size:11px;color:#F00;">价格:318</span>',
+										content = [];
+								content.push("<img :src='cinema.facility'>地址：<span v-text='cinema.caddress'></span>");
+								content.push("电话：010-64733333");
+								content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+								var infoWindow = new AMap.InfoWindow({
+									isCustom: true,  //使用自定义窗体
+									content: createInfoWindow(title, content.join("<br/>")),
+									offset: new AMap.Pixel(16, -45)
+								});
+
+								addMarker(infoWindow,map,centerPoint);
+
 							}
 						})
 					}
@@ -568,6 +671,66 @@
 			}
 
 
+
+
+
+
+			function addMarker(infoWindow,map,centerPoint) {
+				map.clearMap();
+				var marker = new AMap.Marker({
+					map: map,
+					position: centerPoint
+				});
+				//鼠标点击marker弹出自定义的信息窗体
+				AMap.event.addListener(marker, 'click', function () {
+					infoWindow.open(map, marker.getPosition());
+				});
+			}
+
+			//构建自定义信息窗体
+			function createInfoWindow(title, content) {
+				var info = document.createElement("div");
+				info.className = "custom-info input-card content-window-card";
+
+				//可以通过下面的方式修改自定义窗体的宽高
+				//info.style.width = "400px";
+				// 定义顶部标题
+				var top = document.createElement("div");
+				var titleD = document.createElement("div");
+				var closeX = document.createElement("img");
+				top.className = "info-top";
+				titleD.innerHTML = title;
+				closeX.src = "https://webapi.amap.com/images/close2.gif";
+				closeX.onclick = closeInfoWindow;
+
+				top.appendChild(titleD);
+				top.appendChild(closeX);
+				info.appendChild(top);
+
+				// 定义中部内容
+				var middle = document.createElement("div");
+				middle.className = "info-middle";
+				middle.style.backgroundColor = 'white';
+				middle.innerHTML = content;
+				info.appendChild(middle);
+
+				// 定义底部内容
+				var bottom = document.createElement("div");
+				bottom.className = "info-bottom";
+				bottom.style.position = 'relative';
+				bottom.style.top = '0px';
+				bottom.style.margin = '0 auto';
+				var sharp = document.createElement("img");
+				sharp.src = "https://webapi.amap.com/images/sharp.png";
+				bottom.appendChild(sharp);
+				info.appendChild(bottom);
+				return info;
+			}
+
+			//关闭信息窗体
+			function closeInfoWindow() {
+				map.clearInfoWindow();
+			}
 
 
 		</script>

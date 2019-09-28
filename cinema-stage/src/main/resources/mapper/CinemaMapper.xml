@@ -26,6 +26,7 @@
     <result column="aid" jdbcType="INTEGER" property="aid" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="city" jdbcType="INTEGER" property="city" />
+    <result column="coordinate"  property="coordinate" />
     <collection property="pics" ofType="com.woniu.entity.Picture">
       <result column="url" property="url" />
     </collection>

@@ -36,7 +36,6 @@ public class CinemaAPI {
     @GetMapping("bycid")
     public Result selectCinema(Integer cid) throws Exception{
         Cinema cinema = cinemaService.selectById(cid);
-        System.out.println(cid);
         return new Result("success",null,cinema,null);
     }
     @PostMapping("insert")

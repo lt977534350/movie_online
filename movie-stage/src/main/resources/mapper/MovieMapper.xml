@@ -248,8 +248,8 @@
   <select id="selectMovieListByScore" resultMap="BaseResultMap" parameterType="int">
     select * from movie order by score desc limit 0,#{num}
   </select>
-  <select id="selectAllMovies" resultMap="BaseResultMap">
-    select * from movie
+  <select id="selectAllMovies" resultMap="movieInfoMap">
+    select * from movie m left join movie_person mp on m.id=mp.mid
   </select>
     <select id="selectByPage" resultMap="BaseResultMap">
       select * from movie

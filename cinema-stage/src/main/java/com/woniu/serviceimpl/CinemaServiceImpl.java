@@ -35,7 +35,6 @@ public class CinemaServiceImpl implements CinemaService {
         return cinemas;
     }
     @Override
-//    @Cacheable
     public Cinema selectById(Integer cid) throws Exception {
         Cinema cinema = cinemaMapper.selectByPrimaryKey(cid);
         return cinema;
