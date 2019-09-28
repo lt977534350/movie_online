@@ -25,8 +25,6 @@ public class MovieShowtimeAPI {
     @PostMapping
     @RequestMapping("/insert")
     public Result insertShowtime(MovieShowtime movieShowtime)throws Exception{
-        System.out.println("请求进来了");
-        System.out.println(movieShowtime);
         movieShowtimeService.insertOneData(movieShowtime);
         return new Result("success",null,null,null);
     }
@@ -36,7 +34,6 @@ public class MovieShowtimeAPI {
     @RequestMapping("/update")
     public Result updateById(MovieShowtime movieShowtime)throws Exception{
 
-        System.out.println(movieShowtime);
         movieShowtimeService.updateById(movieShowtime);
 
 

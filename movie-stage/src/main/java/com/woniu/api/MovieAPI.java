@@ -115,7 +115,6 @@ public class MovieAPI {
         page.setDataCount(movieCount);
         page.setPageIndex(pageIndex);
         page.setPageCount(movieCount%num==0?movieCount/num:movieCount/num+1);
-        System.out.println("电影----"+movies);
         return new Result("success","查询成功！",page,movies);
     }
 

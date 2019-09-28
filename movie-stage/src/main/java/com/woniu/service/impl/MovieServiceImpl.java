@@ -75,9 +75,7 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieMapper.selectMovieListByTime(num);
         for (Movie movie:movies) {
             int score = Double.valueOf(movie.getScore()).intValue();
-            System.out.println(score);
             Integer star = score%2==0?score/2:score/2+1;
-            System.out.println(star);
             movie.setStarnum(star);
             if(5-star<0){
                 movie.setEmstarnum(0);
