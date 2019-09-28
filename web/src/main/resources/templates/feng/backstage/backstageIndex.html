@@ -95,6 +95,9 @@
                         </li>
                     </ul>
                 </li>
+                <li onclick="changetoOrders(this)">
+                    <a>订单查看 </a>
+                </li>
             </ul>
         </nav>
         <div class="content-inner">
@@ -188,6 +191,13 @@
         $(obj).siblings().removeClass("active");
         $("#mainmenu").children().removeClass("active");
     };
+     function changetoOrders(obj) {
+        $("#changehtml").attr("src", "/web/feng/backstage/ordersgather.html");
+        $(obj).addClass("active");
+        $(obj).siblings().removeClass("active");
+        $("#mainmenu").children().removeClass("active");
+    };
+
 </script>
 </body>
 </html>

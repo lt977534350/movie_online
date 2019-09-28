@@ -23,4 +23,7 @@ public interface OrderMapper {
 
     int updateIsDel(String oid);
 
+    List<Order> selectOrdersByAid(@Param("aid") Integer aid,
+                                  @Param("start") Integer start,@Param("num") Integer num);
+    int selectCountByAid(Integer aid);
 }

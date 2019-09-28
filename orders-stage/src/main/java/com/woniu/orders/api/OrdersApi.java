@@ -10,6 +10,7 @@
  */
 package com.woniu.orders.api;
 
+import com.woniu.myutil.myeneity.Admin;
 import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
 import com.woniu.orders.service.OrderService;
@@ -125,6 +126,28 @@ public class OrdersApi {
         count.setFinish(success);
         count.setTurnover(turnover);
         return count;
+    }
+
+    /**
+     * 查询影院的订单情况
+     * @return
+     */
+    @RequestMapping("selectByAid")
+    @ResponseBody
+    public Result selectOrderSByAid(HttpSession session,Integer pageIndex) throws Exception {
+        /*Admin admin = (Admin)session.getAttribute("admin");
+        int aid = admin.getId();*/
+        if(pageIndex==null){
+            pageIndex=1;
+        }
+        List<Order> orders = orderService.selectOrdersByAid(1,pageIndex);
+        int dataCount = orderService.selectCountByAid(1);
+        Page page = new Page();
+        page.setPageIndex(pageIndex);
+        page.setDataCount(dataCount);
+        page.setPageCount(dataCount%10==0?dataCount/10:dataCount/10+1);
+        return  new Result("200","success",page,orders);
+
     }
 }
   

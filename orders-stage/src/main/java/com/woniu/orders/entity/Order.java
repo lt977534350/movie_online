@@ -51,6 +51,15 @@ public class Order {
      */
     private byte ostate;
 
+    public String getcFormatTime() {
+        return cFormatTime;
+    }
+
+    public void setcFormatTime(String cFormatTime) {
+        this.cFormatTime = cFormatTime;
+    }
+
+    private String cFormatTime;
     public String getOstateMsg() {
         return ostateMsg;
     }
@@ -133,6 +142,15 @@ public class Order {
     //剩余支付时间
     private int leftPaySecond;
 
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getPhone() {
         return phone;

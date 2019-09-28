@@ -123,24 +123,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<CountDetail> selectOrdersFail() throws Exception {
-       return orderMapper.selectOrderRefund();
+        return orderMapper.selectOrderRefund();
     }
 
     @Override
-    public List<CountDetail>  selectOrdersSuccess() throws Exception {
-         return orderMapper.selectOrderSuccess();
+    public List<CountDetail> selectOrdersSuccess() throws Exception {
+        return orderMapper.selectOrderSuccess();
 
 
     }
 
     @Override
     public List<CountDetail> selectOneWeekOrdersSuccess(Integer aid) throws Exception {
-         return orderMapper.selectOneWeekOrderSuccess(aid);
+        return orderMapper.selectOneWeekOrderSuccess(aid);
     }
 
     @Override
     public List<CountDetail> selectOneWeekOrdersturnover(Integer aid) throws Exception {
-         return orderMapper.selectOneWeekOrderTurnover(aid);
+        return orderMapper.selectOneWeekOrderTurnover(aid);
     }
 
     @Override
@@ -174,12 +174,9 @@ public class OrderServiceImpl implements OrderService {
                 seatinfo.setId(Integer.parseInt(split[i]));
                 seatinfoList.add(seatinfo);
             }
-             seatInfoService.updateStateToN(seatinfoList);
+            seatInfoService.updateStateToN(seatinfoList);
         }
-        num =orderMapper.updateIsDel(Oid);
-
-
-
+        num = orderMapper.updateIsDel(Oid);
 
 
         return num;
@@ -220,7 +217,7 @@ public class OrderServiceImpl implements OrderService {
         UserVip userVip = userVipMapper.selectConsume(uid, aid);
         //查询此影院的对应消费额度的vip信息
         List<VipPo> vipPos = vipService.selectVipByAid(aid);
-        Double discount =1d;
+        Double discount = 1d;
         if (userVip == null) {
             UserVipPO userVipPO = new UserVipPO();
             userVipPO.setAid(aid);
@@ -228,11 +225,11 @@ public class OrderServiceImpl implements OrderService {
             userVipPO.setUid(uid);
             userVipPO.setVid(vipPos.get(0).getId());
             userVipPOMapper.insertSelective(userVipPO);
-        }else {
+        } else {
             //获取折扣信息
             for (VipPo vipPo : vipPos) {
-                if (vipPo.getId().equals(userVip.getVid())){
-                    discount=vipPo.getVdiscount();
+                if (vipPo.getId().equals(userVip.getVid())) {
+                    discount = vipPo.getVdiscount();
                     break;
                 }
             }
@@ -240,13 +237,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-
         //根据放映表id，查询票价
         Double aDouble = movieShowtimeMapper.selectPrice(msid);
         //创建订单
         OrdersPO order = new OrdersPO();
         order.setSeatId(s);
-        order.setMoney(aDouble * seatId.length*discount);
+        order.setMoney(aDouble * seatId.length * discount);
 
         //获取当前时间
         Date date = new Date();
@@ -317,7 +313,27 @@ public class OrderServiceImpl implements OrderService {
         ordersPO.setOstate(ostate);
         ordersPO.setOrderId(oid);
         int i = ordersPOMapper.updateByPrimaryKeySelective(ordersPO);
-        return i ;
+        return i;
 
+    }
+
+    /**
+     * 查询影院的订单情况
+     *
+     * @param aid 影院管理员id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Order> selectOrdersByAid(Integer aid, Integer pageIndex) throws Exception {
+        Integer num = 10;
+        Integer start = (pageIndex - 1) * num;
+
+        return orderMapper.selectOrdersByAid(aid, start, num);
+    }
+
+    @Override
+    public int selectCountByAid(Integer aid) throws Exception {
+        return orderMapper.selectCountByAid(aid);
     }
 }

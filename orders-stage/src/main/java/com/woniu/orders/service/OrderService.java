@@ -40,6 +40,10 @@ public interface OrderService {
 
     List<CountDetail> selectOrdersFail() throws  Exception;
 
+    List<Order> selectOrdersByAid(Integer aid,Integer pageIndex)throws  Exception;
+
+    int selectCountByAid(Integer aid )throws Exception;
+
 
 
 }

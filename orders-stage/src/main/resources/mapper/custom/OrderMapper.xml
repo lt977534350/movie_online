@@ -24,7 +24,11 @@
         <result column="phone" property="phone"/>
         <result column="movie_showtime_id" jdbcType="INTEGER" property="msid"/>
         <result column="seat_id" jdbcType="VARCHAR" property="seatId"/>
-        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="formatTime" jdbcType="VARCHAR" property="formatTime"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="c_timeStr" jdbcType="VARCHAR" property="cFormatTime"/>
+
+
 
 
     </resultMap>
@@ -42,7 +46,7 @@
 
 
     <select id="selectDetail" resultMap="BaseResultMap" parameterType="string">
-        SELECT o.uid,o.c_time ,o.code,o.seat_id,o.ostate,o.order_id ,o.seat,o.money ,cr.name ,
+        SELECT o.uid,o.c_time,c.id as cid  ,o.code,o.seat_id,o.ostate,o.order_id ,o.seat,o.money ,cr.name ,
         o.pay_state,m.mpic ,m.mName,c.aid,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
         LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
         LEFT JOIN cinema c on ms.cid = c.id
@@ -162,6 +166,18 @@
               group by date(c_time)
             ) b on a.click_date = b.datetime ORDER BY click_date asc
      </select>
+    <select id="selectOrdersByAid" resultMap="BaseResultMap" parameterType="int">
+        SELECT o.order_id,m.mName,c.c_name,o.money,date_format(o.c_time,'%m-%d %H:%m')as c_timeStr,date_format(ms.playtime,'%m-%d %H:%m') as formatTime,
+        o.ostate ,u.username from  orders o INNER JOIN movie_showtime ms on  o.movie_showtime_id = ms.id INNER JOIN
+        cinema c on ms.cid =c.id INNER JOIN movie m on ms.mid = m.id INNER JOIN user u on o.uid = u.id where
+        c.aid=#{aid,jdbcType=INTEGER} ORDER BY o.c_time desc    limit #{start,jdbcType=INTEGER},#{num,jdbcType=INTEGER}
+
+    </select>
+    <select id="selectCountByAid" resultType="int">
+        select COUNT(o.id) as count from orders o  INNER JOIN movie_showtime ms
+         on  o.movie_showtime_id = ms.id INNER JOIN cinema c on ms.cid =c.id
+          WHERE c.aid=#{aid,jdbcType=INTEGER}
+    </select>
 
 
 </mapper>
