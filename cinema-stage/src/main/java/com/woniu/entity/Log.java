@@ -24,6 +24,8 @@ public class Log {
      * 操作的时间
      */
     private Date optime;
+    private String formatTime;
+
 
     /**
      * 操作的级别：1.normal,2.error,3.danger

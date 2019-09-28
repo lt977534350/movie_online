@@ -5,6 +5,25 @@ import java.util.Date;
 import java.util.List;
 
 public class LogExample {
+    private Integer start;
+    private Integer num;
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public void setStart(Integer start) {
+        this.start = start;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
     protected String orderByClause;
 
     protected boolean distinct;

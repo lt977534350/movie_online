@@ -8,6 +8,7 @@
     <result column="operation" jdbcType="VARCHAR" property="operation" />
     <result column="optime" jdbcType="TIMESTAMP" property="optime" />
     <result column="optype" jdbcType="VARCHAR" property="optype" />
+    <result column="formatime" jdbcType="VARCHAR" property="formatTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--@mbg.generated-->
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, username, `operation`, optime, optype
+    id, username, `operation`, date_format(optime,'%y-%m-%d %H:%m') as formatime, optype
   </sql>
   <select id="selectByExample" parameterType="com.woniu.entity.LogExample" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -87,6 +88,7 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+     limit #{start},#{num,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
