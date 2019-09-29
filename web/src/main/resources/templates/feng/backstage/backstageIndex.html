@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<div class="page">
+<div class="page" id="app">
     <!-- Main Navbar-->
     <header class="header">
         <nav class="navbar">
@@ -118,6 +118,28 @@
 <script src="/web/backstage/js/charts-home.js"></script>
 <!-- Main File-->
 <script src="/web/backstage/js/front.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data:{},
+        created:function () {
+            //查询当前用户
+
+
+
+        }
+
+
+    })
+
+
+
+
+</script>
+
+
+
+
 <script type="text/javascript">
 
     $("#logout").click(function () {

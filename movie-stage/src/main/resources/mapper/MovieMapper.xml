@@ -292,4 +292,48 @@
     select count(id) from movie where uptime>#{today}
   </select>
 
+  <select id="selectMoviesByExample" resultMap="BaseResultMap">
+    select distinct m.* from movie m
+    left join movie_type mt on m.id=mt.mid
+    left join type t on mt.tid = t.id
+    <where>
+      m.id in(select distinct mid from movie_showtime)
+      <if test="param2 != null">
+        and m.comntry like #{param2}
+      </if>
+      <if test="param3 != null and param4 != null">
+        and m.uptime between #{param3} and #{param4}
+      </if>
+      <if test="param1 != null">
+        and mtype=#{param1}
+      </if>
+      order by m.uptime desc
+      limit #{param5},#{param6}
+    </where>
+  </select>
+
+  <select id="selectCountByExample" resultType="int">
+select count(id) from movie where id in(
+    select distinct m.id from movie m
+    left join movie_type mt on m.id=mt.mid
+    left join type t on mt.tid = t.id
+    <where>
+      m.id in(select distinct mid from movie_showtime)
+      <if test="param2 != null">
+        and m.comntry like #{param2}
+      </if>
+      <if test="param3 != null and param4 != null">
+        and m.uptime between #{param3} and #{param4}
+      </if>
+      <if test="param1 != null">
+        and mtype=#{param1}
+      </if>
+
+
+    </where>
+    )
+
+  </select>
+
+
 </mapper>

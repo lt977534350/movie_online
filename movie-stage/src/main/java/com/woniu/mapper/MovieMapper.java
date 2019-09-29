@@ -37,4 +37,8 @@ public interface MovieMapper {
     List<Movie> selectAfterMovies(Integer start, Integer num, Date today);
 
     Integer selectAfterCount(Date today);
+
+    List<Movie> selectMoviesByExample(String type, String comntry, Date startTime, Date endTime, Integer start, Integer num);
+
+    Integer selectCountByExample(String type, String comntry, Date startTime, Date endTime);
 }

@@ -132,4 +132,15 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.selectAfterCount(today);
     }
 
+    @Override
+    public List<Movie> selectMoviesByExample(String type, String comntry, Date startTime, Date endTime, Integer start, Integer num) {
+        List<Movie> movies=movieMapper.selectMoviesByExample(type,"%"+comntry+"%",startTime,endTime,start,num);
+        return movies;
+    }
+
+    @Override
+    public Integer selectCountByExample(String type, String comntry, Date startTime, Date endTime) {
+        return movieMapper.selectCountByExample(type,"%"+comntry+"%",startTime,endTime);
+    }
+
 }

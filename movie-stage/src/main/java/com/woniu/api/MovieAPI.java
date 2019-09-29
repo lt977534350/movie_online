@@ -9,10 +9,8 @@ import com.woniu.util.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("movie")
@@ -139,4 +137,63 @@ public class MovieAPI {
         Page page = new Page(pageIndex, pageCount, count);
         return new Result("success",null,page,list);
     }
+
+
+    /**
+     * 根据条件查询电影和数量
+     * @param type
+     * @param comntry
+     * @param time
+     * @param pageIndex
+     * @return
+     * @throws Exception
+     */
+    @GetMapping
+    @RequestMapping("/example")
+    public Result selectMoviesByExample(String type,String comntry,String time,Integer pageIndex)throws Exception{
+        System.out.println(type+"="+comntry+"="+time+"="+pageIndex);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startTime=null;
+        Date endTime=null;
+
+        if(type == ""){
+            type=null;
+        }
+
+        if(time !=null && time !=""){
+            if(time.contains("-")){
+                String[] times = time.split("-");
+                startTime=simpleDateFormat.parse(times[0]+"-1-1 00:00:00");
+                endTime=simpleDateFormat.parse(Integer.valueOf(times[1])+1+"-1-1 00:00:00");
+            }else if(time.contains("更早")){
+                startTime=simpleDateFormat.parse("1970-1-1 00:00:00");
+                endTime=simpleDateFormat.parse("2000-1-1 00:00:00");
+
+
+            }else{
+
+                startTime=simpleDateFormat.parse(time+"-1-1 00:00:00");
+                endTime=simpleDateFormat.parse(Integer.valueOf(time)+1+"-1-1 00:00:00");
+            }
+
+
+        }
+
+
+
+        Integer num=18;
+        Integer start = (pageIndex-1)* num;
+
+        List<Movie> movies = movieService.selectMoviesByExample(type, comntry, startTime, endTime, start, num);
+
+        Integer dataCount = movieService.selectCountByExample(type, comntry, startTime, endTime);
+        Integer pageCount =  dataCount%num == 0 ? dataCount/num : dataCount/num+1;
+
+        Page page = new Page(pageIndex,pageCount,dataCount);
+
+
+        return new Result("success",null,page,movies);
+    }
+
+
 }

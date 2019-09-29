@@ -503,9 +503,9 @@
 				url:"/movie-stage/movie/example",
 				type:"get",
 				data:{
-					"type":null,
-					"comntry":null,
-					"time":null,
+					"type":"",
+					"comntry":"",
+					"time":"",
 					"pageIndex":_data.page.pageIndex
 				},
 				dataType:"json",
@@ -573,8 +573,9 @@
 				$(e.target).addClass("mtype-active");
 
 				var data=$(e.target).text();
+
 				if(data=="全部"){
-					data=null;
+					data="";
 				}
 
 
@@ -589,6 +590,8 @@
 				if(type==3){//年代
 					_this.time=data
 				}
+
+
 
 				//根据电影类型，区域，年代查询电影
 				$.ajax({
@@ -608,7 +611,6 @@
 						app.pages=app.page.pageCount
 					}
 				})
-
 				/*获取选中标签文本信息*/
 				// alert($(this).text());
 			},
