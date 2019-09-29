@@ -35,6 +35,12 @@ public class CinemaRoomAPI {
     @RequestMapping("/bycid")
     public Result selectAllByCid(Integer cid,Integer pageIndex,Integer num)throws Exception{
 
+        if(pageIndex == null && num == null){
+            List<CinemaRoom> list = cinemaRoomService.selectAllByCid(cid,null,null);
+            return new Result("success",null,null,list);
+        }
+
+
         //查询cid放映点下的影厅数量
         Integer dataCount = cinemaRoomService.selectCountByCid(cid);
         Integer pageCount=dataCount%num==0?dataCount/num:dataCount/num+1;

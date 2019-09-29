@@ -216,7 +216,7 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                             <!---左边座位列表----->
                             <div id="changethisxy">
                                 <input type="text" style="width:30px;" id="thisx" value="10"> ×
-                                <input type="text" style="width:30px;" id="thisy" value="30">
+                                <input type="text" style="width:30px;" id="thisy" value="20">
                             </div>
                             <div id="thisseat_area">
                             </div>
@@ -360,6 +360,7 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
 
                 //编辑座位  重写方法
                 editroom : function (index) {
+                    var _this=this;
                     //修改影厅信息回显
                     cin.nowCinemaRoom = cin.cinemaRoomList[index];
                     $("#thisid").val(cin.nowCinemaRoom.id);
@@ -367,6 +368,8 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                     $("#thisroomtype").val(cin.nowCinemaRoom.type);
                     var coordinate=cin.nowCinemaRoom.coordinate;
                     var seat = coordinate.split(",")
+
+
                     for(var i=0;i<seat.length;i++){
                         seat[i]=seat[i].replace(/"/g,"").replace("[","").replace("]","");
                     }
@@ -374,14 +377,14 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                     $("#thisx").val(seat.length)
                     $("#thisy").val(seat[0].length)
 
-
+                    _this.updateSeats=seat;
 
                     $("#update-maps").remove()
                     $("#thisseat_area").append("<div id='update-maps'></div>")
 
                     //座位回显
                     $('#update-maps').seatCharts({
-                        map: seat,
+                        map: _this.updateSeats,
                         naming: {
                             top: false, //不显示顶部横坐标（行）
                             left: true,
@@ -391,13 +394,11 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                         },
                         click: function () {
                             if (this.status() == 'available') { //若为可选座状态，添加座位
-                                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "_" + seat[this.settings.row].substring(this.settings.column + 1);
-                                cin.updateSeats=seat;
+                                _this.updateSeats[this.settings.row] = _this.updateSeats[this.settings.row].substring(0, this.settings.column) + "_" + _this.updateSeats[this.settings.row].substring(this.settings.column + 1);
                                 console.log(cin.updateSeats)
                                 return 'none';
                             } else {
-                                seat[this.settings.row] = seat[this.settings.row].substring(0, this.settings.column) + "e" + seat[this.settings.row].substring(this.settings.column + 1);
-                                cin.updateSeats=seat;
+                                _this.updateSeats[this.settings.row] = _this.updateSeats[this.settings.row].substring(0, this.settings.column) + "e" + _this.updateSeats[this.settings.row].substring(this.settings.column + 1);
                                 console.log(cin.updateSeats)
                                 return "available";
                             }
@@ -446,7 +447,9 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                 $.ajax({
                                     url:"/cinema-stage/room/bycid",
                                     data:{
-                                        "cid":cin.cid
+                                        "cid":cin.cid,
+                                        "pageIndex":cin.page.dataCount%6==0?cin.page.pageCount+1:cin.page.pageCount,
+                                        "num":6
                                     },
                                     type:"get",
                                     dataType:"json",
@@ -505,7 +508,10 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                             $.ajax({
                                 url:"/cinema-stage/room/bycid",
                                 data:{
-                                    "cid":cin.cid
+                                    "cid":cin.cid,
+                                    "pageIndex":cin.page.pageIndex,
+                                    "num":6
+
                                 },
                                 type:"get",
                                 dataType:"json",
@@ -560,9 +566,11 @@ function registSeat(){
         click: function() {
              if (this.status() == 'available') { //若为可选座状态，添加座位
                 seat[this.settings.row]=seat[this.settings.row].substring(0,this.settings.column)+"_"+seat[this.settings.row].substring(this.settings.column+1);
+                console.log(seat)
                 return 'none';
              }else {
                 seat[this.settings.row]=seat[this.settings.row].substring(0,this.settings.column)+"e"+seat[this.settings.row].substring(this.settings.column+1);
+                console.log(seat)
                 return "available";
             }
              

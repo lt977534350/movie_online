@@ -83,6 +83,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAllByCid" resultMap="BaseResultMap">
+    select * from cinema_room where cid=#{param1}
+    <if test="param2 != null and param3 != null">S
+      limit #{param2},#{param3}
+    </if>
+
+  </select>
+
   <update id="updateByPrimaryKey" parameterType="com.woniu.entity.CinemaRoom">
     <!--@mbg.generated-->
     update cinema_room
@@ -92,11 +100,6 @@
       `type` = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectAllByCid" resultMap="BaseResultMap">
-    select * from cinema_room where cid=#{param1}
-    limit #{param2},#{param3}
-  </select>
 
   <select id="selectCountByCid" resultType="int" parameterType="int">
     select count(id) from cinema_room where cid=#{cid}
