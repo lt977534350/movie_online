@@ -38,7 +38,7 @@ public class UserAPI {
      * @return
      * @throws Exception
      */
-    @GetMapping()
+    @GetMapping
     public Result selectUser(HttpSession session)throws Exception{
         /*获取user对象*/
         User user = (User) session.getAttribute("user");
