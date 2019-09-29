@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.mapper.SeatinfoMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.entity.Seatinfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="row" jdbcType="VARCHAR" property="row" />
+    <result column="column" jdbcType="VARCHAR" property="column" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="msid" jdbcType="INTEGER" property="msid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `row`, `column`, `state`, msid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from seatinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from seatinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Seatinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into seatinfo (`row`, `column`, `state`, 
+      msid)
+    values (#{row,jdbcType=VARCHAR}, #{column,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{msid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.entity.Seatinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into seatinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="row != null">
+        `row`,
+      </if>
+      <if test="column != null">
+        `column`,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="msid != null">
+        msid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="row != null">
+        #{row,jdbcType=VARCHAR},
+      </if>
+      <if test="column != null">
+        #{column,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="msid != null">
+        #{msid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.entity.Seatinfo">
+    <!--@mbg.generated-->
+    update seatinfo
+    <set>
+      <if test="row != null">
+        `row` = #{row,jdbcType=VARCHAR},
+      </if>
+      <if test="column != null">
+        `column` = #{column,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="msid != null">
+        msid = #{msid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.woniu.entity.Seatinfo">
+    <!--@mbg.generated-->
+    update seatinfo
+    set `row` = #{row,jdbcType=VARCHAR},
+      `column` = #{column,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      msid = #{msid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
