@@ -268,7 +268,7 @@ public class OrderServiceImpl implements OrderService {
         if (i != 0) {
             Tasklist tasklist = new Tasklist();
             tasklist.setTaskdataid(order.getOrderId());
-            tasklist.setTasktime(new Date(date.getTime() + 1 * 60 * 1000));
+            tasklist.setTasktime(new Date(date.getTime() + 15* 60 * 1000));
             tasklist.setTaskname("订单超时");
             index = tasklistPOMapper.insertSelective(tasklist);
         }
@@ -282,7 +282,7 @@ public class OrderServiceImpl implements OrderService {
             //未付款
             order.setOstateMsg(Constant.OrderStatusEnum.NO_PAY.getValue());
             //给前端传剩余付款时间数
-            int time = (int) ((order.getcTime().getTime() + 1 * 60 * 1000 - System.currentTimeMillis()) / 1000);
+            int time = (int) ((order.getcTime().getTime() + 15* 60 * 1000 - System.currentTimeMillis()) / 1000);
             order.setLeftPaySecond(time);
         } else if (order.getOstate() == Constant.OrderStatusEnum.PAID.getCode()) {
             //已付款

@@ -236,7 +236,7 @@
         num = #{num,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where menuOdersNum = #{menuodersnum,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.woniu.orders.entity.MenuOders">
     <!--@mbg.generated-->

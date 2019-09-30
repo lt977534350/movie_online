@@ -36,8 +36,8 @@ public class OrdersApi {
     @GetMapping("/confirm/")
     @ResponseBody
     public Result createOrders(Integer id[], Integer msid, HttpSession session) throws Exception {
-    /*User user =(User)session.getAttribute("user");
-     user.getId();*/
+        User user = (User) session.getAttribute("user");
+        user.getId();
         if (id.length <= 0 || msid == null) {
             return new Result("500", "选座失败", null, null);
         }
@@ -56,13 +56,14 @@ public class OrdersApi {
 
     @GetMapping
     @ResponseBody
-    public Result selectOrders(Integer uid, Integer pageIndex) throws Exception {
+    public Result selectOrders(HttpSession session, Integer pageIndex) throws Exception {
+        User user = (User) session.getAttribute("user");
         System.out.println(pageIndex);
         if (pageIndex == null) {
             pageIndex = 1;
         }
-        List<Order> orders = orderService.selectOrder(1, pageIndex);
-        int count = (int) orderService.selectCount(1);
+        List<Order> orders = orderService.selectOrder(user.getId(), pageIndex);
+        int count = (int) orderService.selectCount(user.getId());
         Page page = new Page();
         page.setDataCount(count);
         page.setPageCount(count % Constant.Page.PAGE_DISPLAYED.getpageData() == 0 ? count / Constant.Page.PAGE_DISPLAYED.getpageData() : count / Constant.Page.PAGE_DISPLAYED.getpageData() + 1);
@@ -117,6 +118,7 @@ public class OrdersApi {
         System.out.println(count);
         return count;
     }
+
     @GetMapping("selectOrderWeek")
     @ResponseBody
     public Count selectOrdersSuccess(Integer aid) throws Exception {
@@ -130,23 +132,24 @@ public class OrdersApi {
 
     /**
      * 查询影院的订单情况
+     *
      * @return
      */
     @RequestMapping("selectByAid")
     @ResponseBody
-    public Result selectOrderSByAid(HttpSession session,Integer pageIndex) throws Exception {
+    public Result selectOrderSByAid(HttpSession session, Integer pageIndex) throws Exception {
         /*Admin admin = (Admin)session.getAttribute("admin");
         int aid = admin.getId();*/
-        if(pageIndex==null){
-            pageIndex=1;
+        if (pageIndex == null) {
+            pageIndex = 1;
         }
-        List<Order> orders = orderService.selectOrdersByAid(1,pageIndex);
+        List<Order> orders = orderService.selectOrdersByAid(1, pageIndex);
         int dataCount = orderService.selectCountByAid(1);
         Page page = new Page();
         page.setPageIndex(pageIndex);
         page.setDataCount(dataCount);
-        page.setPageCount(dataCount%10==0?dataCount/10:dataCount/10+1);
-        return  new Result("200","success",page,orders);
+        page.setPageCount(dataCount % 10 == 0 ? dataCount / 10 : dataCount / 10 + 1);
+        return new Result("200", "success", page, orders);
 
     }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<title>首页</title>
@@ -26,209 +26,538 @@
 			}
 
 		</style>
+		<link rel="stylesheet" href="/web/ltcss/style1.css">
+		<link rel="icon" type="image/png" href="/web/assets/img/favcion.png"/>
+		<link rel="stylesheet" type="text/css" href="/web/assets/css/icofont.css" media="all"/>
 	</head>
+	<body style="padding: 0">
+	<!--
+        作者：offline
+        时间：2019-09-09
+        描述：头部
+    -->
+	<div id="apphead">
+		<!-- header -->
+		<header  class="header" style="background-color: #0a0910">
+			<div class="container">
+				<div class="header-area">
+					<div class="logo">
+						<a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
+					</div>
+					<!--<div class="currcity">
+                        <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
+                            <li id="summary-stock">
+                                <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
+                                <div class="dd">
+                                    <div id="store-selector">
+                                        <div class="text">
+                                            <div id="currcity"></div>
+                                            <b></b></div>
+                                        <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+                                    </div>&lt;!&ndash;store-selector end&ndash;&gt;
+                                    <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
+                        <div class="mycity" @click="selectLocation()">
+                            我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
+                        </div>
+                        <div v-show="isShowCitys" class="city" id="city-div">
+                            <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
+                      ">
+                                我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
+                            </div>
+                            <div class="city-wrapper city-wrapper-hook">
+                                <div class="scroller-hook">
+                                    <div class="cities cities-hook">
+                                        <div v-for="i in cityData">
+                                            <div class="title">{{i.name}}</div>
+                                            <ul>
+                                                <li @dblclick="replay(item.name
+                                    )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
+                                    &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
+                                        <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
+                                    </ul>&ndash;&gt;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="toast" v-show="toastShow">
+                            {{toastText}}
+                        </div>
+                    </div>-->
 
-	<body>
-	<div id="app">
-		<div class="head_div2">
-			<div class="header">
-				<div class="container">
-					<div class="w3layouts_logo">
-						<a href="/web/index.html"><h1 class="title">爱乐<span id="webtitle-bottom">电影</span></h1></a>
+					<div class="menu-area">
+						<div class="responsive-menu"></div>
+						<div class="mainmenu">
+							<ul id="primary-menu">
+								<li><a class="active" href="/web/feng/index.html">首页</a></li>
+								<li><a href="/web/tao/mtype.html">电影</a></li>
+								<li><a href="/web/tao/cinema-jump.html">影城</a></li>
+								<li><a href="top-movies.html">热映电影</a></li>
+								<li><a href="https://ent.sina.com.cn/film/">热点</a></li>
+								<li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
+									<ul>
+										<li><a onclick="showModel()" href="#">用户须知</a></li>
+										<li><a href="#">联系客服</a></li>
+									</ul>
+								</li>
+								<li v-show="user.username==null"><a class="login-popup" href="#" >登录</a>
+									<!--<a  v-show="username!=null" v-text="username" >登录</a>-->
+								</li>
+								<li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
+								<li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
+									<svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+									<img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
+									<a href="javascript:;" v-text="user.username"></a>
+									<ul class="person-ul" style="display: block" >
+										<li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+
+										<li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
+									</ul>
+								</li>
+								<!--<li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>-->
+							</ul>
+						</div>
 					</div>
-					<div class="w3l_search_city">
-						<form action="#" method="post">
-							<input type="text" list="city" value="重庆"/>
-							<datalist id="city">
-								<option>北京</option>
-							</datalist>
-						</form>
-					</div>
-					<div class="w3_search">
-						<form action="#" method="post">
-							<input type="text" name="Search" placeholder="搜索一部你期待的电影吧" required="required">
-							<input type="submit" value="Go">
-						</form>
-					</div>
-					<div class="w3l_sign_in_register">
-						<ul>
-							<li><i class="glyphicon glyphicon-user"></i></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModal">登录</a></li>
-						</ul>
-					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
-			<!-- //header -->
-			<!-- bootstrap-pop-up -->
-
-			<!-- //bootstrap-pop-up -->
-			<!-- nav -->
-			<div class="movies_nav">
-				<div class="container">
-					<nav class="navbar navbar-default">
-						<div class="navbar-header navbar-left">
-							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-							<nav>
-								<ul class="nav navbar-nav">
-									<li class="active"><a href="index.html">首页</a></li>
-									<li class="dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown">类型 <b class="caret"></b></a>
-										<ul class="dropdown-menu multi-column columns-3">
-											<li>
-												<div class="col-sm-4">
-													<ul class="multi-column-dropdown">
-														<li><a href="genres.html">Action</a></li>
-														<li><a href="genres.html">Biography</a></li>
-														<li><a href="genres.html">Crime</a></li>
-														<li><a href="genres.html">Family</a></li>
-														<li><a href="horror.html">Horror</a></li>
-														<li><a href="genres.html">Romance</a></li>
-														<li><a href="genres.html">Sports</a></li>
-														<li><a href="genres.html">War</a></li>
-													</ul>
-												</div>
-												<div class="col-sm-4">
-													<ul class="multi-column-dropdown">
-														<li><a href="genres.html">Adventure</a></li>
-														<li><a href="comedy.html">Comedy</a></li>
-														<li><a href="genres.html">Documentary</a></li>
-														<li><a href="genres.html">Fantasy</a></li>
-														<li><a href="genres.html">Thriller</a></li>
-													</ul>
-												</div>
-												<div class="col-sm-4">
-													<ul class="multi-column-dropdown">
-														<li><a href="genres.html">Animation</a></li>
-														<li><a href="genres.html">Costume</a></li>
-														<li><a href="genres.html">Drama</a></li>
-														<li><a href="genres.html">History</a></li>
-														<li><a href="genres.html">Musical</a></li>
-														<li><a href="genres.html">Psychological</a></li>
-													</ul>
-												</div>
-												<div class="clearfix"></div>
-											</li>
-										</ul>
-									</li>
-									<li><a href="series.html">影院</a></li>
-									<li><a href="NEWs.html">热点</a></li>
-									<li><a href="short-codes.html">榜单</a></li>
-								</ul>
-							</nav>
-						</div>
-					</nav>
-				</div>
-			</div>
-		</div>
-		<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						欢迎使用爱乐电影
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<section>
-						<div class="modal-body">
-							<div class="w3_login_module">
-								<div class="module form-module">
-									<div class="toggle"><i class="fa fa-times fa-pencil"></i>
-										<div class="tooltip">点击注册</div>
-									</div>
-									<div class="form">
-										<fieldset>
-											<legend class="form-legend">账号登录</legend>
-											<div class="log-toggle"><i class="switch-log">账号密码登录</i>
-											</div>
-											<form action="#" method="post">
-												<input type="text" name="Username" placeholder="请输入用户名" required="required">
-												<input type="password" name="Password" placeholder="请输入密码" required="required">
-												<label class="check-lable"><input type="checkbox" name="remember"/>记住我</label>
-												<a href="#" class="forget-a">忘记密码？</a>
-												<input class="btn btn-success" type="submit" value="登录">
-											</form>
-										</fieldset>
-									</div>
-									<!--
-                                        作者：971872973@qq.com
-                                        时间：2019-09-07
-                                        描述：手机验证的表单
-                                    -->
-									<!--<div class="log-form">
-                                        <fieldset>
-                                            <legend class="form-legend">账号登录</legend>
-                                            <form action="#" method="post">
-                                            <input type="text" name="Username" placeholder="请输入手机号" required="required">
-                                            <input type="password" name="Password" placeholder="请输入验证码" required="required">
-                                            <input type="button" class="code-button" name="getcode" value="获取验证码"/>
-                                            <input class="btn btn-success" type="submit" value="登录">
-                                          </form>
-                                      </fieldset>
-                                    </div>-->
-									<div class="form">
-										<fieldset>
-											<legend class="form-legend">注册账户</legend>
-											<form action="#" method="post">
-												<input type="text" name="username" placeholder="新用户名" required="">
-												<input type="password" name="password" placeholder="新密码" required="">
-												<input type="password" name="checkpwd" placeholder="请确认密码" required="">
-												<input type="text" name="phone" placeholder="电话" required="">
-												<input type="submit" value="注册">
-											</form>
-										</fieldset>
-									</div>
-								</div>
+		</header>
+		<!-- banner -->
+		<!--<div class="marginTop_indexhead" style="display:none;">
+            <ul>
+                <li><img src="/web/images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
+                <li><img src="/web/images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
+                <li><img src="/web/images/3.jpg" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
+                <li><img src="/web/images/4.jpg" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
+                <li><img src="/web/images/6.jpg" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
+                <li><img src="/web/images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
+            </ul>
+        </div>-->
+		<div class="login-area" id="myidlogin">
+			<div class="login-box">
+				<a href="#"><i class="icofont icofont-close"></i></a>
+				<h2 >登录</h2>
+				<form  id ="logform" action="/api-user/user/login">
+					<h6>用户名</h6>
+					<input type="text" id="loginuser" name="username" placeholder="请输入用户名"/>
+					<span id="ulmsg" class="msg"></span>
+					<h6>密码</h6>
+					<input type="password" id="loginpwd" name="password" placeholder="请输入密码"/>
+					<span id="plmsg" class="msg"></span>
+					<div>
+						<div class="col-lg-8">
+							<div style="float: left;">
+                        <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyphone()">
+                            <svg t="1569485567198" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1130" width="16" height="16"><path d="M717.72292 66.790172 310.008055 66.790172c-48.50676 0-87.971587 39.534412-87.971587 88.1302l0 48.489364 0 583.991638 0 78.821183c0 48.52518 39.463804 87.986937 87.971587 87.986937l407.714865 0c48.594765 0 88.1302-39.461757 88.1302-87.986937l0-78.821183L805.85312 203.409736l0-48.489364C805.85312 106.325607 766.317685 66.790172 717.72292 66.790172M276.401656 257.772878l475.086276 0L751.487931 733.038232 276.401656 733.038232 276.401656 257.772878zM751.487931 866.222557c0 18.545378-15.148002 33.622772-33.765011 33.622772L310.008055 899.845329c-18.527982 0-33.606399-15.077394-33.606399-33.622772l0-78.821183 475.086276 0L751.487931 866.222557zM276.401656 203.409736l0-48.489364c0-18.61701 15.078417-33.766035 33.606399-33.766035l407.714865 0c18.61701 0 33.765011 15.149025 33.765011 33.766035l0 48.489364L276.401656 203.409736zM513.963213 893.085368c27.323299 0 49.480948-22.155603 49.480948-49.514717 0-27.324322-22.156626-49.479925-49.480948-49.479925-27.359115 0-49.498344 22.154579-49.498344 49.479925C464.464869 870.929766 486.603075 893.085368 513.963213 893.085368M546.667056 153.751756l-65.426105 0c-6.813173 0-12.33391 5.52176-12.33391 12.317537 0 6.830569 5.520737 12.352329 12.33391 12.352329l65.426105 0c6.795776 0 12.351306-5.52176 12.351306-12.352329C559.018362 159.273517 553.461809 153.751756 546.667056 153.751756" p-id="1131"></path></svg>
+                            点我进入手机登陆
+                        </span>
 							</div>
 						</div>
-					</section>
-				</div>
+						<div class="col-lg-4">
+							<div style="float: right;" class="login-remember">
+								<input id="rem" name="rem" type="checkbox"/>
+								<label for="rem" style="font-size: 15px;font-family: 'Franklin Gothic Medium';">记住我</label>
+							</div>
+						</div>
+					</div>
+					<a @click="login()" class="theme-btn">登录</a>
+				</form>
 			</div>
 		</div>
-		<script>
-			$('.toggle').click(function(){
-				// Switches the Icon
-				$(this).children('i').toggleClass('fa-pencil');
-				// Switches the forms
-				$('.form').animate({
-					height: "toggle",
-					'padding-top': 'toggle',
-					'padding-bottom': 'toggle',
-					opacity: "toggle"
-				}, "slow");
+		<div style="display: none;" class="login-area" id="myphonelogin">
+			<div class="login-box">
+				<a href="#"><i class="icofont icofont-close"></i></a>
+				<h2 >登录</h2>
+				<form  id ="telform" action="/api-user/user/login">
+					<h6>手机号</h6>
+					<input type="tel" id="phonenum" name="telphone" placeholder="请输入手机号"/>
+					<span id="telmsg" class="msg"></span>
+					<div>
+						<input class="col-lg-8" id="mycode" type="text" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+						<input class=" btn btn-success" type="button" onclick="getcode(this)" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" value="获取验证码">
+						<span id="codemsg" class="msg"></span>
+					</div>
+					<div style="float: left;">
+                    <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyid()">
+                        <svg t="1569486963559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2521" width="16" height="16"><path d="M939.904 821.333333a439.296 439.296 0 0 0-306.346667-317.994666 233.258667 233.258667 0 0 0 111.573334-198.869334c0-128.554667-104.576-233.173333-233.130667-233.173333S278.869333 175.914667 278.869333 304.469333a233.258667 233.258667 0 0 0 111.573334 198.869334 439.296 439.296 0 0 0-306.346667 317.994666 103.594667 103.594667 0 0 0 19.541333 89.088c21.034667 26.88 52.608 42.24 86.613334 42.24H833.706667a109.226667 109.226667 0 0 0 86.613333-42.24c20.138667-25.6 27.221333-58.069333 19.584-89.088zM330.069333 304.469333c0-100.352 81.621333-181.973333 181.930667-181.973333s181.930667 81.621333 181.930667 181.973333S612.352 486.4 512 486.4 330.069333 404.778667 330.069333 304.469333z m549.973334 574.421334a59.306667 59.306667 0 0 1-46.336 22.613333H190.250667a59.306667 59.306667 0 0 1-46.336-22.613333 52.096 52.096 0 0 1-10.154667-45.312C176.725333 659.328 332.245333 537.6 512 537.6s335.274667 121.728 378.197333 295.978667a52.053333 52.053333 0 0 1-10.154666 45.312z" p-id="2522" fill="#515151"></path></svg>
+                        点我进入用户名登陆
+                    </span>
+					</div>
+					<a @click="login()" class="theme-btn">手机登录</a>
+				</form>
+			</div>
+		</div>
+		<div class="login-area" id="myregister">
+			<div class="login-box register-box">
+				<a href="#"><i class="icofont icofont-close"></i></a>
+				<h2 >注册</h2>
+				<form id ="reform" action="/api-user/user/register">
+					<h6>用户名</h6>
+					<input class="name_input reginput" id="reguser" type="text" name="username" placeholder="请输入用户名"/>
+					<span id="urmsg" class="msg">用户名不得全为数字，不含特殊字符，支持中文</span>
+					<h6>密码</h6>
+					<input class="pwd_input reginput" id="regpwd" type="password" name="password" placeholder="请输入密码"/>
+					<span id="rpmsg" class="msg">密码不得少于6位</span>
+					<h6>确认密码</h6>
+					<input class="repwd_input reginput" id="repwd" type="password" name="repwd" placeholder="请确认密码"/>
+					<span id="remsg" class="msg"></span>
+					<div style="margin-bottom: 20px;">
+						<h6>手机号</h6>
+						<input class="tel_input reginput" id="sendphone" style="float: left" type="tel" name="telphone" placeholder="请输入手机号" />
+						<span id="regtel" class="msg"></span>
+						<div>
+							<input class="col-lg-8" id="myregcode" type="text" name="code" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+							<input type="button" class="btn btn-danger" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" onclick="getcode(this)" value="获取验证码">
+							<span id="regcode" class="msg"></span>
+						</div>
+					</div>
+					<div>
+						<a @click="register()" class="theme-btn">注册</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="buy-ticket" id="mymodel">
+			<div class="container">
+				<div class="buy-ticket-area">
+					<a href="#"><i class="icofont icofont-close"></i></a>
+					<h3 style="text-align: center; color: black;font-weight: 900">用户须知</h3>
+					<p> 欢迎您使用爱乐平台服务（“本服务”）。在登录爱乐平台或使用本服务前，您应当首先阅读并同意接受《爱乐用户服务协议》（“本协议”）的全部内容。在点击确认本协议之前，请您务必仔细阅读本协议的全部内容，特别是免除或限制责任条款等以粗体格式重点标示的条款。阅读本协议过程中，如果您不同意本协议的任意内容，或者无法准确理解，请不要同意本协议或登录使用本协议项下的服务，否则，即表示您已接受了本协议的条款和条件，同意受本协议约束。
+
+						一、定义
+
+						1.1 “爱乐平台”或“本平台”：重庆爱乐文化传媒有限公司运营和管理的提供在线票务等服务的网络平台（maoyan.com等）,以及重庆爱乐文化传媒有限公司或其关联方有权运营或管理的爱乐合作平台，包括但不限于美团网站及客户端电影/演出频道、大众点评网站及客户端电影/演出频道、格瓦拉客户端、微信钱包电影演出赛事入口、微信小程序等。
+
+						1.2 “本服务”：通过本平台向用户提供的在线票务服务、以及影视行业相关服务，包括但不限于面向用户提供影视/演出相关排片/活动信息、在线选座购票/购票、用户交流及评价、影视/演出信息介绍、影视相关票房信息查询、衍生品销售以及其他爱乐平台上展示和提供的服务。该等服务由爱乐相关主体或者相关合作方（统称“服务方”）提供。
+
+						1.3 “用户”：接受并同意本协议全部条款及本平台发布的其他全部服务条款和操作规则的用户。
+
+						二、基本原则
+
+						2.1 本平台为第三方平台，为用户与本平台上相关服务/产品经营者之间提供网页空间、虚拟经营场所、交易撮合、信息发布等服务，供交易各方独立开展交易活动的信息网络系统。
+
+						2.2 用户通过本平台使用经营者所提供服务的，应当同时遵守本协议、相关服务协议（如有）、以及本平台的相关规则、通知、要求。该等服务协议、平台规则、通知、要求等与本协议条款共同构成本协议的全部内容。
+
+						2.3 用户同意并确认，本平台有权随时根据运营和管理的需要，对本协议内容进行修订和变更，修订或变更后的文本将在本平台上依法予以公示。如用户在本协议修订或变更后的文本生效后，仍然继续使用本服务的，即表示用户已充分阅读、理解并同意接受修订或变更后的协议内容；如用户不同意修改后的协议内容，用户应立即停止使用本服务。 >
+						三、 用户服务
+
+						3.1 本平台为服务方以及用户之间通过本平台进行电影票务、演出票务、衍生品等商品或服务的网络交易活动提供网络交易平台服务。服务方负责向用户提供相应商品或服务。根据市场需要，结合各业务的不同特点，可能向用户收取一定的服务费用，具体服务费用以用户购买页面中展示信息为准。
+
+						3.2 本平台所提供的影视/演出的排片/活动、节目信息、选座（如有）等相关信息、以及售卖规则（包括但不限于购买规则、退改签规则等），均由影视/演出相关权利人（包括但不限于影院、影片出品方、演出主办方等）提供或制定。详见用户购买页面所展示信息。
+
+						3.3 本平台所发布的广告或商品/服务展示内容，如有任何侵权行为，本平台将依法根据权利人的通知或者径行做出删除等处理。
+
+						3.4 用户可通过本平台使用相关服务方提供的商品或服务、进行相应评论，但应当遵守法律规定以及本协议约定。
+
+						3.5 用户通过本平台购买相应商品或服务的，应当提供获取该等商品或服务所必需的信息（包括但不限于手机号码等）。用户应当保证所提供信息的真实、准确、合法、完整。否则，如因用户所提供信息存在问题而导致用户无法享受相关商品或服务的，用户应当自行承担责任。
+
+						3.6 用户实际消费过程中，如果发现服务方所提供商品或服务存在任何问题，应与相关服务方自行协商解决。同时，用户也可以通知本平台，本平台或服务方将依法向用户提供必要信息并协助用户与经营者解决争议。
+					</p>
+				</div>
+			</div>
+		</div><!-- header section end -->
+	</div>
+	<script src="/web/js/vue.js"></script>
+	<script src="/web/assets/js/main.js"></script>
+	<script type="text/javascript">
+
+
+		function showModel() {
+			$(".buy-ticket").slideDown();
+		}
+		function loginbyphone() {
+			$("#myidlogin").hide();
+			$("#myphonelogin").show();
+		}
+		function loginbyid() {
+			$("#myidlogin").show();
+			$("#myphonelogin").hide();
+		}
+		var t ;
+		function getcode(th) {
+			$.ajax({
+				url:"/api-user/user/sendCode",
+				data:{"phone":$(th).parent().prev().prev().val()},
+				dataType:"json",
+				type:"get",
+				success:function (rt) {
+					$(th).attr("disabled","disabled");
+					var second = 10;
+					t = setInterval(function () {
+						$(th).val(second+"s重发");
+						second -= 1;
+						console.log("second==="+second);
+						if(second<=-1){
+							$(th).removeAttr("disabled");
+							$(th).val("获取验证码");
+							clearInterval(t);60
+						}
+					},1000)
+				}
 			});
-			//手机验证与密码验证切换（待处理）
-			/*$('.log-toggle').click(function(){
-                if($(this).children('i').val()=='账号密码登录'){
-                    $(this).children('i').val('手机验证码登录')
-                }else if($(this).children('i').val()=='手机验证码登录'){
-                    $(this).children('i').val('账号密码登录')
-                }
-                $('.log-form').animate({
-                height: "toggle",
-                'padding-top': 'toggle',
-                'padding-bottom': 'toggle',
-                opacity: "toggle"
-              }, "slow");
-            });*/
-		</script>
+		}
+		function userlogout() {
+			$.ajax({
+				url:"/api-user/user/userlogout",
+				dataType:"json",
+				type:"delete",
+				success:function (rt) {
+					if(rt.code=="success"){
+						apphead.user = {};
+					}
+				}
+			});
+		}
+
+
+
+		window.onload=function () {
+			$.getScript('/web/assets/js/jquery.slicknav.min.js',function(){
+			});
+			$.getScript('/web/assets/js/owl.carousel.min.js',function(){
+			});
+			$.getScript('/web/assets/js/owl.carousel.min.js',function(){
+			});
+			$.getScript('/web/assets/js/isotope.pkgd.min.js',function(){
+			});
+			$.getScript('/web/assets/js/main.js',function(){
+			});
+
+
+
+			$("#user-center").mouseover(function () {
+				$(".person-ul").stop(true);
+				$(".person-ul").slideDown(500);
+			})
+			$("#user-center").mouseleave(function () {
+				$(".person-ul").stop(true);
+				$(".person-ul").slideUp(500);
+			})
+			//用户名登录验证
+			function lucheck() {
+				var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+				/*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+				if((/^[0-9]+$/.test($("#loginuser").val()))){
+					$("#ulmsg").text("用户名不能全为数字")
+				}else if(/^[a-zA-Z]+$/.test($("#loginuser").val())){
+					$("#ulmsg").text("用户名不得全为字母")
+				}else if($("#loginuser").val().length<2){
+					$("#ulmsg").text("用户名不少于两位")
+				}else if(pattern.test($("#loginuser").val())){
+					$("#ulmsg").text("用户名不得含有特殊字符")
+				}
+			}
+			//登录密码验证
+			function lpwdcheck() {
+				if($("#loginpwd").val().length<6){
+					$("#plmsg").text("密码不得少于六位")
+				}else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+					$("#plmsg").text("密码不得全为字母")
+				}
+			}
+			//登录手机号验证
+			function lpcheck() {
+				var myreg = /^1[3456789]\d{9}$/;
+				if(!myreg.test($("#phonenum").val())){
+					$("#telmsg").text("手机号码不合法")
+				}
+			}
+			$("#loginuser").blur(function () {
+				lucheck();
+			})
+			$("#loginuser").focus(function () {
+				$("#ulmsg").empty();
+			})
+			$("#loginpwd").blur(function () {
+				lpwdcheck();
+			})
+			$("#loginpwd").focus(function () {
+				$("#plmsg").empty();
+			})
+			$("#phonenum").blur(function () {
+				lpcheck();
+			})
+			$("#phonenum").focus(function () {
+				$("#telmsg").empty();
+			})
+			//注册用户名验证
+			function rucheck() {
+				var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+				/*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+				if((/^[0-9]+$/.test($("#reguser").val()))){
+					$("#urmsg").text("用户名不能全为数字")
+				}else if(pattern.test($("#reguser").val())){
+					$("#urmsg").text("用户名不得含有特殊字符")
+				}else if($("#reguser").val().length<2){
+					$("#urmsg").text("用户名至少两位")
+				}
+			}
+			//注册密码验证
+			function rpwdcheck() {
+				if($("#regpwd").val().length<6){
+					$("#rmsg").text("密码不得少于六位")
+				}else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+					$("#rpmsg").text("密码不得全为字母")
+				}
+			}
+			//注册密码确认验证
+			function recheck() {
+				if($("#repwd").val()!=$("#regpwd").val()){
+					$("#remsg").text("密码输入不一致")
+				}
+			}
+			//注册手机号验证
+			function rpcheck() {
+				var myreg = /^1[3456789]\d{9}$/;
+				if(!myreg.test($("#sendphone").val())){
+					$("#regtel").text("手机号码不合法")
+				}
+			}
+			$("#reguser").blur(function () {
+				rucheck();
+			})
+			$("#reguser").focus(function () {
+				$("#urmsg").empty();
+			})
+			$("#regpwd").blur(function () {
+				rpwdcheck();
+			})
+			$("#regpwd").focus(function () {
+				$("#rpmsg").empty();
+			})
+			$("#repwd").blur(function () {
+				recheck();
+			})
+			$("#repwd").focus(function () {
+				$("#remsg").empty();
+			})
+			$("#phonenum").blur(function () {
+				rpcheck();
+			})
+			$("#phonenum").focus(function () {
+				$("#regtel").empty();
+			})
+			$("#mycode").focus(function () {
+				$("#codemsg").empty();
+			})
+			$("#myregcode").focus(function () {
+				$("#regcode").empty();
+			})
+		}
+
+
+
+
+
+	</script>
+	<script type="text/javascript">
+		var apphead=new Vue({
+			el:"#apphead",
+			data:{
+
+				user:{}
+			},
+			created:function () {
+				var _this=this;
+				var cookies=document.cookie.split(";");
+				var myuser;
+				var a = "loguser";
+				for(var i=0;i<cookies.length;i++){
+					if(a==cookies[i].split("=")[0].trim()){
+						var user = cookies[i].split("=")[1];
+						console.log("---"+user);
+						myuser = decodeURIComponent(user);
+						console.log("===="+myuser);
+					}
+				}
+				if(myuser!=null){
+					_this.user = $.parseJSON(myuser);
+				}
+
+			},
+			methods: {
+				login() {
+
+					var obj = this;
+					var flag = false;
+					for(var i=0;i<$("#logform .msg").length;i++){
+						if($("#logform .msg").eq(i).text()==null||$("#logform .msg").eq(i).text()==""){
+							flag =true;
+						}
+					}
+					for(var i=0;i<$("#telform .msg").length;i++){
+						if($("#telform .msg").eq(i).text()==null||$("#telform .msg").eq(i).text()==""){
+							flag =true;
+						}
+					}
+					if(flag==true){
+						$.ajax({
+							url: "/api-user/user/login",
+							data: {"username":$("#loginuser").val(),"password":$("#loginpwd").val(),
+								"phonenum":$("#phonenum").val(),"code":$("#mycode").val()},
+							type: "post",
+							dataType: "json",
+							success: function (data) {
+								alert(data.code);
+								if (data.code = "success") {
+									$(".login-area").slideUp(1000);
+									obj.user = data.object;
+								}else if(data.code=="error"){
+									alert(data.message);
+								}else if(data.code=="ufail"){
+									$("#ulmsg").text(data.message);
+								}else if(data.code=="pwdfail"){
+									$("#plmsg").text(data.message);
+								}else if(date.code=="pfail"){
+									$("#telmsg").text(data.message);
+								}else if(data.code=="cfail"){
+									$("#codemsg").text(data.message);
+								}else{
+									alert(data.message);
+								}
+
+							}
+
+						})
+					}
+				},
+				register(){
+					var v =this;
+					if($(".msg").text()==null||$(".msg").text()==""){
+						$.ajax({
+							url:"/api-user/user/register",
+							data:$("#reform").serialize(),
+							type:"get",
+							dataType:"json",
+							success:function (rt) {
+								alert(rt.message);
+								window.location.reload();
+							}
+						});
+					}
+				}
+			}
+		})
+	</script>
+	<div id="app">
+
 		<div class="container-fluid">
-			<div class="body_div col-sm-12 nopadding">
-				<div class="bodyhead_div col-sm-12">
+			<div class="body_div  nopadding">
+				<div class="bodyhead_div ">
 					<div class="bodyheadimg_div">
 						<div class="photos col-sm-2 col-sm-offset-2">
-							<div class="imagesdiv">
+
 								<a href="#" class="pics">
 									<img class="headimages" :src="cinema.facility"/>
 								</a>
-							</div>
+
 						</div>
 						<div class="massagesdiv col-sm-2">
 							<div class="mescontent">
@@ -333,7 +662,7 @@
 										</td>
 										<td class="infobody_td">
 
-											<a class="btn-purchase"  :href="'/web/profile/xseats.html?msid='+message.id+'&mid='+message.mid">选座购票</a>
+											<a class="btn-purchase"  :href="'/web/profile/xseats.html?msid='+message.id">选座购票</a>
 										</td>
 									</tr>
 									</tbody>
@@ -387,10 +716,10 @@
                 </div>
                 <div class="col-md-7 w3ls_footer_grid1_right">
                     <div class="col-lg-6 card-left">
-                        <a href="#"><img src="images/web-permission.png" /></a>
+                        <img src="/web/images/web-permission.png" />
                     </div>
                     <div class="col-lg-6 card-right">
-                        <a href="#"><img src="images/permission-card.png" /></a>
+                        <img src="/web/images/permission-card.png" />
                     </div>
                 </div>
                 <div class="clearfix"> </div>

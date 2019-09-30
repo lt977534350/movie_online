@@ -84,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from _admin
+    from admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,24 +96,24 @@
     <!--@mbg.generated-->
     select 
     <include refid="Base_Column_List" />
-    from _admin
+    from admin
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
-    delete from _admin
+    delete from admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.woniu.orders.entity.AdminExample">
     <!--@mbg.generated-->
-    delete from _admin
+    delete from admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Admin" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into _admin (username, phone, `password`, 
+    insert into admin (username, phone, `password`, 
       `level`, logo, `name`, 
       overtime, copy_right)
     values (#{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
@@ -122,7 +122,7 @@
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.myutil.myeneity.Admin" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into _admin
+    insert into admin
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="username != null">
         username,
@@ -178,14 +178,14 @@
   </insert>
   <select id="countByExample" parameterType="com.woniu.orders.entity.AdminExample" resultType="java.lang.Long">
     <!--@mbg.generated-->
-    select count(*) from _admin
+    select count(*) from admin
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     <!--@mbg.generated-->
-    update _admin
+    update admin
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -221,7 +221,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     <!--@mbg.generated-->
-    update _admin
+    update admin
     set id = #{record.id,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
@@ -257,8 +257,8 @@
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="overTime != null">
-        overtime = #{overTime,jdbcType=TIMESTAMP},
+      <if test="overtime != null">
+        overtime = #{overtime,jdbcType=TIMESTAMP},
       </if>
       <if test="copyRight != null">
         copy_right = #{copyRight,jdbcType=VARCHAR},
@@ -268,7 +268,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.woniu.myutil.myeneity.Admin">
     <!--@mbg.generated-->
-    update _admin
+    update admin
     set username = #{username,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},

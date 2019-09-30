@@ -44,7 +44,7 @@
     </aop:config>
 	<!--日志记录切入点-->
 	<aop:config>
-		<aop:pointcut expression="execution(* com.woniu.api.AdminAPI.*(..))" id="pointcut"/>
+		<aop:pointcut expression="execution(* com.woniu.api.*.*(..))" id="pointcut"/>
 		<aop:aspect ref="log">
 			<aop:around method="insertlog" pointcut-ref="pointcut"/>
 		</aop:aspect>

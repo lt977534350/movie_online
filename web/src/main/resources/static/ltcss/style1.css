@@ -275,7 +275,7 @@ input::-webkit-input-placeholder {
 ---------------------------------------*/
 .header {
 	padding: 18px 0;
-	position: absolute;
+
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -283,7 +283,7 @@ input::-webkit-input-placeholder {
 }
 .header-area {
     display: grid;
-    grid-template-rows: repeat(2,1fr);
+    /*grid-template-rows: repeat(2,1fr);*/
     grid-template-columns: repeat(12,1fr);
     align-items: center;
     grid-gap: 20px;
@@ -299,6 +299,13 @@ input::-webkit-input-placeholder {
     display: flex;
     align-items: center;
 }
+.person-ul{
+    background-color: #0a0910;
+   position: absolute ;
+    z-index: 1000
+
+}
+
 
 .menu-area {
     grid-column: span 10;
@@ -333,6 +340,7 @@ input::-webkit-input-placeholder {
     transform: scaleY(1);
 }
 .mainmenu li ul li {
+    padding: 0;
 	display: block;
 }
 .mainmenu li ul {
@@ -342,11 +350,13 @@ input::-webkit-input-placeholder {
     padding: 5px 15px;
     left: 0;
     text-align: left;
-    min-width: 200px;
+
     transform: scaleY(0);
     transition: all 0.4s;
+    white-space: nowrap;
 }
 .mainmenu li a.active, .mainmenu li a:hover {
+    white-space: nowrap;
     color: #eb315a;
 }
 .header-right form {
@@ -758,7 +768,7 @@ hr {
 }
 .footer1::before {
     position: absolute;
-    background: #13151f;
+    background: rgb(10, 9, 16);
     top: 0;
     left: 0;
     content: "";

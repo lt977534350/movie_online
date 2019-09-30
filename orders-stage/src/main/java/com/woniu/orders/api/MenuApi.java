@@ -33,8 +33,8 @@ public class MenuApi {
 
     @RequestMapping("createMenu")
     @ResponseBody
-    public String createMenu( Integer menuId) throws Exception {
-        return menuOrdersService.insertMenuOrders(menuId, 1);
+    public String createMenu( Integer menuId,Integer aid) throws Exception {
+        return menuOrdersService.insertMenuOrders(menuId, aid);
     }
 
     @RequestMapping("back")
@@ -50,8 +50,7 @@ public class MenuApi {
             for (int i = 0; i < values.length; i++) {
                 valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
             }
-            // 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            // valueStr = new String(valueStr.getBytes("ISO-8859-1"), "uft-8");
+
             conversionParams.put(key, valueStr);
         }
         log.debug("收到异步通知 参数：{}", conversionParams);

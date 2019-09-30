@@ -325,10 +325,13 @@ public class AdminAPI {
     }
       @DeleteMapping("logout")
     public Result logout(HttpSession session) throws Exception{
-          System.out.println("注销");
           Admin admin =(Admin)session.getAttribute("admin");
+
+        if(admin==null){
+            return new Result("success","账号销毁",null,null);
+        }
+          System.out.println("注销");
           String username=admin.getUsername();
-          System.out.println(admin.getUsername());
         //在session中删除平台管理员账号
         session.removeAttribute("admin");
         return new Result("success","账号销毁",username,null);

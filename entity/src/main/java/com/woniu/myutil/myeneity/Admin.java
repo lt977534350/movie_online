@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Admin implements Serializable {
+    private  static final long serialVersionUID = 2622176989397648188L;
     /**
      * 管理员id
      */
@@ -162,6 +163,25 @@ public class Admin implements Serializable {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", level=" + level +
+                ", logo='" + logo + '\'' +
+                ", name='" + name + '\'' +
+                ", overTime=" + overTime +
+                ", overDate='" + overDate + '\'' +
+                ", menu=" + menu +
+                ", overtime=" + overtime +
+                ", copyRight='" + copyRight + '\'' +
+                ", copy_right='" + copy_right + '\'' +
+                '}';
     }
 
     public void setMenu(Menu menu) {

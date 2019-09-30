@@ -15,12 +15,12 @@ public class Seatinfo {
     /**
     * 行
     */
-    private String row;
+    private Integer row;
 
     /**
     * 列
     */
-    private String column;
+    private Integer column;
 
     /**
     * 状态，N 没卖出，LK，已卖出，E，清空
@@ -37,7 +37,7 @@ public class Seatinfo {
     public Seatinfo() {
     }
 
-    public Seatinfo(String row, String column) {
+    public Seatinfo(Integer row, Integer column) {
         this.row = row;
         this.column = column;
     }

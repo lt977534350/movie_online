@@ -4,8 +4,8 @@
     <resultMap id="BaseResultMap" type="com.woniu.orders.entity.Seatinfo">
         <!--@mbg.generated-->
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="row" jdbcType="VARCHAR" property="row"/>
-        <result column="column" jdbcType="VARCHAR" property="column"/>
+        <result column="row" jdbcType="INTEGER" property="row"/>
+        <result column="column" jdbcType="INTEGER" property="column"/>
         <result column="state" jdbcType="VARCHAR" property="state"/>
         <result column="msid" jdbcType="INTEGER" property="msid"/>
     </resultMap>
@@ -226,7 +226,7 @@
         </collection>
     </resultMap>
     <select id="selectSeat" resultMap="seatinfo" >
-        select * from seatinfo WHERE msid=1
+        select * from seatinfo  WHERE msid=#{msid,jdbcType=INTEGER} order by row asc
     </select>
     <select id="selectStateByList" resultMap="BaseResultMap" parameterType="list">
         select id ,row ,`column`,state from  seatinfo

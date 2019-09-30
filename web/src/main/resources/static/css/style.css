@@ -31,7 +31,7 @@ input[type="submit"],.agileinfo_chat a,.w3ls_footer_grid1_left p a,.w3l_sign_in_
 /*-- header --*/
 .header {
     padding: 1em 0;
-	border-top: 3px solid #FF8D1B;
+	/*brder-top: 3px soliod #FF8D1B;*/
 }
 .w3layouts_logo{
 	float:left;

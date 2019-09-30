@@ -100,7 +100,7 @@
                                         </svg>
                                             <div class='pricing-price'><span class='pricing-currency'>¥</span><span
                                                     v-text="menu.money"></span>
-                                                <span class='pricing-period'>/ 年</span>
+                                                <span class='pricing-period' v-text="'/'+menu.period+'年'"></span>
                                             </div>
                                             <h3 class='pricing-title' v-text="menu.name"></h3>
                                         </div>
@@ -109,7 +109,7 @@
                                             <li class='pricing-feature'>统计报表</li>
 
                                         </ul>
-                                        <a :href="'/orders/createMenu?menuId='+menu.id" class='pricing-action'>立即购买</a>
+                                        <a :href="'/orders/createMenu?menuId='+menu.id+'&aid='+cadmin.id" class='pricing-action'>立即购买</a>
                                     </div>
 
                                 </div>

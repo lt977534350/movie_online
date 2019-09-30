@@ -43,7 +43,7 @@ public class MenuOrdersServiceImpl implements MenuOrdersService {
 
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         /** 同步通知，支付完成后，支付成功页面*/
-        alipayRequest.setReturnUrl("http://v266p12387.wicp.vip/web/feng/backstage/index.html");
+        alipayRequest.setReturnUrl("http://v266p12387.wicp.vip/web/feng/backstage/backstageIndex.html");
         /** 异步通知，支付完成后，需要进行的异步处理*/
         alipayRequest.setNotifyUrl("http://v266p12387.wicp.vip/orders/back");
 
@@ -84,8 +84,8 @@ public class MenuOrdersServiceImpl implements MenuOrdersService {
     }
 
     @Override
-    public int updateAdmimOvertimeAndMenuOrderSPaySuccessTime(String odersNum, Integer aid,Integer period) {
-
+    public int updateAdmimOvertimeAndMenuOrderSPaySuccessTime(String odersNum, Integer aid, Integer period) {
+        Admin oldadmin = adminMapper.selectByPrimaryKey(aid);
         Date date = new Date();
         MenuOders menuOders = new MenuOders();
         menuOders.setMenuodersnum(odersNum);
@@ -94,12 +94,19 @@ public class MenuOrdersServiceImpl implements MenuOrdersService {
         //修改套餐到期时间
         Admin admin = new Admin();
         admin.setId(aid);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR,period);
-        Date overtime=calendar.getTime();
-        admin.setOverTime(overtime);
+        Calendar calendar=null;
+        if (oldadmin.getOvertime().getTime() < System.currentTimeMillis()) {
+             calendar=Calendar.getInstance();
+        } else {
+            calendar=Calendar.getInstance();
+            Date date1 =oldadmin.getOvertime();
+            calendar.setTime(date1);
+        }
+        calendar.add(Calendar.YEAR, period);
+        Date overtime = calendar.getTime();
+        admin.setOvertime(overtime);
         int i = adminMapper.updateByPrimaryKeySelective(admin);
-        return  i;
+        return i;
 
     }
 

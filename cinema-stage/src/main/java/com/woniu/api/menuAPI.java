@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,13 +20,13 @@ public class menuAPI {
     @Resource
     private MenuService menuService;
     @GetMapping
-    public Result selectMenus() throws Exception{
+    public Result selectMenus(HttpSession session) throws Exception{
         List<Menu> menus = menuService.selectMenus();
         System.out.println("menus----"+menus);
         return new Result("success",null,null,menus);
     }
     @DeleteMapping
-    public Result deleteMenuById(String[] checkID) throws Exception{
+    public Result deleteMenuById(String[] checkID,HttpSession session) throws Exception{
         System.out.println("id数组:"+checkID);
         if(checkID.length==0){
             return new Result(null,"请选择你要删除的内容",null,null);
@@ -38,7 +39,7 @@ public class menuAPI {
         return new Result("success",null,null,null);
     }
     @PostMapping
-    public Result insertMenu(String name, Double money, Integer period) throws Exception{
+    public Result insertMenu(String name, Double money, Integer period,HttpSession session) throws Exception{
         List<Menu> menus = menuService.selectMenus();
         int maxLength = 8;
         Pattern pattern = Pattern.compile("[0-9]{1,}");
@@ -64,7 +65,7 @@ public class menuAPI {
         return new Result("success",null,null,null);
     }
     @PutMapping
-    public Result update(Integer id, String name, Double money, Integer period) throws Exception{
+    public Result update(Integer id, String name, Double money, Integer period,HttpSession session) throws Exception{
         Menu menu = new Menu();
         menu.setId(id);
         menu.setName(name);

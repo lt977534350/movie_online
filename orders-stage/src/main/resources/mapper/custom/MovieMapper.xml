@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.orders.mapper.custom.MovieMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.orders.entity.Movie">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mName" jdbcType="VARCHAR" property="mname" />
+    <result column="tickets" jdbcType="DOUBLE" property="tickets" />
+    <result column="comntry" jdbcType="VARCHAR" property="comntry" />
+    <result column="uptime" jdbcType="TIMESTAMP" property="uptime" />
+    <result column="score" jdbcType="LONGVARCHAR" property="score" />
+    <result column="short_story" jdbcType="VARCHAR" property="shortStory" />
+    <result column="pre_movie" jdbcType="VARCHAR" property="preMovie" />
+    <result column="longtime" jdbcType="VARCHAR" property="longtime" />
+    <result column="mpic" jdbcType="VARCHAR" property="mpic" />
+    <collection property="types" ofType="com.woniu.orders.entity.Type">
+      <result column="mtype" jdbcType="VARCHAR" property="mtype"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectMovieByMovieShowTimeId" resultMap="BaseResultMap">
+    SELECT m.id ,m.mName mName,m.mpic mpic,m.longtime longtime,m.comntry comntry, t.mtype mtype  from  movie_showtime ms
+ INNER JOIN movie m on ms.mid = m.id LEFT JOIN movie_type mt on m.id=mt.mid left JOIN type t on mt.tid=t.id WHERE ms.id=#{msid,jdbcType=INTEGER}
+
+  </select>
+</mapper>

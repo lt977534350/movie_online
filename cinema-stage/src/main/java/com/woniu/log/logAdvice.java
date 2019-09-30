@@ -36,13 +36,10 @@ public class logAdvice {
             result = (Result) pjp.proceed(args);
             Object sig = pjp.getSignature();
             MethodSignature msig = null;
-            if (!(sig instanceof MethodSignature)) {
-                throw new IllegalArgumentException("该注解只能用于方法");
-            }
             msig = (MethodSignature) sig;
-            Object target = pjp.getTarget();
-            Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
-            System.out.println(currentMethod.getName());
+            /*Object target = pjp.getTarget();*/
+            Method currentMethod = msig.getMethod();
+            /*Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());*/
             Log log = new Log();
             if ("login".equals(currentMethod.getName())) {
                 if ("success".equals(result.getCode())) {
@@ -64,7 +61,9 @@ public class logAdvice {
             }
               if ("logout".equals(currentMethod.getName())) {
                 if("success".equals(result.getCode())){
-
+                    if(result.getObject()==null){
+                        return result;
+                    }
                     log.setUsername((String) result.getObject());
                     log.setOperation("注销");
                     log.setOptime(new Date());
@@ -81,6 +80,42 @@ public class logAdvice {
                     logService.insertLog(log);
                 }
             }
+               if ("insertMenu".equals(currentMethod.getName())) {
+                if("success".equals(result.getCode())){
+                    HttpSession session=  (HttpSession) args[3];
+                    Admin admin = (Admin)session.getAttribute("admin");
+                    log.setUsername(admin.getUsername());
+                    log.setOperation("新增套餐");
+                    log.setOptime(new Date());
+                    log.setOptype("1");
+                    logService.insertLog(log);
+                }
+            }
+                if ("deleteMenuById".equals(currentMethod.getName())) {
+                if("success".equals(result.getCode())){
+                    HttpSession session=  (HttpSession) args[1];
+                    Admin admin = (Admin)session.getAttribute("admin");
+                    log.setUsername(admin.getUsername());
+                    log.setOperation("删除套餐");
+                    log.setOptime(new Date());
+                    log.setOptype("3");
+                    logService.insertLog(log);
+                }
+            }
+                if ("update".equals(currentMethod.getName())) {
+                if("success".equals(result.getCode())) {
+                    HttpSession session = (HttpSession) args[4];
+                    Admin admin = (Admin) session.getAttribute("admin");
+                    log.setUsername(admin.getUsername());
+                    log.setOperation("修改套餐");
+                    log.setOptime(new Date());
+                    log.setOptype("2");
+                    logService.insertLog(log);
+                }
+                }
+
+
+
         } catch (Exception e) {
            e.printStackTrace();
             throw e;
