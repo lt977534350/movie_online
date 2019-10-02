@@ -11,6 +11,7 @@
 package com.woniu.orders.service;
 
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.entity.OrdersPO;
 import com.woniu.orders.util.Count;
 import com.woniu.orders.util.CountDetail;
 
@@ -28,7 +29,7 @@ public interface OrderService {
     int updateStateByOid(String oid, Byte ostate)throws Exception;
     int deleteByOid(String Oid)throws Exception;
 
-    String insertCreateOrders(Integer id [],Integer uid ,Integer msid)throws Exception;
+    String insertCreateOrders(Order order,Integer id [],Integer uid ,Integer msid)throws Exception;
 
     int updateOrderSuccess(Order order, int alipayNoticeLogId);
 
@@ -43,6 +44,21 @@ public interface OrderService {
     List<Order> selectOrdersByAid(Integer aid,Integer pageIndex)throws  Exception;
 
     int selectCountByAid(Integer aid )throws Exception;
+
+    int insertChangingTicket(String oldOrderId,Integer uid  )throws Exception;
+
+    /**
+     * 查询在此影院是否有改签
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    Order selectChangeTicket(Integer uid )throws  Exception;
+
+
+    int deleteOderIdIsNull(Integer uid)throws Exception;
+
+
 
 
 

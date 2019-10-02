@@ -35,21 +35,22 @@ public class OrdersApi {
     //创建订单
     @GetMapping("/confirm/")
     @ResponseBody
-    public Result createOrders(Integer id[], Integer msid, HttpSession session) throws Exception {
+    public Result createOrders(@RequestParam("id") Integer seatid[], Integer msid, HttpSession session ) throws Exception {
         User user = (User) session.getAttribute("user");
         user.getId();
-        if (id.length <= 0 || msid == null) {
+        if (seatid.length <= 0 || msid == null) {
             return new Result("500", "选座失败", null, null);
         }
 
         String orderId = null;
-        try {
-            orderId = orderService.insertCreateOrders(id, 1, 1);
-            System.out.println(orderId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result("500", "选座失败", null, null);
+        Order order = orderService.selectChangeTicket(user.getId());
+        if (order != null) {
+            orderId = orderService.insertCreateOrders(order, seatid, user.getId(), msid);
+            return new Result("200", "改签", "/web/profile/detail.html?oid=" + orderId, null);
+        } else {
+            orderId = orderService.insertCreateOrders(order, seatid, user.getId(), msid);
         }
+
         System.out.println(1);
         return new Result("200", "选座成功", "/web/profile/detail.html?oid=" + orderId, null);
     }
@@ -58,7 +59,9 @@ public class OrdersApi {
     @ResponseBody
     public Result selectOrders(HttpSession session, Integer pageIndex) throws Exception {
         User user = (User) session.getAttribute("user");
-        System.out.println(pageIndex);
+        if(user==null){
+            return  new Result("500", "请登录", null, null);
+        }
         if (pageIndex == null) {
             pageIndex = 1;
         }
@@ -84,6 +87,11 @@ public class OrdersApi {
     @ResponseBody
     public Result detail(String oid) throws Exception {
         Order order = orderService.selectDatail(oid);
+        if (order.getOldOrderId()!=null){
+            Order oldorder = orderService.selectDatail(order.getOldOrderId());
+            order.setOldMoney(oldorder.getMoney());
+        }
+
         return new Result("200", null, order, null);
     }
 
@@ -152,5 +160,27 @@ public class OrdersApi {
         return new Result("200", "success", page, orders);
 
     }
+
+    /**
+     * 插入一条信息，表示要改签改签接口
+     *
+     * @param orderId
+     * @return
+     */
+    @PostMapping("insertchangingTicket")
+    @ResponseBody
+    public Result insertchangingTicket(String orderId, String cid,HttpSession session) throws Exception {
+        User user = (User) session.getAttribute("user");
+        //删除uid，且orderId为null的数据，一次只能改签一次,或未支付的
+        orderService.deleteOderIdIsNull(user.getId());
+        int i = orderService.insertChangingTicket(orderId, user.getId());
+        String url ="/web/feng/playpoint.html?cid="+cid;
+        if (i!=0){
+            return  new Result("200",url,null,null);
+        }
+        throw new Exception("改签失败");
+    }
+
+
 }
-  
+

@@ -113,7 +113,7 @@
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
-                                    <li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
 
                                     <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
                                 </ul>
@@ -499,7 +499,7 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            alert(data.code);
+
                             if (data.code = "success") {
                                 $(".login-area").slideUp(1000);
                                 obj.user = data.object;
@@ -546,13 +546,15 @@
     <div class="order-container" data-page-type="detail" :data-order-id="msg.object.orderId" >
 
         <div class="status-box unpaid" >
-            <p  class="title" v-text="msg.object.ostateMsg"></p>
+            <p  class="title"  v-if=" msg.object.oldMoney!=null&&msg.object.ostate==20" >已改签</p>
+
+            <p  class="title"  v-else="" v-text="msg.object.ostateMsg"></p>
 
             <p class="desc" v-if="msg.object.leftPaySecond>0" :data-left-pay-second="msg.object.leftPaySecond">
                 请在<span class="minute"></span>分钟<span class="second"></span>秒内完成支付
             </p>
         </div>
-        <div v-if="msg.object.code!=null" style="margin-left: 0px ;width: 80px"><img :src="msg.object.code" alt="" style="height: 100px "></div>
+        <div v-if="msg.object.code!=null" style="margin-left: 0px ;width: 80px"><img :src="msg.object.code" alt="" ></div>
 
 
         <div class="order-note">
@@ -592,8 +594,8 @@
 
         <div class="order-bottom">
              <div class="col-lg-offset-10 col-lg-2">
-                 <a  style="padding-left: 5px" v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn"  href="/web/feng/playpoint.html">改签</a>
-                <a  style=" margin-left: 45px" v-if="msg.object.ostateMsg=='已付款'" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
+                 <a  style="padding-left: 5px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn"  @click="changingTicket()">改签</a>
+                <a  style=" margin-left: 45px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
             </div>
             <div class="clearfix">
                 <div class="cinema-info">
@@ -609,7 +611,18 @@
             </div>
 
             <div class="btn-wrapper">
-                <div v-if="msg.object.leftPaySecond>0" class="pay-btn" @click="pay()" :data-order-id="msg.object.orderId">立即支付</div>
+                <div v-if="msg.object.leftPaySecond>0&&msg.object.oldOrderId==null" class="pay-btn" @click="pay()" :data-order-id="msg.object.orderId">立即支付</div>
+               <div v-if="msg.object.money>msg.object.oldMoney&&msg.object.ostate==10&&msg.object.oldOrderId!=null">
+                    <div class="pay-btn" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
+                   <div  class="pay-btn" @click="confirmChangingTicket()" :data-order-id="msg.object.orderId">改签支付</div>
+               </div>
+                <div v-if="msg.object.money<=msg.object.oldMoney&&msg.object.oldOrderId!=null&&msg.object.ostate==10">
+                    <div  class="pay-btn" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
+
+                    <div   class="pay-btn" @click="confirmChanging()" :data-order-id="msg.object.orderId">改签</div>
+                </div>
+
+
 
             </div>
         </div>
@@ -619,7 +632,7 @@
         <div class="modal1">
             <span class="icon"></span>
             <p class="tip">支付超时，该订单已失效，请重新购买</p>
-            <a class="ok-btn btn" href="/web/feng/playpoint.html">我知道了</a>
+            <a class="ok-btn btn" :href="'/web/feng/playpoint.html?cid='+msg.object.cid">我知道了</a>
         </div>
     </div>
         <div v-if="msg.object.ostate==20" class="mask2" style="display: none">
@@ -642,12 +655,13 @@
 
     <form  id="form" name="cashierForm" method="post" action="/orders/pay/topay">
         <input type="hidden" name="oid" :value="msg.object.orderId">
-        <input type="hidden" name="pay_token" value="">
-        <!--      <input type="hidden" name="website" value="mtmaoyan">-->
-        <input type="hidden" name="pay_success_url" value="192.168.50./web/profile/orders.html">
-        <input type="hidden" name="nb_platform" value="www">
         <input type="hidden" name="nb_source" value="cashier-pcforcustomer">
     </form>
+    <form  id="change" name="cashierForm" method="post" action="/orders/pay/confirmChangingTicket">
+        <input type="hidden" name="oid" :value="msg.object.orderId">
+        <input type="hidden" name="nb_source" value="cashier-pcforcustomer">
+    </form>
+
 
 </div>
 <script type="text/javascript">
@@ -692,7 +706,6 @@
         methods: {
             paytime() {
                 var time = parseInt(this.time)
-                console.log(11)
                 if (time <= 0) {
                     clearInterval(timer);
                     $("#ordertime").show();
@@ -719,6 +732,25 @@
             cancelRefund() {
                  $(".mask2").hide();
             },
+            changingTicket(){
+
+                $.ajax({
+                    url: "/orders/profile/orders/insertchangingTicket",
+                    data:{"orderId":app.msg.object.orderId,"cid":app.msg.object.cid},
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.code="200"){
+
+                            window.location.href=data.message;
+                        }else {
+                            alert(data.message)
+                        }
+
+                    }
+                })
+
+            },
             refund(){
                 $.ajax({
             url: "/orders/pay/refund",
@@ -730,12 +762,35 @@
                      alert(data.message)
                     window.location.href="/web/profile/orders.html"
                 }else {
-                    alert("退款失败")
+                    alert(data.message)
                 }
 
             }
         })
+            },
+            confirmChangingTicket(){
+                $("#change").submit();
+            },
+            confirmChanging(){
+
+                $.ajax({
+                    url: "/orders/pay/confirmChangingTicket",
+                    data:{"oid":app.msg.object.orderId},
+                    type: "get",
+                    dataType: "text",
+                    success: function (data) {
+                        if(data!="退款失败"){
+
+                            window.location.href=data;
+                        }else {
+                            alert(data)
+                        }
+
+                    }
+                })
             }
+
+
 
         }
     })

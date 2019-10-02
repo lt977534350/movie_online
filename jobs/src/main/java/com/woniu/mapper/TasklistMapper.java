@@ -1,5 +1,4 @@
-package com.woniu.jobs.mapper;
-
+package com.woniu.mapper;
 
 import com.woniu.jobs.entity.Tasklist;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.woniu.mapper.OrdersMapper">
-  <resultMap id="BaseResultMap" type="com.woniu.jobs.entity.Orders">
+<mapper namespace="com.woniu.mapper.OrdersPOMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.jobs.entity.OrdersPO">
     <!--@mbg.generated-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
@@ -83,7 +83,7 @@
     id, order_id, `uid`, c_time, money, ostate, old_order_id, payway, code, movie_showtime_id, 
     payinfo_id, seat, isdel, seat_id
   </sql>
-  <select id="selectByExample" parameterType="com.woniu.jobs.entity.OrdersExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.woniu.jobs.entity.OrdersPOExample" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <if test="distinct">
@@ -110,14 +110,14 @@
     delete from orders
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.woniu.jobs.entity.OrdersExample">
+  <delete id="deleteByExample" parameterType="com.woniu.jobs.entity.OrdersPOExample">
     <!--@mbg.generated-->
     delete from orders
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.jobs.entity.Orders" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.jobs.entity.OrdersPO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into orders (order_id, `uid`, c_time, 
       money, ostate, old_order_id, 
@@ -130,7 +130,7 @@
       #{payinfoId,jdbcType=INTEGER}, #{seat,jdbcType=VARCHAR}, #{isdel,jdbcType=TINYINT}, 
       #{seatId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.jobs.entity.Orders" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.woniu.jobs.entity.OrdersPO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -216,7 +216,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.woniu.jobs.entity.OrdersExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.woniu.jobs.entity.OrdersPOExample" resultType="java.lang.Long">
     <!--@mbg.generated-->
     select count(*) from orders
     <if test="_parameter != null">
@@ -295,7 +295,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.jobs.entity.Orders">
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.jobs.entity.OrdersPO">
     <!--@mbg.generated-->
     update orders
     <set>
@@ -341,7 +341,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.woniu.jobs.entity.Orders">
+  <update id="updateByPrimaryKey" parameterType="com.woniu.jobs.entity.OrdersPO">
     <!--@mbg.generated-->
     update orders
     set order_id = #{orderId,jdbcType=VARCHAR},
@@ -359,12 +359,12 @@
       seat_id = #{seatId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
   <update id="updateOstate" parameterType="string">
-        update orders set `ostate` =0 where `order_id` ={#oid} and `ostate`=10
-  </update>
-  <select id="selectSeatIdByOid" resultMap="BaseResultMap" parameterType="String">
+      update orders set `ostate` =0 where `order_id` ={#oid} and `ostate`=10
+</update>
+  <select id="selectSeatIdByOid" parameterType="String" resultMap="BaseResultMap">
     select ostate,seat_id from orders where order_id=#{oid}
   </select>
-
-
 </mapper>

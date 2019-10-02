@@ -126,7 +126,7 @@
                     <div class="responsive-menu"></div>
                     <div class="mainmenu">
                         <ul id="primary-menu">
-                            <li><a class="active" href="/web/feng/index.html">首页</a></li>
+                            <li><a  href="/web/feng/index.html">首页</a></li>
                             <li><a href="/web/tao/mtype.html">电影</a></li>
                             <li><a href="/web/tao/cinema-jump.html">影城</a></li>
                             <li><a href="top-movies.html">热映电影</a></li>
@@ -146,7 +146,7 @@
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
-                                    <li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
 
                                     <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
                                 </ul>
@@ -596,8 +596,8 @@
                                 <div class="show-time" v-html="orders.formatTime"></div>
                             </div>
                             <div class="order-price" v-text="'￥'+orders.money"></div>
-
-                            <div class="order-status" v-text="orders.ostateMsg">
+                            <div class="order-status" v-if = "orders.oldOrderId!=null&&orders.ostate==20" >已改签</div>>
+                            <div class="order-status"  v-else="" v-text="orders.ostateMsg">
 
                             </div>
                             <div class="actions">
@@ -664,6 +664,9 @@
             type: "get",
             dataType: "json",
             success: function (data) {
+                if(data.code="500"){
+                    alert(data.message)
+                }
                 obj.msg = data;
             }
         })

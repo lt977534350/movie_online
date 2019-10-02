@@ -142,7 +142,8 @@
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
-                                    <li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
+
 
                                     <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
                                 </ul>
@@ -665,7 +666,7 @@
             <div class="show-info">
                 <div class="info-item">
                     <span>影院 :</span>
-                    <span class="value text-ellipsis" v-text="cinema.object.cName"></span>
+                    <span  class="value text-ellipsis" v-text="cinema.object.cName"></span>
                 </div>
                 <div class="info-item">
                     <span>影厅 :</span>
@@ -677,7 +678,7 @@
                 </div>
                 <div class="info-item">
                     <span>场次 :</span>
-                    <span class="value text-ellipsis screen" v-text="cinema.object.formatTime"></span>
+                    <span  class="value text-ellipsis screen" v-text="cinema.object.formatTime"></span>
                 </div>
                 <div class="info-item">
                     <span>票价 :</span>
@@ -720,12 +721,11 @@
     <div class="modal-container" style="display: none;">
         <div class="modal1">
             <span class="icon"></span>
-
             <p class="tip">一次最多购买6张票</p>
-
             <div class="ok-btn btn" @click="btn($event)">我知道了</div>
         </div>
     </div>
+
 
 </div>
 <script type="text/javascript">
@@ -764,7 +764,13 @@
             type: "get",
             dataType: "json",
             success: function (data) {
-                app.cinema = data;
+                if(data.codeMessage=="error"){
+                  alert("该场次不在售票中")
+                }else {
+                    app.cinema = data;
+                }
+
+
             }
         })
     }
@@ -876,7 +882,7 @@
                 }
                 $.ajax({
                     url: "/orders/profile/orders/confirm/",
-                    data: s + "&msid=" + msid,
+                    data: s + "&msid=" + msid+"&cid="+app.cinema.cid,
                     type: "get",
                     dataType: "json",
                     success: function (data) {

@@ -1,7 +1,8 @@
-package com.woniu.orders.entity;
+package com.woniu.jobs.entity;
+
+import lombok.Data;
 
 import java.util.Date;
-import lombok.Data;
 
 @Data
 public class OrdersPO {

@@ -14,6 +14,7 @@
         <result column="payway" jdbcType="TINYINT" property="payway"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="order_id" property="orderId"/>
+        <result column="old_order_id" property="oldOrderId"/>
         <result column="mpic" jdbcType="VARCHAR" property="posterUrl"/>
         <result column="mName" property="movieName"/>
         <result column="c_name" property="cinemaName"/>
@@ -31,11 +32,12 @@
 
 
 
+
     </resultMap>
 
     <select id="selectOrderByUid" resultMap="BaseResultMap">
-        SELECT o.c_time ,o.ostate,o.code,o.order_id ,o.seat,o.money ,cr.name ,o.pay_state,
-        m.mpic ,m.mName,c.c_name,c.c_address,ms.playtime from `orders` o
+        SELECT o.c_time ,o.,o.code,o.order_id ,o.seat,o.money ,cr.name ,o.pay_state,
+        m.mpic ,m.mName,c.ostatec_name,c.c_address,ms.playtime from `orders` o
         LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
         LEFT JOIN cinema c on ms.cid = c.id
         LEFT JOIN movie m on ms.mid = m.id
@@ -46,17 +48,17 @@
 
 
     <select id="selectDetail" resultMap="BaseResultMap" parameterType="string">
-        SELECT o.uid,o.c_time,c.id as cid  ,o.code,o.seat_id,o.ostate,o.order_id ,o.seat,o.money ,cr.name ,
-        o.pay_state,m.mpic ,m.mName,c.aid,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
+        SELECT o.uid,o.c_time,c.id as cid  ,o.code,o.seat_id,o.ostate,o.order_id ,o.old_order_id,o.seat,o.money ,cr.name ,
+        m.mpic ,m.mName,c.aid,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
         LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
         LEFT JOIN cinema c on ms.cid = c.id
         LEFT JOIN movie m on ms.mid = m.id
         LEFT JOIN cinema_room cr on ms.room_id = cr.id
-        WHERE o.order_id=#{oid} and cr.cid=ms.cid and o.ostate between 0 and 49;
+        WHERE o.order_id=#{oid} and cr.cid=ms.cid ;
     </select>
 
     <select id="selectOrder" resultType="com.woniu.orders.entity.Order" resultMap="BaseResultMap" parameterType="map">
-        SELECT o.c_time ,o.ostate,o.code,o.order_id ,o.seat,o.money ,cr.name ,o.pay_state,m.mpic
+        SELECT o.c_time ,o.ostate,o.code,o.order_id ,o.seat,o.money ,o.old_order_id,cr.name ,m.mpic
         ,m.mName,c.c_name,c.c_address,ms.playtime from `orders` o
         LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
         LEFT JOIN cinema c on ms.cid = c.id
@@ -178,6 +180,58 @@
          on  o.movie_showtime_id = ms.id INNER JOIN cinema c on ms.cid =c.id
           WHERE c.aid=#{aid,jdbcType=INTEGER}
     </select>
+    <select id="selectChangeTicket" resultMap="BaseResultMap">
+      select * from  orders  WHERE order_id is NULL and uid =#{uid} order by  id desc  limit 0,1
+    </select>
+    <delete id="deleteOrderIdIsNull">
+      DELETE FROM orders WHERE uid = #{uid,jdbcType=INTEGER} and order_id is null or ostate=10;
+    </delete>
+    <update id="updateByOldOrderIdSelective" parameterType="com.woniu.orders.entity.OrdersPO">
+        <!--@mbg.generated-->
+        update orders
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="uid != null">
+                `uid` = #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="cTime != null">
+                c_time = #{cTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="ostate != null">
+                ostate = #{ostate,jdbcType=TINYINT},
+            </if>
+            <if test="oldOrderId != null">
+                old_order_id = #{oldOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="payway != null">
+                payway = #{payway,jdbcType=TINYINT},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="movieShowtimeId != null">
+                movie_showtime_id = #{movieShowtimeId,jdbcType=INTEGER},
+            </if>
+            <if test="payinfoId != null">
+                payinfo_id = #{payinfoId,jdbcType=INTEGER},
+            </if>
+            <if test="seat != null">
+                seat = #{seat,jdbcType=VARCHAR},
+            </if>
+            <if test="isdel != null">
+                isdel = #{isdel,jdbcType=TINYINT},
+            </if>
+            <if test="seatId != null">
+                seat_id = #{seatId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where old_order_id = #{oldOrderId,jdbcType=VARCHAR}
+    </update>
 
 
 </mapper>

@@ -102,8 +102,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order selectDatail(String oid) throws ParseException {
-
+        System.out.println(oid);
         Order order = orderMapper.selectDetail(oid);
+        System.out.println(order);
         order.setFormatTime(DateUtil.
                 formatDate(order.getPalyTime()) + "\n" + DateUtil.dateToString(order.getPalyTime()));
         List<Seat> list = new ArrayList<>();
@@ -167,14 +168,7 @@ public class OrderServiceImpl implements OrderService {
         int num = 0;
         if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
             String seatId = order.getSeatId();
-            String[] split = seatId.split("-");
-            List<Seatinfo> seatinfoList = new ArrayList<>();
-            for (int i = 0; i < split.length; i++) {
-                Seatinfo seatinfo = new Seatinfo();
-                seatinfo.setId(Integer.parseInt(split[i]));
-                seatinfoList.add(seatinfo);
-            }
-            seatInfoService.updateStateToN(seatinfoList);
+            seatInfoService.updateStateToN(seatId);
         }
         num = orderMapper.updateIsDel(Oid);
 
@@ -183,7 +177,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String insertCreateOrders(Integer[] seatId, Integer uid, Integer msid) throws Exception {
+    public String insertCreateOrders(Order changeTicketorder,Integer[] seatId, Integer uid, Integer msid) throws Exception {
         //查询还有这些票吗,循环拆分数组
         List<Seatinfo> seatinfoList = new ArrayList<>();
         String s = "";
@@ -208,7 +202,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("更新的数" + updateNum);
         System.out.println(seatId.length);
         if (updateNum != seatId.length) {
-            throw new Exception();
+            throw new Exception("选座异常");
         }
         //查询影院id
         int aid = movieShowtimeMapper.selectAid(msid);
@@ -263,7 +257,16 @@ public class OrderServiceImpl implements OrderService {
         order.setUid(uid);
         order.setOstate((byte) Constant.OrderStatusEnum.NO_PAY.getCode());
         order.setMovieShowtimeId(msid);
-        int i = ordersPOMapper.insertSelective(order);
+        int i =0;
+
+        if (changeTicketorder==null){
+            i  = ordersPOMapper.insertSelective(order);
+        }else {
+            order.setOldOrderId(changeTicketorder.getOldOrderId());
+            System.out.println(order);
+          i=orderMapper.updateByOldOrderIdSelective(order);
+        }
+
         int index = 0;
         if (i != 0) {
             Tasklist tasklist = new Tasklist();
@@ -309,6 +312,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int updateStateByOid(String oid, Byte ostate) throws Exception {
+
         OrdersPO ordersPO = new OrdersPO();
         ordersPO.setOstate(ostate);
         ordersPO.setOrderId(oid);
@@ -335,5 +339,25 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int selectCountByAid(Integer aid) throws Exception {
         return orderMapper.selectCountByAid(aid);
+    }
+
+    @Override
+    public int insertChangingTicket(String oldOrderId,Integer uid) throws Exception {
+        OrdersPO ordersPO = new OrdersPO();
+        ordersPO.setOldOrderId(oldOrderId);
+        ordersPO.setUid(uid);
+       return ordersPOMapper.insertSelective(ordersPO);
+
+    }
+
+    @Override
+    public Order selectChangeTicket(Integer uid ) throws Exception {
+
+        return orderMapper.selectChangeTicket(uid);
+    }
+
+    @Override
+    public int deleteOderIdIsNull(Integer uid) throws Exception {
+        return orderMapper.deleteOrderIdIsNull(uid);
     }
 }

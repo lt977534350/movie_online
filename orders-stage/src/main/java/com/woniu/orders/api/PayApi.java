@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -113,6 +115,7 @@ public class PayApi {
         String outTradeNo = conversionParams.get("out_trade_no");
         //获取商户之前传给支付宝的订单号（商户系统的唯一订单号）
         Order order = orderService.selectDatail(outTradeNo);
+
         if (order == null) {
             log.warn("收到未知的异步通知 outTradeNo:{}", outTradeNo);
             return "FAIL";
@@ -162,11 +165,14 @@ public class PayApi {
             log.error("记录日志失败 alipayinfo: {}", alipayinfo);
             return "FAIL";
         }
-
         row = orderService.updateOrderSuccess(order, alipayinfo.getId());
         if (row <= 0) {
             log.error("更新订单状态失败 order_no: {}", order.getOrderId());
             return "FAIL";
+        }
+        //这是改签，还原以前座位信息
+        if(order.getOldOrderId()!=null){
+            int i = seatInfoService.updateStateToN(order.getSeatId());
         }
         //执行业务操作
         //查询VIP信息
@@ -199,24 +205,62 @@ public class PayApi {
     @ResponseBody
     public Result refund(String oid, String refundReason) throws Exception {
         System.out.println(oid);
-        System.out.println(refundReason);
+        if(refundReason==""||refundReason==null){
+          return new Result("500", "请输入退款原因", null, null);
+        }
         Order order = orderService.selectDatail(oid);
         String msg = alipayService.insertRefund(oid, refundReason, order.getMoney().toString(), "HZ01RF001");
+
         if ("退款成功".equals(msg)) {
             int i = orderService.updateStateByOid(oid, new Byte("40"));
             //返回座位信息
             String seat = order.getSeatId();
-            String[] split = seat.split("-");
-            List<Seatinfo> seatinfoList = new ArrayList<>();
-            for (int j = 0; j < split.length; j++) {
-                Seatinfo seatinfo = new Seatinfo();
-                seatinfo.setId(Integer.parseInt(split[j]));
-                seatinfoList.add(seatinfo);
-                //还原座位表信息
-            }
-            int num = seatInfoService.updateStateToN(seatinfoList);
+            int num = seatInfoService.updateStateToN(seat);
         }
         return new Result("200", msg, null, null);
+    }
+    @RequestMapping("confirmChangingTicket")
+    @ResponseBody
+    public String confirmChangingTicket(String oid) throws Exception {
+        System.out.println("1111111111");
+        Order order = orderService.selectDatail(oid);
+        Order oldOrder = orderService.selectDatail(order.getOldOrderId());
+        Double money=oldOrder.getMoney()-order.getMoney();
+
+        //还差钱调用支付接口
+        if(money<0){
+            String outTradeNo = oid;
+            //订单金额
+            String totalAmount = String.valueOf(money*-1);
+            //商品名
+            String subject = order.getMovieName() + "-订单号：" + oid;
+            String pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
+            return pay;
+        }else if(money>0){
+            System.out.println( String.format("%.2f", money));
+            //新订单比旧订单便宜，调用退款接口
+            String msg= alipayService.insertRefund(oldOrder.getOrderId(), "改签",
+                    String.format("%.2f", money), "HZ01RF001");
+            if("退款成功".equals(msg)){
+                //更新老订单状态为改签
+                int i = orderService.updateStateByOid(oldOrder.getOrderId(), new Byte("50"));
+                //还原座位信息
+               seatInfoService.updateStateToN(oldOrder.getSeatId());
+               //更新新订单为完成状态
+                orderService.updateStateByOid(order.getOrderId(),new Byte("20"));
+                return "/web/profile/orders.html";
+            }else {
+                return "退款失败";
+            }
+     }
+
+        int i = orderService.updateStateByOid(oldOrder.getOrderId(), new Byte("50"));
+            //还原座位信息
+            seatInfoService.updateStateToN(oldOrder.getSeatId());
+            //更新新订单为完成状态
+        int i1 = orderService.updateOrderSuccess(order,0 );
+        System.out.println("i1"+i1);
+        return "/web/profile/orders.html";
     }
 
 

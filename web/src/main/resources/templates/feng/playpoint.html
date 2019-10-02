@@ -97,9 +97,9 @@
 						<div class="responsive-menu"></div>
 						<div class="mainmenu">
 							<ul id="primary-menu">
-								<li><a class="active" href="/web/feng/index.html">首页</a></li>
+								<li><a  href="/web/feng/index.html">首页</a></li>
 								<li><a href="/web/tao/mtype.html">电影</a></li>
-								<li><a href="/web/tao/cinema-jump.html">影城</a></li>
+								<li><a  class="active" href="/web/tao/cinema-jump.html">影城</a></li>
 								<li><a href="top-movies.html">热映电影</a></li>
 								<li><a href="https://ent.sina.com.cn/film/">热点</a></li>
 								<li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
@@ -117,7 +117,7 @@
 									<img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
 									<a href="javascript:;" v-text="user.username"></a>
 									<ul class="person-ul" style="display: block" >
-										<li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+										<li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
 
 										<li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
 									</ul>
@@ -769,7 +769,10 @@
 				}
 				return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
 			}
-
+			var cid = location.href.split("=")[1];
+			if(cid.length>1){
+				cid=cid.charAt(0);
+			}
 			$(function () {
 				var app = new Vue({
 					el:"#app",
@@ -825,7 +828,7 @@
 
 						//根据影院id查出拍片的所有电影及拍片详情
 						$.ajax({
-							url:"/movie-stage/movie/bycid/1",
+							url:"/movie-stage/movie/bycid/"+cid,
 							type:"get",
 							dataType:"json",
 							success:function (data) {
@@ -868,7 +871,7 @@
 
 						//根据影院id查出影院信息
 						$.ajax({
-							url:"/cinema-stage/cinema/bycid?cid=1",
+							url:"/cinema-stage/cinema/bycid?cid="+cid,
 							type:"get",
 							dataType:"json",
 							success:function (data) {

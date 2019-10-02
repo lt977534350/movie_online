@@ -30,5 +30,5 @@ public interface SeatInfoService {
      */
     int updateState(List<Seatinfo> list ) throws Exception;
 
-    int updateStateToN(List<Seatinfo> list);
+    int updateStateToN(String seatid);
 }

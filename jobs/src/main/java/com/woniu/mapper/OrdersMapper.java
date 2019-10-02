@@ -1,7 +1,7 @@
-package com.woniu.jobs.mapper;
+package com.woniu.mapper;
+
 
 import java.util.List;
-
 
 import com.woniu.jobs.entity.Orders;
 import com.woniu.jobs.entity.OrdersExample;
@@ -11,6 +11,8 @@ public interface OrdersMapper {
     long countByExample(OrdersExample example);
 
     int deleteByExample(OrdersExample example);
+
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Orders record);
 
@@ -27,7 +29,8 @@ public interface OrdersMapper {
     int updateByPrimaryKeySelective(Orders record);
 
     int updateByPrimaryKey(Orders record);
+
+    int updateOstate(String oid);
+
     Orders selectSeatIdByOid(String Oid);
-
-
 }

@@ -226,7 +226,7 @@
         </collection>
     </resultMap>
     <select id="selectSeat" resultMap="seatinfo" >
-        select * from seatinfo  WHERE msid=#{msid,jdbcType=INTEGER} order by row asc
+        select * from seatinfo  WHERE msid=#{msid,jdbcType=INTEGER}
     </select>
     <select id="selectStateByList" resultMap="BaseResultMap" parameterType="list">
         select id ,row ,`column`,state from  seatinfo

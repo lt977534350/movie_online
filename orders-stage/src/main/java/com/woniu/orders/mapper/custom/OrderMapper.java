@@ -1,6 +1,7 @@
 package com.woniu.orders.mapper.custom;
 
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.entity.OrdersPO;
 import com.woniu.orders.util.CountDetail;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,11 @@ public interface OrderMapper {
     List<Order> selectOrdersByAid(@Param("aid") Integer aid,
                                   @Param("start") Integer start,@Param("num") Integer num);
     int selectCountByAid(Integer aid);
+
+    Order selectChangeTicket(Integer uid);
+
+
+    int deleteOrderIdIsNull(Integer uid);
+
+    int updateByOldOrderIdSelective(OrdersPO order);
 }

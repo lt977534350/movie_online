@@ -6,6 +6,7 @@ import com.woniu.orders.entity.Movie;
 import com.woniu.orders.entity.MovieShowInfo;
 import com.woniu.orders.entity.Seat;
 import com.woniu.orders.entity.Seatinfo;
+import com.woniu.orders.exception.TimeOverException;
 import com.woniu.orders.service.MovieService;
 import com.woniu.orders.service.SeatInfoService;
 import com.woniu.orders.service.SeatService;
@@ -43,7 +44,9 @@ public class SeatApi {
     @ResponseBody
     public Result selectCinema(Integer msid)throws Exception{
         MovieShowInfo movieShowInfo = seatService.selectMovieShowInfo(msid);
-        System.out.println(movieShowInfo);
+      /*  if (movieShowInfo.getPlayTime().getTime()<System.currentTimeMillis()+30*60*1000){
+            throw new TimeOverException("该场次不在售票中");
+        }*/
        return new Result("200",null,movieShowInfo,null);
     }
 

@@ -9,7 +9,7 @@
     <result column="c_time" jdbcType="TIMESTAMP" property="cTime" />
     <result column="money" jdbcType="DOUBLE" property="money" />
     <result column="ostate" jdbcType="TINYINT" property="ostate" />
-    <result column="pay_state" jdbcType="TINYINT" property="payState" />
+    <result column="old_order_id" jdbcType="VARCHAR" property="oldOrderId" />
     <result column="payway" jdbcType="TINYINT" property="payway" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="movie_showtime_id" jdbcType="INTEGER" property="movieShowtimeId" />
@@ -80,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, order_id, `uid`, c_time, money, ostate, pay_state, payway, code, movie_showtime_id, 
+    id, order_id, `uid`, c_time, money, ostate, old_order_id, payway, code, movie_showtime_id, 
     payinfo_id, seat, isdel, seat_id
   </sql>
   <select id="selectByExample" parameterType="com.woniu.orders.entity.OrdersPOExample" resultMap="BaseResultMap">
@@ -120,12 +120,12 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.woniu.orders.entity.OrdersPO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into orders (order_id, `uid`, c_time, 
-      money, ostate, pay_state, 
+      money, ostate, old_order_id, 
       payway, code, movie_showtime_id, 
       payinfo_id, seat, isdel, 
       seat_id)
     values (#{orderId,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{cTime,jdbcType=TIMESTAMP}, 
-      #{money,jdbcType=DOUBLE}, #{ostate,jdbcType=TINYINT}, #{payState,jdbcType=TINYINT}, 
+      #{money,jdbcType=DOUBLE}, #{ostate,jdbcType=TINYINT}, #{oldOrderId,jdbcType=VARCHAR}, 
       #{payway,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, #{movieShowtimeId,jdbcType=INTEGER}, 
       #{payinfoId,jdbcType=INTEGER}, #{seat,jdbcType=VARCHAR}, #{isdel,jdbcType=TINYINT}, 
       #{seatId,jdbcType=VARCHAR})
@@ -149,8 +149,8 @@
       <if test="ostate != null">
         ostate,
       </if>
-      <if test="payState != null">
-        pay_state,
+      <if test="oldOrderId != null">
+        old_order_id,
       </if>
       <if test="payway != null">
         payway,
@@ -190,8 +190,8 @@
       <if test="ostate != null">
         #{ostate,jdbcType=TINYINT},
       </if>
-      <if test="payState != null">
-        #{payState,jdbcType=TINYINT},
+      <if test="oldOrderId != null">
+        #{oldOrderId,jdbcType=VARCHAR},
       </if>
       <if test="payway != null">
         #{payway,jdbcType=TINYINT},
@@ -245,8 +245,8 @@
       <if test="record.ostate != null">
         ostate = #{record.ostate,jdbcType=TINYINT},
       </if>
-      <if test="record.payState != null">
-        pay_state = #{record.payState,jdbcType=TINYINT},
+      <if test="record.oldOrderId != null">
+        old_order_id = #{record.oldOrderId,jdbcType=VARCHAR},
       </if>
       <if test="record.payway != null">
         payway = #{record.payway,jdbcType=TINYINT},
@@ -283,7 +283,7 @@
       c_time = #{record.cTime,jdbcType=TIMESTAMP},
       money = #{record.money,jdbcType=DOUBLE},
       ostate = #{record.ostate,jdbcType=TINYINT},
-      pay_state = #{record.payState,jdbcType=TINYINT},
+      old_order_id = #{record.oldOrderId,jdbcType=VARCHAR},
       payway = #{record.payway,jdbcType=TINYINT},
       code = #{record.code,jdbcType=VARCHAR},
       movie_showtime_id = #{record.movieShowtimeId,jdbcType=INTEGER},
@@ -314,8 +314,8 @@
       <if test="ostate != null">
         ostate = #{ostate,jdbcType=TINYINT},
       </if>
-      <if test="payState != null">
-        pay_state = #{payState,jdbcType=TINYINT},
+      <if test="oldOrderId != null">
+        old_order_id = #{oldOrderId,jdbcType=VARCHAR},
       </if>
       <if test="payway != null">
         payway = #{payway,jdbcType=TINYINT},
@@ -339,7 +339,7 @@
         seat_id = #{seatId,jdbcType=VARCHAR},
       </if>
     </set>
-    where order_id = #{orderId,jdbcType=VARCHAR}
+    where order_id= #{orderId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.woniu.orders.entity.OrdersPO">
     <!--@mbg.generated-->
@@ -349,7 +349,7 @@
       c_time = #{cTime,jdbcType=TIMESTAMP},
       money = #{money,jdbcType=DOUBLE},
       ostate = #{ostate,jdbcType=TINYINT},
-      pay_state = #{payState,jdbcType=TINYINT},
+      old_order_id = #{oldOrderId,jdbcType=VARCHAR},
       payway = #{payway,jdbcType=TINYINT},
       code = #{code,jdbcType=VARCHAR},
       movie_showtime_id = #{movieShowtimeId,jdbcType=INTEGER},

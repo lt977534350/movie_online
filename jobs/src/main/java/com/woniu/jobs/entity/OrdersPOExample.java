@@ -1,4 +1,4 @@
-package com.woniu.orders.entity;
+package com.woniu.jobs.entity;
 
 import java.util.ArrayList;
 import java.util.Date;

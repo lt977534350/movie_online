@@ -1,5 +1,6 @@
 package com.woniu.jobs.service.impl;
 
+
 import com.woniu.jobs.entity.Orders;
 import com.woniu.jobs.entity.OrdersExample;
 import com.woniu.jobs.entity.Seatinfo;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * @program: tickets-online
@@ -45,6 +45,12 @@ public class OrdersServiceImpl implements OrderService {
             }
             //还原座位表信息
             int i = seatInfoService.updateStateToN(seatinfoList);
+        }
+        //如果oldOrderId不为空，说明是改签未支付，删除订单
+        if(ordersInfo.getOrderId()!=null){
+            OrdersExample ordersExample = new OrdersExample();
+            ordersExample.createCriteria().andOldOrderIdIsNotNull().andUidEqualTo(ordersInfo.getUid());
+            return ordersMapper.deleteByExample(ordersExample);
         }
         Orders orders = new Orders();
         orders.setOstate((byte) 0);

@@ -97,6 +97,7 @@ public class AlipayServiceImpl implements AlipayService {
         Map map = (Map) JSONObject.parse(result);
         Map<String, String> map1 = (Map<String, String>) map.get("alipay_trade_refund_response");
         map1.put("sign", map.get("sign").toString());
+        System.out.println(map1);
 
         int i = 0;
         int out_trade_no = 0;
@@ -107,16 +108,12 @@ public class AlipayServiceImpl implements AlipayService {
             alipayinfo.setRefundFee(Double.parseDouble(map1.get("refund_fee")));
             alipayinfo.setGmtRefund(DateUtil.strToDate(map1.get("gmt_refund_pay")));
             alipayinfo.setRedundmsg(refundReason);
-
             i = alipayinfoMapper.updateByPrimaryKeySelective(alipayinfo);
-
         }
-
         if (i == 1 ) {
-
             return "退款成功";
         } else {
-
+            System.out.println(11111111);
             return "退款失败";
         }
 

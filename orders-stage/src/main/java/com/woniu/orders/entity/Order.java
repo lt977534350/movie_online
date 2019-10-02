@@ -27,6 +27,15 @@ public class Order {
      * 订单金额
      */
     private Double money;
+    private Double oldMoney;
+
+    public Double getOldMoney() {
+        return oldMoney;
+    }
+
+    public void setOldMoney(Double oldMoney) {
+        this.oldMoney = oldMoney;
+    }
 
     /**
      * 放映点id
@@ -89,6 +98,16 @@ public class Order {
      * 订单号
      */
     private String orderId;
+    private String oldOrderId;
+
+    public String getOldOrderId() {
+        return oldOrderId;
+    }
+
+    public void setOldOrderId(String oldOrderId) {
+        this.oldOrderId = oldOrderId;
+    }
+
     //座位号
     private List<Seat> seatList;
     private String seat;

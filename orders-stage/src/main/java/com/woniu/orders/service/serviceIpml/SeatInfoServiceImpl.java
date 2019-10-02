@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +38,15 @@ public  class SeatInfoServiceImpl implements SeatInfoService {
     }
 
     @Override
-    public int updateStateToN(List<Seatinfo> list) {
+    public int updateStateToN(String seatid  ) {
+        String[] seatArray = seatid.split("-");
+        List<Seatinfo> list=new ArrayList<>();
+        for (String s : seatArray) {
+            Seatinfo seatinfo = new Seatinfo();
+            seatinfo.setId(Integer.parseInt(s));
+
+            list.add(seatinfo);
+        }
         return  seatinfoMapper.updateStateToN(list);
     }
 
