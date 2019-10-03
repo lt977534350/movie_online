@@ -515,7 +515,6 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            alert(data.code);
                             if (data.code = "success") {
                                 $(".login-area").slideUp(1000);
                                 obj.user = data.object;
@@ -596,8 +595,8 @@
                                 <div class="show-time" v-html="orders.formatTime"></div>
                             </div>
                             <div class="order-price" v-text="'￥'+orders.money"></div>
-                            <div class="order-status" v-if = "orders.oldOrderId!=null&&orders.ostate==20" >已改签</div>>
-                            <div class="order-status"  v-else="" v-text="orders.ostateMsg">
+
+                            <div class="order-status"   v-text="orders.ostateMsg">
 
                             </div>
                             <div class="actions">
@@ -664,7 +663,7 @@
             type: "get",
             dataType: "json",
             success: function (data) {
-                if(data.code="500"){
+                if(data.code=="500"){
                     alert(data.message)
                 }
                 obj.msg = data;

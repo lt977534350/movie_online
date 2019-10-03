@@ -545,10 +545,13 @@
 
     <div class="order-container" data-page-type="detail" :data-order-id="msg.object.orderId" >
 
-        <div class="status-box unpaid" >
-            <p  class="title"  v-if=" msg.object.oldMoney!=null&&msg.object.ostate==20" >已改签</p>
+        <div v-if="msg.object.ostate==10&&msg.object.vip.vname!='novip'" style="font-size: 16px;color: #FF8D1B">
+            <div> <span>尊敬的</span><span style="color:#eb315a;"v-text="msg.object.vip.vname" ></span> <span>你的折扣为</span><span style="color:#eb315a;" v-text="msg.object.vip.vdiscount"></span></div>
+        </div>
 
-            <p  class="title"  v-else="" v-text="msg.object.ostateMsg"></p>
+        <div class="status-box unpaid" >
+
+            <p  class="title"   v-text="msg.object.ostateMsg"></p>
 
             <p class="desc" v-if="msg.object.leftPaySecond>0" :data-left-pay-second="msg.object.leftPaySecond">
                 请在<span class="minute"></span>分钟<span class="second"></span>秒内完成支付
@@ -596,7 +599,8 @@
              <div class="col-lg-offset-10 col-lg-2">
                  <a  style="padding-left: 5px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn"  @click="changingTicket()">改签</a>
                 <a  style=" margin-left: 45px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
-            </div>
+                 <a  style=" margin-left: 45px" v-if="booleanComment" class=" btn btn-warning pay-btn"  >评论</a>
+             </div>
             <div class="clearfix">
                 <div class="cinema-info">
                     <p class="name" v-text="msg.object.cinemaName"></p>
@@ -692,16 +696,28 @@
             msg: ""
             , time: ""
             , timer: ""
+
         },
         created: function () {
             var  obj = this
             select(obj);
 
 
+
         },
         updated: function () {
             timer = setInterval(this.paytime, 1000)
 
+        },computed:{
+            booleanComment:function(){
+                var date = new Date().getTime();
+                var commenttime= new Date(this.msg.object.playtime).getTime()+this.msg.object.longtime*60*1000
+                if(commenttime<=date){
+                    return true;
+                }else{
+                    return true;
+                }
+            }
         },
         methods: {
             paytime() {

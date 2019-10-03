@@ -27,6 +27,7 @@ public interface OrdersMapper {
     int updateByPrimaryKeySelective(Orders record);
 
     int updateByPrimaryKey(Orders record);
+    int updateOstate(String oid);
     Orders selectSeatIdByOid(String Oid);
 
 

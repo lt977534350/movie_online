@@ -12,6 +12,15 @@ public class Order {
      * 订单id
      */
     private Integer id;
+    private String longtime;
+
+    public String getLongtime() {
+        return longtime;
+    }
+
+    public void setLongtime(String longtime) {
+        this.longtime = longtime;
+    }
 
     /**
      * 用户id
@@ -26,6 +35,16 @@ public class Order {
     /**
      * 订单金额
      */
+    private Vip vip;
+
+    public Vip getVip() {
+        return vip;
+    }
+
+    public void setVip(Vip vip) {
+        this.vip = vip;
+    }
+
     private Double money;
     private Double oldMoney;
 
@@ -332,5 +351,41 @@ public class Order {
 
     public void setFormatTime(String formatTime) {
         this.formatTime = formatTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", uid=" + uid +
+                ", cTime=" + cTime +
+                ", vip=" + vip +
+                ", money=" + money +
+                ", oldMoney=" + oldMoney +
+                ", cid=" + cid +
+                ", aid=" + aid +
+                ", ostate=" + ostate +
+                ", cFormatTime='" + cFormatTime + '\'' +
+                ", ostateMsg='" + ostateMsg + '\'' +
+                ", payState=" + payState +
+                ", payway=" + payway +
+                ", code='" + code + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", oldOrderId='" + oldOrderId + '\'' +
+                ", seatList=" + seatList +
+                ", seat='" + seat + '\'' +
+                ", cinemaName='" + cinemaName + '\'' +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", palyTime=" + palyTime +
+                ", movieName='" + movieName + '\'' +
+                ", cinemaAddress='" + cinemaAddress + '\'' +
+                ", phone='" + phone + '\'' +
+                ", msid=" + msid +
+                ", seatId='" + seatId + '\'' +
+                ", leftPaySecond=" + leftPaySecond +
+                ", username='" + username + '\'' +
+                ", formatTime='" + formatTime + '\'' +
+                '}';
     }
 }

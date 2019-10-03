@@ -109,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
                 formatDate(order.getPalyTime()) + "\n" + DateUtil.dateToString(order.getPalyTime()));
         List<Seat> list = new ArrayList<>();
         String seat = order.getSeat();
+        System.out.println(seat);
         String[] split = seat.split("=");
         for (int i = 0; i < split.length; i++) {
             Seat seatname = new Seat();
@@ -291,7 +292,12 @@ public class OrderServiceImpl implements OrderService {
             //已付款
             //电影开场前30分钟支持退款，改签
             if ((order.getPalyTime().getTime() - System.currentTimeMillis()) > 30 * 1000) {
-                order.setOstateMsg(Constant.OrderStatusEnum.PAID.getValue());
+                if(order.getOldOrderId()!=null){
+                    order.setOstateMsg("已改签");
+                }else {
+                    order.setOstateMsg(Constant.OrderStatusEnum.PAID.getValue());
+                }
+
             } else {
                 order.setOstateMsg("订单完成");
             }

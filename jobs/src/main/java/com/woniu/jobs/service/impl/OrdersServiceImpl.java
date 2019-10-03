@@ -29,15 +29,12 @@ public class OrdersServiceImpl implements OrderService {
 
     @Override
     public int updateOstate(String oid) throws Exception {
-
-
         Orders ordersInfo = ordersMapper.selectSeatIdByOid(oid);
         String seat = ordersInfo.getSeatId();
         String[] split = seat.split("-");
         List<Seatinfo> seatinfoList = new ArrayList<>();
         //如果订单未付款，则还原座位信息
         if (ordersInfo.getOstate() == 10) {
-            System.out.println("还原座位表信息");
             for (int i = 0; i < split.length; i++) {
                 Seatinfo seatinfo = new Seatinfo();
                 seatinfo.setId(Integer.parseInt(split[i]));
@@ -47,9 +44,10 @@ public class OrdersServiceImpl implements OrderService {
             int i = seatInfoService.updateStateToN(seatinfoList);
         }
         //如果oldOrderId不为空，说明是改签未支付，删除订单
-        if(ordersInfo.getOrderId()!=null){
+        System.out.println(ordersInfo);
+        if(ordersInfo.getOldOrderId()!=null){
             OrdersExample ordersExample = new OrdersExample();
-            ordersExample.createCriteria().andOldOrderIdIsNotNull().andUidEqualTo(ordersInfo.getUid());
+            ordersExample.createCriteria().andOldOrderIdIsNotNull().andOstateEqualTo(new Byte("10")) .andUidEqualTo(ordersInfo.getUid());
             return ordersMapper.deleteByExample(ordersExample);
         }
         Orders orders = new Orders();
