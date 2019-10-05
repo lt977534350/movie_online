@@ -24,7 +24,7 @@ public interface OrderService {
 
     long selectCount(int uid) throws Exception;
 
-    Order selectDatail(String oid) throws Exception;
+    Order selectDetail(String oid) throws Exception;
     void updatebyOid(String oid, Byte ostate, int a_pid,String code)throws Exception;
     int updateStateByOid(String oid, Byte ostate)throws Exception;
     int deleteByOid(String Oid)throws Exception;

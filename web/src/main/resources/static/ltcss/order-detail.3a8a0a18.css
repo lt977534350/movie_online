@@ -325,3 +325,18 @@ p {
  box-shadow:0 2px 10px -2px #FF8D1B
 }
 
+.money{
+ cursor: pointer;
+ display: inline-block;
+ margin-top: 16px;
+ width: 190px;
+ height: 42px;
+ line-height: 42px;
+ text-align: center;
+ color: #fff;
+ background-color: #eb315a;
+ border-radius: 100px;
+ box-shadow: 0 2px 10px -2px #eb315a;
+}
+
+

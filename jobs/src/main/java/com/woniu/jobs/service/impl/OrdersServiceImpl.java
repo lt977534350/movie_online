@@ -47,7 +47,7 @@ public class OrdersServiceImpl implements OrderService {
         System.out.println(ordersInfo);
         if(ordersInfo.getOldOrderId()!=null){
             OrdersExample ordersExample = new OrdersExample();
-            ordersExample.createCriteria().andOldOrderIdIsNotNull().andOstateEqualTo(new Byte("10")) .andUidEqualTo(ordersInfo.getUid());
+            ordersExample.createCriteria().andOldOrderIdIsNotNull().andOstateEqualTo(new Byte("10")) .andOrderIdEqualTo(ordersInfo.getOrderId());
             return ordersMapper.deleteByExample(ordersExample);
         }
         Orders orders = new Orders();

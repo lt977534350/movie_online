@@ -363,7 +363,7 @@
         update orders set `ostate` =0 where `order_id` ={#oid} and `ostate`=10
   </update>
   <select id="selectSeatIdByOid" resultMap="BaseResultMap" parameterType="String">
-    select ostate,seat_id,old_order_id from orders where order_id=#{oid}
+    select ostate,seat_id,old_order_id,order_id from orders where order_id=#{oid}
   </select>
 
 

@@ -55,7 +55,7 @@ public class PayApi {
     public String toPay(String oid) throws Exception {
         //跟据订单查询订单金额等
         System.out.println(oid);
-        Order order = orderService.selectDatail(oid);
+        Order order = orderService.selectDetail(oid);
         //订单号
         String outTradeNo = oid;
         //订单金额
@@ -114,7 +114,7 @@ public class PayApi {
         //获取商户之前传给支付宝的订单号（商户系统的唯一订单号）
         String outTradeNo = conversionParams.get("out_trade_no");
         //获取商户之前传给支付宝的订单号（商户系统的唯一订单号）
-        Order order = orderService.selectDatail(outTradeNo);
+        Order order = orderService.selectDetail(outTradeNo);
 
         if (order == null) {
             log.warn("收到未知的异步通知 outTradeNo:{}", outTradeNo);
@@ -208,7 +208,7 @@ public class PayApi {
         if(refundReason==""||refundReason==null){
           return new Result("500", "请输入退款原因", null, null);
         }
-        Order order = orderService.selectDatail(oid);
+        Order order = orderService.selectDetail(oid);
         String msg = alipayService.insertRefund(oid, refundReason, order.getMoney().toString(), "HZ01RF001");
 
         if ("退款成功".equals(msg)) {
@@ -222,9 +222,9 @@ public class PayApi {
     @RequestMapping("confirmChangingTicket")
     @ResponseBody
     public String confirmChangingTicket(String oid) throws Exception {
-        System.out.println("1111111111");
-        Order order = orderService.selectDatail(oid);
-        Order oldOrder = orderService.selectDatail(order.getOldOrderId());
+
+        Order order = orderService.selectDetail(oid);
+        Order oldOrder = orderService.selectDetail(order.getOldOrderId());
         Double money=oldOrder.getMoney()-order.getMoney();
 
         //还差钱调用支付接口
@@ -237,7 +237,7 @@ public class PayApi {
             String pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
             return pay;
         }else if(money>0){
-            System.out.println( String.format("%.2f", money));
+            System.out.println( );
             //新订单比旧订单便宜，调用退款接口
             String msg= alipayService.insertRefund(oldOrder.getOrderId(), "改签",
                     String.format("%.2f", money), "HZ01RF001");

@@ -44,9 +44,9 @@ public class SeatApi {
     @ResponseBody
     public Result selectCinema(Integer msid)throws Exception{
         MovieShowInfo movieShowInfo = seatService.selectMovieShowInfo(msid);
-      /*  if (movieShowInfo.getPlayTime().getTime()<System.currentTimeMillis()+30*60*1000){
+        if (movieShowInfo.getPlayTime().getTime()<System.currentTimeMillis()+30*60*1000){
             throw new TimeOverException("该场次不在售票中");
-        }*/
+        }
        return new Result("200",null,movieShowInfo,null);
     }
 

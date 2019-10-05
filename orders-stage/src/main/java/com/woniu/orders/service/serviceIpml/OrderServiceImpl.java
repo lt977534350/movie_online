@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> selectOrder(int uid, Integer PageIndex) throws ParseException {
+
         //封装查询数据
         Map<String, Integer> map = new HashMap<>();
         map.put("uid", uid);
@@ -101,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order selectDatail(String oid) throws ParseException {
+    public Order selectDetail(String oid) throws ParseException {
         System.out.println(oid);
         Order order = orderMapper.selectDetail(oid);
         System.out.println(order);
@@ -118,6 +119,12 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setSeatList(list);
         order = this.ostateToString(order);
+        if (order.getOldOrderId()!=null){
+            Order oldorder = orderMapper.selectDetail(order.getOldOrderId());
+            order.setOldMoney(oldorder.getMoney());
+            Double money=order.getOldMoney()-order.getMoney();
+            order.setBalanceMoney(Double.parseDouble(String.format("%.2f", money)));
+        }
 
         return order;
     }

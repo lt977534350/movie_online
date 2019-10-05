@@ -14,6 +14,17 @@ public class Order {
     private Integer id;
     private String longtime;
 
+    public Double getBalanceMoney() {
+        return balanceMoney;
+    }
+
+    public void setBalanceMoney(Double balanceMoney) {
+        this.balanceMoney = balanceMoney;
+    }
+
+    //差额
+    private  Double balanceMoney;
+
     public String getLongtime() {
         return longtime;
     }
@@ -26,6 +37,15 @@ public class Order {
      * 用户id
      */
     private Integer uid;
+    private Integer mid;
+
+    public Integer getMid() {
+        return mid;
+    }
+
+    public void setMid(Integer mid) {
+        this.mid = mid;
+    }
 
     /**
      * 订单创建时间

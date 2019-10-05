@@ -599,7 +599,7 @@
              <div class="col-lg-offset-10 col-lg-2">
                  <a  style="padding-left: 5px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn"  @click="changingTicket()">改签</a>
                 <a  style=" margin-left: 45px" v-if="msg.object.ostateMsg=='已付款'&&msg.object.oldMoney==null" class="  btn btn-warning pay-btn" @click="show()" >退款</a>
-                 <a  style=" margin-left: 45px" v-if="booleanComment" class=" btn btn-warning pay-btn"  >评论</a>
+                 <a  style=" margin-left: 100px" v-if="booleanComment" class=" btn btn-warning pay-btn" :href="'/web/tao/movie-info.html?mid='+msg.object.mid" >评论</a>
              </div>
             <div class="clearfix">
                 <div class="cinema-info">
@@ -617,14 +617,16 @@
             <div class="btn-wrapper">
                 <div v-if="msg.object.leftPaySecond>0&&msg.object.oldOrderId==null" class="pay-btn" @click="pay()" :data-order-id="msg.object.orderId">立即支付</div>
                <div v-if="msg.object.money>msg.object.oldMoney&&msg.object.ostate==10&&msg.object.oldOrderId!=null">
-                    <div class="pay-btn" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
+                    <div class="money" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
+                   <div  class="money" ><span v-text="'还需支付金额:'+msg.object.balanceMoney*-1"></span></div>
                    <div  class="pay-btn" @click="confirmChangingTicket()" :data-order-id="msg.object.orderId">改签支付</div>
                </div>
                 <div v-if="msg.object.money<=msg.object.oldMoney&&msg.object.oldOrderId!=null&&msg.object.ostate==10">
-                    <div  class="pay-btn" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
-
+                    <div  class="money" style="float:  left"><span v-text="'改签前金额:'+msg.object.oldMoney"></span></div>
+                    <div  class="money" ><span v-text="'退款:'+msg.object.balanceMoney"></span></div>
                     <div   class="pay-btn" @click="confirmChanging()" :data-order-id="msg.object.orderId">改签</div>
                 </div>
+
 
 
 
@@ -711,11 +713,11 @@
         },computed:{
             booleanComment:function(){
                 var date = new Date().getTime();
-                var commenttime= new Date(this.msg.object.playtime).getTime()+this.msg.object.longtime*60*1000
+                var commenttime= new Date(this.msg.object.palyTime).getTime()+this.msg.object.longtime*60*1000
                 if(commenttime<=date){
                     return true;
                 }else{
-                    return true;
+                    return false;
                 }
             }
         },
@@ -749,7 +751,6 @@
                  $(".mask2").hide();
             },
             changingTicket(){
-
                 $.ajax({
                     url: "/orders/profile/orders/insertchangingTicket",
                     data:{"orderId":app.msg.object.orderId,"cid":app.msg.object.cid},
@@ -796,7 +797,7 @@
                     dataType: "text",
                     success: function (data) {
                         if(data!="退款失败"){
-
+                            alert("改签成功")
                             window.location.href=data;
                         }else {
                             alert(data)

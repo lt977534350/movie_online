@@ -86,11 +86,8 @@ public class OrdersApi {
     @RequestMapping("detail")
     @ResponseBody
     public Result detail(String oid) throws Exception {
-        Order order = orderService.selectDatail(oid);
-        if (order.getOldOrderId()!=null){
-            Order oldorder = orderService.selectDatail(order.getOldOrderId());
-            order.setOldMoney(oldorder.getMoney());
-        }
+        Order order = orderService.selectDetail(oid);
+
 
         return new Result("200", null, order, null);
     }
@@ -146,12 +143,12 @@ public class OrdersApi {
     @RequestMapping("selectByAid")
     @ResponseBody
     public Result selectOrderSByAid(HttpSession session, Integer pageIndex) throws Exception {
-        /*Admin admin = (Admin)session.getAttribute("admin");
-        int aid = admin.getId();*/
+       Admin admin = (Admin)session.getAttribute("admin");
+        int aid = admin.getId();
         if (pageIndex == null) {
             pageIndex = 1;
         }
-        List<Order> orders = orderService.selectOrdersByAid(1, pageIndex);
+        List<Order> orders = orderService.selectOrdersByAid(admin.getId(), pageIndex);
         int dataCount = orderService.selectCountByAid(1);
         Page page = new Page();
         page.setPageIndex(pageIndex);

@@ -61,6 +61,7 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="c_timeStr" jdbcType="VARCHAR" property="cFormatTime"/>
         <result column="seat" property="seat"/>
+        <result column="mid" property="mid"/>
         <result column="longtime" jdbcType="VARCHAR" property="longtime"></result>
         <association property="vip" javaType="com.woniu.orders.entity.Vip">
             <id column="id" jdbcType="INTEGER" property="id" />
@@ -87,7 +88,7 @@
 
     <select id="selectDetail" resultMap="detailMap" parameterType="string">
           SELECT v.*,o.uid,o.c_time,c.id as cid  ,o.code,o.seat_id,o.ostate,o.order_id ,o.old_order_id,o.seat,o.money ,cr.name ,
-        m.mpic ,m.longtime,m.mName,c.aid aid1,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
+        m.mpic ,m.id mid, m.longtime,m.mName,c.aid aid1,c.c_name,c.c_address,c.phone,ms.playtime from `orders` o
         LEFT JOIN movie_showtime ms on o.movie_showtime_id = ms.id
         LEFT JOIN cinema c on ms.cid = c.id
         LEFT JOIN movie m on ms.mid = m.id

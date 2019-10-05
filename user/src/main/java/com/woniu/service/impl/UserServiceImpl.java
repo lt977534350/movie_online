@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getUser(Integer uid) throws Exception {
-        return userMapper.getUser(1);
+        return userMapper.getUser(uid);
     }
 
     /**

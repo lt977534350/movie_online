@@ -652,6 +652,7 @@
 
 		<!--定位-->
 		<script>
+			var mid = location.href.split("=")[1];
 			window.onload=function () {
 			    /*获取定位的值*/
 				var city=$("#qyxs").text();
@@ -854,7 +855,7 @@
 					user:{},
 					comments:[],
 					likes:[],
-					mid:1,
+					mid:mid,
 					cid:1,
 					uptimes:"uptime",
 					page:{}
