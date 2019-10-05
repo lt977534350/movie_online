@@ -1,6 +1,7 @@
 package com.woniu.mapper;
 
 import com.woniu.entity.Movie;
+import com.woniu.entity.Type;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -41,4 +42,6 @@ public interface MovieMapper {
     List<Movie> selectMoviesByExample(String type, String comntry, Date startTime, Date endTime, Integer start, Integer num);
 
     Integer selectCountByExample(String type, String comntry, Date startTime, Date endTime);
+
+    List<Type> selectTypeByMid(Integer mid);
 }

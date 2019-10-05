@@ -1,6 +1,7 @@
 package com.woniu.service.impl;
 
 import com.woniu.entity.Movie;
+import com.woniu.entity.Type;
 import com.woniu.mapper.MovieMapper;
 import com.woniu.service.MovieService;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> selectMovieListOrderByScore(Integer num) throws Exception {
-        return movieMapper.selectMovieListByScore(num);
+        List<Movie> movies = movieMapper.selectMovieListByScore(num);
+        for (Movie movie:movies) {
+            List<Type> types = movieMapper.selectTypeByMid(movie.getId());
+            movie.setTypes(types);
+        }
+        return movies;
     }
 
     @Override
