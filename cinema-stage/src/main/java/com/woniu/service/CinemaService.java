@@ -1,6 +1,7 @@
 package com.woniu.service;
 
 import com.woniu.entity.Cinema;
+import com.woniu.myutil.myeneity.Admin;
 
 import java.util.Date;
 import java.util.List;
@@ -26,10 +27,11 @@ public interface CinemaService {
     public List<String> getTime(Integer aid) throws Exception;
     //条件查询影院信息
     List<Cinema> getCinemas(String cinema,String city,String cinemaHall,Integer num,Integer pageIndex)throws Exception;
-    // 查询数据总条数
+    //查询数据总条数
     int getCountNum(String cinema,String city,String cinemaHall)throws Exception;
 
     List<Cinema> selectAllByAid(Integer aid) throws Exception;
 
     void insertOne(Cinema cinema);
+
 }

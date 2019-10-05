@@ -2,6 +2,7 @@ package com.woniu.serviceimpl;
 
 import com.woniu.entity.Cinema;
 import com.woniu.mapper.CinemaMapper;
+import com.woniu.myutil.myeneity.Admin;
 import com.woniu.service.CinemaService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;

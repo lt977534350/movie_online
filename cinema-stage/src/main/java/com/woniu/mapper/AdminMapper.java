@@ -26,4 +26,8 @@ public interface AdminMapper {
     Admin login(String username);
 
     Admin selectByPhone(String phone);
+
+    Admin selectAdminByShortName(String shortName);
+
+
 }

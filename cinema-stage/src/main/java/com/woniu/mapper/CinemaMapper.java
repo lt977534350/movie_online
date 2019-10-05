@@ -1,6 +1,7 @@
 package com.woniu.mapper;
 
 import com.woniu.entity.Cinema;
+import com.woniu.myutil.myeneity.Admin;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -43,4 +44,5 @@ public interface CinemaMapper {
         void insertOne(Cinema cinema);
 
         int updateById(Cinema cinema);
+
 }

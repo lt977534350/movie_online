@@ -336,4 +336,17 @@ public class AdminAPI {
         session.removeAttribute("admin");
         return new Result("success","账号销毁",username,null);
     }
+
+    //平台根据影院名模糊查询一家影院信息
+    @GetMapping("searchname")
+    public Result searchAdminByShortName(String shortName){
+        System.out.println("请求进入模糊查询");
+        Admin admin = cinemaAdminService.selectAdminByShortName(shortName);
+        System.out.println("admin信息----"+admin);
+        if (admin==null){
+            return new Result("fail","查询不到该影院信息！",null,null);
+        }else{
+            return new Result("success",null,admin,null);
+        }
+    }
 }

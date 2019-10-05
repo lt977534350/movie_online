@@ -26,10 +26,10 @@
 					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 					<ul class="layui-nav layui-nav-left layui-nav-tree" lay-filter="layui-nav-left">
 						<li class="layui-nav-item">
-							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>套餐管理</cite></a>
+							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >套餐管理</cite></a>
 							<dl class="layui-nav-child">
 								<dd>
-									<a class="" href="/web/qian/check-list.html"> <cite>查看套餐</cite></a>
+									<a class="" href="/web/qian/check-list.html"> <cite >查看套餐</cite></a>
 								</dd>
 							</dl>
 						</li>
@@ -39,24 +39,21 @@
 								<dd>
 									<a class="" href="/web/qian/movie-manage.html"><cite >影片资料</cite></a>
 								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >影院管理</cite></a>
+							<dl class="layui-nav-child">
 								<dd>
-									<a class="" href="javascript:;"><cite >新增影片</cite></a>
+									<a href="/web/qian/cinema.html"> <cite >影院资料</cite></a>
 								</dd>
 							</dl>
 						</li>
 						<li class="layui-nav-item">
-							<a href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>影院管理</cite></a>
+							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite >日志管理</cite></a>
 							<dl class="layui-nav-child">
 								<dd>
-									<a href="/web/qian/cinema.html"> <cite>影院资料</cite></a>
-								</dd>
-							</dl>
-						</li>
-						<li class="layui-nav-item">
-							<a class="" href="javascript:;"><i class="layui-icon layui-icon-face-smile"></i> <cite>日志管理</cite></a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a class=""  href="/web/qian/log.html"> <cite>查看日志</cite></a>
+									<a class="" href="/web/qian/log.html"> <cite >查看日志</cite></a>
 								</dd>
 							</dl>
 						</li>
@@ -80,14 +77,13 @@
 							</a>
 						</li>
 						<li class="layui-nav-item layui-hide-xs" lay-unselect="">
-							<form action="#" method="post">
-								<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
-								<button class="layui-btn layui-btn-danger" onclick="searchcinema()" style="float: right;margin-top: 5px;">搜索</button>
-							</form>
+							<input type="text" placeholder="搜索一家影院..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+							<button class="layui-btn layui-btn-danger" onclick="searchcinema(this)" style="float: right;margin-top: 5px;">搜索</button>
+							<span style="color: red;"></span>
 						</li>
 					</ul>
 					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-						<li class="layui-nav-item stage-title" lay-unselect="">
+						<li style="cursor: default" class="layui-nav-item stage-title" lay-unselect="">
 							爱乐后台管理系统
 						</li>
 						<li class="layui-nav-item" lay-unselect="">
@@ -100,7 +96,7 @@
 									<a lay-href="set/user/info" href="/web/qian/person.html">基本资料</a>
 								</dd>
 								<hr>
-								<dd layadmin-event="logout" style="text-align: center;">
+								<dd layadmin-event="logout" style="text-align: center;cursor: pointer">
 									<a>退出</a>
 								</dd>
 							</dl>
@@ -237,7 +233,22 @@
 
                                         }
                                     });
-
+									function searchcinema(t) {
+										$.ajax({
+											url:"/cinema-stage/admin/searchname",
+											data:{"shortName":$(t).prev().val()},
+											dataType:"json",
+											type:"get",
+											success:function (rt) {
+												if(rt.code=="fail"){
+													$(t).next().val(rt.message);
+												}else{
+													window.location.href="/web/qian/cinema-detail.html?aid="+rt.object.id+
+															"&name="+rt.object.name+"&mysrc="+rt.object.logo;
+												}
+											}
+										});
+									}
 
                                 </script>
 							</div>

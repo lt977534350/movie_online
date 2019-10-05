@@ -132,4 +132,7 @@
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
     select * from admin where phone=#{phone}
   </select>
+    <select id="selectAdminByShortName" resultMap="BaseResultMap">
+      select * from admin where name like '%${shortName}%'
+    </select>
 </mapper>

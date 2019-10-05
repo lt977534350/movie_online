@@ -35,6 +35,7 @@
 		$('#myidlogin').slideDown(1500);
 		return false;
 	});
+
     $('.register-popup').on('click', function () {
         $('#myregister').slideDown(1500);
         return false;

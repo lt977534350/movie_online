@@ -27,4 +27,6 @@ public interface CinemaAdminService {
     public void updateVip(Vip vip) throws Exception;
     //新增vip设置
     void insertVipByAid(Vip vip);
+    //根据名字模糊查询
+    Admin selectAdminByShortName(String shortName);
 }

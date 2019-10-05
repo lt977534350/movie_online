@@ -201,6 +201,4 @@
     coordinate=#{coordinate}
     where id=#{id}
   </update>
-
-
 </mapper>

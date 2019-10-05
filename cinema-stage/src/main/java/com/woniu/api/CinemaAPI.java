@@ -155,7 +155,4 @@ public class CinemaAPI {
         return new Result("success",null,null,null);
     }
 
-
-
-
 }

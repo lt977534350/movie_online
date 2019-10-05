@@ -82,4 +82,10 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
         vipMapper.insertSelective(vip);
     }
 
+    @Override
+    public Admin selectAdminByShortName(String shortName) {
+        Admin admin = adminMapper.selectAdminByShortName(shortName);
+        return admin;
+    }
+
 }
