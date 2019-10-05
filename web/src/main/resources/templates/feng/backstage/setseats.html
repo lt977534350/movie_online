@@ -46,7 +46,7 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
 <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"></script>
 <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+<script src="/web/backstage/vendor/chart.js/Chart.js"></script>
 <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
 <!-- Main File-->
 <script src="/web/backstage/js/front.js"></script>
@@ -120,7 +120,9 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                             <td v-text="cinemaRoom.name">Mark</td>
                                             <td v-text="cinemaRoom.type">IMAX</td>
                                             <td>102</td>
-                                            <td @click="editroom(index)">编辑</td>
+                                            <td @click="editroom(index)">
+                                                <a href="javascript:;">编辑</a>
+                                            </td>
                                         </tr>
                                         </tbody>
                                         <tfoot>
@@ -173,7 +175,7 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                     <!---左边座位列表----->
                                     <div id="changexy">
                                         <input type="text" style="width:30px;" id="x" value="10"> ×
-                                        <input type="text" style="width:30px;" id="y" value="30">
+                                        <input type="text" style="width:30px;" id="y" value="10">
                                     </div>
                                     <div id="seat_area">
 <!--                                        <div class="front">屏幕</div>-->
@@ -247,6 +249,7 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
         var cin=new Vue({
             el:"#cinemaArea",
             data:{
+                admin:{},
                 //当前用户的所有影院
                 cinemaList:[],
                 //当前选择影院的id
@@ -262,24 +265,43 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                 updateSeats:[]
             },
             created:function () {
+                var _this=this;
                 this.cid='0'
                 //查询当前登录的用户
-
-                //根据用户id查询 当前用户管理的影院
-                //查询当前登录影院的所有放映点//aid
-                var _this=this;
                 $.ajax({
-                    url:"/cinema-stage/cinema/all",
-                    data:{
-                        "aid":1
-                    },
+                    url:"/cinema-stage/admin/cadmin",
                     type:"get",
                     dataType:"json",
+                    data:{},
                     success:function (data) {
-                        _this.cinemaList=data.list;
                         console.log(data)
+                        //如果是未登录，则跳转到登录页面
+                        if(data.code=="fail"){
+                            location.href="/web/feng/backstage/login.html"
+                        }else{
+                            _this.admin=data.object;
+                            console.log(data)
+                            //根据用户id查询 当前用户管理的影院
+                            //查询当前登录影院的所有放映点//aid
+
+                            $.ajax({
+                                url:"/cinema-stage/cinema/all",
+                                data:{
+                                    "aid":_this.admin.id
+                                },
+                                type:"get",
+                                dataType:"json",
+                                success:function (data) {
+                                    _this.cinemaList=data.list;
+                                    console.log(data)
+                                }
+                            });
+                        }
                     }
-                });
+
+                })
+
+
             },
             methods:{
                 selectCinema:function () {
@@ -369,17 +391,12 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                     var coordinate=cin.nowCinemaRoom.coordinate;
                     var seat = coordinate.split(",")
 
-
-                    for(var i=0;i<seat.length;i++){
-                        seat[i]=seat[i].replace(/"/g,"").replace("[","").replace("]","");
-                    }
-
                     $("#thisx").val(seat.length)
                     $("#thisy").val(seat[0].length)
 
                     _this.updateSeats=seat;
 
-                    $("#update-maps").remove()
+                    $("#update-maps").remove();
                     $("#thisseat_area").append("<div id='update-maps'></div>")
 
                     //座位回显
@@ -429,7 +446,15 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                 //新增影厅并设置座位
                 save:function(){
                     var _this=this;
-                    var coordinate = JSON.stringify(this.map);
+                    var coordinate="";
+                    //遍历座位表
+                    for (var i = 0; i <this.map.length ; i++) {
+                        if(i==0){
+                            coordinate+=this.map[i];
+                        }else {
+                            coordinate+=","+this.map[i];
+                        }
+                    }
                     if(cin.cid>0){
                         $.ajax({
                             url:"/cinema-stage/room",
@@ -483,17 +508,28 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                 map:[]
             },
             created:function(){
-                this.map=cin.updateSeats
             },
             methods:{
                 updateRoom:function () {
+                    var coordinate="";
+                    //遍历座位表
+                    for (var i = 0; i <cin.updateSeats.length ; i++) {
+                        if(i==0){
+                            coordinate+=cin.updateSeats[i];
+                        }else {
+                            coordinate+=","+cin.updateSeats[i];
+                        }
+                    }
+                    console.log(coordinate)
+
+
                     var _this=this;
                     $.ajax({
                         url:"/cinema-stage/room",
                         type:"put",
                         data:{
                             "id":$("#thisid").val(),
-                            "coordinate":JSON.stringify(_this.map),
+                            "coordinate":coordinate,
                             "cid":cin.cid,
                             "name":$("#thisroomname").val(),
                             "type":$("#thisroomtype").val()
@@ -520,12 +556,12 @@ span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
                                     cin.cinemaRoomList=data.list;
                                 }
                             });
-                            alert("跟新成功")
+                            alert("更新成功")
                         }
                     })
                 },
                 createSeats:function () {
-                    this.map=thisregist()
+                    cin.updateSeats=thisregist()
                 },
                 closeUpdate:function () {
                     $("#editbox").css("display","none");

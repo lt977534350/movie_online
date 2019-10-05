@@ -19,7 +19,7 @@
 						<div class="topleaderdiv">
 							<!--logo图标div-->
 							<div class="cinemalogo">
-								<a href="cinemaIndex.html"><img class="cinemalogoimg" :src="cinema.logo"/></a>
+								<a href="cinemaIndex.html"><img class="cinemalogoimg" :src="admin.logo"/></a>
 							</div>
 							<!--头部导航栏div-->
 							<div class="cinemaleader">
@@ -267,6 +267,11 @@
 		<script type="text/javascript">
 			$(function(){
 				typechoose(0);
+				//获取aid
+				var url=window.location.href
+				var aid=url.split("=")[1];
+				alert(aid)
+
 				var app=new Vue({
 					el:"#app",
 					data:{
@@ -274,11 +279,26 @@
 						willshow:[],
 						cinema:{},
                         activeIndex:0,
-						onepic:{}
+						onepic:{},
+						admin:{}
 
 					},
 					created:function () {
 						_this=this;
+						//查询当前影院
+						$.ajax({
+							url:"/cinema-stage/admin/byaid",
+							type:"get",
+							dataType:"json",
+							data:{
+								"aid":aid
+							},
+							success:function (data) {
+								_this.admin=data.object;
+							}
+
+						})
+
 						$.ajax({
 							url:"/movie-stage/movie/movieon/1",
 							type:"get",

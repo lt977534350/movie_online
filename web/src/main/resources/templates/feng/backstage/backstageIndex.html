@@ -30,8 +30,8 @@
                         <!-- Navbar Brand -->
                         <a href="backstageIndex.html" class="navbar-brand d-none d-sm-inline-block">
                             <div class="brand-text d-none d-lg-inline-block">
-                                <img class="cinemalogoimg" src="/web/backstage/img/woniuLogo.png"
-                                     alt="此处logo静待贵院上传"></img>
+                                <img class="cinemalogoimg" :src="admin.logo"
+                                     alt="此处logo静待贵院上传"/>
                             </div>
                         </a>
                         <!-- Toggle Button-->
@@ -43,7 +43,7 @@
                            aria-expanded="false" class="nav-link language dropdown-toggle">跳转页面</a>
                         <ul aria-labelledby="pageskipping" class="dropdown-menu">
                             <li>
-                                <a rel="nofollow" href="/web/feng/cinemaIndex.html" class="dropdown-item"><span
+                                <a rel="nofollow" :href="'/web/feng/cinemaIndex.html?aid='+admin.id" class="dropdown-item"><span
                                         class="d-none d-sm-inline">影院主页</span></a>
                             </li>
                             <li>
@@ -60,10 +60,11 @@
         <nav class="side-navbar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-                <div class="avatar"><img src="/web/backstage/img/avatar-1.jpg" alt="..."
-                                         class="img-fluid rounded-circle"></div>
+                <div class="avatar">
+                    <img src="/web/backstage/img/avatar-1.jpg" class="img-fluid rounded-circle">
+                </div>
                 <div class="title">
-                    <h1 class="h4">用户名</h1>
+                    <h1 class="h4" v-text="admin.username"></h1>
                     <p>超级管理员</p>
                 </div>
             </div>
@@ -72,7 +73,7 @@
                 <li onclick="changetoindex(this)" class="active">
                     <a> 主页</a>
                 </li>
-                <li id="ullist">
+                <li id="ullist" v-if="state==1">
                     <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">影院管理</a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                         <li onclick="changetoform(this)">
@@ -86,16 +87,16 @@
                         </li>
                     </ul>
                 </li>
-                <li onclick="changetotable(this)">
+                <li onclick="changetotable(this)" v-if="state==1">
                     <a>放映点管理 </a>
                 </li>
-                <li onclick="tochangeroom(this)">
+                <li onclick="tochangeroom(this)" v-if="state==1">
                     <a>放映厅管理</a>
                 </li>
-                <li onclick="changetofilms(this)">
+                <li onclick="changetofilms(this)" v-if="state==1">
                     <a>排片管理 </a>
                 </li>
-                <li onclick="changetoOrders(this)">
+                <li onclick="changetoOrders(this)" v-if="state==1">
                     <a>订单查看 </a>
                 </li>
             </ul>
@@ -107,24 +108,61 @@
     </div>
 </div>
 <!-- JavaScript files-->
-<script src="/web/backstage/vendor/jquery/jquery.min.js"></script>
-<script src="/web/backstage/vendor/popper.js/umd/popper.min.js">
-</script>
-<script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js">
-</script>
-<script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
-<script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="/web/backstage/js/charts-home.js"></script>
+<script src="/web/backstage/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="/web/backstage/vendor/popper.js/umd/popper.min.js" type="text/javascript"></script>
+<script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+<script src="/web/backstage/vendor/chart.js/Chart.js" type="text/javascript"></script>
+<script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/web/backstage/js/charts-home.js" type="text/javascript"></script>
+
+<script src="/web/backstage/js/vue.js" type="text/javascript"></script>
+
 <!-- Main File-->
-<script src="/web/backstage/js/front.js"></script>
+<script src="/web/backstage/js/front.js" type="text/javascript"></script>
 <script type="text/javascript">
     new Vue({
         el:"#app",
-        data:{},
+        data:{
+            admin:{},
+            state:""
+        },
         created:function () {
+            var _this=this;
+            console.log("查询当前用户")
             //查询当前用户
+            $.ajax({
+                url:"/cinema-stage/admin/cadmin",
+                type:"get",
+                dataType:"json",
+                data:{},
+                success:function (data) {
+                    console.log(data)
+                    //如果是未登录，则跳转到登录页面
+                    if(data.code=="fail"){
+                        location.href="/web/feng/backstage/login.html"
+                    }else{
+                        _this.admin=data.object;
+                        console.log(data)
+                        //判断当前用户是否到期
+                        var today=new Date();
+                        var overtime=new Date(_this.admin.overtime);
+                        console.log(today)
+                        console.log(overtime)
+                        if(today>overtime){
+                            console.log("已经过期了")
+                            _this.state=0;
+                        }else{
+                            console.log("还没有过期")
+                            _this.state=1;
+                        }
 
+
+
+                    }
+                }
+
+            })
 
 
         }
@@ -144,7 +182,7 @@
 
     $("#logout").click(function () {
         $.ajax({
-            url: "/cinema-stage/admin/logout",
+            url: "/cinema-stage/admin/cAdminlogout",
             type: "delete",
             dataType: "json",
             success: function (data) {

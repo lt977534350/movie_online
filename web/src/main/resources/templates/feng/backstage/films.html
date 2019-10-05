@@ -207,7 +207,7 @@
     <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"> </script>
     <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+    <script src="/web/backstage/vendor/chart.js/Chart.js"></script>
     <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="/web/js/vue.js"></script>
     <!-- Main File-->
@@ -217,6 +217,7 @@
 			var app=new Vue({
 				el:"#app",
 				data:{
+					admin:{},
 					// 当前登录人的所有影院
 					cinemaList:[],
 					// 所有可上映电影集合
@@ -236,33 +237,47 @@
 				created:function () {
 					var _this=this;
 					//查询当前登录用户
-
-                    //查询当前登录影院的所有放映点//aid
-                    $.ajax({
-						url:"/cinema-stage/cinema/all",
-						data:{
-							"aid":1
-						},
+					$.ajax({
+						url:"/cinema-stage/admin/cadmin",
 						type:"get",
 						dataType:"json",
+						data:{},
 						success:function (data) {
 							console.log(data)
-							_this.cinemaList=data.list;
-						}
-					});
+							//如果是未登录，则跳转到登录页面
+							if(data.code=="fail"){
+								location.href="/web/feng/backstage/login.html"
+							}else{
+								_this.admin=data.object;
+								console.log(_this.admin)
+								//查询当前登录影院的所有放映点//aid
+								$.ajax({
+									url:"/cinema-stage/cinema/all",
+									data:{
+										"aid":_this.admin.id
+									},
+									type:"get",
+									dataType:"json",
+									success:function (data) {
+										console.log(data)
+										_this.cinemaList=data.list;
+									}
+								});
 
-                    //查询所有可拍片电影
-					$.ajax({
-						url:"/movie-stage/movie/all",
-						type:"get",
-						dataType:"json",
-						success:function (data) {
-							console.log(data);
-							_this.movieList=data.list;
+								//查询所有可拍片电影
+								$.ajax({
+									url:"/movie-stage/movie/all",
+									type:"get",
+									dataType:"json",
+									success:function (data) {
+										console.log(data);
+										_this.movieList=data.list;
+									}
+								})
+							}
 						}
+
 					})
-
-
 
 				},
 				methods:{

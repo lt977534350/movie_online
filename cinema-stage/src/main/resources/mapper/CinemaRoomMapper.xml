@@ -85,7 +85,7 @@
   </update>
   <select id="selectAllByCid" resultMap="BaseResultMap">
     select * from cinema_room where cid=#{param1}
-    <if test="param2 != null and param3 != null">S
+    <if test="param2 != null and param3 != null">
       limit #{param2},#{param3}
     </if>
 

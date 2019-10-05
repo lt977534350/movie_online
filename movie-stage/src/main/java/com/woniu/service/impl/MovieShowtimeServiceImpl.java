@@ -10,7 +10,6 @@ import com.woniu.service.MovieShowtimeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -34,7 +33,8 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
     @Override
     public void insertOneData(MovieShowtime movieShowtime) {
         //拍片id
-        Integer msid = movieShowtimeMapper.insertSelective(movieShowtime);
+        movieShowtimeMapper.insertSelective(movieShowtime);
+        Integer msid = movieShowtime.getId();
         //放映厅ID
         Integer roomId=movieShowtime.getRoomId();
         //根据roomId查询影厅的座位信息
@@ -44,7 +44,7 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
         //遍历coordinate向seatinfo插入数据
 
         //将coordinate字符串转换成数组
-        String[] seats = coordinate.replace("[", "").replace("]", "").replaceAll("\"", "").split(",");
+        String[] seats = coordinate.split(",");
 
         Seatinfo info = null;
 

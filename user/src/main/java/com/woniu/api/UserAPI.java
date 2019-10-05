@@ -42,6 +42,7 @@ public class UserAPI {
     public Result selectUser(HttpSession session)throws Exception{
         /*获取user对象*/
         User user = (User) session.getAttribute("user");
+        System.out.println("当前登录用户："+user);
         String code="success";
         String message="";
         /*判断是否为空，为空则未登录*/
@@ -49,7 +50,9 @@ public class UserAPI {
             code="error";
             message="请先登陆";
             return new Result(code,message,null,null);
-        }else return new Result(code,message,userService.getUser(user.getId()),null);
+        }else{
+            return new Result(code,message,userService.getUser(user.getId()),null);
+        }
     }
 
     /**
@@ -198,6 +201,7 @@ public class UserAPI {
                 }
                 //用户名密码均正确，将登录信息存入session
                 session.setAttribute("user",userByName);
+                System.out.println("存入的session"+session.getId());
                 String string = JSONObject.toJSONString(userByName);
                 String mystring = URLEncoder.encode(string,"utf-8");
                 Cookie cookie = new Cookie("loguser",mystring);

@@ -293,7 +293,7 @@
     <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"> </script>
     <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+    <script src="/web/backstage/vendor/chart.js/Chart.js"></script>
     <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="/web/js/vue.js"></script>
     <!-- Main File-->
@@ -313,25 +313,31 @@
               dataType:"json",
               type:"get",
               success:function (rt) {
-                v.cadmin = rt.object;
-                $.ajax({
-                  url:"/cinema-stage/admin/getvips",
-                  dataType:"json",
-                  data:{
-                    "aid":rt.object.id
-                  },
-                  type:"get",
-                  success:function (rt) {
+                if(rt.code=="fail"){
+                  location.href="/web/feng/backstage/login.html"
+                }else{
+                  v.cadmin = rt.object;
+                  $.ajax({
+                    url:"/cinema-stage/admin/getvips",
+                    dataType:"json",
+                    data:{
+                      "aid":rt.object.id
+                    },
+                    type:"get",
+                    success:function (rt) {
 
-                    v.vips = rt.list;
-                    v.vipsize = rt.list.length;
-                  }
-                });
+                      v.vips = rt.list;
+                      v.vipsize = rt.list.length;
+                    }
+                  });
+                }
+
               }
             });
 
-          },methods:{
-            update(){
+          },
+          methods:{
+            update:function(){
               console.log($("#infoform").serialize());
                $.ajax({
                   url:"/cinema-stage/admin/updatecinema",

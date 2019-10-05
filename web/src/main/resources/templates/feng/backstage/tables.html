@@ -237,7 +237,7 @@
 <script type="text/javascript" src="/web/backstage/vendor/popper.js/umd/popper.min.js"></script>
 <script type="text/javascript" src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script type="text/javascript" src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+<script type="text/javascript" src="/web/backstage/vendor/chart.js/Chart.js"></script>
 <script type="text/javascript" src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/web/backstage/js/vue.js"></script>
 <!--分页插件-->
@@ -247,9 +247,7 @@
     var cin=new Vue({
         el:"#cinemaManage",
         data:{
-            admin:{
-                id:1
-            },
+            admin:{},
             page:{},
             cinemaList:[],
             nowCinema:{},
@@ -257,6 +255,23 @@
         created:function () {
             var _this=this;
             //判断当前登录的用户
+            $.ajax({
+                url:"/cinema-stage/admin/cadmin",
+                type:"get",
+                dataType:"json",
+                data:{},
+                success:function (data) {
+                    console.log(data)
+                    //如果是未登录，则跳转到登录页面
+                    if(data.code=="fail"){
+                        location.href="/web/feng/backstage/login.html"
+                    }else{
+                        _this.admin=data.object;
+                        console.log(data)
+                    }
+                }
+
+            })
 
             // 查询当前影院管理的放映点本月业绩前三名
             // 查询当前影院管理的所有放映点(分页)
@@ -264,7 +279,7 @@
                 url:"/cinema-stage/cinema/byaid",
                 data:{
                     "pageIndex":1,
-                    "aid":1
+                    "aid":_this.admin.id
                 },
                 type:"get",
                 dataType:"json",
@@ -284,7 +299,7 @@
                         url:"/cinema-stage/cinema/byaid",
                         data:{
                             "pageIndex":_this.page.pageIndex-1,
-                            "aid":1
+                            "aid":cin.admin.id
                         },
                         type:"get",
                         dataType:"json",
@@ -306,7 +321,7 @@
                         url:"/cinema-stage/cinema/byaid",
                         data:{
                             "pageIndex":_this.page.pageIndex+1,
-                            "aid":1
+                            "aid":cin.admin.id
                         },
                         type:"get",
                         dataType:"json",
@@ -339,7 +354,7 @@
                     $.ajax({
                         url:"/cinema-stage/cinema/insertone",
                         data:{
-                            "aid":1,
+                            "aid":cin.admin.id,
                             "cName":cname,
                             "city":city,
                             "phone":phone
@@ -354,7 +369,7 @@
                                 url:"/cinema-stage/cinema/byaid",
                                 data:{
                                     "pageIndex":_this.page.pageIndex,
-                                    "aid":1
+                                    "aid":cin.admin.id
                                 },
                                 type:"get",
                                 dataType:"json",
@@ -397,7 +412,7 @@
                                 url:"/cinema-stage/cinema/byaid",
                                 data:{
                                     "pageIndex":_this.page.pageIndex,
-                                    "aid":1
+                                    "aid":cin.admin.id
                                 },
                                 type:"get",
                                 dataType:"json",

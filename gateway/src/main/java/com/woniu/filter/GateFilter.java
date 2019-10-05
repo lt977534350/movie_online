@@ -67,12 +67,14 @@ public class GateFilter extends ZuulFilter {
         HttpServletRequest request = context.getRequest();
         //获取session
         HttpSession session = request.getSession();
+
+        System.out.println("gateway里面的session"+session.getId());
         //登录验证信息可以存入session中
         //可以通过下述代码响应错误信息,程序不调用API接口
-       /* if(session.getAttribute("user")==null){
-            context.setSendZuulResponse(false);
-            context.setResponseBody("{\"code\":\"500\",\"message\":\"no login\"}");
-        }*/
+//       if(session.getAttribute("user")==null){
+//            context.setSendZuulResponse(false);
+//            context.setResponseBody("{\"code\":\"500\",\"message\":\"no login\"}");
+//        }
         return null;
     }
 }

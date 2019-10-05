@@ -1,5 +1,7 @@
 package com.woniu.orders.entity;
 
+import com.woniu.myutil.myeneity.Type;
+
 import java.util.Date;
 import java.util.List;
 

@@ -25,7 +25,7 @@ public class CinemaAPI {
         if(pageIndex==null||pageIndex==0){
             pageIndex = 1;
         }
-        Integer num = 8;
+        Integer num = 3;
         List<Cinema> cinemas = cinemaService.selectByAid(pageIndex,num,aid);
         Integer count = cinemaService.count(aid);
         Page page = new Page(pageIndex, count%num==0?count/num:count/num+1, count);

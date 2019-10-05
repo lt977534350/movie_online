@@ -57,7 +57,6 @@ public class AdminAPI {
                     session.setAttribute("cinemaAdmin",admin);
                 }
                 session.setAttribute("admin",admin);
-                System.out.println(111);
                 return new Result("success","登录验证成功！",admin,null);
             }
         }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
@@ -330,23 +329,31 @@ public class AdminAPI {
         if(admin==null){
             return new Result("success","账号销毁",null,null);
         }
-          System.out.println("注销");
           String username=admin.getUsername();
         //在session中删除平台管理员账号
         session.removeAttribute("admin");
         return new Result("success","账号销毁",username,null);
     }
 
-    //平台根据影院名模糊查询一家影院信息
-    @GetMapping("searchname")
-    public Result searchAdminByShortName(String shortName){
-        System.out.println("请求进入模糊查询");
-        Admin admin = cinemaAdminService.selectAdminByShortName(shortName);
-        System.out.println("admin信息----"+admin);
-        if (admin==null){
-            return new Result("fail","查询不到该影院信息！",null,null);
-        }else{
-            return new Result("success",null,admin,null);
+    @DeleteMapping("cAdminlogout")
+    public Result cAdminlogout(HttpSession session) throws Exception{
+        Admin admin =(Admin)session.getAttribute("cinemaAdmin");
+        if(admin != null){
+            session.removeAttribute("cinemaAdmin");
         }
+        return new Result("success","账号销毁",null,null);
     }
+
+    @GetMapping
+    @RequestMapping("byaid")
+    public Result selectByAid(Integer aid)throws Exception{
+        Admin admin = cinemaAdminService.selectByAid(aid);
+        System.out.println(admin);
+        return new Result("success","查询成功",admin,null);
+    }
+
+
+
+
+
 }

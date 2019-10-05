@@ -14,11 +14,21 @@
     <link rel="stylesheet" href="/web/backstage/css/cinemabackstage.css" id="theme-stylesheet">
     <link rel="stylesheet" href="/web/backstage/css/custom.css">
     <link rel="shortcut icon" href="/web/backstage/img/favicon.ico">
+
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <link rel="stylesheet" href="/web/backstage/css/map.css" />
+
+
     <style type="text/css">
         .rightarea {
             right: 0px;
             margin-left: 60%;
         }
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
@@ -35,16 +45,19 @@
             <div class="container-fluid">
                 <div class="row">
                     <!-- Line Chart            -->
-                    <div class="chart col-lg-6 col-12">
-                        <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
-                            <!-- <canvas id="lineCahrt"></canvas>-->
-                        </div>
+                    <div class="chart col-lg-9 col-12" id="cinemas">
+<!--                        <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">-->
+<!--                            &lt;!&ndash; <canvas id="lineCahrt"></canvas>&ndash;&gt;-->
+<!--                        </div>-->
+                        <div id="container"></div>
                     </div>
-                    <div class="col-lg-2"></div>
                     <div class="chart col-lg-3 col-12">
                         <!-- Bar Chart   -->
                         <div class="bg-white">
-                            <div class="title"><strong class="text-violet">影院当前套餐:</strong><span>XXX平台</span><strong>A级套餐</strong>
+                            <div class="title">
+                                <strong class="text-violet">影院当前套餐:</strong>
+                                <span>蜗牛平台</span>
+                                <strong>A级套餐</strong>
                             </div>
                             <!--<canvas id="barChartHome"></canvas>-->
                         </div>
@@ -53,10 +66,13 @@
                             <div class="icon bg-green"></div>
                             <div class="text">
                                 <strong>套餐到期时间：<br>
-                                    <br>&nbsp;&nbsp;&nbsp;<small v-text="overTime">2019-06-17</small>
+                                    <br>&nbsp;&nbsp;&nbsp;<small v-text="overTime"></small>
+                                    <span style="color: red" v-if="state==0">(已到期,请及时续费)</span>
                                 </strong><br><br>
-                                <a class="rightarea" href="javascript;:" data-toggle="modal"
-                                   data-target="#renewModal"><span>前往续费</span></a></div>
+                                <a class="rightarea" href="javascript:;" data-toggle="modal" data-target="#renewModal">
+                                    <span>前往续费</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,7 +143,7 @@
         <section class="client no-padding-top">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-11">
+                    <div class="col-lg-12">
                         <div class="line-chart-example card">
                             <div class="card-close">
                                 <div class="dropdown">
@@ -162,7 +178,7 @@
 <script src="/web/backstage/vendor/popper.js/umd/popper.min.js"></script>
 <script src="/web/backstage/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/web/backstage/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="/web/backstage/vendor/chart.js/Chart.min.js"></script>
+<script src="/web/backstage/vendor/chart.js/Chart.js"></script>
 <script src="/web/backstage/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="/web/backstage/js/charts-home.js"></script>
 <script src="/web/js/vue.js"></script>
@@ -185,6 +201,7 @@
         el: "#app",
         data: {
             cadmin: {},
+            state:"",
             overTime: "",
             menuList: ''
         },
@@ -195,14 +212,27 @@
                 dataType: "json",
                 type: "get",
                 success: function (rt) {
-                    console.log("sssssss")
-                    v.cadmin = rt.object;
-                    var id =rt.object.id;
-                    v.overTime = v.cadmin.overtime;
-                    v.overTime = getTime(v.overTime);
+                    if(rt.code=="fail"){
+                        location.href="/web/feng/backstage/login.html"
+                    }else{
+                        v.cadmin = rt.object;
+                        var id =rt.object.id;
+                        v.overTime = v.cadmin.overtime;
+                        v.overTime = getTime(v.overTime);
 
-                   selectOrderWeek(id)
+                        selectOrderWeek(id)
 
+                        //判断当前用户是否到期
+                        var today=new Date();
+                        var overtime=new Date(v.cadmin.overtime);
+                        if(today>overtime){
+                            v.state=0;
+                        }else{
+                            v.state=1;
+                        }
+
+
+                    }
                 }
             });
             selectMenu(v);
@@ -387,6 +417,62 @@
 
 
 </script>
+
+<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=cbd8272c32373d5520b11efc4a523161"></script>
+<!--获取当前影院所有放映点的经纬度-->
+<script type="text/javascript">
+new Vue({
+    el:"#cinemas",
+    data:{
+
+    },
+    created:function () {
+        $.ajax({
+            url:"/cinema-stage/cinema/all",
+            data:{
+                "aid":1
+            },
+            dataType:"json",
+            type:"get",
+            success:function (data) {
+                console.log(data)
+                var map = new AMap.Map("container", {
+                    resizeEnable: true,
+                    zoom: 1
+                });
+
+                var centerPoint;
+                for (var i = 0; i <data.list.length ; i++) {
+                    if(data.list[i].coordinate != null){
+
+                        centerPoint=data.list[i].coordinate.split(",");
+                        addMarker(centerPoint,map);
+                    }
+                }
+
+
+            }
+        })
+
+
+    }
+
+
+})
+
+function addMarker(centerPoint,map) {
+    // map.clearMap();
+    var marker = new AMap.Marker({
+        map: map,
+        position: centerPoint
+    });
+}
+
+
+</script>
+
 
 </body>
 </html>
