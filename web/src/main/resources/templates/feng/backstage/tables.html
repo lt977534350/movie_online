@@ -267,29 +267,27 @@
                         location.href="/web/feng/backstage/login.html"
                     }else{
                         _this.admin=data.object;
-                        console.log(data)
+                        console.log(data);
+                        // 查询当前影院管理的放映点本月业绩前三名
+                        // 查询当前影院管理的所有放映点(分页)
+                        $.ajax({
+                            url:"/cinema-stage/cinema/byaid",
+                            data:{
+                                "pageIndex":1,
+                                "aid":_this.admin.id
+                            },
+                            type:"get",
+                            dataType:"json",
+                            success:function (data) {
+                                _this.cinemaList=data.list;
+                                _this.page=data.object;
+                            }
+
+                        })
                     }
                 }
 
             })
-
-            // 查询当前影院管理的放映点本月业绩前三名
-            // 查询当前影院管理的所有放映点(分页)
-            $.ajax({
-                url:"/cinema-stage/cinema/byaid",
-                data:{
-                    "pageIndex":1,
-                    "aid":_this.admin.id
-                },
-                type:"get",
-                dataType:"json",
-                success:function (data) {
-                    _this.cinemaList=data.list;
-                    _this.page=data.object;
-                }
-
-            })
-
         },
         methods:{
             prePage:function () {
