@@ -291,6 +291,18 @@
   <select id="selectAfterCount" parameterType="date" resultType="int">
     select count(id) from movie where uptime>#{today}
   </select>
+  <resultMap id="typeInfoMap" type="com.woniu.entity.Type">
+    <id column="id" jdbcType="INTEGER" property="id"></id>
+    <result column="mtype" jdbcType="VARCHAR" property="mtype"></result>
+  </resultMap>
+  <select id="selectTypeByMid" parameterType="java.lang.Integer" resultType="com.woniu.entity.Type">
+    select t.mtype from type t
+    right join movie_type mt
+    on t.id=mt.tid
+    right join movie m
+    on mt.mid=m.id
+    where m.id=#{mid}
+  </select>
 
   <select id="selectMoviesByExample" resultMap="BaseResultMap">
     select distinct m.* from movie m
