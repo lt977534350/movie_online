@@ -352,6 +352,11 @@ public class AdminAPI {
         return new Result("success","查询成功",admin,null);
     }
 
+    @GetMapping("searchname")
+    public Result searchByShortName(String shortName){
+        Admin admin = cinemaAdminService.selectAdminByShortName(shortName);
+        return new Result("success",null,admin,null);
+    }
 
 
 
