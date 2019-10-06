@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="UTF-8">
@@ -20,7 +19,8 @@
 		<!-- Popup CSS -->
 		<link rel="stylesheet" type="text/css" href="/web/assets/css/magnific-popup.css">
 		<!-- Main style CSS -->
-		<link rel="stylesheet" type="text/css" href="/web/assets/css/style.css" media="all" />
+		<link rel="stylesheet" href="/web/ltcss/style.css">
+		<link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 		<!-- Responsive CSS -->
 		<link rel="stylesheet" type="text/css" href="/web/assets/css/responsive.css" media="all" />
 		<!--自定义样式-->
@@ -34,366 +34,410 @@
 		  <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 			<![endif]-->
 		<link href="/web/tao/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
-		<!--地图api-->
-		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=6ee71f2fd5eece7797fafe8b9f7a090a&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder"></script>
+		<link rel="stylesheet" href="/web/ltcss/style1.css">
+		<link rel="icon" type="image/png" href="/web/assets/img/favcion.png"/>
+		<link rel="stylesheet" type="text/css" href="/web/assets/css/icofont.css" media="all"/>
 	</head>
-	<body>
-		<!-- Page loader -->
-	    <div id="preloader"></div>
-		<!-- header section start -->
-		<header class="header">
+	<body style="background-color: #0a0910">
+	<!--
+        作者：offline
+        时间：2019-09-09
+        描述：头部
+    -->
+	<div id="apphead">
+		<!-- header -->
+		<header  class="header" >
 			<div class="container">
 				<div class="header-area">
 					<div class="logo">
-						<a href="index.html"><img src="/web/assets/img/logo.png" alt="logo" /></a>
-					</div>
-
-					<div class="header-right">
-						<div class="currcity">
-							<ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-								<li id="summary-stock">
-									<div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-									<div class="dd">
-										<div id="store-selector">
-											<div class="text">
-												<div id="currcity"></div>
-												<b></b></div>
-											<div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-										</div><!--store-selector end-->
-										<div id="store-prompt"><strong></strong></div><!--store-prompt end---></div>
-								</li>
-							</ul>
-						</div>
-						<div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-							<div class="mycity" @click="selectLocation()">
-								我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-							</div>
-							<div v-show="isShowCitys" class="city" id="city-div">
-								<div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-              ">
-									我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-								</div>
-								<div class="city-wrapper city-wrapper-hook">
-									<div class="scroller-hook">
-										<div class="cities cities-hook">
-											<div v-for="i in cityData">
-												<div class="title">{{i.name}}</div>
-												<ul>
-													<li @dblclick="replay(item.name
-                            )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-										<!--<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                            <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                        </ul>-->
-									</div>
-								</div>
-							</div>
-							<div class="toast" v-show="toastShow">
-								{{toastText}}
-							</div>
-						</div>
-						<form action="#">
-							<select>
-								<option value="Movies">Movies</option>
-								<option value="Movies">Movies</option>
-								<option value="Movies">Movies</option>
-							</select>
-							<input type="text"/>
-							<button><i class="icofont icofont-search"></i></button>
-						</form>
-						<ul>
-							<li><a href="#">Welcome Guest!</a></li>
-							<li><a v-if="user.username==null" v-text="Login" class="login-popup" href="#"></a></li>
-							<li><img v-if="user.upic!=null" :src="user.upic" /></li>
-						</ul>
+						<a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
 					</div>
 					<div class="menu-area">
 						<div class="responsive-menu"></div>
-					    <div class="mainmenu">
-                            <ul id="primary-menu">
-                                <li><a class="active" href="index.html">Home</a></li>
-                                <li><a href="movies.html">Movies</a></li>
-                                <li><a href="celebrities.html">CelebritiesList</a></li>
-                                <li><a href="top-movies.html">Top Movies</a></li>
-                                <li><a href="blog.html">News</a></li>
-								<li><a class="active" href="#">Pages <i class="icofont icofont-simple-down"></i></a>
+						<div class="mainmenu">
+							<ul id="primary-menu">
+								<li><a  href="/web/feng/index.html">首页</a></li>
+								<li><a href="/web/tao/mtype.html">电影</a></li>
+								<li><a href="/web/tao/cinema-jump.html">影城</a></li>
+								<li><a href="top-movies.html">热映电影</a></li>
+								<li><a href="https://ent.sina.com.cn/film/">热点</a></li>
+								<li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
 									<ul>
-										<li><a href="blog-details.html">Blog Details</a></li>
-										<li><a class="active" href="movie-details.html">Movie Details</a></li>
+										<li><a onclick="showModel()" href="#">用户须知</a></li>
+										<li><a href="#">联系客服</a></li>
 									</ul>
 								</li>
-                                <li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> Tickets</a></li>
-                            </ul>
-					    </div>
+								<li v-show="user.username==null"><a class="login-popup" href="#" >登录</a>
+									<!--<a  v-show="username!=null" v-text="username" >登录</a>-->
+								</li>
+								<li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
+								<li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
+									<svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+									<img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
+									<a href="javascript:;" v-text="user.username"></a>
+									<ul class="person-ul" style="display: block" >
+										<li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
+
+										<li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
+									</ul>
+								</li>
+								<!--<li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>-->
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 		</header>
-		<div class="login-area">
+
+		<div class="login-area" id="myidlogin">
 			<div class="login-box">
 				<a href="#"><i class="icofont icofont-close"></i></a>
-				<h2>LOGIN</h2>
-				<form action="#">
-					<h6>USERNAME OR EMAIL ADDRESS</h6>
-					<input type="text" />
-					<h6>PASSWORD</h6>
-					<input type="text" />
-					<div class="login-remember">
-						<input type="checkbox" />
-						<span>Remember Me</span>
+				<h2 >登录</h2>
+				<form  id ="logform" action="/api-user/user/login">
+					<h6>用户名</h6>
+					<input type="text" id="loginuser" name="username" placeholder="请输入用户名"/>
+					<span id="ulmsg" class="msg"></span>
+					<h6>密码</h6>
+					<input type="password" id="loginpwd" name="password" placeholder="请输入密码"/>
+					<span id="plmsg" class="msg"></span>
+					<div>
+						<div class="col-lg-8">
+							<div style="float: left;">
+                        <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyphone()">
+                            <svg t="1569485567198" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1130" width="16" height="16"><path d="M717.72292 66.790172 310.008055 66.790172c-48.50676 0-87.971587 39.534412-87.971587 88.1302l0 48.489364 0 583.991638 0 78.821183c0 48.52518 39.463804 87.986937 87.971587 87.986937l407.714865 0c48.594765 0 88.1302-39.461757 88.1302-87.986937l0-78.821183L805.85312 203.409736l0-48.489364C805.85312 106.325607 766.317685 66.790172 717.72292 66.790172M276.401656 257.772878l475.086276 0L751.487931 733.038232 276.401656 733.038232 276.401656 257.772878zM751.487931 866.222557c0 18.545378-15.148002 33.622772-33.765011 33.622772L310.008055 899.845329c-18.527982 0-33.606399-15.077394-33.606399-33.622772l0-78.821183 475.086276 0L751.487931 866.222557zM276.401656 203.409736l0-48.489364c0-18.61701 15.078417-33.766035 33.606399-33.766035l407.714865 0c18.61701 0 33.765011 15.149025 33.765011 33.766035l0 48.489364L276.401656 203.409736zM513.963213 893.085368c27.323299 0 49.480948-22.155603 49.480948-49.514717 0-27.324322-22.156626-49.479925-49.480948-49.479925-27.359115 0-49.498344 22.154579-49.498344 49.479925C464.464869 870.929766 486.603075 893.085368 513.963213 893.085368M546.667056 153.751756l-65.426105 0c-6.813173 0-12.33391 5.52176-12.33391 12.317537 0 6.830569 5.520737 12.352329 12.33391 12.352329l65.426105 0c6.795776 0 12.351306-5.52176 12.351306-12.352329C559.018362 159.273517 553.461809 153.751756 546.667056 153.751756" p-id="1131"></path></svg>
+                            点我进入手机登陆
+                        </span>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div style="float: right;" class="login-remember">
+								<input id="rem" name="rem" type="checkbox"/>
+								<label for="rem" style="font-size: 15px;font-family: 'Franklin Gothic Medium';">记住我</label>
+							</div>
+						</div>
 					</div>
-					<div class="login-signup">
-						<span>SIGNUP</span>
-					</div>
-					<a href="#" class="theme-btn">LOG IN</a>
-					<span>Or Via Social</span>
-					<div class="login-social">
-						<a href="#"><i class="icofont icofont-social-facebook"></i></a>
-						<a href="#"><i class="icofont icofont-social-twitter"></i></a>
-						<a href="#"><i class="icofont icofont-social-linkedin"></i></a>
-						<a href="#"><i class="icofont icofont-social-google-plus"></i></a>
-						<a href="#"><i class="icofont icofont-camera"></i></a>
-					</div>
+					<a @click="login()" class="theme-btn">登录</a>
 				</form>
-
 			</div>
 		</div>
-		<div class="buy-ticket">
-			<div class="container">
-				<div class="buy-ticket-area">
-					<a href="#"><i class="icofont icofont-close"></i></a>
-					<div class="row">
-						<div class="col-lg-8">
-							<div class="buy-ticket-box">
-								<h4>Buy Tickets</h4>
-								<h5>Seat</h5>
-								<h6>Screen</h6>
-								<div class="ticket-box-table">
-									<table class="ticket-table-seat">
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-									</table>
-									<table>
-										<tr>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>2</td>
-										</tr>
-										<tr>
-											<td>3</td>
-										</tr>
-										<tr>
-											<td>4</td>
-										</tr>
-										<tr>
-											<td>5</td>
-										</tr>
-									</table>
-									<table class="ticket-table-seat">
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td class="active">1</td>
-											<td class="active">1</td>
-											<td class="active">1</td>
-											<td class="active">1</td>
-											<td class="active">1</td>
-											<td class="active">1</td>
-											<td class="active">1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-									</table>
-									<table>
-										<tr>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>2</td>
-										</tr>
-										<tr>
-											<td>3</td>
-										</tr>
-										<tr>
-											<td>4</td>
-										</tr>
-										<tr>
-											<td>5</td>
-										</tr>
-									</table>
-									<table class="ticket-table-seat">
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-									</table>
-								</div>
-								<div class="ticket-box-available">
-									<input type="checkbox" />
-									<span>Available</span>
-									<input type="checkbox" checked />
-									<span>Unavailable</span>
-									<input type="checkbox" />
-									<span>Selected</span>
-								</div>
-								<a href="#" class="theme-btn">previous</a>
-								<a href="#" class="theme-btn">Next</a>
-							</div>
-						</div>
-						<div class="col-lg-3 offset-lg-1">
-							<div class="buy-ticket-box mtr-30">
-								<h4>Your Information</h4>
-								<ul>
-									<li>
-										<p>Location</p>
-										<span>HB Cinema Box Corner</span>
-									</li>
-									<li>
-										<p>TIME</p>
-										<span>2018.07.09   20:40</span>
-									</li>
-									<li>
-										<p>Movie name</p>
-										<span>Home Alone</span>
-									</li>
-									<li>
-										<p>Ticket number</p>
-										<span>2 Adults, 2 Children, 2 Seniors</span>
-									</li>
-									<li>
-										<p>Price</p>
-										<span>89$</span>
-									</li>
-								</ul>
-							</div>
+		<div style="display: none;" class="login-area" id="myphonelogin">
+			<div class="login-box">
+				<a href="#"><i class="icofont icofont-close"></i></a>
+				<h2 >登录</h2>
+				<form  id ="telform" action="/api-user/user/login">
+					<h6>手机号</h6>
+					<input type="tel" id="phonenum" name="telphone" placeholder="请输入手机号"/>
+					<span id="telmsg" class="msg"></span>
+					<div>
+						<input class="col-lg-8" id="mycode" type="text" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+						<input class=" btn btn-success" type="button" onclick="getcode(this)" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" value="获取验证码">
+						<span id="codemsg" class="msg"></span>
+					</div>
+					<div style="float: left;">
+                    <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyid()">
+                        <svg t="1569486963559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2521" width="16" height="16"><path d="M939.904 821.333333a439.296 439.296 0 0 0-306.346667-317.994666 233.258667 233.258667 0 0 0 111.573334-198.869334c0-128.554667-104.576-233.173333-233.130667-233.173333S278.869333 175.914667 278.869333 304.469333a233.258667 233.258667 0 0 0 111.573334 198.869334 439.296 439.296 0 0 0-306.346667 317.994666 103.594667 103.594667 0 0 0 19.541333 89.088c21.034667 26.88 52.608 42.24 86.613334 42.24H833.706667a109.226667 109.226667 0 0 0 86.613333-42.24c20.138667-25.6 27.221333-58.069333 19.584-89.088zM330.069333 304.469333c0-100.352 81.621333-181.973333 181.930667-181.973333s181.930667 81.621333 181.930667 181.973333S612.352 486.4 512 486.4 330.069333 404.778667 330.069333 304.469333z m549.973334 574.421334a59.306667 59.306667 0 0 1-46.336 22.613333H190.250667a59.306667 59.306667 0 0 1-46.336-22.613333 52.096 52.096 0 0 1-10.154667-45.312C176.725333 659.328 332.245333 537.6 512 537.6s335.274667 121.728 378.197333 295.978667a52.053333 52.053333 0 0 1-10.154666 45.312z" p-id="2522" fill="#515151"></path></svg>
+                        点我进入用户名登陆
+                    </span>
+					</div>
+					<a @click="login()" class="theme-btn">手机登录</a>
+				</form>
+			</div>
+		</div>
+		<div class="login-area" id="myregister">
+			<div class="login-box register-box">
+				<a href="#"><i class="icofont icofont-close"></i></a>
+				<h2 >注册</h2>
+				<form id ="reform" action="/api-user/user/register">
+					<h6>用户名</h6>
+					<input class="name_input reginput" id="reguser" type="text" name="username" placeholder="请输入用户名"/>
+					<span id="urmsg" class="msg">用户名不得全为数字，不含特殊字符，支持中文</span>
+					<h6>密码</h6>
+					<input class="pwd_input reginput" id="regpwd" type="password" name="password" placeholder="请输入密码"/>
+					<span id="rpmsg" class="msg">密码不得少于6位</span>
+					<h6>确认密码</h6>
+					<input class="repwd_input reginput" id="repwd" type="password" name="repwd" placeholder="请确认密码"/>
+					<span id="remsg" class="msg"></span>
+					<div style="margin-bottom: 20px;">
+						<h6>手机号</h6>
+						<input class="tel_input reginput" id="sendphone" style="float: left" type="tel" name="telphone" placeholder="请输入手机号" />
+						<span id="regtel" class="msg"></span>
+						<div>
+							<input class="col-lg-8" id="myregcode" type="text" name="code" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+							<input type="button" class="btn btn-danger" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" onclick="getcode(this)" value="获取验证码">
+							<span id="regcode" class="msg"></span>
 						</div>
 					</div>
-				</div>
+					<div>
+						<a @click="register()" class="theme-btn">注册</a>
+					</div>
+				</form>
 			</div>
-		</div><!-- header section end -->
-		<!-- breadcrumb area start -->
+		</div>
+
+	</div>
+	<script src="/web/js/vue.js"></script>
+	<script type="text/javascript" src="/web/js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+
+
+		function showModel() {
+			$(".buy-ticket").slideDown();
+		}
+		function loginbyphone() {
+			$("#myidlogin").hide();
+			$("#myphonelogin").show();
+		}
+		function loginbyid() {
+			$("#myidlogin").show();
+			$("#myphonelogin").hide();
+		}
+		var t ;
+		function getcode(th) {
+			$.ajax({
+				url:"/api-user/user/sendCode",
+				data:{"phone":$(th).parent().prev().prev().val()},
+				dataType:"json",
+				type:"get",
+				success:function (rt) {
+					$(th).attr("disabled","disabled");
+					var second = 10;
+					t = setInterval(function () {
+						$(th).val(second+"s重发");
+						second -= 1;
+						console.log("second==="+second);
+						if(second<=-1){
+							$(th).removeAttr("disabled");
+							$(th).val("获取验证码");
+							clearInterval(t);60
+						}
+					},1000)
+				}
+			});
+		}
+		function userlogout() {
+			$.ajax({
+				url:"/api-user/user/userlogout",
+				dataType:"json",
+				type:"delete",
+				success:function (rt) {
+					if(rt.code=="success"){
+						apphead.user = {};
+					}
+				}
+			});
+		}
+
+
+
+		window.onload=function () {
+			$("#user-center").mouseover(function () {
+				$(".person-ul").stop(true);
+				$(".person-ul").slideDown(500);
+			})
+			$("#user-center").mouseleave(function () {
+				$(".person-ul").stop(true);
+				$(".person-ul").slideUp(500);
+			})
+			//用户名登录验证
+			function lucheck() {
+				var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+				/*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+				if((/^[0-9]+$/.test($("#loginuser").val()))){
+					$("#ulmsg").text("用户名不能全为数字")
+				}else if(/^[a-zA-Z]+$/.test($("#loginuser").val())){
+					$("#ulmsg").text("用户名不得全为字母")
+				}else if($("#loginuser").val().length<2){
+					$("#ulmsg").text("用户名不少于两位")
+				}else if(pattern.test($("#loginuser").val())){
+					$("#ulmsg").text("用户名不得含有特殊字符")
+				}
+			}
+			//登录密码验证
+			function lpwdcheck() {
+				if($("#loginpwd").val().length<6){
+					$("#plmsg").text("密码不得少于六位")
+				}else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+					$("#plmsg").text("密码不得全为字母")
+				}
+			}
+			//登录手机号验证
+			function lpcheck() {
+				var myreg = /^1[3456789]\d{9}$/;
+				if(!myreg.test($("#phonenum").val())){
+					$("#telmsg").text("手机号码不合法")
+				}
+			}
+			$("#loginuser").blur(function () {
+				lucheck();
+			})
+			$("#loginuser").focus(function () {
+				$("#ulmsg").empty();
+			})
+			$("#loginpwd").blur(function () {
+				lpwdcheck();
+			})
+			$("#loginpwd").focus(function () {
+				$("#plmsg").empty();
+			})
+			$("#phonenum").blur(function () {
+				lpcheck();
+			})
+			$("#phonenum").focus(function () {
+				$("#telmsg").empty();
+			})
+			//注册用户名验证
+			function rucheck() {
+				var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+				/*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+				if((/^[0-9]+$/.test($("#reguser").val()))){
+					$("#urmsg").text("用户名不能全为数字")
+				}else if(pattern.test($("#reguser").val())){
+					$("#urmsg").text("用户名不得含有特殊字符")
+				}else if($("#reguser").val().length<2){
+					$("#urmsg").text("用户名至少两位")
+				}
+			}
+			//注册密码验证
+			function rpwdcheck() {
+				if($("#regpwd").val().length<6){
+					$("#rmsg").text("密码不得少于六位")
+				}else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+					$("#rpmsg").text("密码不得全为字母")
+				}
+			}
+			//注册密码确认验证
+			function recheck() {
+				if($("#repwd").val()!=$("#regpwd").val()){
+					$("#remsg").text("密码输入不一致")
+				}
+			}
+			//注册手机号验证
+			function rpcheck() {
+				var myreg = /^1[3456789]\d{9}$/;
+				if(!myreg.test($("#sendphone").val())){
+					$("#regtel").text("手机号码不合法")
+				}
+			}
+			$("#reguser").blur(function () {
+				rucheck();
+			})
+			$("#reguser").focus(function () {
+				$("#urmsg").empty();
+			})
+			$("#regpwd").blur(function () {
+				rpwdcheck();
+			})
+			$("#regpwd").focus(function () {
+				$("#rpmsg").empty();
+			})
+			$("#repwd").blur(function () {
+				recheck();
+			})
+			$("#repwd").focus(function () {
+				$("#remsg").empty();
+			})
+			$("#phonenum").blur(function () {
+				rpcheck();
+			})
+			$("#phonenum").focus(function () {
+				$("#regtel").empty();
+			})
+			$("#mycode").focus(function () {
+				$("#codemsg").empty();
+			})
+			$("#myregcode").focus(function () {
+				$("#regcode").empty();
+			})
+		}
+
+	</script>
+	<script type="text/javascript">
+		var apphead=new Vue({
+			el:"#apphead",
+			data:{
+				user:{}
+			},
+			created:function () {
+				var _this=this;
+				var cookies=document.cookie.split(";");
+				var myuser;
+				var a = "loguser";
+				for(var i=0;i<cookies.length;i++){
+					if(a==cookies[i].split("=")[0].trim()){
+						var user = cookies[i].split("=")[1];
+						console.log("---"+user);
+						myuser = decodeURIComponent(user);
+						console.log("===="+myuser);
+					}
+				}
+				if(myuser!=null){
+					_this.user = $.parseJSON(myuser);
+				}
+
+			},
+			methods: {
+				login() {
+
+					var obj = this;
+					var flag = false;
+					for(var i=0;i<$("#logform .msg").length;i++){
+						if($("#logform .msg").eq(i).text()==null||$("#logform .msg").eq(i).text()==""){
+							flag =true;
+						}
+					}
+					for(var i=0;i<$("#telform .msg").length;i++){
+						if($("#telform .msg").eq(i).text()==null||$("#telform .msg").eq(i).text()==""){
+							flag =true;
+						}
+					}
+					if(flag==true){
+						$.ajax({
+							url: "/api-user/user/login",
+							data: {"username":$("#loginuser").val(),"password":$("#loginpwd").val(),
+								"phonenum":$("#phonenum").val(),"code":$("#mycode").val()},
+							type: "post",
+							dataType: "json",
+							success: function (data) {
+								if (data.code = "success") {
+									$(".login-area").slideUp(1000);
+									obj.user = data.object;
+								}else if(data.code=="error"){
+									alert(data.message);
+								}else if(data.code=="ufail"){
+									$("#ulmsg").text(data.message);
+								}else if(data.code=="pwdfail"){
+									$("#plmsg").text(data.message);
+								}else if(date.code=="pfail"){
+									$("#telmsg").text(data.message);
+								}else if(data.code=="cfail"){
+									$("#codemsg").text(data.message);
+								}else{
+									alert(data.message);
+								}
+
+							}
+
+						})
+					}
+				},
+				register(){
+					var v =this;
+					if($(".msg").text()==null||$(".msg").text()==""){
+						$.ajax({
+							url:"/api-user/user/register",
+							data:$("#reform").serialize(),
+							type:"get",
+							dataType:"json",
+							success:function (rt) {
+								alert(rt.message);
+								window.location.reload();
+							}
+						});
+					}
+				}
+			}
+		})
+	</script>
 		<div id="app">
 		<section class="breadcrumb-area">
 			<div class="container">
@@ -425,23 +469,23 @@
 								<ul>
 									<li>
 										<div class="transformers-left">
-											Writer:
+											导演:
 										</div>
 										<div class="transformers-right">
-											<span v-text="moviePerson.screenwriter">Stephen McFeely, Christopher Markus</span>
+											<span v-text="moviePerson.screenwriter"></span>
 										</div>
 									</li>
 									<li>
 										<div class="transformers-left">
-											Director:
+											主演:
 										</div>
 										<div class="transformers-right">
-											<span v-text="moviePerson.director">Joe Johnston</span>
+											<span v-text="moviePerson.director"> </span>
 										</div>
 									</li>
 									<li>
 										<div class="transformers-left">
-											Time:
+											时长:
 										</div>
 										<div class="transformers-right">
 											<span v-text="movie.longtime">190</span>min
@@ -449,32 +493,10 @@
 									</li>
 									<li>
 										<div class="transformers-left">
-											Release:
+											上映:
 										</div>
 										<div class="transformers-right">
-											<span v-text="uptimes">2018-07-22</span>
-										</div>
-									</li>
-									<li>
-										<div class="transformers-left">
-											Language:
-										</div>
-										<div class="transformers-right">
-											English, Russian
-										</div>
-									</li>
-									<li>
-										<div class="transformers-left">
-											Cinema:
-										</div>
-										<div class="transformers-right">
-											HB Movies  |  HW Town <a href="#" class="theme-btn">Movies House</a>Grand Seats  |  HB Max
-											<div class="transformers-bottom">
-												<p>May 19, 2018 <span>15h47</span></p>
-												<p>May 19, 2018 <span>15h47</span></p>
-												<p>May 19, 2018 <span>15h47</span></p>
-											</div>
-
+											<span v-text="uptimes"></span>
 										</div>
 									</li>
 									<li>
@@ -492,7 +514,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="#" class="theme-btn"><i class="icofont icofont-ticket"></i> BUY TICKET</a>
+					<a :href="'/web/tao/cinema-jump.html?mid='+mid" class="theme-btn"><i class="icofont icofont-ticket"></i> 购票</a>
 				</div>
 			</div>
 		</section><!-- transformers area end -->
@@ -504,7 +526,7 @@
 					<div class="col-lg-9">
 						<div class="details-content">
 							<div class="details-overview">
-								<h2>Overview</h2>
+								<h2>详情介绍</h2>
 								<span v-text="movie.shortStory"></span>
 							</div>
 							<span class="info-mtop2 info-display2"><h2>用户评论</h2></span>
@@ -541,7 +563,7 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<div class="textarea-container">
-												<textarea id="argue" placeholder="Type Here Message"></textarea>
+												<textarea id="argue" placeholder="写下你的观影感受吧"></textarea>
 												<button><i class="icofont icofont-send-mail"></i></button>
 											</div>
 										</div>
@@ -549,8 +571,8 @@
 								</form>
 							</div>
 							<div class="details-comment show info-display">
-								<span  @click="insertComment()" class="theme-btn theme-btn2" href="#">Post Comment</span>
-								<p>You may use these HTML tags and attributes: You may use these HTML tags and attributes: You may use these HTML tags and attributes: </p>
+								<span  @click="insertComment()" class="theme-btn theme-btn2" href="#">提交你的评论</span>
+
 							</div>
 						</div>
 					</div>
@@ -564,71 +586,62 @@
 				</div>
 			</div>
 		</section><!-- details area end -->
-		</div>
-		<!-- footer section start -->
-		<footer class="footer">
-			<div class="container">
-				<div class="row">
-                    <div class="col-lg-3 col-sm-6">
-						<div class="widget">
-							<img src="/web/assets/img/logo.png" alt="about" />
-							<p>7th Harley Place, London W1G 8LZ United Kingdom</p>
-							<h6><span>Call us: </span>(+880) 111 222 3456</h6>
-						</div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-						<div class="widget">
-							<h4>Legal</h4>
-							<ul>
-								<li><a href="#">Terms of Use</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-								<li><a href="#">Security</a></li>
-							</ul>
-						</div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-						<div class="widget">
-							<h4>Account</h4>
-							<ul>
-								<li><a href="#">My Account</a></li>
-								<li><a href="#">Watchlist</a></li>
-								<li><a href="#">Collections</a></li>
-								<li><a href="#">User Guide</a></li>
-							</ul>
-						</div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-						<div class="widget">
-							<h4>Newsletter</h4>
-							<p>Subscribe to our newsletter system now to get latest news from us.</p>
-							<form action="#">
-								<input type="text" placeholder="Enter your email.."/>
-								<button>SUBSCRIBE NOW</button>
-							</form>
-						</div>
-                    </div>
-				</div>
-				<hr />
-			</div>
-			<div class="copyright">
+			<div class="footer">
 				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 text-center text-lg-left">
-							<div class="copyright-content">
-								<p>&copy; 2018 MoviePoint. All Rights <a href="http://www.17sucai.com/">Reserved</a>. Designed by themerocket</p>
+					<div class="w3ls_footer_grid">
+						<div class="col-md-6 w3ls_footer_grid_left">
+							<div class="w3ls_footer_grid_left1">
+								<h3>关于爱乐</h3>
+								<div class="w3ls_footer_grid_left1_pos">
+									<div class="bottom-row">
+										<span>商务合作邮箱：971872973@qq.com</span>
+										<span class="bt-line">|</span>
+										<span>客服电话：17603649546</span>
+									</div>
+									<div class="bottom-row">
+										<span>用户投诉邮箱：1099773854@qq.com</span>
+										<span class="bt-line">|</span>
+										<span>友情链接：<a href="https://cq.meituan.com/?utm_source=wwwmaoyan"
+													  class="bottom-chain">美团网</a></span>
+									</div>
+									<div class="bottom-row">
+										<a href="#" class="bottom-chain">中华人民共和国增值电信业务经营许可证&nbsp;渝A1-20190909</a>
+									</div>
+									<div class="bottom-row">
+										<a href="#" class="bottom-chain">网络文化经营许可证&nbsp;京网文(2019)3897-330号</a>
+									</div>
+									<div class="bottom-row">
+										<a href="#" class="bottom-chain">爱乐用户服务协议</a>
+										<span class="bt-line">|</span>
+										<a href="#" class="bottom-chain">爱乐平台交易规则总则</a>
+
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6 text-center text-lg-right">
-							<div class="copyright-content">
-								<a href="#" class="scrollToTop">
-									Back to top<i class="icofont icofont-arrow-up"></i>
-								</a>
-							</div>
+						<div class="col-md-6 w3ls_footer_grid_right">
+							<a href="index.html"><h2 class="title">爱乐<span class="webtitle-bottom">电影</span></h2></a>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="col-md-5 w3ls_footer_grid1_left">
+						<p>重庆爱乐文化传媒有限公司©2016 爱乐电影 aiyue.com </p>
+					</div>
+					<div class="col-md-7 w3ls_footer_grid1_right">
+						<div class="col-lg-6 card-left">
+							<a href="#"><img src="/web/images/web-permission.png"/></a>
+
+						</div>
+						<div class="col-lg-6 card-right">
+							<a href="#"><img src="/web/images/permission-card.png"/></a>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
-		</footer><!-- footer section end -->
+		</div>
+		<!-- footer section start -->
+
 		<!-- jquery main JS -->
 		<script src="/web/assets/js/jquery.min.js"></script>
 		<!--评分-->
@@ -650,198 +663,10 @@
 		<script src="/web/tao/js/city.js"></script>
 		<script src="/web/tao/js/bscroll.min.js"></script>
 
-		<!--定位-->
+
+
 		<script>
 			var mid = location.href.split("=")[1];
-			window.onload=function () {
-			    /*获取定位的值*/
-				var city=$("#qyxs").text();
-				$("#currcity").text(city);
-			}
-            var app = new Vue({
-                el: '#app1',
-                data: {
-                    origin: 'http://192.168.99.205:800',
-                    captchaBoxShow: false,
-                    test: '测试',
-                    countTime: 0,
-                    countTimer: null,
-                    time: 60,
-                    location: '定位中',
-                    submit: {
-                        sms_captcha  : '',
-                        captcha      : '',
-                        area_code    : '',
-                        _token       : '',
-                    },
-                    map: new AMap.Map("container", {
-                        resizeEnable: true,
-                        //city: citycode,
-                        zoom: 17, //地图显示的缩放级别
-                        keyboardEnable: false,
-                        citylimit: true,
-                        resizeEnable: true
-                    }),
-                    cityWrapper: document.querySelector('.city-wrapper-hook'),
-                    cityScroller: document.querySelector('.scroller-hook'),
-                    cities: document.querySelector('.cities-hook'),
-                    shortcut: document.querySelector('.shortcut-hook'),
-                    shortcutList: [],
-                    cityData: cityData,// 数据源
-                    scroll: null,
-                    anchorMap: {},
-                    touch: {},
-                    toastShow: false,
-                    isShowCitys: false,
-                    toastText: '',
-                },
-                methods: {
-                    replay:function(cityName){
-                        $("#qyxs").text(cityName);
-                        $("#city-div").hide();
-                    },
-                    replayspan:function(){
-                        var name=$("#qyxs").text();
-                        $("#qyxs1").text(name);
-                        $("#city-div").show();
-                    },
-                    toast (str) {
-                        let v = this
-                        v.toastText = str
-                        v.toastShow = true
-                        setTimeout(function(){
-                            v.toastShow = false
-                        }, 1500)
-                    },
-                    chooseCity (city) {
-                        let v = this
-                        v.countTime = 0
-                        v.countTimer = setInterval(function(e){v.countTime ++},1)
-                    },
-                    touchUp (item) {
-                        let v = this
-                        clearInterval(v.countTimer)
-                        if (v.countTime < 30) {
-                            this.isShowCitys = false
-                            this.location = item.name
-                            this.submit.area_code = item.code
-                        }
-                    },
-                    selectLocation () {
-                        let v = this
-                        this.isShowCitys = true
-                        this.$nextTick(function() {
-                            this.initCities()
-                        })
-                    },
-                    geocoder_CallBack: function (data) {
-                        let v = this
-                        var adcode3     = data.regeocode.addressComponent.adcode;
-                        var address     = data.regeocode.formattedAddress; //返回地址描述
-                        var csqy        = data.regeocode.addressComponent.district; //地区
-                        var csadcode    = data.regeocode.addressComponent.adcode; //区域编码
-                        this.submit.area_code = csadcode
-                        var citycode2   = csadcode.substr(0, 4) + "00"; //省份编码
-                        var codes       = adcode3.substr(0, 4) + "00";
-                        var citys2      = data.regeocode.addressComponent.city;
-                        var poiArr      = data.regeocode.pois; //坐标
-                        var resultCount = poiArr.length;
-                        v.location      = csqy
-                        var dz          = data.regeocode.formattedAddress;
-                        var lng         = data.regeocode.roads[0].location.lng;
-                        var lat         = data.regeocode.roads[0].location.lat;
-                    },
-                    zddw: function () {
-                        //初始定位
-                        let v = this;
-                        v.map.plugin('AMap.Geolocation', function() {
-                            geolocation = new AMap.Geolocation({
-                                enableHighAccuracy: true, //是否使用高精度定位，默认:true
-                                //timeout: 10000, //超过10秒后停止定位，默认：无穷大
-                                buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                                zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                                noIpLocate: 0, //IP定位，0-3，0都可以使用
-                                noGeoLocation: 0, //浏览器定位 0-3,
-                                showCircle: false, //去除定位蓝圈
-                                buttonPosition: 'RT',
-                                extensions: 'all'
-                            });
-                            v.map.addControl(geolocation);
-                            geolocation.getCurrentPosition();
-                            AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
-                            AMap.event.addListener(geolocation, 'error', onError); //返回定位出错信息
-
-                        });
-                        //解析定位结果
-                        function onComplete(data) {
-                            var str = [];
-                            str.push(data.position.lng);
-                            str.push(data.position.lat);
-                            var geocoder = new AMap.Geocoder({
-                                radius: 1000,
-                                extensions: "all"
-                            });
-                            geocoder.getAddress(str, function(status, result) {
-                                if (status === 'complete' && result.info === 'OK') {
-                                    v.geocoder_CallBack(result);
-                                }
-                            });
-                        }
-                        // 解析定位错误信息
-                        function onError(data) {
-                            alert('定位失败,请手动选择所在区域');
-                        }
-                    },
-                    initCities: function () {
-                        let v = this;
-                        let y = 0;
-                        var titleHeight = 28
-                        var itemHeight = 44
-                        v.cityData.forEach(function(e){
-                            let name = e.name.substr(0, 1)
-                            let len = e.cities.length
-                            v.anchorMap[name] = y
-                            y -= titleHeight + len * itemHeight
-                        })
-                        v.shortcut = document.querySelector('.shortcut-hook')
-                        v.cityWrapper = document.querySelector('.city-wrapper-hook')
-                        v.shortcut.style.top = (v.cityWrapper.clientHeight - v.shortcut.clientHeight) / 2 + 'px';
-                        v.scroll = new window.BScroll(v.cityWrapper, {
-                            probeType: 3
-                        })
-                        // console.log(v.scroll, 'v.scroll')
-                        // v.scroll.hasVerticalScroll = true
-                        // v.scroll.wrapperHeight = $('body').height()
-                        v.scroll.scrollTo(0, 0);
-                    },
-                    touchIndex: function (e) {
-                        // console.log(e, 'e')
-                        let v = this
-                        let anchor = e.target.getAttribute('data-anchor')
-                        // console.log(anchor ,'anchor')
-                        let firstTouch = e.touches[0]
-                        v.touch.y1 = firstTouch.pageY
-                        v.touch.anchor = anchor
-                        v.scrollTo(anchor)
-                    },
-                    scrollTo: function (anchor) {
-                        let v = this
-                        v.cityScroller = document.querySelector('.scroller-hook')
-                        var maxScrollY = v.cityWrapper.clientHeight - v.cityScroller.clientHeight
-                        var y = Math.min(0, Math.max(maxScrollY, v.anchorMap[anchor]))
-                        if (typeof y !== 'undefined') {
-                            v.scroll.scrollTo(0, y);
-                        }
-                    },
-                },
-                mounted: function () {
-                    let v = this
-                    this.zddw()
-                    v.initCities()
-                },
-            })
-		</script>
-		<script>
 			$(function () {
                 // alert("文档就绪事件");
             });
@@ -856,8 +681,8 @@
 					comments:[],
 					likes:[],
 					mid:mid,
-					cid:1,
-					uptimes:"uptime",
+
+					uptimes:"",
 					page:{}
 				},
 				created:function () {

@@ -54,55 +54,6 @@
                 <div class="logo">
                     <a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
                 </div>
-                <!--<div class="currcity">
-                    <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-                        <li id="summary-stock">
-                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                            <div class="dd">
-                                <div id="store-selector">
-                                    <div class="text">
-                                        <div id="currcity"></div>
-                                        <b></b></div>
-                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                                </div>&lt;!&ndash;store-selector end&ndash;&gt;
-                                <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                    <div class="mycity" @click="selectLocation()">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                    </div>
-                    <div v-show="isShowCitys" class="city" id="city-div">
-                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-                  ">
-                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                        </div>
-                        <div class="city-wrapper city-wrapper-hook">
-                            <div class="scroller-hook">
-                                <div class="cities cities-hook">
-                                    <div v-for="i in cityData">
-                                        <div class="title">{{i.name}}</div>
-                                        <ul>
-                                            <li @dblclick="replay(item.name
-                                )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                                &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                </ul>&ndash;&gt;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toast" v-show="toastShow">
-                        {{toastText}}
-                    </div>
-                </div>-->
-
                 <div class="menu-area">
                     <div class="responsive-menu"></div>
                     <div class="mainmenu">
@@ -127,7 +78,7 @@
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
-                                    <li style="width: 100px"><a class="person-li" :href="'/web/profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <li style="width: 100px"><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
 
                                     <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
                                 </ul>
@@ -504,7 +455,6 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            alert(data.code);
                             if (data.code = "success") {
                                 $(".login-area").slideUp(1000);
                                 obj.user = data.object;
@@ -604,14 +554,6 @@
         </div>
         <script src="/web/js/bootstrap.min.js"></script>
         <script src="/web/js/jquery-2.1.4.min.js"></script>
-        <script crossorigin="anonymous" src="//s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:5788b470/stat.88d57c80.js"></script>
-        <script crossorigin="anonymous" src="//www.dpfile.com/app/owl/static/owl_1.7.11.js"></script>
-        <script crossorigin="anonymous" src="//s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:5788b470/common.9fc677f9.js"></script>
-        <script crossorigin="anonymous" src="//s3plus.meituan.net/v1/mss_e2821d7f0cfe4ac1bf9202ecf9590e67/cdn-prod/file:5788b470/profile-profile.59b4a3a3.js"></script>
-        <!--<script src="/web/js/user2.js"></script>
-        <script src="/web/js/user3.js"></script>
-        <script src="/web/js/user4.js"></script>
-        <script src="/web/js/web.js"></script>-->
         <script>
             var _data;
             var app=new Vue({

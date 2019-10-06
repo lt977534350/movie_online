@@ -139,7 +139,7 @@
                         <li><a class="active" href="/web/feng/index.html">首页</a></li>
                         <li><a href="/web/tao/mtype.html">电影</a></li>
                         <li><a href="/web/tao/cinema-jump.html">影城</a></li>
-                        <li><a href="top-movies.html">热映电影</a></li>
+                        <li><a href="/web/feng/hotmovies2.html">热映电影</a></li>
                         <li><a href="https://ent.sina.com.cn/film/">热点</a></li>
                         <li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
                             <ul>
@@ -745,7 +745,6 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            alert(data.code);
                             if (data.code = "success") {
                                 $(".login-area").slideUp(1000);
                                 obj.user = data.object;
@@ -863,7 +862,7 @@
            type:"get",
            success:function (rt) {
                var getmovie = rt.list[0].id;
-               window.location.href="/web/movie-info.html?mid="+getmovie;
+               window.location.href="/web/tao/movie-info.html?mid="+getmovie;
            }
        });
     }

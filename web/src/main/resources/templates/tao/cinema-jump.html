@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home</title>
+    <title>爱乐影城</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
     <!-- //for-mobile-apps -->
     <link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="/web/css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -125,54 +118,6 @@
                 <div class="logo">
                     <a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
                 </div>
-                <!--<div class="currcity">
-                    <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-                        <li id="summary-stock">
-                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                            <div class="dd">
-                                <div id="store-selector">
-                                    <div class="text">
-                                        <div id="currcity"></div>
-                                        <b></b></div>
-                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                                </div>&lt;!&ndash;store-selector end&ndash;&gt;
-                                <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                    <div class="mycity" @click="selectLocation()">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                    </div>
-                    <div v-show="isShowCitys" class="city" id="city-div">
-                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-                  ">
-                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                        </div>
-                        <div class="city-wrapper city-wrapper-hook">
-                            <div class="scroller-hook">
-                                <div class="cities cities-hook">
-                                    <div v-for="i in cityData">
-                                        <div class="title">{{i.name}}</div>
-                                        <ul>
-                                            <li @dblclick="replay(item.name
-                                )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                                &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                </ul>&ndash;&gt;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toast" v-show="toastShow">
-                        {{toastText}}
-                    </div>
-                </div>-->
 
                 <div class="menu-area">
                     <div class="responsive-menu"></div>
@@ -210,17 +155,7 @@
             </div>
         </div>
     </header>
-    <!-- banner -->
-    <!--<div class="marginTop_indexhead" style="display:none;">
-        <ul>
-            <li><img src="/web/images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
-            <li><img src="/web/images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
-            <li><img src="/web/images/3.jpg" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
-            <li><img src="/web/images/4.jpg" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
-            <li><img src="/web/images/6.jpg" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
-            <li><img src="/web/images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
-        </ul>
-    </div>-->
+
     <div class="login-area" id="myidlogin">
         <div class="login-box">
             <a href="#"><i class="icofont icofont-close"></i></a>
@@ -586,7 +521,6 @@
                         type: "post",
                         dataType: "json",
                         success: function (data) {
-                            alert(data.code);
                             if (data.code = "success") {
                                 $(".login-area").slideUp(1000);
                                 obj.user = data.object;
@@ -718,7 +652,7 @@
         </div>
         <!--影院地址，点击购票-->
         <div class="cinema-div">
-            <h4><span class="cinema-left">影院列表</span></h4>
+            <h4><span class="cinema-left" style="color: darkgrey">影院列表</span></h4>
             <div class="cinema-tips" v-if="cinemas.length==0">暂无该类型影院信息</div>
             <div v-for="cinema in cinemas" class="cinema-left">
                 <div class="col-md-8 cinema-address">

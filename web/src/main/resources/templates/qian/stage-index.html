@@ -240,6 +240,7 @@
 											dataType:"json",
 											type:"get",
 											success:function (rt) {
+												console.log(rt.object)
 												if(rt.code=="fail"){
 													$(t).next().val(rt.message);
 												}else{
