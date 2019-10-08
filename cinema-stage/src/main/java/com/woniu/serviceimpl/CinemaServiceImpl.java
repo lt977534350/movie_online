@@ -74,12 +74,13 @@ public class CinemaServiceImpl implements CinemaService {
      * @throws Exception
      */
     @Override
-    public List<Cinema> selectByCity(String city, Integer pageIndex, Integer num)throws Exception {
+    public List<Cinema> selectByCity(String city, Integer pageIndex, Integer num,Integer mid)throws Exception {
         Integer start = (pageIndex-1)*num;
         HashMap<String, Object> map = new HashMap<>();
         map.put("start",start);
         map.put("num",num);
         map.put("city",city);
+        map.put("mid",mid);
         List<Cinema> cinemas = cinemaMapper.selectByCity(map);
         return cinemas;
     }
@@ -90,8 +91,8 @@ public class CinemaServiceImpl implements CinemaService {
      * @return
      */
     @Override
-    public int getCountNumByCity(String city) throws Exception {
-        return cinemaMapper.getCountNumByCity(city);
+    public int getCountNumByCity(String city,Integer mid) throws Exception {
+        return cinemaMapper.getCountNumByCity(city, mid);
     }
 
     @Override

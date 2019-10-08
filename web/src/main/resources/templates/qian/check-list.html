@@ -194,7 +194,7 @@
 						<div v-for="(menu,index) in list">
 							<div class="layui-col-lg4" style="height: 100%;">
 								<div align="center" class="menu-pic">
-									<img :src="menu.mpic" />
+									<img  :src="menu.mpic==null?'/web/images/menu.jpg':menu.mpic" />
 								</div>
 								<div class="menu-name">
 									<span class="name-span" v-text="menu.name"></span>
@@ -374,7 +374,7 @@
 					}
 					var flag = confirm("您真的要删除这些套餐么？");
 					if(flag==true){
-						alert("checkID-----"+checkID);
+
 						$.ajax({
 							url:"/cinema-stage/menu",
 							data: {"checkID":checkID},
@@ -382,7 +382,6 @@
 							dataType: "json",
 							traditional:true,
 							success:function (rt) {
-								alert(rt.code);
 								window.location.reload();
 							}
 						});

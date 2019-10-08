@@ -20,9 +20,9 @@ public interface CinemaService {
     //根据id更新一家影院
     public Integer update(Cinema cinema) throws Exception;
     //根据城市名查询当地的影院
-    List<Cinema> selectByCity(String city, Integer pageIndex, Integer num)throws Exception;
+    List<Cinema> selectByCity(String city, Integer pageIndex, Integer num,Integer mid)throws Exception;
     //根据城市名查询数据总条数
-    int getCountNumByCity(String city) throws Exception;
+    int getCountNumByCity(String city,Integer mid) throws Exception;
     //获取到该影厅上级影院套餐到期时间
     public List<String> getTime(Integer aid) throws Exception;
     //条件查询影院信息

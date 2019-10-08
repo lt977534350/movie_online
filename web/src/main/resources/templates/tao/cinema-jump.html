@@ -725,6 +725,7 @@
             var city = "重庆";
             $.ajax({
                 url: "/cinema-stage/cinema/" + city,
+                data:{"mid":mid},
                 type: "get",
                 dataType: "json",
                 success: function (data) {

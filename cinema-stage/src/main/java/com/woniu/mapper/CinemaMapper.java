@@ -30,7 +30,7 @@ public interface CinemaMapper {
         /*根据电影名称查询cinema*/
         List<Cinema> selectByCity(HashMap<String, Object> map);
         /*查询数据总条数*/
-        int getCountNumByCity(@Param("city") String city);
+        int getCountNumByCity(@Param("city") String city,@Param("mid") Integer mid);
 
         Date getOverTime(Integer aid);
 

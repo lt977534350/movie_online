@@ -58,9 +58,12 @@ public class AdminAPI {
                 }
                 //用户名密码均正确，将登录信息存入session
                 if((int)admin.getLevel()==2){
+                    System.out.println(22222);
                     session.setAttribute("cinemaAdmin",admin);
+                }else {
+                    session.setAttribute("admin",admin);
                 }
-                session.setAttribute("admin",admin);
+
                 return new Result("success","登录验证成功！",admin,null);
             }
         }else if((phone_num!=null||!"".equals(phone_num))&&(check_code!=null||!"".equals(check_code))){//手机验证码登录
@@ -195,7 +198,8 @@ public class AdminAPI {
             if(phone!=null&&!"".equals(phone)){
                 updateAdmin.setPhone(phone);
             }
-            cinemaAdminService.update(admin);
+
+            cinemaAdminService.update(updateAdmin);
             session.removeAttribute("admin");
             return new Result("success","更新成功！",null,null);
         }else{

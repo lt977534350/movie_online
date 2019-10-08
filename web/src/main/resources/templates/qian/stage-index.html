@@ -97,7 +97,7 @@
 								</dd>
 								<hr>
 								<dd layadmin-event="logout" style="text-align: center;cursor: pointer">
-									<a>退出</a>
+									<a onclick="logout()">退出</a>
 								</dd>
 							</dl>
 						</li>
@@ -212,7 +212,7 @@
 
 
                                     $.ajax({
-                                        url:"/orders//profile/orders/count",
+                                        url:"/orders/profile/orders/count",
                                         dataType:"json",
                                         type:"get",
                                         success:function (rt) {
@@ -263,9 +263,16 @@
 		<div class="layui-layer-shade mobilenav" id="mobilenav" onClick="clearmobilenav()" style="z-index: 998; background-color: rgb(0, 0, 0); opacity: 0.3;display:none"></div>
 	</body>
 	<script type="text/javascript">
-
-
-
+		function logout() {
+			$.ajax({
+				url:"/cinema-stage/admin/logout",
+				dataType:"json",
+				type:"delete",
+				success:function (rt) {
+					window.location.href="/web/feng/backstage/login.html";
+				}
+			});
+		}
 		function  selectCount(v) {
 
 		}
@@ -285,7 +292,6 @@
 					dataType:"json",
 					type:"get",
 					success:function (rt) {
-						alert("username---"+rt.object.username);
 						v.admin = rt.object;
 					}
 				});

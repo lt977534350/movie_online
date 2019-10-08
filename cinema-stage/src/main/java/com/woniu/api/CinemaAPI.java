@@ -91,19 +91,21 @@ public class CinemaAPI {
      * @return
      */
     @GetMapping("/{city}")
-    public Result selectByCity(@PathVariable("city") String city,Integer pageIndex)throws Exception{
+    public Result selectByCity(@PathVariable("city") String city,Integer pageIndex,Integer mid)throws Exception{
         if(pageIndex==null){
             pageIndex = 1;
         }
         /*设置每页显示条数*/
         Integer num = 5;
         /*查询数据总条数*/
-        int countNumByCity = cinemaService.getCountNumByCity(city);
+        int countNumByCity = cinemaService.getCountNumByCity(city,mid);
         /*计算总页数*/
         int pageCount=countNumByCity%num==0?countNumByCity/num:countNumByCity/num+1;
         /*封装page对象*/
         Page page=new Page(pageIndex,pageCount,countNumByCity);
-        List<Cinema> cinemas = cinemaService.selectByCity(city, pageIndex, num);
+        System.out.println(city);
+        List<Cinema> cinemas = cinemaService.selectByCity(city, pageIndex, num,mid);
+        System.out.println(cinemas);
         return new Result("success",null,page,cinemas);
     }
 

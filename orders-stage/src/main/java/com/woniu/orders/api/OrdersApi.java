@@ -58,15 +58,15 @@ public class OrdersApi {
     @GetMapping
     @ResponseBody
     public Result selectOrders(HttpSession session, Integer pageIndex) throws Exception {
-        User user = (User) session.getAttribute("user");
+       /* User user = (User) session.getAttribute("user");
         if(user==null){
             return  new Result("500", "请登录", null, null);
-        }
+        }*/
         if (pageIndex == null) {
             pageIndex = 1;
         }
-        List<Order> orders = orderService.selectOrder(user.getId(), pageIndex);
-        int count = (int) orderService.selectCount(user.getId());
+        List<Order> orders = orderService.selectOrder(1, pageIndex);
+        int count = (int) orderService.selectCount(1);
         Page page = new Page();
         page.setDataCount(count);
         page.setPageCount(count % Constant.Page.PAGE_DISPLAYED.getpageData() == 0 ? count / Constant.Page.PAGE_DISPLAYED.getpageData() : count / Constant.Page.PAGE_DISPLAYED.getpageData() + 1);

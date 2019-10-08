@@ -39,15 +39,15 @@
                     </div>
                     <!-- Navbar Menu -->
                     <div class="nav-item dropdown">
-                        <a id="languages" rel="nofollow" data-target="#" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false" class="nav-link language dropdown-toggle">跳转页面</a>
+                        <a href="javascript:;" id="languages" rel="nofollow" data-target="#" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false" class="nav-link language dropdown-toggle" v-text="admin.username"></a>
                         <ul aria-labelledby="pageskipping" class="dropdown-menu">
                             <li>
                                 <a rel="nofollow" :href="'/web/feng/cinemaIndex.html?aid='+admin.id" class="dropdown-item"><span
                                         class="d-none d-sm-inline">影院主页</span></a>
                             </li>
                             <li>
-                                <a class="dropdown-item"><span id="logout" class="d-none d-sm-inline">注　　销</span></a>
+                                <a href="javascript:;" class="dropdown-item"><span id="logout" class="d-none d-sm-inline">注　　销</span></a>
                             </li>
                         </ul>
                     </div>
@@ -71,33 +71,33 @@
             <!-- Sidebar Navidation Menus--><span class="heading">主菜单</span>
             <ul id="mainmenu" class="list-unstyled">
                 <li onclick="changetoindex(this)" class="active">
-                    <a> 主页</a>
+                    <a href="javascript:;"> 主页</a>
                 </li>
                 <li id="ullist" v-if="state==1">
                     <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">影院管理</a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                         <li onclick="changetoform(this)">
-                            <a>基本信息管理 </a>
+                            <a href="javascript:;">基本信息管理 </a>
                         </li>
                         <li onclick="tochangelogo(this)">
-                            <a>修改影院logo</a>
+                            <a href="javascript:;">修改影院logo</a>
                         </li>
                         <li onclick="tochangepics(this)">
-                            <a>上传影院图片</a>
+                            <a href="javascript:;">上传影院图片</a>
                         </li>
                     </ul>
                 </li>
                 <li onclick="changetotable(this)" v-if="state==1">
-                    <a>放映点管理 </a>
+                    <a href="javascript:;">放映点管理 </a>
                 </li>
                 <li onclick="tochangeroom(this)" v-if="state==1">
-                    <a>放映厅管理</a>
+                    <a href="javascript:;">放映厅管理</a>
                 </li>
                 <li onclick="changetofilms(this)" v-if="state==1">
-                    <a>排片管理 </a>
+                    <a href="javascript:;">排片管理 </a>
                 </li>
                 <li onclick="changetoOrders(this)" v-if="state==1">
-                    <a>订单查看 </a>
+                    <a href="javascript:;">订单查看 </a>
                 </li>
             </ul>
         </nav>

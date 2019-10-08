@@ -10,7 +10,7 @@
     <result column="facility" jdbcType="VARCHAR" property="facility" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="aid" jdbcType="INTEGER" property="aid" />
-    <result column="city" jdbcType="INTEGER" property="city" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -131,9 +131,9 @@
       on cp.pid=p.id
     </select>
   <select id="selectByCity" resultMap="BaseResultMap">
-    select *
-    from cinema
-    where city=#{city}
+    select DISTINCT c.*
+    from cinema c left join movie_showtime ms
+    on c.id=ms.cid where c.city=#{city} and ms.mid=#{mid,jdbcType=INTEGER} and  ms.playtime > now()
     limit #{start},#{num}
   </select>
     <select id="getOverTime" resultType="java.util.Date">
@@ -174,7 +174,8 @@
 
   </select>
   <select id="getCountNumByCity" resultType="Integer">
-    select count(id) from cinema where city=#{city}
+    select  count(c.id) from cinema c left join movie_showtime ms
+    on c.id=ms.cid where c.city=#{city} and ms.mid=#{mid,jdbcType=INTEGER} and  ms.playtime > now()
   </select>
 
 

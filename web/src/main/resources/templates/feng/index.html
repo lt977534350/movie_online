@@ -608,11 +608,11 @@
                             <p v-text="showmovie.shortStory"></p>
                             <div class="slide-trailor">
                                 <h3>立即购票</h3>
-                                <a class="theme-btn theme-btn2" href="/web/tao/cinema-jump.html"><i class="icofont icofont-play"></i> Tickets</a>
+                                <a class="theme-btn theme-btn2" :href="'/web/tao/cinema-jump.html?mid='+showmovie.id"><i class="icofont icofont-play"></i> Tickets</a>
                             </div>
                         </div>
                         <div style="width:100%;height:50%;background-color: transparent;position:absolute;bottom:0;left: 0">
-                            <div v-if="index<3" :id="'picdiv'+index" onclick="changepic(this)" v-for="(movie,index) in newMovie" :myindex="index" style="width: 33.333333%;height: 100%;;position: relative;float: left" >
+                            <div v-if="index<3" :id="'picdiv'+index" onclick="changepic(this)" v-for="(movie,index) in newMovie" :index="index" style="width: 33.333333%;height: 100%;;position: relative;float: left" >
                                 <img :src="movie.mpic" alt="" style="width: 100%;height: 100%;">
                             </div>
                         </div>
@@ -786,7 +786,7 @@
 <script src="/web/assets/js/main.js"></script>
 <script type="text/javascript">
     function changepic(obj) {
-        app.showmovie = app.newMovie[$(obj).index()];
+        app1.showmovie = app1.newMovie[$(obj).index()];
     };
     $(function () {
         var index=0;
@@ -803,7 +803,7 @@
     })
 
 
-    var app=new Vue({
+    var app1=new Vue({
         el:"#app",
         data:{
             newMovie:[],
@@ -835,6 +835,7 @@
                 dataType:"json",
                 success:function (data) {
                     _this.newMovie=data.list;
+                    console.log(_this.newMovie)
                     _this.showmovie = data.list[0];
                     _this.topmovie = data.list[0];
                 }
@@ -1096,29 +1097,14 @@
     })
 </script>
 <script type="text/javascript">
-    function changepic(obj) {
-        app.showmovie = app.newMovie[$(obj).index()];
-    };
-    $(function () {
-        var index=0;
-        setInterval(function(){
-            if(index <= 2){
-                $("#picdiv"+index).click();
-                index += 1;
-            }else{
-                index=0;
-                $("#picdiv"+index).click();
-                index += 1;
-            }
-        }, 3000);
-    })
+
     var app=new Vue({
         el:"#applogin",
         data:{
-            newMovie:[],
+           /* newMovie:[],
             activeIndex:0,
             showmovie:{},
-            topmovie:{},
+            topmovie:{},*/
             user:{}
         },
         created:function () {
@@ -1138,7 +1124,7 @@
                 _this.user = $.parseJSON(myuser);
             }
             //查询最新的3部电影
-            $.ajax({
+        /*    $.ajax({
                 url:"/movie-stage/movie/orderbytime/9",
                 type:"get",
                 dataType:"json",
@@ -1147,7 +1133,7 @@
                     _this.showmovie = data.list[0];
                     _this.topmovie = data.list[0];
                 }
-            })
+            })*/
         },
         methods: {
             login() {
