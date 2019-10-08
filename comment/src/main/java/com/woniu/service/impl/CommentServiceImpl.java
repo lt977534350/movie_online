@@ -1,6 +1,7 @@
 package com.woniu.service.impl;
 
 import com.woniu.entity.Comment;
+import com.woniu.entity.CommentExample;
 import com.woniu.mapper.CommentMapper;
 import com.woniu.service.CommentService;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,10 @@ public class CommentServiceImpl implements CommentService {
      * @throws Exception
      */
     @Override
-    public int getCount() throws Exception {
-        return commentMapper.countByExample(null);
+    public int getCount(Integer cid ,Integer mid) throws Exception {
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria().andMidEqualTo(mid).andCidEqualTo(cid);
+        return commentMapper.countByExample(commentExample);
     }
 
     /**
@@ -28,8 +31,8 @@ public class CommentServiceImpl implements CommentService {
      * @throws Exception
      */
     @Override
-    public List<Comment> getComments(Integer pageIndex,Integer num) throws Exception {
-        return commentMapper.getComments((pageIndex-1)*num,num);
+    public List<Comment> getComments(Integer pageIndex,Integer num,Integer cid,Integer mid) throws Exception {
+        return commentMapper.getComments((pageIndex-1)*num,num,cid ,mid);
     }
 
     /**
@@ -39,6 +42,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public void insertComment(Comment comment)throws Exception{
+
         commentMapper.insertSelective(comment);
     }
 

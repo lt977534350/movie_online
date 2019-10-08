@@ -556,7 +556,9 @@
 							<!--分页-->
 
 							<div class="details-reply">
-								<span style="cursor: pointer" onclick="show()"><h2>写评论</h2></span>
+								<span style="cursor: pointer" onclick="show()"><h2>写下评论</h2></span>
+								<a @click="prev()">上一页</a>
+								<a  @click="next()">下一页</a>
 
 								<!--<h2>评分</h2>-->
 								<form action="#" class="info-display show">
@@ -666,11 +668,27 @@
 
 
 		<script>
-			var mid = location.href.split("=")[1];
+			var mid = location.href.split("=")[1].split("&")[0];
+			var cid =location.href.split("=")[2];
 			$(function () {
                 // alert("文档就绪事件");
             });
-
+			function  selectComment(_data) {
+				$.ajax({
+					url:"/api-comment/comment",
+					data:{"cid":_data.cid ,"mid":_data.mid,"pageIndex":_data.page.pageIndex},
+					type:"get",
+					dataType:"json",
+					success:function (data) {
+						if(data.code=="success"){
+							_data.comments=data.list;
+							_data.page=data.object;
+						}else{
+							alert(data.message);
+						}
+					}
+				});
+			}
 			var _data;
 			var app=new Vue({
 				el:"#app",
@@ -681,6 +699,7 @@
 					comments:[],
 					likes:[],
 					mid:mid,
+					cid:cid,
 
 					uptimes:"",
 					page:{}
@@ -719,19 +738,8 @@
                         }
 					});
 					/*查询评论集合*/
-                    $.ajax({
-                        url:"/api-comment/comment",
-                        type:"get",
-                        dataType:"json",
-                        success:function (data) {
-                            if(data.code=="success"){
-                                _data.comments=data.list;
-                                _data.page=data.object;
-                            }else{
-                                alert(data.message);
-                            }
-                        }
-                    });
+					selectComment(_data);
+
 
                 },
 				beforeUpdate:function(){
@@ -753,6 +761,20 @@
                     });
 				},
 				methods:{
+					prev(){
+						var v = this;
+						if(v.page.pageIndex>1){
+							v.page.pageIndex=v.page.pageIndex-1;
+							selectComment(v);
+						}
+					},
+					next(){
+						var v = this;
+						if(v.page.pageIndex<v.page.pageCount){
+							v.page.pageIndex=v.page.pageIndex+1;
+							selectComment(v);
+						}
+					},
 				    insertComment:function () {
 				        var userScore=5;
 				        var argue=$("#argue").val();
@@ -764,7 +786,7 @@
 							success:function (data) {
 								if(data.code=="success"){
 								    alert("success");
-								    location.href="javascript:";
+									window.location.reload(true)
 								}else{
 								    alert(data.message);
 								}
