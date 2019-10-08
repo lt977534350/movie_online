@@ -22,7 +22,7 @@ public interface MovieMapper {
 
     Movie selectMovieByMid(Integer mid);
     List<Movie> selectMoviesByName(String mName);
-    List<Movie> selectMoviesByCid(Integer cid);
+    List<Movie> selectMoviesByCid(Integer cid,String nowTime);
     List<Movie> selectMOviesOnByCid(Integer cid);
 
     List<Movie> selectMovieListByScore(Integer num);

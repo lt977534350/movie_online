@@ -37,6 +37,7 @@ public class GateFilter extends ZuulFilter {
         String uri = request.getRequestURI();
         ArrayList<String> list = new ArrayList<>();
         list.add("/api-user/user/login");
+        list.add("/movie-stage/movie/bycid/");
         list.add("/cinema-stage/admin/login");
         list.add("/web/feng/backstage/login.html");
         list.add("/api-user/user/register");
@@ -67,7 +68,7 @@ public class GateFilter extends ZuulFilter {
         list.add("/movie-stage/movie/movies");
         list.add("/movie-stage/movie/aftertoday");
         for (String myurl:list) {
-            if (myurl.equals(uri)){
+            if (uri.contains(myurl)){
                 return false;
             }
         }

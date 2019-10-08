@@ -215,7 +215,7 @@
 
 </resultMap>
 
-  <select id="selectMoviesByCid" resultMap="mymap" parameterType="int">
+  <select id="selectMoviesByCid" resultMap="mymap">
     select a.*,b.id bid,b.cid,b.mid,b.playtime,b.room_id,b.money,b.name room_name,b.type room_type from
     (select m.*,t.id tid,t.mtype from movie m
     inner join movie_type mt on m.id = mt.mid
@@ -225,7 +225,7 @@
     inner join cinema_room cr on ms.room_id=cr.id
     order by playtime  asc) b
     on a.id=b.mid
-    where b.cid=#{cid}
+    where b.cid=#{param1} and playtime > #{param2}
   </select>
 
   <select id="selectMoviesByName" resultMap="movieMessageMap" parameterType="String">

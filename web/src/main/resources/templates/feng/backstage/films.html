@@ -354,7 +354,6 @@
 
 								}
 								app.movieshow=data.list;
-								console.log(app.movieshow)
 							}
 						})
 
@@ -377,6 +376,7 @@
 							contentType: false,
 							dataType:"json",
 							success:function (data) {
+
 								if(data.code=="success"){
 									$("#insertReset").click();
 									$("#closeInsert").click();
@@ -390,11 +390,24 @@
 										},
 										dataType:"json",
 										success:function (data) {
+											//获取当前时间
+											var now=new Date();
+											var playtime;
 											for(var i=0;i<data.list.length;i++){
+												//获取当前拍片的时间
+												playtime=new Date(data.list[i].playtime);
+
 												//格式化放映时间
 												var datetime=getTime(data.list[i].playtime);
 												data.list[i].play1=datetime.split(" ")[0];
 												data.list[i].play2=datetime.split(" ")[1];
+
+												//判断当前排片是否超时
+												if(playtime>now){
+													data.list[i].isOverTime=1
+												}else{
+													data.list[i].isOverTime=0
+												}
 											}
 											app.movieshow=data.list;
 										}

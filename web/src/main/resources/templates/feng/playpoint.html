@@ -437,7 +437,7 @@
 
 			},
 			methods: {
-				login() {
+				login:function() {
 
 					var obj = this;
 					var flag = false;
@@ -482,7 +482,7 @@
 						})
 					}
 				},
-				register(){
+				register:function(){
 					var v =this;
 					if($(".msg").text()==null||$(".msg").text()==""){
 						$.ajax({
@@ -879,6 +879,20 @@
 					}
 					flag=false
 				}
+
+				//时间排序
+				for(var i=0;i<playTime.length-1;i++){
+					for(var j=0;j<playTime.length-1-i;j++){
+
+						if(playTime[j]>playTime[j+1]){
+							var temp=playTime[j];
+							playTime[j]=playTime[j+1];
+							playTime[j+1]=temp;
+						}
+
+					}
+				}
+
 				return playTime;
 			}
 

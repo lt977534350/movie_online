@@ -270,7 +270,6 @@
 				//获取aid
 				var url=window.location.href
 				var aid=url.split("=")[1];
-				alert(aid)
 
 				var app=new Vue({
 					el:"#app",
@@ -306,7 +305,6 @@
 							success:function (data) {
 								_this.onshow=data.object.onShow;
 								_this.willshow=data.object.willShow;
-								console.log(data.object)
 							}
 						})
 						//根据影院id查出影院信息
@@ -317,7 +315,6 @@
 							success:function (data) {
 								_this.cinema=data.object;
 								_this.onepic=data.object.pics[2];
-								console.log(data)
 							}
 						})
 

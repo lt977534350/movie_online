@@ -7,6 +7,7 @@ import com.woniu.service.MovieService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -27,7 +28,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> selectMoviesByCid(Integer cid) throws Exception {
-        List<Movie> movies = movieMapper.selectMoviesByCid(cid);
+        //获取当前时间
+        Date nowTime = new Date();
+        String now=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(nowTime);
+        List<Movie> movies = movieMapper.selectMoviesByCid(cid,now);
         return movies;
     }
 
