@@ -539,7 +539,8 @@
 					<div class="moviecontainer">
 						<div class="col-sm-12 moviepart">
 							<div class="movielist col-sm-1" v-for="(movie,index) in movielist">
-								<img v-if="index==0" class="filmselected" @click="changeMovie(index,$event)" :src="movie.mpic"/>
+								<img v-if="mid==movie.id" class="filmselected" @click="changeMovie(index,$event)" :src="movie.mpic"/>
+								<img v-else-if="index==0 && mid==0" class="filmselected" @click="changeMovie(index,$event)" :src="movie.mpic"/>
 								<img v-else class="filmtable" @click="changeMovie(index,$event)" :src="movie.mpic"/>
 							</div>
 						</div>
@@ -723,10 +724,22 @@
 				}
 				return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
 			}
-			var cid = location.href.split("=")[1];
-			if(cid.length>1){
-				cid=cid.charAt(0);
+			var params = location.href.split("?")[1];
+
+			var cid;
+			var mid;
+			var par= params.split("&");
+			//传一个参数
+			if(par.length==1){
+				cid=par[0].split("=")[1];
+				mid=0;
 			}
+			//传两个参数
+			if(par.length==2){
+				cid=par[0].split("=")[1];
+				mid=par[1].split("=")[1];
+			}
+
 			$(function () {
 				var app = new Vue({
 					el:"#app",
@@ -736,7 +749,8 @@
 						playTime:[],
 						nowMessage:[],
 						messageByTime:[],
-						cinema:{}
+						cinema:{},
+						mid:0
 					},
 					methods:{
 						changeMovie:function (index,e) {
@@ -779,7 +793,7 @@
 					},
 					created:function () {
 						_this = this;
-
+						_this.mid=mid;
 						//根据影院id查出拍片的所有电影及拍片详情
 						$.ajax({
 							url:"/movie-stage/movie/bycid/"+cid,
