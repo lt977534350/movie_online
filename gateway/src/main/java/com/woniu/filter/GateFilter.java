@@ -6,9 +6,10 @@ import com.netflix.zuul.exception.ZuulException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class GateFilter extends ZuulFilter {
@@ -33,26 +34,39 @@ public class GateFilter extends ZuulFilter {
         if("post".equals(method)||"put".equals(method)||"delete".equals(method)){
             return true;
         }
-        StringBuffer url = request.getRequestURL();
-        List<String> list = new ArrayList<>();
-        list.add("localhost:9001/api-user/user/login");
-        list.add("localhost:9001/web/feng/backstage/login.html");
-        list.add("localhost:9001/api-user/user/register");
-        list.add("localhost:9001/web/tao/mtype.html");
-        list.add("localhost:9001/cinema-stage/cinema/all");
-        list.add("localhost:9001/cinema-stage/cinema/bycid");
-        list.add("localhost:9001/api-comment/comment");
-        list.add("localhost:9001/api-comment/like");
-        list.add("localhost:9001/movie-stage/movie/bymid");
-        list.add("localhost:9001/movie-stage/movie/orderbytime");
-        list.add("localhost:9001/movie-stage/movie/orderbyscore");
-        list.add("localhost:9001/movie-stage/movie/orderbycid");
-        list.add("localhost:9001/movie-stage/movie/orderbyname");
-        list.add("localhost:9001/movie-stage/movie/movieon");
-        list.add("localhost:9001/web/index.html");
-        list.add("localhost:9001/web/feng/cinemaIndex.html");
+        String uri = request.getRequestURI();
+        ArrayList<String> list = new ArrayList<>();
+        list.add("/api-user/user/login");
+        list.add("/web/feng/backstage/login.html");
+        list.add("/api-user/user/register");
+        list.add("/web/tao/mtype.html");
+        list.add("/cinema-stage/cinema/all");
+        list.add("/cinema-stage/cinema/bycid");
+        list.add("/cinema-stage/cinema/byaid");
+        list.add("/api-comment/comment");
+        list.add("/api-comment/like");
+        list.add("/movie-stage/movie/bymid");
+        list.add("/movie-stage/movie/orderbytime/9");
+        list.add("/movie-stage/movie/orderbyscore");
+        list.add("/movie-stage/movie/orderbycid");
+        list.add("/movie-stage/movie/orderbyname");
+        list.add("/movie-stage/movie/movieon");
+        list.add("/web/feng/index.html");
+        list.add("/web/feng/hotmovies2.html");
+        list.add("/web/feng/filmpage.html");
+        list.add("/web/feng/playpoint.html");
+        list.add("/web/feng/cinemaIndex.html");
+        list.add("/web/tao/cinema-jump.html");
+        list.add("/web/tao/movie-info.html");
+        list.add("/orders/selectSeat");
+        list.add("/orders/selectCinema");
+        list.add("/orders/selectMovie");
+        list.add("/movie-stage/movie/all");
+        list.add("/movie-stage/movie/byid");
+        list.add("/movie-stage/movie/movies");
+        list.add("/movie-stage/movie/aftertoday");
         for (String myurl:list) {
-            if (myurl.equals(url)){
+            if (myurl.equals(uri)){
                 return false;
             }
         }
@@ -65,16 +79,58 @@ public class GateFilter extends ZuulFilter {
         RequestContext context = RequestContext.getCurrentContext();
         //获取request
         HttpServletRequest request = context.getRequest();
+        //获取response
+        HttpServletResponse response = context.getResponse();
         //获取session
         HttpSession session = request.getSession();
-
-        System.out.println("gateway里面的session"+session.getId());
-        //登录验证信息可以存入session中
-        //可以通过下述代码响应错误信息,程序不调用API接口
-//       if(session.getAttribute("user")==null){
-//            context.setSendZuulResponse(false);
-//            context.setResponseBody("{\"code\":\"500\",\"message\":\"no login\"}");
-//        }
-        return null;
+        //获取请求路径
+        String url = request.getRequestURL().toString();
+        //静态资源放行
+        if (url.contains(".js")||url.contains(".css")||url.contains(".jpg")||url.contains(".png")
+        ||url.contains(".otf")||url.contains(".eot")||url.contains(".svg")||url.contains(".ttf")||
+                url.contains(".woff")||url.contains(".woff2")){
+            context.setSendZuulResponse(true);
+            return null;
+        }
+        System.out.println("路径---"+url);
+        if(session.getAttribute("user")!=null||session.getAttribute("admin")!=null||session.getAttribute("cinemaAdmin")!=null){
+            //都在登录状态直接放过
+            return null;
+        }else{
+            if(url.contains("/profile/detail")||url.contains("/profile/orders")||url.contains("/profile/userinfo")||url.contains("/profile/userupdate")||url.contains("/profile/xseats")){
+                if(session.getAttribute("user")==null){
+                    //用户没登录，不允许访问
+                    context.setSendZuulResponse(false);
+                    try {
+                        response.sendRedirect("/web/feng/index.html");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }else if(url.contains("/qian/checklist")||url.contains("/qian/cinema")||url.contains("/qian/cinema-detail")||url.contains("/qian/log")||url.contains("/qian/movie-manager")||url.contains("/qian/person")||url.contains("/qian/stage-index")){
+                if(session.getAttribute("admin")==null){
+                    //平台管理员未登录，不允许访问
+                    context.setSendZuulResponse(false);
+                    try {
+                        response.sendRedirect("/web/feng/backstage/login.html");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }else{
+                if(session.getAttribute("cinemaAdmin")==null){
+                    //电影院管理员未登录，不允许访问
+                    context.setSendZuulResponse(false);
+                    try {
+                        response.sendRedirect("/web/feng/backstage/login.html");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        }
     }
 }
