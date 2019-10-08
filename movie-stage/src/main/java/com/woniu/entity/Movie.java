@@ -72,6 +72,8 @@ public class Movie {
      */
     private List<Type> types;
 
+    private String tostar;
+
     /**
      * 电影图片链接
      */

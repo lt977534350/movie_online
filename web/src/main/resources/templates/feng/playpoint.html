@@ -247,7 +247,6 @@
 					t = setInterval(function () {
 						$(th).val(second+"s重发");
 						second -= 1;
-						console.log("second==="+second);
 						if(second<=-1){
 							$(th).removeAttr("disabled");
 							$(th).val("获取验证码");
@@ -426,9 +425,7 @@
 				for(var i=0;i<cookies.length;i++){
 					if(a==cookies[i].split("=")[0].trim()){
 						var user = cookies[i].split("=")[1];
-						console.log("---"+user);
 						myuser = decodeURIComponent(user);
-						console.log("===="+myuser);
 					}
 				}
 				if(myuser!=null){
@@ -564,7 +561,7 @@
 							<!--当前选中影片基本-->
 							<div class="filmInfo">
 								<div>
-									<a href="/web/tao/movie-info.html"><h3 class="movie-name">{{nowMovie.mname}}</h3></a><span class="score">{{nowMovie.score}} <span class="sc">分</span></span>
+									<a href="/web/tao/movie-info.html"><h3 class="movie-name" v-text="nowMovie.mname"></h3></a><span class="score" v-text="nowMovie.score"> <span class="sc">分</span></span>
 								</div>
 								<div class="movie-message">
 									<div class="movie-mes">
@@ -577,7 +574,7 @@
 									</div>
 									<div class="movie-mes">
 										<span class="mestitle">主演:</span>
-										<span class="mesvalue">道恩·强森,杰森·斯坦森</span>
+										<span class="mesvalue" v-text="nowMovie.tostar"></span>
 									</div>
 								</div>
 							</div>
@@ -794,6 +791,7 @@
 					created:function () {
 						_this = this;
 						_this.mid=mid;
+
 						//根据影院id查出拍片的所有电影及拍片详情
 						$.ajax({
 							url:"/movie-stage/movie/bycid/"+cid,
@@ -820,7 +818,24 @@
 
 								if(_this.movielist != null && _this.movielist.length>0){
 									//获取当前展示拍片信息的电影
-									_this.nowMovie=data.list[0];
+									if(mid !=0){
+										for(var i=0;i<_this.movielist.length;i++){
+											if(_this.movielist[i].id==mid){
+												_this.nowMovie=data.list[i];
+												break;
+											}
+										}
+
+
+									}else{
+
+										_this.nowMovie=data.list[0];
+
+
+									}
+
+									console.log(_this.nowMovie)
+
 									//获取当前展示电影的拍片信息
 									_this.nowMessage=_this.nowMovie.movieShowtimes;
 									//获取拍片的时间
@@ -844,7 +859,6 @@
 							dataType:"json",
 							success:function (data) {
 								_this.cinema=data.object
-								console.log(_this.cinema)
 								//渲染地图
 								var centerPoint=_this.cinema.coordinate.split(",");
 

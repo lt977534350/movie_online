@@ -195,6 +195,7 @@
   <result column="pre_movie" jdbcType="VARCHAR" property="preMovie" />
   <result column="longtime" jdbcType="VARCHAR" property="longtime" />
   <result column="mpic" jdbcType="VARCHAR" property="mpic" />
+  <result column="tostar" jdbcType="VARCHAR" property="tostar" />
   <collection property="types" ofType="com.woniu.entity.Type">
     <id property="id" column="tid" />
     <result property="mtype" column="mtype"></result>
@@ -216,7 +217,7 @@
 </resultMap>
 
   <select id="selectMoviesByCid" resultMap="mymap">
-    select a.*,b.id bid,b.cid,b.mid,b.playtime,b.room_id,b.money,b.name room_name,b.type room_type from
+    select a.*,b.id bid,b.cid,b.mid,b.playtime,b.room_id,b.money,b.name room_name,b.type room_type ,mp.tostar from
     (select m.*,t.id tid,t.mtype from movie m
     inner join movie_type mt on m.id = mt.mid
     inner join type t on mt.tid   = t.id) a
@@ -225,6 +226,7 @@
     inner join cinema_room cr on ms.room_id=cr.id
     order by playtime  asc) b
     on a.id=b.mid
+    left join movie_person mp on a.id=mp.mid
     where b.cid=#{param1} and playtime > #{param2}
   </select>
 
