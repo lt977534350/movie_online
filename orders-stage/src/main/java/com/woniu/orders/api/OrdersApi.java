@@ -167,6 +167,7 @@ public class OrdersApi {
     @PostMapping("insertchangingTicket")
     @ResponseBody
     public Result insertchangingTicket(String orderId, String cid,HttpSession session) throws Exception {
+        System.out.println(orderId);
         User user = (User) session.getAttribute("user");
         //删除uid，且orderId为null的数据，一次只能改签一次,或未支付的
         orderService.deleteOderIdIsNull(user.getId());

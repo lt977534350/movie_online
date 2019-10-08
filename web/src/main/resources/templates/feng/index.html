@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+﻿﻿﻿<!DOCTYPE HTML>
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -28,13 +28,14 @@
     <link rel="stylesheet" href="/web/css/normalize.css">
     <link rel="stylesheet" href="/web/css/search-style.css">
     <!--自定义样式-->
-    <!--<link rel="stylesheet" type="text/css" href="/web/css/movieinfostyle.css">
+    <link rel="stylesheet" type="text/css" href="/web/css/movieinfostyle.css">
     <link type="text/css" rel="stylesheet" href="/web/tao/css/citystyle.css"/>
-    <link type="text/css" rel="stylesheet" href="/web/css/mtypestyle.css"/>-->
+    <link type="text/css" rel="stylesheet" href="/web/css/mtypestyle.css"/>
     <![endif]-->
-    <!--<link href="/web/tao/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>-->
+    <link href="/web/tao/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>-->
     <!--地图api-->
-    <!--<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=6ee71f2fd5eece7797fafe8b9f7a090a&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder"></script>-->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=6ee71f2fd5eece7797fafe8b9f7a090a&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder"></script>
+    <script src="/web/js/vue.js" type="text/javascript"></script>
     <style type="text/css">
         .msg{
             font-size: 12px;
@@ -50,15 +51,124 @@
     </style>
 </head>
 <body style="background-color: #0a0910">
-<div id="app">
+<div >
     <!-- header section start -->
-<header class="header" style="background-color: #0a0910">
+    <header class="header" style="background-color: #0a0910">
+        <div class="container">
+            <div class="header-area">
+                <div class="logo" style="margin-bottom: 150px;">
+                    <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo"/></a>
+                    <div class="currcity">
+                        <ul id="list1" style="width:620px;margin-left: 160px;margin-top: 60px;position: absolute">
+                            <li id="summary-stock">
+                                <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
+                                <div class="dd">
+                                    <div id="store-selector">
+                                        <div class="text">
+                                            <div id="currcity"></div>
+                                            <b></b></div>
+                                        <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
+                                    </div><!--store-selector end-->
+                                    <div id="store-prompt"><strong></strong></div><!--store-prompt end---></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
+                        <div class="mycity" @click="selectLocation()">
+                            我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
+                        </div>
+                        <div v-show="isShowCitys" class="city" id="city-div">
+                            <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
+              ">
+                                我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
+                            </div>
+                            <div class="city-wrapper city-wrapper-hook">
+                                <div class="scroller-hook">
+                                    <div class="cities cities-hook">
+                                        <div v-for="i in cityData">
+                                            <div class="title">{{i.name}}</div>
+                                            <ul>
+                                                <li @dblclick="replay(item.name
+                            )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
+                                    <!--<ul style="width: 100px;text-align: left;padding: 20px 0">
+                                        <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
+                                    </ul>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="toast" v-show="toastShow">
+                            {{toastText}}
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-left: 100px;" class="header-right search d7">
+                    <form action="#">
+                        <input type="text" name="fmovie" placeholder="搜索你喜欢的影片...">
+                        <button style="line-height: 50%" onclick="findmovie(this)" >
+                            <svg t="1569562832317" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2069" width="16" height="16"><path d="M240.776 240.872A302.952 302.952 0 0 0 157.328 512c18.048-81.912 60.48-161.952 126.576-228.096C350.048 217.736 430.088 175.328 512 157.28c-95.28-17.952-197.52 9.864-271.224 83.592z" fill="#ff5722" p-id="2070"></path><path d="M959.6 802.736l-114.096-114.096a110.64 110.64 0 0 0-87-31.992c107.304-155.208 91.8-369.744-46.392-507.96-155.568-155.616-407.856-155.616-563.472 0-155.568 155.616-155.568 407.928 0 563.544 138.192 138.216 352.56 153.6 507.864 46.296-2.4 31.2 8.304 63.312 31.992 87l114.096 114.12c43.2 43.104 113.784 43.104 156.888 0 43.32-43.104 43.32-113.712 0.12-156.912zM665.84 665.84c-130.008 130.008-340.68 130.008-470.64 0-130.008-130.008-130.008-340.728 0-470.736 129.96-130.008 340.632-130.008 470.64 0 129.984 129.912 129.984 340.728 0 470.736z" fill="#ff5722" p-id="2071"></path></svg>
+                        </button>
+                    </form>
+                    <br><span id="swarn" style="color: darkorange;font-family: 楷体;font-size: 13px;"></span>
+                    <div id="applogin">
+                        <ul>
+                            <li><a href="/web/feng/index.html"> 爱乐电影</a></li>
+                            <li v-show="user.username==null"><a class="login-popup" href="javascript:;">登录</a>
+                            </li>
+                            <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="javascript:;">注册</a></li>
+                            <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
+                                <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+                                <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
+                                <a href="javascript:;" v-text="user.username"></a>
+                                <ul class="person-ul" style="background-color: black;width: 80px;position: fixed;display: none">
+                                    <li><a class="person-li" :href="'profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <hr color="yellow" />
+                                    <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-area">
+                    <div class="responsive-menu"></div>
+                    <div class="mainmenu">
+                        <ul id="primary-menu">
+                            <li><a  class="active" href="/web/feng/index.html">首页</a></li>
+                            <li><a href="/web/tao/mtype.html">电影</a></li>
+                            <li><a href="/web/tao/cinema-jump.html">影城</a></li>
+                            <li><a  href="/web/feng/hotmovies2.html">热映电影</a></li>
+                            <li><a href="https://ent.sina.com.cn/film/">热点</a></li>
+                            <li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
+                                <ul>
+                                    <li><a onclick="showModel()" href="#">用户须知</a></li>
+                                    <li><a href="#">联系客服</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="col-lg-8 col-lg-offset-2">
+            <div class="title-flag">
+            </div>
+            <h1 style="color: #ef4238;">正在热映</h1>
+        </section>
+
+
+    </header>
+<!--<header class="header" style="background-color: #0a0910">
     <div class="container">
         <div class="header-area">
             <div class="logo">
                 <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo"/></a>
             </div>
-            <!--<div class="currcity">
+            &lt;!&ndash;<div class="currcity">
                 <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
                     <li id="summary-stock">
                         <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
@@ -105,7 +215,7 @@
                 <div class="toast" v-show="toastShow">
                     {{toastText}}
                 </div>
-            </div>-->
+            </div>&ndash;&gt;
             <div style="margin-left: 100px;" class="header-right search d7">
                 <form action="#">
                     <input type="text" name="fmovie" placeholder="搜索你喜欢的影片...">
@@ -117,7 +227,7 @@
                 <ul>
                     <li><a href="#"> 爱乐电影</a></li>
                     <li v-show="user.username==null"><a class="login-popup" href="#" >登录</a>
-                        <!--<a  v-show="username!=null" v-text="username" >登录</a>-->
+                        &lt;!&ndash;<a  v-show="username!=null" v-text="username" >登录</a>&ndash;&gt;
                     </li>
                     <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
                     <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
@@ -147,20 +257,23 @@
                                 <li><a href="#">联系客服</a></li>
                             </ul>
                         </li>
-                        <!--<li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>-->
+                        &lt;!&ndash;<li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>&ndash;&gt;
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</header>
+</header>-->
     <script src="/web/tao/js/jquery-3.4.0.min.js"></script>
+    <script src="/web/tao/js/jquery-1.9.1.min.js"></script>
     <script src="/web/js/vue.js"></script>
     <script src="/web/tao/js/location.js"></script>
     <script src="/web/tao/js/city.js"></script>
     <script src="/web/tao/js/bscroll.min.js"></script>
+
+
     <!--定位-->
-    <!--<script>
+    <script>
         window.onload=function () {
             /*获取定位的值*/
             var city=$("#qyxs").text();
@@ -348,258 +461,261 @@
                 v.initCities()
             },
         })
-    </script>-->
-    <div class="login-area" id="myidlogin">
-        <div class="login-box">
-            <a href="#"><i class="icofont icofont-close"></i></a>
-            <h2 >登录</h2>
-            <form  id ="logform" action="/api-user/user/login">
-                <h6>用户名</h6>
-                <input type="text" id="loginuser" name="username" placeholder="请输入用户名"/>
-                <span id="ulmsg" class="msg"></span>
-                <h6>密码</h6>
-                <input type="password" id="loginpwd" name="password" placeholder="请输入密码"/>
-                <span id="plmsg" class="msg"></span>
-                <div>
-                    <div class="col-lg-8">
-                        <div style="float: left;">
+    </script>
+    <div id="app">
+        <div class="login-area" id="myidlogin">
+            <div class="login-box">
+                <a href="#"><i class="icofont icofont-close"></i></a>
+                <h2 >登录</h2>
+                <form  id ="logform" action="/api-user/user/login">
+                    <h6>用户名</h6>
+                    <input type="text" id="loginuser" name="username" placeholder="请输入用户名"/>
+                    <span id="ulmsg" class="msg"></span>
+                    <h6>密码</h6>
+                    <input type="password" id="loginpwd" name="password" placeholder="请输入密码"/>
+                    <span id="plmsg" class="msg"></span>
+                    <div>
+                        <div class="col-lg-8">
+                            <div style="float: left;">
                         <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyphone()">
                             <svg t="1569485567198" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1130" width="16" height="16"><path d="M717.72292 66.790172 310.008055 66.790172c-48.50676 0-87.971587 39.534412-87.971587 88.1302l0 48.489364 0 583.991638 0 78.821183c0 48.52518 39.463804 87.986937 87.971587 87.986937l407.714865 0c48.594765 0 88.1302-39.461757 88.1302-87.986937l0-78.821183L805.85312 203.409736l0-48.489364C805.85312 106.325607 766.317685 66.790172 717.72292 66.790172M276.401656 257.772878l475.086276 0L751.487931 733.038232 276.401656 733.038232 276.401656 257.772878zM751.487931 866.222557c0 18.545378-15.148002 33.622772-33.765011 33.622772L310.008055 899.845329c-18.527982 0-33.606399-15.077394-33.606399-33.622772l0-78.821183 475.086276 0L751.487931 866.222557zM276.401656 203.409736l0-48.489364c0-18.61701 15.078417-33.766035 33.606399-33.766035l407.714865 0c18.61701 0 33.765011 15.149025 33.765011 33.766035l0 48.489364L276.401656 203.409736zM513.963213 893.085368c27.323299 0 49.480948-22.155603 49.480948-49.514717 0-27.324322-22.156626-49.479925-49.480948-49.479925-27.359115 0-49.498344 22.154579-49.498344 49.479925C464.464869 870.929766 486.603075 893.085368 513.963213 893.085368M546.667056 153.751756l-65.426105 0c-6.813173 0-12.33391 5.52176-12.33391 12.317537 0 6.830569 5.520737 12.352329 12.33391 12.352329l65.426105 0c6.795776 0 12.351306-5.52176 12.351306-12.352329C559.018362 159.273517 553.461809 153.751756 546.667056 153.751756" p-id="1131"></path></svg>
                             点我进入手机登陆
                         </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="float: right;" class="login-remember">
+                                <input id="rem" name="rem" type="checkbox"/>
+                                <label for="rem" style="font-size: 15px;font-family: 'Franklin Gothic Medium';">记住我</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div style="float: right;" class="login-remember">
-                            <input id="rem" name="rem" type="checkbox"/>
-                            <label for="rem" style="font-size: 15px;font-family: 'Franklin Gothic Medium';">记住我</label>
-                        </div>
-                    </div>
-                </div>
-                <a @click="login()" class="theme-btn">登录</a>
-            </form>
+                    <a @click="login()" class="theme-btn">登录</a>
+                </form>
+            </div>
         </div>
-    </div>
-    <div style="display: none;" class="login-area" id="myphonelogin">
-        <div class="login-box">
-            <a href="#"><i class="icofont icofont-close"></i></a>
-            <h2 >登录</h2>
-            <form  id ="telform" action="/api-user/user/login">
-                <h6>手机号</h6>
-                <input type="tel" id="phonenum" name="telphone" placeholder="请输入手机号"/>
-                <span id="telmsg" class="msg"></span>
-                <div>
-                    <input class="col-lg-8" id="mycode" type="text" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
-                    <input class=" btn btn-success" type="button" onclick="getcode(this)" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" value="获取验证码">
-                    <span id="codemsg" class="msg"></span>
-                </div>
-                <div style="float: left;">
+        <div style="display: none;" class="login-area" id="myphonelogin">
+            <div class="login-box">
+                <a href="#"><i class="icofont icofont-close"></i></a>
+                <h2 >登录</h2>
+                <form  id ="telform" action="/api-user/user/login">
+                    <h6>手机号</h6>
+                    <input type="tel" id="phonenum" name="telphone" placeholder="请输入手机号"/>
+                    <span id="telmsg" class="msg"></span>
+                    <div>
+                        <input class="col-lg-8" id="mycode" type="text" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+                        <input class=" btn btn-success" type="button" onclick="getcode(this)" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" value="获取验证码">
+                        <span id="codemsg" class="msg"></span>
+                    </div>
+                    <div style="float: left;">
                     <span class="hvr-shrink" style="color: blueviolet;font-size: 15px;font-family: 黑体;cursor: pointer" onclick="loginbyid()">
                         <svg t="1569486963559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2521" width="16" height="16"><path d="M939.904 821.333333a439.296 439.296 0 0 0-306.346667-317.994666 233.258667 233.258667 0 0 0 111.573334-198.869334c0-128.554667-104.576-233.173333-233.130667-233.173333S278.869333 175.914667 278.869333 304.469333a233.258667 233.258667 0 0 0 111.573334 198.869334 439.296 439.296 0 0 0-306.346667 317.994666 103.594667 103.594667 0 0 0 19.541333 89.088c21.034667 26.88 52.608 42.24 86.613334 42.24H833.706667a109.226667 109.226667 0 0 0 86.613333-42.24c20.138667-25.6 27.221333-58.069333 19.584-89.088zM330.069333 304.469333c0-100.352 81.621333-181.973333 181.930667-181.973333s181.930667 81.621333 181.930667 181.973333S612.352 486.4 512 486.4 330.069333 404.778667 330.069333 304.469333z m549.973334 574.421334a59.306667 59.306667 0 0 1-46.336 22.613333H190.250667a59.306667 59.306667 0 0 1-46.336-22.613333 52.096 52.096 0 0 1-10.154667-45.312C176.725333 659.328 332.245333 537.6 512 537.6s335.274667 121.728 378.197333 295.978667a52.053333 52.053333 0 0 1-10.154666 45.312z" p-id="2522" fill="#515151"></path></svg>
                         点我进入用户名登陆
                     </span>
-                </div>
-                <a @click="login()" class="theme-btn">手机登录</a>
-            </form>
-        </div>
-    </div>
-    <div class="login-area" id="myregister">
-        <div class="login-box register-box">
-            <a href="#"><i class="icofont icofont-close"></i></a>
-            <h2 >注册</h2>
-            <form id ="reform" action="/api-user/user/register">
-                <h6>用户名</h6>
-                <input class="name_input reginput" id="reguser" type="text" name="username" placeholder="请输入用户名"/>
-                <span id="urmsg" class="msg">用户名不得全为数字，不含特殊字符，支持中文</span>
-                <h6>密码</h6>
-                <input class="pwd_input reginput" id="regpwd" type="password" name="password" placeholder="请输入密码"/>
-                <span id="rpmsg" class="msg">密码不得少于6位</span>
-                <h6>确认密码</h6>
-                <input class="repwd_input reginput" id="repwd" type="password" name="repwd" placeholder="请确认密码"/>
-                <span id="remsg" class="msg"></span>
-                <div style="margin-bottom: 20px;">
-                    <h6>手机号</h6>
-                    <input class="tel_input reginput" id="sendphone" style="float: left" type="tel" name="telphone" placeholder="请输入手机号" />
-                    <span id="regtel" class="msg"></span>
-                    <div>
-                        <input class="col-lg-8" id="myregcode" type="text" name="code" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
-                        <input type="button" class="btn btn-danger" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" onclick="getcode(this)" value="获取验证码">
-                        <span id="regcode" class="msg"></span>
                     </div>
-                </div>
-                <div>
-                    <a @click="register()" class="theme-btn">注册</a>
-                </div>
-            </form>
+                    <a @click="login()" class="theme-btn">手机登录</a>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="buy-ticket" id="mymodel">
-        <div class="container">
-            <div class="buy-ticket-area">
+        <div class="login-area" id="myregister">
+            <div class="login-box register-box">
                 <a href="#"><i class="icofont icofont-close"></i></a>
-                <h3 style="text-align: center; color: black;font-weight: 900">用户须知</h3>
-                <p> 欢迎您使用爱乐平台服务（“本服务”）。在登录爱乐平台或使用本服务前，您应当首先阅读并同意接受《爱乐用户服务协议》（“本协议”）的全部内容。在点击确认本协议之前，请您务必仔细阅读本协议的全部内容，特别是免除或限制责任条款等以粗体格式重点标示的条款。阅读本协议过程中，如果您不同意本协议的任意内容，或者无法准确理解，请不要同意本协议或登录使用本协议项下的服务，否则，即表示您已接受了本协议的条款和条件，同意受本协议约束。
-
-                    一、定义
-
-                    1.1 “爱乐平台”或“本平台”：重庆爱乐文化传媒有限公司运营和管理的提供在线票务等服务的网络平台（maoyan.com等）,以及重庆爱乐文化传媒有限公司或其关联方有权运营或管理的爱乐合作平台，包括但不限于美团网站及客户端电影/演出频道、大众点评网站及客户端电影/演出频道、格瓦拉客户端、微信钱包电影演出赛事入口、微信小程序等。
-
-                    1.2 “本服务”：通过本平台向用户提供的在线票务服务、以及影视行业相关服务，包括但不限于面向用户提供影视/演出相关排片/活动信息、在线选座购票/购票、用户交流及评价、影视/演出信息介绍、影视相关票房信息查询、衍生品销售以及其他爱乐平台上展示和提供的服务。该等服务由爱乐相关主体或者相关合作方（统称“服务方”）提供。
-
-                    1.3 “用户”：接受并同意本协议全部条款及本平台发布的其他全部服务条款和操作规则的用户。
-
-                    二、基本原则
-
-                    2.1 本平台为第三方平台，为用户与本平台上相关服务/产品经营者之间提供网页空间、虚拟经营场所、交易撮合、信息发布等服务，供交易各方独立开展交易活动的信息网络系统。
-
-                    2.2 用户通过本平台使用经营者所提供服务的，应当同时遵守本协议、相关服务协议（如有）、以及本平台的相关规则、通知、要求。该等服务协议、平台规则、通知、要求等与本协议条款共同构成本协议的全部内容。
-
-                    2.3 用户同意并确认，本平台有权随时根据运营和管理的需要，对本协议内容进行修订和变更，修订或变更后的文本将在本平台上依法予以公示。如用户在本协议修订或变更后的文本生效后，仍然继续使用本服务的，即表示用户已充分阅读、理解并同意接受修订或变更后的协议内容；如用户不同意修改后的协议内容，用户应立即停止使用本服务。 >
-                    三、 用户服务
-
-                    3.1 本平台为服务方以及用户之间通过本平台进行电影票务、演出票务、衍生品等商品或服务的网络交易活动提供网络交易平台服务。服务方负责向用户提供相应商品或服务。根据市场需要，结合各业务的不同特点，可能向用户收取一定的服务费用，具体服务费用以用户购买页面中展示信息为准。
-
-                    3.2 本平台所提供的影视/演出的排片/活动、节目信息、选座（如有）等相关信息、以及售卖规则（包括但不限于购买规则、退改签规则等），均由影视/演出相关权利人（包括但不限于影院、影片出品方、演出主办方等）提供或制定。详见用户购买页面所展示信息。
-
-                    3.3 本平台所发布的广告或商品/服务展示内容，如有任何侵权行为，本平台将依法根据权利人的通知或者径行做出删除等处理。
-
-                    3.4 用户可通过本平台使用相关服务方提供的商品或服务、进行相应评论，但应当遵守法律规定以及本协议约定。
-
-                    3.5 用户通过本平台购买相应商品或服务的，应当提供获取该等商品或服务所必需的信息（包括但不限于手机号码等）。用户应当保证所提供信息的真实、准确、合法、完整。否则，如因用户所提供信息存在问题而导致用户无法享受相关商品或服务的，用户应当自行承担责任。
-
-                    3.6 用户实际消费过程中，如果发现服务方所提供商品或服务存在任何问题，应与相关服务方自行协商解决。同时，用户也可以通知本平台，本平台或服务方将依法向用户提供必要信息并协助用户与经营者解决争议。
-                </p>
+                <h2 >注册</h2>
+                <form id ="reform" action="/api-user/user/register">
+                    <h6>用户名</h6>
+                    <input class="name_input reginput" id="reguser" type="text" name="username" placeholder="请输入用户名"/>
+                    <span id="urmsg" class="msg">用户名不得全为数字，不含特殊字符，支持中文</span>
+                    <h6>密码</h6>
+                    <input class="pwd_input reginput" id="regpwd" type="password" name="password" placeholder="请输入密码"/>
+                    <span id="rpmsg" class="msg">密码不得少于6位</span>
+                    <h6>确认密码</h6>
+                    <input class="repwd_input reginput" id="repwd" type="password" name="repwd" placeholder="请确认密码"/>
+                    <span id="remsg" class="msg"></span>
+                    <div style="margin-bottom: 20px;">
+                        <h6>手机号</h6>
+                        <input class="tel_input reginput" id="sendphone" style="float: left" type="tel" name="telphone" placeholder="请输入手机号" />
+                        <span id="regtel" class="msg"></span>
+                        <div>
+                            <input class="col-lg-8" id="myregcode" type="text" name="code" placeholder="验证码..." style="border: none;outline: none;border-bottom: orange 5px solid">
+                            <input type="button" class="btn btn-danger" style="font-size: 13px;text-align: center!important;float: right;margin-top: 10px;background-color: red" onclick="getcode(this)" value="获取验证码">
+                            <span id="regcode" class="msg"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <a @click="register()" class="theme-btn">注册</a>
+                    </div>
+                </form>
             </div>
         </div>
-    </div><!-- header section end -->
-    <!-- hero area start -->
-    <section class="hero-area" id="home">
-        <div class="container" >
-            <div class="row hero-area-slide"  >
-                <div class="col-lg-6 col-md-5">
-                    <div class="hero-area-content" >
-                        <img style="height: 702.19px;opacity:0.8;" id="actpic" :src="showmovie.mpic" alt="about"/>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-7" >
-                    <div class="hero-area-content pr-50">
-                        <h2 v-text="showmovie.mname"></h2>
-                        <div class="review">
-                            <div class="author-review" :id="'topmovies'+showmovie.id">
-                                <svg v-if="showmovie.starnum>0" v-for="count in showmovie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
-                                <svg v-if="showmovie.emstarnum>0" v-for="count in showmovie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
-                            </div>
-                            <h4 v-text="showmovie.score"></h4>
-                        </div>
-                        <p v-text="showmovie.shortStory"></p>
-                        <div class="slide-trailor">
-                            <h3>立即购票</h3>
-                            <a class="theme-btn theme-btn2" href="/web/tao/cinema-jump.html"><i class="icofont icofont-play"></i> Tickets</a>
-                        </div>
-                    </div>
-                    <div style="width:100%;height:50%;background-color: transparent;position:absolute;bottom:0;left: 0">
-                        <div v-if="index<3" :id="'picdiv'+index" onclick="changepic(this)" v-for="(movie,index) in newMovie" :myindex="index" style="width: 33.333333%;height: 100%;;position: relative;float: left" >
-                            <img :src="movie.mpic" alt="" style="width: 100%;height: 100%;">
-                        </div>
-                    </div>
-                </div>
+        <div class="buy-ticket" id="mymodel">
+            <div class="container">
+                <div class="buy-ticket-area">
+                    <a href="#"><i class="icofont icofont-close"></i></a>
+                    <h3 style="text-align: center; color: black;font-weight: 900">用户须知</h3>
+                    <p> 欢迎您使用爱乐平台服务（“本服务”）。在登录爱乐平台或使用本服务前，您应当首先阅读并同意接受《爱乐用户服务协议》（“本协议”）的全部内容。在点击确认本协议之前，请您务必仔细阅读本协议的全部内容，特别是免除或限制责任条款等以粗体格式重点标示的条款。阅读本协议过程中，如果您不同意本协议的任意内容，或者无法准确理解，请不要同意本协议或登录使用本协议项下的服务，否则，即表示您已接受了本协议的条款和条件，同意受本协议约束。
 
-            </div>
-        </div>
-    </section><!-- hero area end -->
-    <!-- portfolio section start -->
-    <section class="portfolio-area pt-60">
-        <div class="container">
-            <div class="row flexbox-center">
-                <div class="col-lg-6 text-center text-lg-left">
-                    <div class="section-title">
-                        <h1><i class="icofont icofont-movie"></i> 正在热映</h1>
-                    </div>
+                        一、定义
+
+                        1.1 “爱乐平台”或“本平台”：重庆爱乐文化传媒有限公司运营和管理的提供在线票务等服务的网络平台（maoyan.com等）,以及重庆爱乐文化传媒有限公司或其关联方有权运营或管理的爱乐合作平台，包括但不限于美团网站及客户端电影/演出频道、大众点评网站及客户端电影/演出频道、格瓦拉客户端、微信钱包电影演出赛事入口、微信小程序等。
+
+                        1.2 “本服务”：通过本平台向用户提供的在线票务服务、以及影视行业相关服务，包括但不限于面向用户提供影视/演出相关排片/活动信息、在线选座购票/购票、用户交流及评价、影视/演出信息介绍、影视相关票房信息查询、衍生品销售以及其他爱乐平台上展示和提供的服务。该等服务由爱乐相关主体或者相关合作方（统称“服务方”）提供。
+
+                        1.3 “用户”：接受并同意本协议全部条款及本平台发布的其他全部服务条款和操作规则的用户。
+
+                        二、基本原则
+
+                        2.1 本平台为第三方平台，为用户与本平台上相关服务/产品经营者之间提供网页空间、虚拟经营场所、交易撮合、信息发布等服务，供交易各方独立开展交易活动的信息网络系统。
+
+                        2.2 用户通过本平台使用经营者所提供服务的，应当同时遵守本协议、相关服务协议（如有）、以及本平台的相关规则、通知、要求。该等服务协议、平台规则、通知、要求等与本协议条款共同构成本协议的全部内容。
+
+                        2.3 用户同意并确认，本平台有权随时根据运营和管理的需要，对本协议内容进行修订和变更，修订或变更后的文本将在本平台上依法予以公示。如用户在本协议修订或变更后的文本生效后，仍然继续使用本服务的，即表示用户已充分阅读、理解并同意接受修订或变更后的协议内容；如用户不同意修改后的协议内容，用户应立即停止使用本服务。 >
+                        三、 用户服务
+
+                        3.1 本平台为服务方以及用户之间通过本平台进行电影票务、演出票务、衍生品等商品或服务的网络交易活动提供网络交易平台服务。服务方负责向用户提供相应商品或服务。根据市场需要，结合各业务的不同特点，可能向用户收取一定的服务费用，具体服务费用以用户购买页面中展示信息为准。
+
+                        3.2 本平台所提供的影视/演出的排片/活动、节目信息、选座（如有）等相关信息、以及售卖规则（包括但不限于购买规则、退改签规则等），均由影视/演出相关权利人（包括但不限于影院、影片出品方、演出主办方等）提供或制定。详见用户购买页面所展示信息。
+
+                        3.3 本平台所发布的广告或商品/服务展示内容，如有任何侵权行为，本平台将依法根据权利人的通知或者径行做出删除等处理。
+
+                        3.4 用户可通过本平台使用相关服务方提供的商品或服务、进行相应评论，但应当遵守法律规定以及本协议约定。
+
+                        3.5 用户通过本平台购买相应商品或服务的，应当提供获取该等商品或服务所必需的信息（包括但不限于手机号码等）。用户应当保证所提供信息的真实、准确、合法、完整。否则，如因用户所提供信息存在问题而导致用户无法享受相关商品或服务的，用户应当自行承担责任。
+
+                        3.6 用户实际消费过程中，如果发现服务方所提供商品或服务存在任何问题，应与相关服务方自行协商解决。同时，用户也可以通知本平台，本平台或服务方将依法向用户提供必要信息并协助用户与经营者解决争议。
+                    </p>
                 </div>
             </div>
-            <hr/>
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="row portfolio-item">
-                        <div v-if="index>3&&index<10" class="col-lg-4 col-md-4 col-sm-6 soon released" v-for="(movie,index) in newMovie">
-                            <div class="single-portfolio">
-                                <div class="single-portfolio-img">
-                                    <img style="height: 357px" :src="movie.mpic" alt="portfolio"/>
-                                    <a :href="movie.preMovie" class="popup-youtube">
-                                        <i class="icofont icofont-ui-play"></i>
-                                    </a>
+        </div><!-- header section end -->
+        <!-- hero area start -->
+        <section class="hero-area" id="home">
+            <div class="container" >
+                <div class="row hero-area-slide"  >
+                    <div class="col-lg-6 col-md-5">
+                        <div class="hero-area-content" >
+                            <img style="height: 702.19px;opacity:0.8;" id="actpic" :src="showmovie.mpic" alt="about"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-7" >
+                        <div class="hero-area-content pr-50">
+                            <h2 v-text="showmovie.mname"></h2>
+                            <div class="review">
+                                <div class="author-review" :id="'topmovies'+showmovie.id">
+                                    <svg v-if="showmovie.starnum>0" v-for="count in showmovie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
+                                    <svg v-if="showmovie.emstarnum>0" v-for="count in showmovie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
                                 </div>
-                                <div class="portfolio-content">
-                                    <h4><a :href="'/web/tao/cinema-jump.html?mid='+movie.id" v-text="movie.mname"></a></h4>
-                                    <div class="review">
-                                        <div class="author-review">
-                                            <svg v-if="movie.starnum>0" v-for="count in movie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
-                                            <svg v-if="movie.emstarnum>0" v-for="count in movie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
+                                <h4 v-text="showmovie.score"></h4>
+                            </div>
+                            <p v-text="showmovie.shortStory"></p>
+                            <div class="slide-trailor">
+                                <h3>立即购票</h3>
+                                <a class="theme-btn theme-btn2" href="/web/tao/cinema-jump.html"><i class="icofont icofont-play"></i> Tickets</a>
+                            </div>
+                        </div>
+                        <div style="width:100%;height:50%;background-color: transparent;position:absolute;bottom:0;left: 0">
+                            <div v-if="index<3" :id="'picdiv'+index" onclick="changepic(this)" v-for="(movie,index) in newMovie" :myindex="index" style="width: 33.333333%;height: 100%;;position: relative;float: left" >
+                                <img :src="movie.mpic" alt="" style="width: 100%;height: 100%;">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><!-- hero area end -->
+        <!-- portfolio section start -->
+        <section class="portfolio-area pt-60">
+            <div class="container">
+                <div class="row flexbox-center">
+                    <div class="col-lg-6 text-center text-lg-left">
+                        <div class="section-title">
+                            <h1><i class="icofont icofont-movie"></i> 正在热映</h1>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="row portfolio-item">
+                            <div v-if="index>3&&index<10" class="col-lg-4 col-md-4 col-sm-6 soon released" v-for="(movie,index) in newMovie">
+                                <div class="single-portfolio">
+                                    <div class="single-portfolio-img">
+                                        <img style="height: 357px" :src="movie.mpic" alt="portfolio"/>
+                                        <a :href="movie.preMovie" class="popup-youtube">
+                                            <i class="icofont icofont-ui-play"></i>
+                                        </a>
+                                    </div>
+                                    <div class="portfolio-content">
+                                        <h4><a :href="'/web/tao/cinema-jump.html?mid='+movie.id" v-text="movie.mname"></a></h4>
+                                        <div class="review">
+                                            <div class="author-review">
+                                                <svg v-if="movie.starnum>0" v-for="count in movie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
+                                                <svg v-if="movie.emstarnum>0" v-for="count in movie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
+                                            </div>
+                                            <h4 v-text="movie.score"></h4>
                                         </div>
-                                        <h4 v-text="movie.score"></h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 text-center text-lg-left">
-                    <div class="portfolio-sidebar">
-                        <img src="/web/assets/img/sidebar/sidebar1.png" alt="sidebar"/>
-                        <img src="/web/assets/img/sidebar/sidebar2.png" alt="sidebar"/>
-                        <img src="/web/assets/img/sidebar/sidebar3.png" alt="sidebar"/>
-                        <img src="/web/assets/img/sidebar/sidebar3.png" alt="sidebar"/>
+                    <div class="col-lg-3 text-center text-lg-left">
+                        <div class="portfolio-sidebar">
+                            <img src="/web/assets/img/sidebar/sidebar1.png" alt="sidebar"/>
+                            <img src="/web/assets/img/sidebar/sidebar2.png" alt="sidebar"/>
+                            <img src="/web/assets/img/sidebar/sidebar3.png" alt="sidebar"/>
+                            <img src="/web/assets/img/sidebar/sidebar3.png" alt="sidebar"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section><!-- portfolio section end -->
-    <!-- video section start -->
-    <section class="video ptb-90">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title pb-20">
-                        <h1><i class="icofont icofont-film"></i> 新片上映</h1>
+        </section><!-- portfolio section end -->
+        <!-- video section start -->
+        <section class="video ptb-90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title pb-20">
+                            <h1><i class="icofont icofont-film"></i> 新片上映</h1>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr/>
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="video-area">
-                        <img style="width:100%;height: 403px;" :src="topmovie.mpic" alt="video"/>
-                        <a :href="topmovie.preMovie" class="popup-youtube">
-                            <i class="icofont icofont-ui-play"></i>
-                        </a>
-                        <div class="video-text">
-                            <h2 v-text="topmovie.mname"></h2>
-                            <div class="review">
-                                <div class="author-review">
-                                    <svg v-if="topmovie.starnum>0" v-for="count in topmovie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
-                                    <svg v-if="topmovie.emstarnum>0" v-for="count in topmovie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="video-area">
+                            <img style="width:100%;height: 403px;" :src="topmovie.mpic" alt="video"/>
+                            <a :href="topmovie.preMovie" class="popup-youtube">
+                                <i class="icofont icofont-ui-play"></i>
+                            </a>
+                            <div class="video-text">
+                                <h2 v-text="topmovie.mname"></h2>
+                                <div class="review">
+                                    <div class="author-review">
+                                        <svg v-if="topmovie.starnum>0" v-for="count in topmovie.starnum" style="height: 15px;width: 15px" t="1569414426386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6196" width="200" height="200"><path d="M565.228999 34.689634l112.062243 237.506364c8.702621 18.317097 25.411973 31.05108 44.816898 33.994614l250.736267 38.073966c48.688285 7.406826 68.213191 70.036902 32.930782 105.95921L824.307945 635.130487c-13.997782 14.237744-20.348775 34.810484-17.053298 54.927296l42.809217 261.086627c8.342678 50.687968-42.633244 89.441827-86.210339 65.50962l-224.276461-123.252469a57.030963 57.030963 0 0 0-55.271241 0l-224.276461 123.260467c-43.577095 23.91621-94.553017-14.82965-86.20234-65.509619l42.809216-261.094626c3.319474-20.116812-3.095509-40.697551-17.085293-54.927296L18.147691 450.223788C-17.126719 414.30148 2.326198 351.671404 51.070474 344.264578l250.704273-38.073966c19.348934-2.943534 36.074284-15.677516 44.752908-33.994614L458.63789 34.689634c21.820542-46.152687 84.826558-46.152687 106.58311 0z" fill="#f4ea2a" p-id="6197"></path></svg>
+                                        <svg v-if="topmovie.emstarnum>0" v-for="count in topmovie.emstarnum" style="width: 15px;height: 15px;" t="1569414277591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="200" height="200"><path d="M248.7 989c-10.6 0-20.2-2.2-29.3-7.2-26.3-14.4-31.1-43.2-32.9-54-1.9-11.7-3.1-26.4-3.6-45.1-0.7-28.3 0.3-66.3 2.9-112.8 3-52.6 7.3-103.9 9.9-132.5-16.9-17.9-44.6-47.8-72.4-79.7-26.1-29.9-46.8-55.5-61.5-76C38.1 448.8 24.2 423 28.5 396c5.9-36.4 40.8-53.5 77.6-66.5 24.3-8.6 57.1-17.7 97.5-27.2 43.1-10.1 85.3-18.4 110.9-23.2 13.1-23.9 35.7-64.4 60.1-105.3 22.3-37.5 41.5-67.6 57-89.4C459 46 480.7 23.8 511 23.8c27.1 0 45.6 19.6 52.6 26.9 7.9 8.4 16.9 19.5 27.4 34.1 16 22.2 35.9 52.9 59 91 25.7 42.3 49.5 84.2 63.2 108.4 24.3 4.8 64.3 12.9 105.5 22.7 38.8 9.2 70.7 18 94.8 26.1 38.6 13 64.9 25.9 77.2 50.3 9.3 18.5 8.3 39.7-2.9 63-5.1 10.5-12.7 22.5-23.2 36.5-15.3 20.4-37.3 45.9-65.6 75.8-29.7 31.5-59.9 61.2-78.5 79.2 2.8 29 7.5 79.5 11.1 131.4 3.2 46.5 4.8 84.4 4.8 112.5 0 45-2.3 80.9-31.8 98.9-20.3 12.3-41.7 8.6-58.1 4-10.5-3-23.2-7.6-39.1-14.3-24.2-10.2-55.8-25.2-94.1-44.6-39.8-20.2-78.1-40.8-102.1-53.8-23.7 13.2-61.5 33.8-100.9 54.1-38.1 19.6-69.8 34.6-94.3 44.8-26.9 11.1-48.6 18.2-67.3 18.2z m528.4-101.9zM145.7 423.7c11.8 16.1 31.4 40.9 64.1 77.9 38.4 43.5 75.2 81.6 75.6 82l16.4 17-2.3 23.5c-0.1 0.6-6.3 63.7-10.6 132.3-3.6 56.4-4.3 93.1-4.1 116.7 20.1-8.7 49.9-22.8 93.8-45.7 56.1-29.2 106.6-58 107.1-58.3l24.9-14.2 25.1 13.9c0.5 0.3 51.8 28.8 108.5 57.9 41.2 21.2 70 34.9 90.1 43.8-0.4-24-1.9-60-5.9-113.4-5.2-69.4-11.9-133.2-11.9-133.9l-2.7-25.2 18.5-17.3c0.4-0.4 38.8-36.5 79-78.3 33.4-34.7 53.8-58.4 66.2-74.1-19.2-6.3-49.4-14.8-96.6-25.7-57-13.1-109.4-22.8-109.9-22.9l-23.8-4.4-11.7-21.2c-0.3-0.5-29.7-53.8-63.6-110.5-28.2-47.1-47.6-76.7-60.7-95.3-12.6 18.2-31.2 47.1-57.8 92.4-32.5 55.4-60.5 107.4-60.8 108l-11.8 21.9-24.5 4.2c-0.7 0.1-53.5 9.3-110.9 22.2-49.5 11.4-80.5 20.3-99.7 26.7z m763.4 17.6z" fill="#f4ea2a" p-id="5463"></path></svg>
+                                    </div>
+                                    <h4 v-text="topmovie.score"></h4>
                                 </div>
-                                <h4 v-text="topmovie.score"></h4>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-6" v-for="(movie,index) in newMovie">
-                            <div v-if="index<3&index>0" class="video-area">
-                                <img style="width: 100%;height: 182px;" :src="movie.mpic" alt="video"/>
-                                <a :href="movie.preMovie" class="popup-youtube">
-                                    <i class="icofont icofont-ui-play"></i>
-                                </a>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6" v-for="(movie,index) in newMovie">
+                                <div v-if="index<3&index>0" class="video-area">
+                                    <img style="width: 100%;height: 182px;" :src="movie.mpic" alt="video"/>
+                                    <a :href="movie.preMovie" class="popup-youtube">
+                                        <i class="icofont icofont-ui-play"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section><!-- video section end -->
-    <!-- footer section start -->
+        </section><!-- video section end -->
+        <!-- footer section start -->
+    </div>
+
     <div class="footer">
         <div class="container">
             <div class="w3ls_footer_grid col-lg-12" >
@@ -657,7 +773,7 @@
 <!-- jquery main JS -->
 <script src="/web/js/jquery-2.1.4.min.js"></script>
 <script src="/web/js/bootstrap.min.js"></script>
-<script src="/web/js/vue.js" type="text/javascript"></script>
+
 <!-- Slick nav JS -->
 <script src="/web/assets/js/jquery.slicknav.min.js"></script>
 <!-- owl carousel JS -->
@@ -668,7 +784,317 @@
 <script src="/web/assets/js/isotope.pkgd.min.js"></script>
 <!-- main JS -->
 <script src="/web/assets/js/main.js"></script>
+<script type="text/javascript">
+    function changepic(obj) {
+        app.showmovie = app.newMovie[$(obj).index()];
+    };
+    $(function () {
+        var index=0;
+        setInterval(function(){
+            if(index <= 2){
+                $("#picdiv"+index).click();
+                index += 1;
+            }else{
+                index=0;
+                $("#picdiv"+index).click();
+                index += 1;
+            }
+        }, 3000);
+    })
 
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            newMovie:[],
+            activeIndex:0,
+            showmovie:{},
+            topmovie:{},
+            user:{}
+        },
+        created:function () {
+            var _this=this;
+            var cookies=document.cookie.split(";");
+            var myuser;
+            var a = "loguser";
+            for(var i=0;i<cookies.length;i++){
+                if(a==cookies[i].split("=")[0].trim()){
+                    var user = cookies[i].split("=")[1];
+                    console.log("---"+user);
+                    myuser = decodeURIComponent(user);
+                    console.log("===="+myuser);
+                }
+            }
+            if(myuser!=null){
+                _this.user = $.parseJSON(myuser);
+            }
+            //查询最新的3部电影
+            $.ajax({
+                url:"/movie-stage/movie/orderbytime/9",
+                type:"get",
+                dataType:"json",
+                success:function (data) {
+                    _this.newMovie=data.list;
+                    _this.showmovie = data.list[0];
+                    _this.topmovie = data.list[0];
+                }
+            })
+        },
+        methods: {
+            login() {
+                var obj = this;
+                var flag = false;
+                for(var i=0;i<$("#logform .msg").length;i++){
+                    if($("#logform .msg").eq(i).text()==null||$("#logform .msg").eq(i).text()==""){
+                        flag =true;
+                    }
+                }
+                for(var i=0;i<$("#telform .msg").length;i++){
+                    if($("#telform .msg").eq(i).text()==null||$("#telform .msg").eq(i).text()==""){
+                        flag =true;
+                    }
+                }
+                if(flag==true){
+                    $.ajax({
+                        url: "/api-user/user/login",
+                        data: {"username":$("#loginuser").val(),"password":$("#loginpwd").val(),
+                            "phonenum":$("#phonenum").val(),"code":$("#mycode").val()},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code = "success") {
+                                $(".login-area").slideUp(1000);
+                                obj.user = data.object;
+                               window.location.reload();
+                            }else if(data.code=="error"){
+                                alert(data.message);
+                            }else if(data.code=="ufail"){
+                                $("#ulmsg").text(data.message);
+                            }else if(data.code=="pwdfail"){
+                                $("#plmsg").text(data.message);
+                            }else if(date.code=="pfail"){
+                                $("#telmsg").text(data.message);
+                            }else if(data.code=="cfail"){
+                                $("#codemsg").text(data.message);
+                            }else{
+                                alert(data.message);
+                            }
+
+                        }
+
+                    })
+                }
+            },
+            register(){
+                var v =this;
+                if($(".msg").text()==null||$(".msg").text()==""){
+                    $.ajax({
+                        url:"/api-user/user/register",
+                        data:$("#reform").serialize(),
+                        type:"get",
+                        dataType:"json",
+                        success:function (rt) {
+                            alert(rt.message);
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
+        }
+    })
+    window.onload=function(){
+        $.getScript('/web/assets/js/jquery.slicknav.min.js',function(){
+        });
+        $.getScript('/web/assets/js/owl.carousel.min.js',function(){
+        });
+        $.getScript('/web/assets/js/owl.carousel.min.js',function(){
+        });
+        $.getScript('/web/assets/js/isotope.pkgd.min.js',function(){
+        });
+        $.getScript('/web/assets/js/main.js',function(){
+        });
+
+    }
+    function showModel() {
+
+        $(".buy-ticket").slideDown();
+    }
+    function loginbyphone() {
+        $("#myidlogin").hide();
+        $("#myphonelogin").show();
+    }
+    function loginbyid() {
+        $("#myidlogin").show();
+        $("#myphonelogin").hide();
+    }
+    var t ;
+    function getcode(th) {
+        $.ajax({
+            url:"/api-user/user/sendCode",
+            data:{"phone":$(th).parent().prev().prev().val()},
+            dataType:"json",
+            type:"get",
+            success:function (rt) {
+                $(th).attr("disabled","disabled");
+                var second = 10;
+                t = setInterval(function () {
+                    $(th).val(second+"s重发");
+                    second -= 1;
+                    console.log("second==="+second);
+                    if(second<=-1){
+                        $(th).removeAttr("disabled");
+                        $(th).val("获取验证码");
+                        clearInterval(t);60
+                    }
+                },1000)
+            }
+        });
+    }
+    $("#user-center").mouseover(function () {
+        $(".person-ul").stop(true);
+        $(".person-ul").slideDown(500);
+    })
+    $("#user-center").mouseleave(function () {
+        $(".person-ul").stop(true);
+        $(".person-ul").slideUp(500);
+    })
+    function userlogout() {
+        $.ajax({
+            url:"/api-user/user/userlogout",
+            dataType:"json",
+            type:"delete",
+            success:function (rt) {
+                if(rt.code=="success"){
+                    app.user = {};
+                }
+            }
+        });
+    }
+    function findmovie(t) {
+        if($(t).prev().val()==null||$(t).prev().val()==""){
+            $("#swarn").text("请输入一部影片名字")
+        }
+        $.ajax({
+            url:"/movie-stage/movie/byname/"+$(t).prev().val(),
+            dataType:"json",
+            type:"get",
+            success:function (rt) {
+                var getmovie = rt.list[0].id;
+                window.location.href="/web/tao/movie-info.html?mid="+getmovie;
+            }
+        });
+    }
+    //用户名登录验证
+    function lucheck() {
+        var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+        /*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+        if((/^[0-9]+$/.test($("#loginuser").val()))){
+            $("#ulmsg").text("用户名不能全为数字")
+        }else if(/^[a-zA-Z]+$/.test($("#loginuser").val())){
+            $("#ulmsg").text("用户名不得全为字母")
+        }else if($("#loginuser").val().length<2){
+            $("#ulmsg").text("用户名不少于两位")
+        }else if(pattern.test($("#loginuser").val())){
+            $("#ulmsg").text("用户名不得含有特殊字符")
+        }
+    }
+    //登录密码验证
+    function lpwdcheck() {
+        if($("#loginpwd").val().length<6){
+            $("#plmsg").text("密码不得少于六位")
+        }else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+            $("#plmsg").text("密码不得全为字母")
+        }
+    }
+    //登录手机号验证
+    function lpcheck() {
+        var myreg = /^1[3456789]\d{9}$/;
+        if(!myreg.test($("#phonenum").val())){
+            $("#telmsg").text("手机号码不合法")
+        }
+    }
+    $("#loginuser").blur(function () {
+        lucheck();
+    })
+    $("#loginuser").focus(function () {
+        $("#ulmsg").empty();
+    })
+    $("#loginpwd").blur(function () {
+        lpwdcheck();
+    })
+    $("#loginpwd").focus(function () {
+        $("#plmsg").empty();
+    })
+    $("#phonenum").blur(function () {
+        lpcheck();
+    })
+    $("#phonenum").focus(function () {
+        $("#telmsg").empty();
+    })
+    //注册用户名验证
+    function rucheck() {
+        var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+        /*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+        if((/^[0-9]+$/.test($("#reguser").val()))){
+            $("#urmsg").text("用户名不能全为数字")
+        }else if(pattern.test($("#reguser").val())){
+            $("#urmsg").text("用户名不得含有特殊字符")
+        }else if($("#reguser").val().length<2){
+            $("#urmsg").text("用户名至少两位")
+        }
+    }
+    //注册密码验证
+    function rpwdcheck() {
+        if($("#regpwd").val().length<6){
+            $("#rmsg").text("密码不得少于六位")
+        }else if(/^[a-zA-Z]+$/.test($("#loginpwd").val())){
+            $("#rpmsg").text("密码不得全为字母")
+        }
+    }
+    //注册密码确认验证
+    function recheck() {
+        if($("#repwd").val()!=$("#regpwd").val()){
+            $("#remsg").text("密码输入不一致")
+        }
+    }
+    //注册手机号验证
+    function rpcheck() {
+        var myreg = /^1[3456789]\d{9}$/;
+        if(!myreg.test($("#sendphone").val())){
+            $("#regtel").text("手机号码不合法")
+        }
+    }
+    $("#reguser").blur(function () {
+        rucheck();
+    })
+    $("#reguser").focus(function () {
+        $("#urmsg").empty();
+    })
+    $("#regpwd").blur(function () {
+        rpwdcheck();
+    })
+    $("#regpwd").focus(function () {
+        $("#rpmsg").empty();
+    })
+    $("#repwd").blur(function () {
+        recheck();
+    })
+    $("#repwd").focus(function () {
+        $("#remsg").empty();
+    })
+    $("#phonenum").blur(function () {
+        rpcheck();
+    })
+    $("#phonenum").focus(function () {
+        $("#regtel").empty();
+    })
+    $("#mycode").focus(function () {
+        $("#codemsg").empty();
+    })
+    $("#myregcode").focus(function () {
+        $("#regcode").empty();
+    })
+</script>
 <script type="text/javascript">
     function changepic(obj) {
         app.showmovie = app.newMovie[$(obj).index()];
@@ -687,7 +1113,7 @@
         }, 3000);
     })
     var app=new Vue({
-        el:"#app",
+        el:"#applogin",
         data:{
             newMovie:[],
             activeIndex:0,
@@ -768,7 +1194,7 @@
                 }
             },
             register(){
-                 var v =this;
+                var v =this;
                 if($(".msg").text()==null||$(".msg").text()==""){
                     $.ajax({
                         url:"/api-user/user/register",
@@ -797,10 +1223,10 @@
         });
 
     }
-    function showModel() {
+  /*  function showModel() {
 
         $(".buy-ticket").slideDown();
-    }
+    }*/
     function loginbyphone() {
         $("#myidlogin").hide();
         $("#myphonelogin").show();
@@ -819,7 +1245,7 @@
             success:function (rt) {
                 $(th).attr("disabled","disabled");
                 var second = 10;
-                 t = setInterval(function () {
+                t = setInterval(function () {
                     $(th).val(second+"s重发");
                     second -= 1;
                     console.log("second==="+second);
@@ -856,29 +1282,29 @@
         if($(t).prev().val()==null||$(t).prev().val()==""){
             $("#swarn").text("请输入一部影片名字")
         }
-       $.ajax({
-           url:"/movie-stage/movie/byname/"+$(t).prev().val(),
-           dataType:"json",
-           type:"get",
-           success:function (rt) {
-               var getmovie = rt.list[0].id;
-               window.location.href="/web/tao/movie-info.html?mid="+getmovie;
-           }
-       });
+        $.ajax({
+            url:"/movie-stage/movie/byname/"+$(t).prev().val(),
+            dataType:"json",
+            type:"get",
+            success:function (rt) {
+                var getmovie = rt.list[0].id;
+                window.location.href="/web/tao/movie-info.html?mid="+getmovie;
+            }
+        });
     }
     //用户名登录验证
     function lucheck() {
-                var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
-                /*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
-                if((/^[0-9]+$/.test($("#loginuser").val()))){
-                    $("#ulmsg").text("用户名不能全为数字")
-                }else if(/^[a-zA-Z]+$/.test($("#loginuser").val())){
-                    $("#ulmsg").text("用户名不得全为字母")
-                }else if($("#loginuser").val().length<2){
-                    $("#ulmsg").text("用户名不少于两位")
-                }else if(pattern.test($("#loginuser").val())){
-                    $("#ulmsg").text("用户名不得含有特殊字符")
-                }
+        var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+        /*var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");*/
+        if((/^[0-9]+$/.test($("#loginuser").val()))){
+            $("#ulmsg").text("用户名不能全为数字")
+        }else if(/^[a-zA-Z]+$/.test($("#loginuser").val())){
+            $("#ulmsg").text("用户名不得全为字母")
+        }else if($("#loginuser").val().length<2){
+            $("#ulmsg").text("用户名不少于两位")
+        }else if(pattern.test($("#loginuser").val())){
+            $("#ulmsg").text("用户名不得含有特殊字符")
+        }
     }
     //登录密码验证
     function lpwdcheck() {
@@ -941,41 +1367,42 @@
     }
     //注册手机号验证
     function rpcheck() {
-         var myreg = /^1[3456789]\d{9}$/;
-         if(!myreg.test($("#sendphone").val())){
-             $("#regtel").text("手机号码不合法")
-         }
-     }
-     $("#reguser").blur(function () {
-         rucheck();
-     })
-     $("#reguser").focus(function () {
-         $("#urmsg").empty();
-     })
-     $("#regpwd").blur(function () {
-         rpwdcheck();
-     })
-     $("#regpwd").focus(function () {
-         $("#rpmsg").empty();
-     })
-     $("#repwd").blur(function () {
-         recheck();
-     })
-     $("#repwd").focus(function () {
-         $("#remsg").empty();
-     })
-     $("#phonenum").blur(function () {
-         rpcheck();
-     })
-     $("#phonenum").focus(function () {
-         $("#regtel").empty();
-     })
-     $("#mycode").focus(function () {
-         $("#codemsg").empty();
-     })
-     $("#myregcode").focus(function () {
-         $("#regcode").empty();
-     })
+        var myreg = /^1[3456789]\d{9}$/;
+        if(!myreg.test($("#sendphone").val())){
+            $("#regtel").text("手机号码不合法")
+        }
+    }
+    $("#reguser").blur(function () {
+        rucheck();
+    })
+    $("#reguser").focus(function () {
+        $("#urmsg").empty();
+    })
+    $("#regpwd").blur(function () {
+        rpwdcheck();
+    })
+    $("#regpwd").focus(function () {
+        $("#rpmsg").empty();
+    })
+    $("#repwd").blur(function () {
+        recheck();
+    })
+    $("#repwd").focus(function () {
+        $("#remsg").empty();
+    })
+    $("#phonenum").blur(function () {
+        rpcheck();
+    })
+    $("#phonenum").focus(function () {
+        $("#regtel").empty();
+    })
+    $("#mycode").focus(function () {
+        $("#codemsg").empty();
+    })
+    $("#myregcode").focus(function () {
+        $("#regcode").empty();
+    })
 </script>
+
 </body>
 </html>

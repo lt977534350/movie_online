@@ -206,10 +206,10 @@
                 <div class="responsive-menu"></div>
                 <div class="mainmenu">
                     <ul id="primary-menu">
-                        <li><a class="active" href="/web/feng/index.html">首页</a></li>
+                        <li><a  href="/web/feng/index.html">首页</a></li>
                         <li><a href="/web/tao/mtype.html">电影</a></li>
                         <li><a href="/web/tao/cinema-jump.html">影城</a></li>
-                        <li><a href="/web/feng/hotmovies.html">热映电影</a></li>
+                        <li><a  class="active" href="/web/feng/hotmovies2.html">热映电影</a></li>
                         <li><a href="https://ent.sina.com.cn/film/">热点</a></li>
                         <li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
                             <ul>
@@ -546,7 +546,7 @@
 <script src="/web/assets/js/main.js"></script>
 
 <!-- main JS -->
-<script src="/web/js/vue.js"></script>
+
 <script src="/web/tao/js/jquery-1.9.1.min.js"></script>
 <script src="/web/tao/js/location.js"></script>
 <script src="/web/tao/js/city.js"></script>
@@ -948,7 +948,7 @@
                                     $(".login-area").slideUp(1000);
                                     obj.user = data.object;
                                 }else if(data.code=="error"){
-                                    alert(data.message);
+                                    alertalert(data.message);
                                 }else if(data.code=="ufail"){
                                     $("#ulmsg").text(data.message);
                                 }else if(data.code=="pwdfail"){

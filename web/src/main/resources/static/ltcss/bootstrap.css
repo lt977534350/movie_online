@@ -3030,7 +3030,7 @@ select[multiple].input-lg {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-.btn:hover,
+
 .btn:focus,
 .btn.focus {
   color: #333;
@@ -3295,11 +3295,7 @@ fieldset[disabled] .btn-info.focus {
   background-color: #ec971f;
   border-color: #985f0d;
 }
-.btn-warning:hover {
-  color: #fff;
-  background-color: #ec971f;
-  border-color: #d58512;
-}
+
 .btn-warning:active,
 .btn-warning.active,
 .open > .dropdown-toggle.btn-warning {

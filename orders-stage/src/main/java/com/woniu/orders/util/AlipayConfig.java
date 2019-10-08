@@ -24,11 +24,11 @@ public class AlipayConfig {
     public static String ALIPAY_PUBLIC_KEY ="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArc0E3GbRBSqvWHqUFrAdggWFQpWNIIwcujQsVjUP3u9v3D7ZPxaW+SBUIa7QsY1u5JPa9Duq51nuK+M5Sz8GEuz0Qab6knO1FpRkKHEz+7M/FS9js+ewRGLjFT7I6zKY9OTovZ4DJnfkbrcUiuKsN8E8I082UObyd4hJ9gDxotwj66H2XZJjwR7ZsQMdO9F5Hn+lyzm6zg2Vtkmu/Q6YffaoAaXUWFHsKeE4F2jVSrw9NqXDHc0fpqGkVk+lM3sWCGLnhYdcm4fraoHoS2jfLFVrOId318N2fczohhQhI0FRySJIN97r/ntbcK8vQ+CJWJhe8NKr6G8vPazUbs4tHQIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://v266p12387.wicp.vip/orders/pay/alipay_callback";
+	public static String notify_url = "http://271t50b214.wicp.vip:15045/orders/pay/alipay_callback";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 	/*public static String return_url = "http://localhost/alipay.trade.page.pay-JAVA-UTF-8/return_url.jsp";*/
-    public static String return_url = "http://v266p12387.wicp.vip/web/profile/orders.html";
+    public static String return_url = "http://271t50b214.wicp.vip:15045/web/profile/orders.html";
 	// 签名方式，注意这里，如果步骤设置的是RSA则用RSA
 	public static String SIGN_TYPE = "RSA2";
 
