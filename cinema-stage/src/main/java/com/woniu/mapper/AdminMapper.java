@@ -30,4 +30,5 @@ public interface AdminMapper {
     Admin selectAdminByShortName(String shortName);
 
 
+    void updateLogo(Integer id, String logo);
 }

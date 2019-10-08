@@ -135,4 +135,11 @@
     <select id="selectAdminByShortName" resultMap="BaseResultMap">
       select * from admin where name like '%${shortName}%'
     </select>
+
+  <update id="updateLogo" >
+    update admin set logo=#{param2} where id=#{param1}
+
+
+  </update>
+
 </mapper>

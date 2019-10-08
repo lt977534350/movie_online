@@ -92,4 +92,11 @@
       msid = #{msid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByMsid" parameterType="int">
+    delete from seatinfo where msid=#{msid}
+
+  </delete>
+
+
 </mapper>
