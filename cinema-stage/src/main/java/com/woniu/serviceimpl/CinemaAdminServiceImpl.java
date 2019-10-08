@@ -1,5 +1,9 @@
 package com.woniu.serviceimpl;
 
+import com.woniu.entity.CinemaPhoto;
+import com.woniu.entity.Photo;
+import com.woniu.mapper.CinemaPhotoMapper;
+import com.woniu.mapper.PhotoMapper;
 import com.woniu.myutil.myeneity.Vip;
 import com.woniu.mapper.VipMapper;
 import com.woniu.myutil.myeneity.Admin;
@@ -8,6 +12,7 @@ import com.woniu.service.CinemaAdminService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -17,6 +22,11 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     private AdminMapper adminMapper;
     @Resource
     private VipMapper vipMapper;
+    @Resource
+    private PhotoMapper photoMapper;
+    @Resource
+    private CinemaPhotoMapper cinemaPhotoMapper;
+
     @Override
     public List<Admin> selectCinemaAdmins(Integer pageIndex, Integer num) throws Exception {
         HashMap<String, Integer> map = new HashMap<>();
@@ -86,6 +96,36 @@ public class CinemaAdminServiceImpl implements CinemaAdminService {
     public Admin selectAdminByShortName(String shortName) {
         Admin admin = adminMapper.selectAdminByShortName(shortName);
         return admin;
+    }
+
+    @Override
+    public void updateLogo(Integer id, String logo) {
+        //先删掉以前的图片
+        //根据id查询
+        Admin admin = adminMapper.selectByPrimaryKey(id);
+        if(admin.getLogo() != null){
+
+            String oldLogo = "c:"+admin.getLogo().replaceFirst("/cinema-stage","");
+            //如果oldLogo是绝对路径，则删除
+            File file = new File(oldLogo);
+
+            System.out.println(file.getName());
+
+            if(file.exists()){
+                file.delete();
+            }
+        }
+
+        //再添加新的图片
+        adminMapper.updateLogo(id,logo);
+
+    }
+
+    @Override
+    public void insertPic(Integer id, String picName) {
+        Photo photo = new Photo(null, picName, "影院图片");
+        photoMapper.insert(photo);
+        cinemaPhotoMapper.insert(new CinemaPhoto(null,id,photo.getId()));
     }
 
 }

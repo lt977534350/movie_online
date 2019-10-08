@@ -29,4 +29,8 @@ public interface CinemaAdminService {
     void insertVipByAid(Vip vip);
     //根据名字模糊查询
     Admin selectAdminByShortName(String shortName);
+
+    void updateLogo(Integer id, String logo);
+
+    void insertPic(Integer id, String picName);
 }

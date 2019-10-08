@@ -93,7 +93,7 @@ public class MovieAPI {
 
     @GetMapping
     @RequestMapping("/byid")
-    public Result selectByPPimarykey(Integer mid)throws Exception{
+    public Result selectByPimarykey(Integer mid)throws Exception{
         Movie movie=movieService.selectByPrimarykey(mid);
         return new Result("success",null,movie,null);
     }

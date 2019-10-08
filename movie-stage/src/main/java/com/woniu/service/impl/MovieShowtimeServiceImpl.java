@@ -71,4 +71,15 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
     public void updateById(MovieShowtime movieShowtime) {
         movieShowtimeMapper.updateByPrimaryKey(movieShowtime);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        //删除排片表里的数据
+        movieShowtimeMapper.deleteByPrimaryKey(id);
+
+        //删除Seatinfo表里的数据
+        seatinfoMapper.deleteByMsid(id);
+
+
+    }
 }

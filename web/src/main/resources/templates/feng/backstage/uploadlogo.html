@@ -57,7 +57,7 @@
 	</head>
 
 	<body>
-		<div class="page">
+		<div id="app" class="page">
 			<div class="content-inner">
 				<!-- Page Header-->
 				<header class="page-header">
@@ -71,15 +71,29 @@
 							<span id="imgSpan">点击上传<br /></span>
 							<input type="file" id="file" class="filepath" onchange="addpic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
 						</div>
-						<img class="cinemalogoimg" src="/web/backstage/#" id="img3" onclick="changepic(this)" />
+						<img class="cinemalogoimg"  id="img3" onclick="changepic(this)" />
 					</div>
 					<div class="submitbtn">
-						<input type="button" name="submit" value="提交" />
+						<input type="button" name="submit" value="提交" @click="uploadLogo()"/>
 					</div>
-				</div>A
+				</div>
+
+				<div style="margin-top: 60px;">
+					<div style="width:630px;margin: 0 auto;">
+						<h2 class="no-margin-bottom">当前影院logo:</h2>
+						<img :src="admin.logo" width="630" height="120">
+					</div>
+
+
+				</div>
 			</div>
 		</div>
+
+		<script type="text/javascript" src="/web/backstage/js/vue.js"></script>
 	<script type="text/javascript">
+
+
+
 		function addpic(obj) {
 			$("#prompt3").css("display", "none");
 			var reads = new FileReader();
@@ -94,6 +108,61 @@
 		function changepic(obj){
 			$("#file").click();
 		}
+
+
+		var app=new Vue({
+			el:"#app",
+			data:{
+				admin:{}
+			},
+			created:function () {
+				var _this=this;
+				//查询当前登录用户
+				$.ajax({
+					url:"/cinema-stage/admin/cadmin",
+					type:"get",
+					dataType:"json",
+					success:function (data) {
+						//如果是未登录，则跳转到登录页面
+						if(data.code=="fail"){
+							location.href="/web/feng/backstage/login.html"
+						}else{
+							_this.admin=data.object;
+						}
+					}
+
+				})
+			},
+			methods:{
+				uploadLogo:function () {
+					var formData=new FormData();
+					formData.append("id",app.admin.id);
+					formData.append("logo",$("#file")[0].files[0]);
+
+					$.ajax({
+						url:"/cinema-stage/admin/uploadlogo",
+						type:"post",
+						processData : false, // 使数据不做处理
+						contentType : false, // 不要设置Content-Type请求头
+						data:formData,
+						dataType:"json",
+						success:function (data) {
+							if(data.code=="success"){
+								window.location.reload()
+							}
+						}
+
+					})
+
+
+
+				}
+
+
+			}
+		})
+
+
 	</script>
 </body>
 

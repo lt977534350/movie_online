@@ -14,4 +14,6 @@ public interface SeatinfoMapper {
     int updateByPrimaryKeySelective(Seatinfo record);
 
     int updateByPrimaryKey(Seatinfo record);
+
+    void deleteByMsid(Integer msid);
 }

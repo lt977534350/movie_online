@@ -82,8 +82,8 @@
 	</head>
 
 	<body>
-		<div class="page">
-			<div class="content-inner">
+		<div class="page" id="app">
+			<div class="content-inner"style="float: left">
 				<!-- Page Header-->
 				<header class="page-header">
 					<div class="container-fluid">
@@ -97,7 +97,7 @@
 						<li id="imgPreview">
 							<div id="prompt3">
 								<span id="imgSpan">添加图片<br /></span>
-								<input type="file" id="file" class="filepath" onchange="addpic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
+								<input type="file" class="filepath" onchange="addpic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
 							</div>
 							<img class="" src="/web/backstage/#" name="cpic" id="img3" onclick="changepic(this)" />
 						</li>
@@ -105,11 +105,112 @@
 				</form>
 				<div class="addpicbtn">
 					<input class="addbtn" type="button" name="add" value="继续添加" onclick="clickhere(this)" />
-					<input class="uploadbtn" type="button" name="submit" value="提交上传" onclick="submitpics(this)"  />
+					<input class="uploadbtn" type="button" name="submit" value="提交上传" @click="submitpics()"  />
+				</div>
+
+				<div style="margin-top: 20px;margin-left: 20px;width: 100%;height: auto;position: relative;float: left">
+					<h5>当前影院已有图片：</h5>
+					<div v-for="photo in photos"style="position: relative;float: left;margin-top: 10px" >
+						<img :src="photo.url" height="180px" width="280px">
+						<a class="btn btn-danger"style="margin-top: 40%" @click="deletePhoto(photo.id)">删除</a>
+					</div>
 				</div>
 			</div>
+
+
+
 		</div>
+
+		<script type="text/javascript" src="/web/backstage/js/vue.js"></script>
 	<script type="text/javascript">
+		var app=new Vue({
+			el:"#app",
+			data:{
+				admin:{},
+				photos:[]
+			},
+			created:function () {
+				var _this=this;
+				//查询当前登录用户
+				$.ajax({
+					url:"/cinema-stage/admin/cadmin",
+					type:"get",
+					dataType:"json",
+					success:function (data) {
+						//如果是未登录，则跳转到登录页面
+						if(data.code=="fail"){
+							location.href="/web/feng/backstage/login.html"
+						}else{
+							_this.admin=data.object;
+
+							//查询当前影院的所有图片
+							$.ajax({
+								url:"/cinema-stage/photo/byaid",
+								type:"get",
+								data:{
+									"aid":_this.admin.id
+								},
+								dataType:"json",
+								success:function (data) {
+									if(data.code=="success"){
+										_this.photos=data.list;
+									}
+								}
+
+							})
+
+
+
+						}
+					}
+
+				})
+			},
+			methods:{
+				submitpics:function () {
+					var formData=new FormData();
+					formData.append("id",app.admin.id)
+					for(var i=0;i<$(".filepath").length;i++){
+						formData.append("pic"+i,$(".filepath")[i].files[0])
+					}
+					$.ajax({
+						url:"/cinema-stage/admin/uploadpics",
+						data:formData,
+						processData : false, // 使数据不做处理
+						contentType : false, // 不要设置Content-Type请求头
+						dataType:"json",
+						type:"post",
+						success:function (data) {
+							if(data.code=="success"){
+								window.location.reload()
+							}
+						}
+					})
+				},
+				deletePhoto:function (id) {
+					if(confirm("确认要删除？")){
+						$.ajax({
+							url:"/cinema-stage/photo/deletebyid",
+							data:{
+								"id":id
+							},
+							dataType:"json",
+							type:"delete",
+							success:function (data) {
+								if(data.code=="success"){
+									window.location.reload()
+								}
+							}
+						})
+					}
+
+
+				}
+			}
+
+		})
+
+
 		function addpic(obj) {
 			$(obj).parent().css("display", "none");
 			var reads = new FileReader();
@@ -137,13 +238,14 @@
 				$(".addbtn").css("display", "none");
 			}else{
 				$(".addbtn").css("display", "none");
-				alert("最多只能上传4张图片");
+				alert("每次最多只能上传4张图片");
 			}
 			
 		};
-		function submitpics(obj) {
-//			$("#filesupload").submit();
-		}
+
+
+
+
 	</script>
 </body>
 

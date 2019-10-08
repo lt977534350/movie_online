@@ -33,12 +33,16 @@ public class MovieShowtimeAPI {
     @PutMapping
     @RequestMapping("/update")
     public Result updateById(MovieShowtime movieShowtime)throws Exception{
-
         movieShowtimeService.updateById(movieShowtime);
-
-
         return new Result("success",null,null,null);
     }
 
+
+    @DeleteMapping
+    @RequestMapping("/deletebyid")
+    public Result deleteById(Integer id) throws Exception{
+        movieShowtimeService.deleteById(id);
+        return new Result("success","删除成功",null,null);
+    }
 
 }

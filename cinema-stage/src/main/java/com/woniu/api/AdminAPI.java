@@ -5,20 +5,24 @@ import com.woniu.myutil.myeneity.Vip;
 import com.woniu.service.CinemaAdminService;
 import com.woniu.util.Page;
 import com.woniu.util.Result;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.web.bind.annotation.*;
 import com.woniu.myutil.myeneity.Admin;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("admin")
@@ -219,8 +223,10 @@ public class AdminAPI {
         if (cinemaAdmin==null){
             return new Result("fail","未登录！",null,null);
         }
-        System.out.println("请求进入=---"+cinemaAdmin);
-        return new Result("success",null,cinemaAdmin,null);
+        Admin admin = cinemaAdminService.selectByAid(cinemaAdmin.getId());
+
+
+        return new Result("success",null,admin,null);
     }
 
     /**
@@ -356,6 +362,91 @@ public class AdminAPI {
     public Result searchByShortName(String shortName){
         Admin admin = cinemaAdminService.selectAdminByShortName(shortName);
         return new Result("success",null,admin,null);
+    }
+
+
+    @PostMapping
+    @RequestMapping("/uploadlogo")
+    public Result uploadLogo(Integer id, MultipartFile logo, HttpServletRequest request)throws Exception{
+        String uploadFilename = logo.getOriginalFilename();
+        //获取文件的后缀
+        String ext = uploadFilename.substring(uploadFilename.lastIndexOf("."));
+
+        //保存的文件名
+        String logoName=UUID.randomUUID().toString()+ext;
+
+        //获取保存文件的文件夹
+        String path = "c:/logo";
+        File dir = new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+        File target = new File(dir, logoName);
+        logo.transferTo(target);
+
+
+        //将logo保存到数据库
+        cinemaAdminService.updateLogo(id,"/cinema-stage/logo/"+logoName);
+
+
+        return new Result("success","上传成功",null,null);
+    }
+
+
+
+    @PostMapping
+    @RequestMapping("/uploadpics")
+    public Result uploadPics(Integer id, MultipartFile pic0, MultipartFile pic1,MultipartFile pic2,MultipartFile pic3)throws Exception{
+        System.out.println(id);
+        System.out.println(pic0);
+        System.out.println(pic1);
+        System.out.println(pic2);
+        System.out.println(pic3);
+
+        //获取保存文件的文件夹
+        String path = "c:/pic";
+        File dir = new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+        if(pic0 !=null){
+            insertPhoto(pic0,id,dir);
+        }
+        if(pic1 !=null){
+            insertPhoto(pic1,id,dir);
+        }
+        if(pic2 !=null){
+            insertPhoto(pic2,id,dir);
+        }
+        if(pic3 !=null){
+            insertPhoto(pic3,id,dir);
+        }
+
+
+        return new Result("success","上传成功",null,null);
+    }
+
+
+    /**
+     * 存储一张图片
+     * @param pic
+     * @param id
+     * @param dir
+     * @throws IOException
+     */
+    public void insertPhoto(MultipartFile pic,Integer id,File dir) throws IOException {
+        String originalFilename = pic.getOriginalFilename();
+        //获取文件的后缀
+        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+        //保存的文件名
+        String pic0Name=UUID.randomUUID().toString()+ext;
+
+        File target = new File(dir, pic0Name);
+        pic.transferTo(target);
+        //将图片保存到数据库
+        cinemaAdminService.insertPic(id,"/cinema-stage/pic/"+pic0Name);
     }
 
 

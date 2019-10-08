@@ -85,7 +85,10 @@
 													<td v-text="show.play2">14：35</td>
 													<td v-text="show.cinemaRoom.name">10号厅</td>
 													<td v-text="show.money+'元'">35元</td>
-													<td class=""><a href="javascript:;" @click="editShow(show.id)">编辑</a></td>
+													<td class="">
+														<a href="javascript:;" @click="editShow(show.id)">编辑</a>
+														<a v-if="show.isOverTime==0" href="javascript:;" @click="deleteShow(show.id)">删除</a>
+													</td>
 												</tr>
 												</tbody>
 											</table>
@@ -243,13 +246,11 @@
 						dataType:"json",
 						data:{},
 						success:function (data) {
-							console.log(data)
 							//如果是未登录，则跳转到登录页面
 							if(data.code=="fail"){
 								location.href="/web/feng/backstage/login.html"
 							}else{
 								_this.admin=data.object;
-								console.log(_this.admin)
 								//查询当前登录影院的所有放映点//aid
 								$.ajax({
 									url:"/cinema-stage/cinema/all",
@@ -259,7 +260,6 @@
 									type:"get",
 									dataType:"json",
 									success:function (data) {
-										console.log(data)
 										_this.cinemaList=data.list;
 									}
 								});
@@ -270,7 +270,6 @@
 									type:"get",
 									dataType:"json",
 									success:function (data) {
-										console.log(data);
 										_this.movieList=data.list;
 									}
 								})
@@ -333,13 +332,29 @@
 							},
 							dataType:"json",
 							success:function (data) {
+								//获取当前时间
+								var now=new Date();
+								var playtime;
 								for(var i=0;i<data.list.length;i++){
+
+									//获取当前拍片的时间
+									playtime=new Date(data.list[i].playtime);
+
 									//格式化放映时间
 									var datetime=getTime(data.list[i].playtime);
 									data.list[i].play1=datetime.split(" ")[0];
 									data.list[i].play2=datetime.split(" ")[1];
+
+									//判断当前排片是否超时
+									if(playtime>now){
+										data.list[i].isOverTime=1
+									}else{
+										data.list[i].isOverTime=0
+									}
+
 								}
 								app.movieshow=data.list;
+								console.log(app.movieshow)
 							}
 						})
 
@@ -406,10 +421,35 @@
 						$("#selectImg").css("display","block");
 					},
 
+					//删除排片信息
+					deleteShow:function (sid) {
+						if (confirm("确认要删除？")) {
+							$.ajax({
+								url:"/movie-stage/showtime/deletebyid",
+								data:{
+									"id":sid
+								},
+								dataType:"json",
+								type:"delete",
+								success:function (data) {
+									if(data.code=="success"){
+										alert("删除成功")
+										//重新查询
+										app.selectShowTime();
+
+									}
+								}
+							})
+						}
+
+
+
+					},
+
+
+
 					updateShowTime:function () {
 						app.updateShow.playtime=app.updateShow.play1+' '+app.updateShow.play2
-						console.log(app.updateShow)
-
 						$.ajax({
 							url:"/movie-stage/showtime/update",
 							data:{
@@ -448,6 +488,8 @@
 							}
 						})
 					}
+
+
 
 
 

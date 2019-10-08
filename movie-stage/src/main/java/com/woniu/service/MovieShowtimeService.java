@@ -9,4 +9,6 @@ public interface MovieShowtimeService {
     void insertOneData(MovieShowtime movieShowtime);
 
     void updateById(MovieShowtime movieShowtime);
+
+    void deleteById(Integer msid);
 }
