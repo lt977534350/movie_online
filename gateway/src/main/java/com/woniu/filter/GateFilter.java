@@ -37,6 +37,7 @@ public class GateFilter extends ZuulFilter {
         String uri = request.getRequestURI();
         ArrayList<String> list = new ArrayList<>();
         list.add("/api-user/user/login");
+        list.add("/cinema-stage/admin/login");
         list.add("/web/feng/backstage/login.html");
         list.add("/api-user/user/register");
         list.add("/web/tao/mtype.html");
