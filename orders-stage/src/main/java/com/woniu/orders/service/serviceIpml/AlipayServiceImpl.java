@@ -167,7 +167,7 @@ public class AlipayServiceImpl implements AlipayService {
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
 
         /** 同步通知，支付完成后，支付成功页面*/
-        alipayRequest.setReturnUrl(AlipayConfig.return_url);
+        alipayRequest.setReturnUrl("orderInfo.html");
         /** 异步通知，支付完成后，需要进行的异步处理*/
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
 

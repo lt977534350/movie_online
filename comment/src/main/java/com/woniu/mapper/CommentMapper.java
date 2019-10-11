@@ -29,5 +29,5 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
-    List<Comment> getComments(@Param("pageIndex") Integer pageIndex,@Param("num") Integer num,@Param("cid") Integer cid,@Param("mid") Integer mid );
+    List<Comment> getComments(@Param("pageIndex") Integer pageIndex,@Param("num") Integer num,@Param("mid") Integer mid );
 }

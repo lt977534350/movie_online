@@ -58,7 +58,8 @@ public class MovieShowtimeServiceImpl implements MovieShowtimeService {
                     info = new Seatinfo(null,1+i+"",1+j+"","E",msid);
                 }
                 //向数据库插入
-                seatinfoMapper.insert(info);
+                int insert = seatinfoMapper.insert(info);
+
             }
         }
 

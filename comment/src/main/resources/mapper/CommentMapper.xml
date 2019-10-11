@@ -254,6 +254,6 @@
   <!--自定义方法-->
   <select id="getComments" parameterType="Integer" resultMap="commentMap">
     select c.id cid,argue,user_score,username,time,state,upic from comment c left join  user u on c.uid=u.id
-    where cid=#{cid,jdbcType=INTEGER} and mid=#{mid,jdbcType=INTEGER} order by time desc limit #{pageIndex},#{num}
+    where   mid=#{mid,jdbcType=INTEGER} order by time desc limit #{pageIndex},#{num}
   </select>
 </mapper>

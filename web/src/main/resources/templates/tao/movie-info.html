@@ -72,7 +72,7 @@
 								</li>
 								<li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
 								<li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-									<svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+									<img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
 									<img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
 									<a href="javascript:;" v-text="user.username"></a>
 									<ul class="person-ul" style="display: block" >
@@ -222,6 +222,9 @@
 				success:function (rt) {
 					if(rt.code=="success"){
 						apphead.user = {};
+						var mydate=new Date();
+						mydate.setTime(-1000);
+						document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
 					}
 				}
 			});
@@ -499,17 +502,7 @@
 											<span v-text="uptimes"></span>
 										</div>
 									</li>
-									<li>
-										<div class="transformers-left">
-											Share:
-										</div>
-										<div class="transformers-right">
-											<a href="http://connect.qq.com/widget/shareqq/index.html?title=qqhaoyou&url=http://"><i class="icofont icofont-social-facebook"></i></a>
-											<a href="#"><i class="icofont icofont-social-twitter"></i></a>
-											<a href="#"><i class="icofont icofont-social-google-plus"></i></a>
-											<a href="#"><i class="icofont icofont-youtube-play"></i></a>
-										</div>
-									</li>
+
 								</ul>
 							</div>
 						</div>
@@ -705,7 +698,21 @@
 					page:{}
 				},
 				created:function () {
-					_data=this;
+					 _data=this;
+					var cookies=document.cookie.split(";");
+					var myuser;
+					var a = "loguser";
+					for(var i=0;i<cookies.length;i++){
+						if(a==cookies[i].split("=")[0].trim()){
+							var user = cookies[i].split("=")[1];
+							console.log("---"+user);
+							myuser = decodeURIComponent(user);
+							console.log("===="+myuser);
+						}
+					}
+					if(myuser!=null){
+						_data.user = $.parseJSON(myuser);
+					}
 					/*获取电影id*/
 					// alert(window.location);
 					var mid=_data.mid;
@@ -725,7 +732,7 @@
                         }
 					});
 					/*查询用户信息；*/
-					$.ajax({
+				/*	$.ajax({
 						url:"/api-user/user",
 						type:"get",
 						dataType:"json",
@@ -736,7 +743,7 @@
 							    alert(data.message);
 							}
                         }
-					});
+					});*/
 					/*查询评论集合*/
 					selectComment(_data);
 
@@ -754,8 +761,6 @@
                                 for (var i=0;i<_data.likes.length;i++) {
                                     $("#commentid"+_data.likes[i].commentId).children().eq(0).attr("src","/web/images/zan2.jpg");
                                 }
-                            }else{
-                                alert(data.message);
                             }
                         }
                     });
@@ -852,37 +857,37 @@
              * @param getDateType
              * @returns {string|number}
              */
-            function getTime(second) {
-                var date =new Date(second);
-                var year = date.getFullYear()
-                if((date.getMonth()+1)<=9){
-                    var month ="0"+(date.getMonth()+1);
-                }else {
-                    return date.getMonth()+1;
-                    var month =date.getMonth()+1;
-                }
-                if(date.getDate()<=9){
-                    var day =  "0"+date.getDate();
-                }else {
-                    var day =   date.getDate();
-                }
-                if(date.getHours()<=9){
-                    var hour =  "0"+date.getHours();
-                }else {
-                    var hour =  date.getHours();
-                }
-                if(date.getMinutes()<=9){
-                    var minutes =  "0"+date.getMinutes();
-                }else {
-                    var minutes =  date.getMinutes();
-                }
-                if(date.getSeconds ()<=9){
-                    var seconds = "0" + date.getSeconds ();
-                }else{
-                    var seconds =  date.getSeconds ();
-                }
-                return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
-            }
+			function getTime(second) {
+				var date = new Date(second);
+				var year = date.getFullYear()
+				if ((date.getMonth() + 1) <= 9) {
+					var month = "0" + (date.getMonth() + 1);
+				} else {
+					var month = date.getMonth() + 1;
+				}
+				if (date.getDate() <= 9) {
+					var day = "0" + date.getDate();
+				} else {
+					var day = date.getDate();
+				}
+				if (date.getHours() <= 9) {
+					var hour = "0" + date.getHours();
+				} else {
+					var hour = date.getHours();
+				}
+				if (date.getMinutes() <= 9) {
+					var minutes = "0" + date.getMinutes();
+				} else {
+					var minutes = date.getMinutes();
+				}
+				if (date.getSeconds() <= 9) {
+					var seconds = "0" + date.getSeconds();
+				} else {
+					var seconds = date.getSeconds();
+				}
+				return year + "-" + month + "-" + day;
+			}
+
 
 
 		</script>

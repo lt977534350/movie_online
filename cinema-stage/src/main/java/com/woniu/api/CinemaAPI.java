@@ -119,6 +119,7 @@ public class CinemaAPI {
      */
     @GetMapping("cinemas")
     public Result getCinemas(String cinema,String city,String cinemaHall,Integer pageIndex)throws Exception{
+        System.out.println("条件查询影城");
         if(pageIndex==null){
             pageIndex=1;
         }

@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE HTML>
+﻿
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -110,7 +110,7 @@
                 <div style="margin-left: 100px;" class="header-right search d7">
                     <form action="#">
                         <input type="text" name="fmovie" placeholder="搜索你喜欢的影片...">
-                        <button style="line-height: 50%" onclick="findmovie(this)" >
+                        <button style="line-height: 50%" type="button"  οnsubmit='return false' onclick="findmovie(this)" >
                             <svg t="1569562832317" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2069" width="16" height="16"><path d="M240.776 240.872A302.952 302.952 0 0 0 157.328 512c18.048-81.912 60.48-161.952 126.576-228.096C350.048 217.736 430.088 175.328 512 157.28c-95.28-17.952-197.52 9.864-271.224 83.592z" fill="#ff5722" p-id="2070"></path><path d="M959.6 802.736l-114.096-114.096a110.64 110.64 0 0 0-87-31.992c107.304-155.208 91.8-369.744-46.392-507.96-155.568-155.616-407.856-155.616-563.472 0-155.568 155.616-155.568 407.928 0 563.544 138.192 138.216 352.56 153.6 507.864 46.296-2.4 31.2 8.304 63.312 31.992 87l114.096 114.12c43.2 43.104 113.784 43.104 156.888 0 43.32-43.104 43.32-113.712 0.12-156.912zM665.84 665.84c-130.008 130.008-340.68 130.008-470.64 0-130.008-130.008-130.008-340.728 0-470.736 129.96-130.008 340.632-130.008 470.64 0 129.984 129.912 129.984 340.728 0 470.736z" fill="#ff5722" p-id="2071"></path></svg>
                         </button>
                     </form>
@@ -122,11 +122,11 @@
                             </li>
                             <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="javascript:;">注册</a></li>
                             <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                                <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+                                <img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="background-color: black;width: 80px;position: fixed;display: none">
-                                    <li><a class="person-li" :href="'profile/userInfo.html?uid='+user.id">个人中心</a></li>
+                                    <li><a class="person-li" href="/web/profile/orders.html">个人中心</a></li>
                                     <hr color="yellow" />
                                     <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
                                 </ul>
@@ -162,109 +162,9 @@
 
 
     </header>
-<!--<header class="header" style="background-color: #0a0910">
-    <div class="container">
-        <div class="header-area">
-            <div class="logo">
-                <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo"/></a>
-            </div>
-            &lt;!&ndash;<div class="currcity">
-                <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-                    <li id="summary-stock">
-                        <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                        <div class="dd">
-                            <div id="store-selector">
-                                <div class="text">
-                                    <div id="currcity"></div>
-                                    <b></b></div>
-                                <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                            </div>&lt;!&ndash;store-selector end&ndash;&gt;
-                            <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
-                    </li>
-                </ul>
-            </div>
-            <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                <div class="mycity" @click="selectLocation()">
-                    我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                </div>
-                <div v-show="isShowCitys" class="city" id="city-div">
-                    <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-              ">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                    </div>
-                    <div class="city-wrapper city-wrapper-hook">
-                        <div class="scroller-hook">
-                            <div class="cities cities-hook">
-                                <div v-for="i in cityData">
-                                    <div class="title">{{i.name}}</div>
-                                    <ul>
-                                        <li @dblclick="replay(item.name
-                            )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                            &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                            </ul>&ndash;&gt;
-                        </div>
-                    </div>
-                </div>
-                <div class="toast" v-show="toastShow">
-                    {{toastText}}
-                </div>
-            </div>&ndash;&gt;
-            <div style="margin-left: 100px;" class="header-right search d7">
-                <form action="#">
-                    <input type="text" name="fmovie" placeholder="搜索你喜欢的影片...">
-                    <button style="line-height: 50%" onclick="findmovie(this)" >
-                        <svg t="1569562832317" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2069" width="16" height="16"><path d="M240.776 240.872A302.952 302.952 0 0 0 157.328 512c18.048-81.912 60.48-161.952 126.576-228.096C350.048 217.736 430.088 175.328 512 157.28c-95.28-17.952-197.52 9.864-271.224 83.592z" fill="#ff5722" p-id="2070"></path><path d="M959.6 802.736l-114.096-114.096a110.64 110.64 0 0 0-87-31.992c107.304-155.208 91.8-369.744-46.392-507.96-155.568-155.616-407.856-155.616-563.472 0-155.568 155.616-155.568 407.928 0 563.544 138.192 138.216 352.56 153.6 507.864 46.296-2.4 31.2 8.304 63.312 31.992 87l114.096 114.12c43.2 43.104 113.784 43.104 156.888 0 43.32-43.104 43.32-113.712 0.12-156.912zM665.84 665.84c-130.008 130.008-340.68 130.008-470.64 0-130.008-130.008-130.008-340.728 0-470.736 129.96-130.008 340.632-130.008 470.64 0 129.984 129.912 129.984 340.728 0 470.736z" fill="#ff5722" p-id="2071"></path></svg>
-                    </button>
-                    <br><span id="swarn" style="color: darkorange;font-family: 楷体;font-size: 13px;"></span>
-                </form>
-                <ul>
-                    <li><a href="#"> 爱乐电影</a></li>
-                    <li v-show="user.username==null"><a class="login-popup" href="#" >登录</a>
-                        &lt;!&ndash;<a  v-show="username!=null" v-text="username" >登录</a>&ndash;&gt;
-                    </li>
-                    <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
-                    <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                        <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
-                        <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
-                        <a href="javascript:;" v-text="user.username"></a>
-                        <ul class="person-ul" style="background-color: black;width: 80px;position: fixed;display: none">
-                            <li><a class="person-li" href="/web/profile/userorders.html">个人中心</a></li>
-                            <hr color="yellow" />
-                            <li><a class="person-li" href="javascript:;" onclick="userlogout()">退出</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="menu-area">
-                <div class="responsive-menu"></div>
-                <div class="mainmenu">
-                    <ul id="primary-menu">
-                        <li><a class="active" href="/web/feng/index.html">首页</a></li>
-                        <li><a href="/web/tao/mtype.html">电影</a></li>
-                        <li><a href="/web/tao/cinema-jump.html">影城</a></li>
-                        <li><a href="/web/feng/hotmovies2.html">热映电影</a></li>
-                        <li><a href="https://ent.sina.com.cn/film/">热点</a></li>
-                        <li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
-                            <ul>
-                                <li><a onclick="showModel()" href="#">用户须知</a></li>
-                                <li><a href="#">联系客服</a></li>
-                            </ul>
-                        </li>
-                        &lt;!&ndash;<li><a class="theme-btn" href="#"><i class="icofont icofont-ticket"></i> 购票</a></li>&ndash;&gt;
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>-->
-    <script src="/web/tao/js/jquery-3.4.0.min.js"></script>
+
+<!--    <script src="/web/tao/js/jquery-3.4.0.min.js"></script>-->
+    <script src="/web/tao/js/jquery-1.9.1.min.js"></script>
     <script src="/web/tao/js/jquery-1.9.1.min.js"></script>
     <script src="/web/js/vue.js"></script>
     <script src="/web/tao/js/location.js"></script>
@@ -592,7 +492,7 @@
                 <div class="row hero-area-slide"  >
                     <div class="col-lg-6 col-md-5">
                         <div class="hero-area-content" >
-                            <img style="height: 702.19px;opacity:0.8;" id="actpic" :src="showmovie.mpic" alt="about"/>
+                            <img style="height: 702.19px;opacity:0.8;" id="actpic" :src="showmovie.mpic" alt=""/>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-7" >
@@ -771,7 +671,7 @@
     </div>
 </div>
 <!-- jquery main JS -->
-<script src="/web/js/jquery-2.1.4.min.js"></script>
+<!--<script src="/web/js/jquery-2.1.4.min.js"></script>-->
 <script src="/web/js/bootstrap.min.js"></script>
 
 <!-- Slick nav JS -->
@@ -967,6 +867,8 @@
             success:function (rt) {
                 if(rt.code=="success"){
                     app.user = {};
+                    document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
+
                 }
             }
         });
@@ -974,7 +876,9 @@
     function findmovie(t) {
         if($(t).prev().val()==null||$(t).prev().val()==""){
             $("#swarn").text("请输入一部影片名字")
+
         }
+        console.log($(t).prev().val())
         $.ajax({
             url:"/movie-stage/movie/byname/"+$(t).prev().val(),
             dataType:"json",
@@ -1260,19 +1164,26 @@
             success:function (rt) {
                 if(rt.code=="success"){
                     app.user = {};
+                    var mydate=new Date();
+                    mydate.setTime(-1000);
+                    document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
+
                 }
             }
         });
     }
     function findmovie(t) {
         if($(t).prev().val()==null||$(t).prev().val()==""){
+            console.log(1)
             $("#swarn").text("请输入一部影片名字")
         }
+        console.log($(t).prev().val());
         $.ajax({
             url:"/movie-stage/movie/byname/"+$(t).prev().val(),
             dataType:"json",
             type:"get",
             success:function (rt) {
+                console.log(rt)
                 var getmovie = rt.list[0].id;
                 window.location.href="/web/tao/movie-info.html?mid="+getmovie;
             }

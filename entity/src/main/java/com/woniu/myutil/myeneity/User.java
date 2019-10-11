@@ -9,6 +9,7 @@ import java.util.List;
  * @author admin
  */
 public class User implements Serializable {
+    private  static final long serialVersionUID = 26221989397648188L;
     private Integer id;
 
     private String username;

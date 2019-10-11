@@ -28,6 +28,8 @@
         <module>jobs</module>
         <module>entity</module>
         <module>user</module>
+        <module>comment</module>
+        <module>general</module>
 
     </modules>
     <dependencies>

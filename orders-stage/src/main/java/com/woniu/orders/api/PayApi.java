@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.*;
+import com.woniu.orders.exception.TimeOverException;
 import com.woniu.orders.mapper.auto.VipPoMapper;
 import com.woniu.orders.mapper.custom.TasklistMapper;
 import com.woniu.orders.mapper.custom.UserVipMapper;
@@ -52,9 +53,8 @@ public class PayApi {
 
     @PostMapping("topay")
     @ResponseBody
-    public String toPay(String oid) throws Exception {
+    public String toPay(String oid,HttpServletRequest request) throws Exception {
         //跟据订单查询订单金额等
-        System.out.println(oid);
         Order order = orderService.selectDetail(oid);
         //订单号
         String outTradeNo = oid;
@@ -62,10 +62,35 @@ public class PayApi {
         String totalAmount = order.getMoney().toString();
         //商品名
         String subject = order.getMovieName() + "-订单号：" + oid;
-        String pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
+        String requestHeader = request.getHeader("user-agent");
+        String pay;
+        if(isMobileDevice(requestHeader)){
+            pay = alipayService.appPagePay(outTradeNo,totalAmount,subject);
+        }else{
+          pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
 
+        }
         return pay;
+
     }
+    public  boolean  isMobileDevice(String requestHeader){
+        /**
+         * android : 所有android设备
+         * mac os : iphone ipad
+         * windows phone:Nokia等windows系统的手机
+         */
+        String[] deviceArray = new String[]{"android","mac os","windows phone"};
+        if(requestHeader == null) {
+            return false;
+        }requestHeader = requestHeader.toLowerCase();
+        for(int i=0;i<deviceArray.length;i++){
+            if(requestHeader.indexOf(deviceArray[i])>0){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     //这是异步通知
@@ -204,11 +229,13 @@ public class PayApi {
     @RequestMapping("refund")
     @ResponseBody
     public Result refund(String oid, String refundReason) throws Exception {
-        System.out.println(oid);
         if(refundReason==""||refundReason==null){
           return new Result("500", "请输入退款原因", null, null);
         }
         Order order = orderService.selectDetail(oid);
+        if(order.getPalyTime().getTime()>System.currentTimeMillis()+30*60*1000){
+            throw  new TimeOverException("退款时间已过");
+        }
         String msg = alipayService.insertRefund(oid, refundReason, order.getMoney().toString(), "HZ01RF001");
 
         if ("退款成功".equals(msg)) {

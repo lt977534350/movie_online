@@ -63,9 +63,9 @@ public class UserAPI {
      */
     @PutMapping
     public Result updateUser(User user,int[] type)throws Exception{
+        /*修改user信息*/
+        userService.updateUser(user);
         if(type!=null){
-            /*修改user信息*/
-            userService.updateUser(user);
             /*删除用户电影类型信息*/
             typeService.deleteUserType(user.getId());
             /*新增userType信息*/

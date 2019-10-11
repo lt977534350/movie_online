@@ -27,18 +27,18 @@ public class CommentAPI {
      * @throws Exception
      */
     @GetMapping
-    public Result getComments(Integer pageIndex,Integer cid ,Integer mid)throws Exception{
+    public Result getComments(Integer pageIndex,Integer mid)throws Exception{
         /*不传参默认为第一页*/
         if(null==pageIndex||"".equals(pageIndex)){
             pageIndex=1;
         }
         int num=5;
         /*查询count*/
-        int dataCount = commentService.getCount(cid, mid);
+        int dataCount = commentService.getCount(mid);
         /*计算总页数*/
         int pageCount=dataCount%num==0?dataCount/num:dataCount/num+1;
         /*查询评论集合*/
-        List<Comment> comments = commentService.getComments(pageIndex, num,cid,mid);
+        List<Comment> comments = commentService.getComments(pageIndex, num,mid);
         /*封装page对象*/
         Page page=new Page(pageIndex,pageCount,dataCount);
         for (Comment comment : comments) {

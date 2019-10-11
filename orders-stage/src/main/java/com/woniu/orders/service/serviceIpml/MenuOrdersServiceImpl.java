@@ -43,9 +43,9 @@ public class MenuOrdersServiceImpl implements MenuOrdersService {
 
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         /** 同步通知，支付完成后，支付成功页面*/
-        alipayRequest.setReturnUrl("http://v266p12387.wicp.vip/web/feng/backstage/backstageIndex.html");
+        alipayRequest.setReturnUrl("http://2q7159459g.zicp.vip:56161/web/feng/backstage/backstageIndex.html");
         /** 异步通知，支付完成后，需要进行的异步处理*/
-        alipayRequest.setNotifyUrl("http://v266p12387.wicp.vip/orders/back");
+        alipayRequest.setNotifyUrl("http://2q7159459g.zicp.vip:56161/orders/back");
 
         Menu menu = menuMapper.selectByPrimaryKey(mid);
         Date date = new Date();

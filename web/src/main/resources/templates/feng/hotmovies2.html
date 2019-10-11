@@ -98,6 +98,12 @@
         	color: orange;
         	font-size: 20px;
         }
+        .lownum{
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            line-height:120%;
+        }
         .lowscore{
         	 width: 32px;
         	 height: 32px;
@@ -126,59 +132,13 @@
         <div class="header-area">
             <div class="logo" style="margin-bottom: 150px;">
                 <a href="index.html"><img src="/web/assets/img/logo.png" alt="logo"/></a>
-                <div class="currcity">
-                    <ul id="list1" style="width:620px;margin-left: 160px;margin-top: 60px;position: absolute">
-                        <li id="summary-stock">
-                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                            <div class="dd">
-                                <div id="store-selector">
-                                    <div class="text">
-                                        <div id="currcity"></div>
-                                        <b></b></div>
-                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                                </div><!--store-selector end-->
-                                <div id="store-prompt"><strong></strong></div><!--store-prompt end---></div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                    <div class="mycity" @click="selectLocation()">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                    </div>
-                    <div v-show="isShowCitys" class="city" id="city-div">
-                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-              ">
-                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                        </div>
-                        <div class="city-wrapper city-wrapper-hook">
-                            <div class="scroller-hook">
-                                <div class="cities cities-hook">
-                                    <div v-for="i in cityData">
-                                        <div class="title">{{i.name}}</div>
-                                        <ul>
-                                            <li @dblclick="replay(item.name
-                            )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                                <!--<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                </ul>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toast" v-show="toastShow">
-                        {{toastText}}
-                    </div>
-                </div>
+
+
             </div>
             <div style="margin-left: 100px;" class="header-right search d7">
                 <form action="#">
                     <input type="text" name="fmovie" placeholder="搜索你喜欢的影片...">
-                    <button style="line-height: 50%" onclick="findmovie(this)" >
+                    <button style="line-height: 50%"  type="button" οnsubmit='return false' onclick="findmovie(this)" >
                         <svg t="1569562832317" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2069" width="16" height="16"><path d="M240.776 240.872A302.952 302.952 0 0 0 157.328 512c18.048-81.912 60.48-161.952 126.576-228.096C350.048 217.736 430.088 175.328 512 157.28c-95.28-17.952-197.52 9.864-271.224 83.592z" fill="#ff5722" p-id="2070"></path><path d="M959.6 802.736l-114.096-114.096a110.64 110.64 0 0 0-87-31.992c107.304-155.208 91.8-369.744-46.392-507.96-155.568-155.616-407.856-155.616-563.472 0-155.568 155.616-155.568 407.928 0 563.544 138.192 138.216 352.56 153.6 507.864 46.296-2.4 31.2 8.304 63.312 31.992 87l114.096 114.12c43.2 43.104 113.784 43.104 156.888 0 43.32-43.104 43.32-113.712 0.12-156.912zM665.84 665.84c-130.008 130.008-340.68 130.008-470.64 0-130.008-130.008-130.008-340.728 0-470.736 129.96-130.008 340.632-130.008 470.64 0 129.984 129.912 129.984 340.728 0 470.736z" fill="#ff5722" p-id="2071"></path></svg>
                     </button>
                 </form>
@@ -190,7 +150,7 @@
                     </li>
                     <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="javascript:;">注册</a></li>
                     <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                        <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+                        <img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
                         <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                         <a href="javascript:;" v-text="user.username"></a>
                         <ul class="person-ul" style="background-color: black;width: 80px;position: fixed;display: none">
@@ -447,7 +407,7 @@
             	<div class="hotmovie" v-for="(movie,index) in movies">
             		<div class="col-lg-2 title">
 						<div class="lowscore">
-							<span v-text="index+4"></span>
+							<span class="lownum" v-text="index+4"></span>
 						</div>
 					</div>
 					<div class="detail col-lg-8">
@@ -551,197 +511,24 @@
 <script src="/web/tao/js/location.js"></script>
 <script src="/web/tao/js/city.js"></script>
 <script src="/web/tao/js/bscroll.min.js"></script>
-<!--定位-->
-<script>
-    window.onload=function () {
-        /*获取定位的值*/
-        var city=$("#qyxs").text();
-        $("#currcity").text(city);
-    }
-    var app = new Vue({
-        el: '#app1',
-        data: {
-            origin: 'http://192.168.99.205:800',
-            captchaBoxShow: false,
-            test: '测试',
-            countTime: 0,
-            countTimer: null,
-            time: 60,
-            location: '定位中',
-            submit: {
-                sms_captcha  : '',
-                captcha      : '',
-                area_code    : '',
-                _token       : '',
-            },
-            map: new AMap.Map("container", {
-                resizeEnable: true,
-                //city: citycode,
-                zoom: 17, //地图显示的缩放级别
-                keyboardEnable: false,
-                citylimit: true,
-                resizeEnable: true
-            }),
-            cityWrapper: document.querySelector('.city-wrapper-hook'),
-            cityScroller: document.querySelector('.scroller-hook'),
-            cities: document.querySelector('.cities-hook'),
-            shortcut: document.querySelector('.shortcut-hook'),
-            shortcutList: [],
-            cityData: cityData,// 数据源
-            scroll: null,
-            anchorMap: {},
-            touch: {},
-            toastShow: false,
-            isShowCitys: false,
-            toastText: '',
-        },
-        methods: {
-            replay:function(cityName){
-                $("#qyxs").text(cityName);
-                $("#city-div").hide();
-            },
-            replayspan:function(){
-                var name=$("#qyxs").text();
-                $("#qyxs1").text(name);
-                $("#city-div").show();
-            },
-            toast (str) {
-                let v = this
-                v.toastText = str
-                v.toastShow = true
-                setTimeout(function(){
-                    v.toastShow = false
-                }, 1500)
-            },
-            chooseCity (city) {
-                let v = this
-                v.countTime = 0
-                v.countTimer = setInterval(function(e){v.countTime ++},1)
-            },
-            touchUp (item) {
-                let v = this
-                clearInterval(v.countTimer)
-                if (v.countTime < 30) {
-                    this.isShowCitys = false
-                    this.location = item.name
-                    this.submit.area_code = item.code
-                }
-            },
-            selectLocation () {
-                let v = this
-                this.isShowCitys = true
-                this.$nextTick(function() {
-                    this.initCities()
-                })
-            },
-            geocoder_CallBack: function (data) {
-                let v = this
-                var adcode3     = data.regeocode.addressComponent.adcode;
-                var address     = data.regeocode.formattedAddress; //返回地址描述
-                var csqy        = data.regeocode.addressComponent.district; //地区
-                var csadcode    = data.regeocode.addressComponent.adcode; //区域编码
-                this.submit.area_code = csadcode
-                var citycode2   = csadcode.substr(0, 4) + "00"; //省份编码
-                var codes       = adcode3.substr(0, 4) + "00";
-                var citys2      = data.regeocode.addressComponent.city;
-                var poiArr      = data.regeocode.pois; //坐标
-                var resultCount = poiArr.length;
-                v.location      = csqy
-                var dz          = data.regeocode.formattedAddress;
-                var lng         = data.regeocode.roads[0].location.lng;
-                var lat         = data.regeocode.roads[0].location.lat;
-            },
-            zddw: function () {
-                //初始定位
-                let v = this;
-                v.map.plugin('AMap.Geolocation', function() {
-                    geolocation = new AMap.Geolocation({
-                        enableHighAccuracy: true, //是否使用高精度定位，默认:true
-                        //timeout: 10000, //超过10秒后停止定位，默认：无穷大
-                        buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                        zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                        noIpLocate: 0, //IP定位，0-3，0都可以使用
-                        noGeoLocation: 0, //浏览器定位 0-3,
-                        showCircle: false, //去除定位蓝圈
-                        buttonPosition: 'RT',
-                        extensions: 'all'
-                    });
-                    v.map.addControl(geolocation);
-                    geolocation.getCurrentPosition();
-                    AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
-                    AMap.event.addListener(geolocation, 'error', onError); //返回定位出错信息
 
-                });
-                //解析定位结果
-                function onComplete(data) {
-                    var str = [];
-                    str.push(data.position.lng);
-                    str.push(data.position.lat);
-                    var geocoder = new AMap.Geocoder({
-                        radius: 1000,
-                        extensions: "all"
-                    });
-                    geocoder.getAddress(str, function(status, result) {
-                        if (status === 'complete' && result.info === 'OK') {
-                            v.geocoder_CallBack(result);
-                        }
-                    });
-                }
-                // 解析定位错误信息
-                function onError(data) {
-                    alert('定位失败,请手动选择所在区域');
-                }
-            },
-            initCities: function () {
-                let v = this;
-                let y = 0;
-                var titleHeight = 28
-                var itemHeight = 44
-                v.cityData.forEach(function(e){
-                    let name = e.name.substr(0, 1)
-                    let len = e.cities.length
-                    v.anchorMap[name] = y
-                    y -= titleHeight + len * itemHeight
-                })
-                v.shortcut = document.querySelector('.shortcut-hook')
-                v.cityWrapper = document.querySelector('.city-wrapper-hook')
-                v.shortcut.style.top = (v.cityWrapper.clientHeight - v.shortcut.clientHeight) / 2 + 'px';
-                v.scroll = new window.BScroll(v.cityWrapper, {
-                    probeType: 3
-                })
-                // console.log(v.scroll, 'v.scroll')
-                // v.scroll.hasVerticalScroll = true
-                // v.scroll.wrapperHeight = $('body').height()
-                v.scroll.scrollTo(0, 0);
-            },
-            touchIndex: function (e) {
-                // console.log(e, 'e')
-                let v = this
-                let anchor = e.target.getAttribute('data-anchor')
-                // console.log(anchor ,'anchor')
-                let firstTouch = e.touches[0]
-                v.touch.y1 = firstTouch.pageY
-                v.touch.anchor = anchor
-                v.scrollTo(anchor)
-            },
-            scrollTo: function (anchor) {
-                let v = this
-                v.cityScroller = document.querySelector('.scroller-hook')
-                var maxScrollY = v.cityWrapper.clientHeight - v.cityScroller.clientHeight
-                var y = Math.min(0, Math.max(maxScrollY, v.anchorMap[anchor]))
-                if (typeof y !== 'undefined') {
-                    v.scroll.scrollTo(0, y);
-                }
-            },
-        },
-        mounted: function () {
-            let v = this
-            this.zddw()
-            v.initCities()
-        },
-    })
-</script>
+
 <script type="text/javascript">
+    function findmovie(t) {
+        if($(t).prev().val()==null||$(t).prev().val()==""){
+            $("#swarn").text("请输入一部影片名字")
+        }
+        $.ajax({
+            url:"/movie-stage/movie/byname/"+$(t).prev().val(),
+            dataType:"json",
+            type:"get",
+            success:function (rt) {
+                console.log(rt)
+                var getmovie = rt.list[0].id;
+                window.location.href="/web/tao/movie-info.html?mid="+getmovie;
+            }
+        });
+    }
     $(function () {
         $('.login-popup').on('click', function () {
             $('#myidlogin').slideDown(1500);
@@ -877,6 +664,7 @@
         }*/
     });
 </script>
+
     <script type="text/javascript">
         var app1 = new Vue({
             el:".app1",
@@ -1036,6 +824,9 @@
                 success:function (rt) {
                     if(rt.code=="success"){
                         app.user = {};
+                        var mydate=new Date();
+                        mydate.setTime(-1000);
+                        document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
                     }
                 }
             });

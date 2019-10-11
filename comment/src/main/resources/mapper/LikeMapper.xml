@@ -182,6 +182,10 @@
     delete from  `like` where uid=#{uid} and comment_id=#{cid}
   </delete>
   <select id="getLikes" parameterType="Integer" resultMap="BaseResultMap">
-    select * from `like` where uid=#{uid}
+    select * from `like`
+    <if test="uid != null" >
+      where uid=#{uid}
+    </if>
+
   </select>
 </mapper>

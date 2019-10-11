@@ -8,33 +8,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content=""/>
     <script src="/web/js/vue.js"></script>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
     <!-- //for-mobile-apps -->
     <link rel="stylesheet" href="/web/ltcss/cinemas-seat.b8adee6e.css">
     <link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 
     <link rel="stylesheet" href="/web/ltcss/style1.css">
     <link rel="stylesheet" href="/web/ltcss/style.css">
-    <!--  <link rel="stylesheet" href="/web/css/faqstyle.css" type="text/css" media="all"/>-->
-    <!-- <link href="/web/css/medile.css" rel='stylesheet' type='text/css'/>
-     <link href="/web/css/single.css" rel='stylesheet' type='text/css'/>-->
-    <!--  <link rel="stylesheet" href="/web/css/contactstyle.css" type="text/css" media="all"/>-->
-    <!-- news-css -->
-    <!--<link rel="stylesheet" href="/web/news-css/news.css" type="text/css" media="all"/>-->
-    <!-- //news-css -->
-    <!-- list-css -->
-    <!-- <link rel="stylesheet" href="/web/list-css/list.css" type="text/css" media="all"/>-->
-    <!-- //list-css -->
-    <!-- font-awesome icons -->
-    <!--<link rel="stylesheet" href="/web/css/font-awesome.min.css"/>-->
-    <!-- //font-awesome icons -->
-    <!-- js -->
+
     <script type="text/javascript" src="/web/js/jquery-2.1.4.min.js"></script>
     <!-- //js -->
     <!---<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>--->
@@ -69,54 +49,7 @@
                 <div class="logo">
                     <a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
                 </div>
-                <!--<div class="currcity">
-                    <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-                        <li id="summary-stock">
-                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                            <div class="dd">
-                                <div id="store-selector">
-                                    <div class="text">
-                                        <div id="currcity"></div>
-                                        <b></b></div>
-                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                                </div>&lt;!&ndash;store-selector end&ndash;&gt;
-                                <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                    <div class="mycity" @click="selectLocation()">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                    </div>
-                    <div v-show="isShowCitys" class="city" id="city-div">
-                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-                  ">
-                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                        </div>
-                        <div class="city-wrapper city-wrapper-hook">
-                            <div class="scroller-hook">
-                                <div class="cities cities-hook">
-                                    <div v-for="i in cityData">
-                                        <div class="title">{{i.name}}</div>
-                                        <ul>
-                                            <li @dblclick="replay(item.name
-                                )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                                &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                </ul>&ndash;&gt;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toast" v-show="toastShow">
-                        {{toastText}}
-                    </div>
-                </div>-->
+
 
                 <div class="menu-area">
                     <div class="responsive-menu"></div>
@@ -125,7 +58,7 @@
                             <li><a class="active" href="/web/feng/index.html">首页</a></li>
                             <li><a href="/web/tao/mtype.html">电影</a></li>
                             <li><a href="/web/tao/cinema-jump.html">影城</a></li>
-                            <li><a href="top-movies.html">热映电影</a></li>
+                            <li><a href="/web/feng/hotmovies2.html">热映电影</a></li>
                             <li><a href="https://ent.sina.com.cn/film/">热点</a></li>
                             <li><a href="#">帮助 <i class="icofont icofont-simple-down"></i></a>
                                 <ul>
@@ -138,7 +71,7 @@
                             </li>
                             <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
                             <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                                <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+                                <img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
@@ -155,17 +88,7 @@
             </div>
         </div>
     </header>
-    <!-- banner -->
-    <!--<div class="marginTop_indexhead" style="display:none;">
-        <ul>
-            <li><img src="/web/images/5.jpg" alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
-            <li><img src="/web/images/2.jpg" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
-            <li><img src="/web/images/3.jpg" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
-            <li><img src="/web/images/4.jpg" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
-            <li><img src="/web/images/6.jpg" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
-            <li><img src="/web/images/7.jpg" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
-        </ul>
-    </div>-->
+
     <div class="login-area" id="myidlogin">
         <div class="login-box">
             <a href="#"><i class="icofont icofont-close"></i></a>
@@ -338,6 +261,9 @@
             success:function (rt) {
                 if(rt.code=="success"){
                     apphead.user = {};
+                    var mydate=new Date();
+                    mydate.setTime(-1000);
+                    document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
                 }
             }
         });
@@ -589,7 +515,7 @@
         <div class="step ">
             <span class="step-num">3</span>
             <div class="bar"></div>
-            <span class="step-text">14分钟内付款</span>
+            <span class="step-text">15分钟内付款</span>
         </div>
         <div class="step last ">
             <span class="step-num">4</span>
@@ -610,9 +536,6 @@
                 </div>
                 <div class="selected-example example">
                     <span>已选座位</span>
-                </div>
-                <div class="couple-example example">
-                    <span>情侣座位</span>
                 </div>
             </div>
 
@@ -885,7 +808,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (data) {
-                        if (data.code = "500") {
+                        if (data.code == "200") {
                             window.location.href = data.object;
                         } else {
                             alert("选座失败")

@@ -54,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> selectOrder(int uid, Integer PageIndex) throws ParseException {
-
         //封装查询数据
         Map<String, Integer> map = new HashMap<>();
         map.put("uid", uid);
@@ -75,7 +74,6 @@ public class OrderServiceImpl implements OrderService {
                 Seat seatname = new Seat();
                 seatname.setSeatName(split[i]);
                 list.add(seatname);
-
             }
             order.setSeatList(list);
 
@@ -103,9 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order selectDetail(String oid) throws ParseException {
-        System.out.println(oid);
         Order order = orderMapper.selectDetail(oid);
-        System.out.println(order);
         order.setFormatTime(DateUtil.
                 formatDate(order.getPalyTime()) + "\n" + DateUtil.dateToString(order.getPalyTime()));
         List<Seat> list = new ArrayList<>();
@@ -171,16 +167,12 @@ public class OrderServiceImpl implements OrderService {
     public int deleteByOid(String Oid) throws Exception {
         //如果未支付，还原座位信息
         Order order = orderMapper.selectDetail(Oid);
-
-
         int num = 0;
         if (order.getOstate() == Constant.OrderStatusEnum.NO_PAY.getCode()) {
             String seatId = order.getSeatId();
             seatInfoService.updateStateToN(seatId);
         }
         num = orderMapper.updateIsDel(Oid);
-
-
         return num;
     }
 
@@ -205,7 +197,6 @@ public class OrderServiceImpl implements OrderService {
                 return "票被卖出";
             }
         }
-
         int updateNum = seatInfoService.updateState(seatinfoList);
         System.out.println("更新的数" + updateNum);
         System.out.println(seatId.length);
@@ -214,7 +205,6 @@ public class OrderServiceImpl implements OrderService {
         }
         //查询影院id
         int aid = movieShowtimeMapper.selectAid(msid);
-
         //查询在此影院的消费情况
         UserVip userVip = userVipMapper.selectConsume(uid, aid);
         //查询此影院的对应消费额度的vip信息
@@ -235,17 +225,13 @@ public class OrderServiceImpl implements OrderService {
                     break;
                 }
             }
-
         }
-
-
         //根据放映表id，查询票价
         Double aDouble = movieShowtimeMapper.selectPrice(msid);
         //创建订单
         OrdersPO order = new OrdersPO();
         order.setSeatId(s);
         order.setMoney(aDouble * seatId.length * discount);
-
         //获取当前时间
         Date date = new Date();
         //创建订单号
@@ -258,15 +244,12 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 stringBuffer.append(seatinfoList1.get(i).getRow() + "排" + seatinfoList1.get(i).getColumn() + "座");
             }
-
-
         }
         order.setSeat(stringBuffer.toString());
         order.setUid(uid);
         order.setOstate((byte) Constant.OrderStatusEnum.NO_PAY.getCode());
         order.setMovieShowtimeId(msid);
         int i =0;
-
         if (changeTicketorder==null){
             i  = ordersPOMapper.insertSelective(order);
         }else {
@@ -274,7 +257,6 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(order);
           i=orderMapper.updateByOldOrderIdSelective(order);
         }
-
         int index = 0;
         if (i != 0) {
             Tasklist tasklist = new Tasklist();
@@ -284,7 +266,6 @@ public class OrderServiceImpl implements OrderService {
             index = tasklistPOMapper.insertSelective(tasklist);
         }
         return order.getOrderId();
-
     }
 
     //一个工具将订单状态转为字符串信息
@@ -304,7 +285,6 @@ public class OrderServiceImpl implements OrderService {
                 }else {
                     order.setOstateMsg(Constant.OrderStatusEnum.PAID.getValue());
                 }
-
             } else {
                 order.setOstateMsg("订单完成");
             }
@@ -318,10 +298,6 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    @Override
-    public void updatebyOid(String oid, Byte ostate, int a_pid, String code) throws Exception {
-
-    }
 
     @Override
     public int updateStateByOid(String oid, Byte ostate) throws Exception {
@@ -345,15 +321,12 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> selectOrdersByAid(Integer aid, Integer pageIndex) throws Exception {
         Integer num = 10;
         Integer start = (pageIndex - 1) * num;
-
         return orderMapper.selectOrdersByAid(aid, start, num);
     }
-
     @Override
     public int selectCountByAid(Integer aid) throws Exception {
         return orderMapper.selectCountByAid(aid);
     }
-
     @Override
     public int insertChangingTicket(String oldOrderId,Integer uid) throws Exception {
         OrdersPO ordersPO = new OrdersPO();
@@ -362,13 +335,21 @@ public class OrderServiceImpl implements OrderService {
        return ordersPOMapper.insertSelective(ordersPO);
 
     }
-
+    /**
+     * 查询用户的改签订单，用户一次只有一个待改签的订单
+     */
     @Override
     public Order selectChangeTicket(Integer uid ) throws Exception {
-
         return orderMapper.selectChangeTicket(uid);
     }
 
+    /**
+     * 删除用户改签没创建订单号订单，
+     * 一次只能改签一个
+     * @param uid
+     * @return
+     * @throws Exception
+     */
     @Override
     public int deleteOderIdIsNull(Integer uid) throws Exception {
         return orderMapper.deleteOrderIdIsNull(uid);

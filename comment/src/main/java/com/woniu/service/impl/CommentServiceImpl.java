@@ -19,9 +19,9 @@ public class CommentServiceImpl implements CommentService {
      * @throws Exception
      */
     @Override
-    public int getCount(Integer cid ,Integer mid) throws Exception {
+    public int getCount(Integer mid) throws Exception {
         CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andMidEqualTo(mid).andCidEqualTo(cid);
+        commentExample.createCriteria().andMidEqualTo(mid);
         return commentMapper.countByExample(commentExample);
     }
 
@@ -31,8 +31,8 @@ public class CommentServiceImpl implements CommentService {
      * @throws Exception
      */
     @Override
-    public List<Comment> getComments(Integer pageIndex,Integer num,Integer cid,Integer mid) throws Exception {
-        return commentMapper.getComments((pageIndex-1)*num,num,cid ,mid);
+    public List<Comment> getComments(Integer pageIndex,Integer num,Integer mid) throws Exception {
+        return commentMapper.getComments((pageIndex-1)*num,num,mid);
     }
 
     /**

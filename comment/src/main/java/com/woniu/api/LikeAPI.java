@@ -35,6 +35,9 @@ public class LikeAPI {
     @GetMapping
     public Result getLikes(HttpSession session)throws Exception{
         User user = (User) session.getAttribute("user");
+        if(user==null){
+            return new Result("fail",null,null,null);
+        }
         return new Result("success",null,null,likeService.getLikes(user.getId()));
     }
 

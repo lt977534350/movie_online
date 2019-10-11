@@ -73,7 +73,7 @@
                             </li>
                             <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
                             <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                                <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+                                <img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
@@ -259,6 +259,9 @@
             success:function (rt) {
                 if(rt.code=="success"){
                     apphead.user = {};
+                    var mydate=new Date();
+                    mydate.setTime(-1000);
+                    document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
                 }
             }
         });
@@ -502,7 +505,7 @@
                     </div>
                     <div class="avatar-container">
                         <div class="avatar-content">
-                            <img class="J-setted-avatar" :src="user.upic">
+                            <img class="J-setted-avatar" :src="user.upic==''?'/web/ltimg/defaultpic.png':user.upic">
                             <div class="J-upload-avatar-w upload-avatar-image">
                                 <input type="button" class="J-upload-avatar upload-btn" onclick="changeimg()"value="更换头像">
                                 <input type="file" id="fileUpload1" name="file" onchange="imgshow(this)"

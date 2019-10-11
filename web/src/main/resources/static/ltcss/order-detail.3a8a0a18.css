@@ -15,6 +15,13 @@
  padding:14px 0;
  font-weight:400
 }
+.refundtextarea{
+ width: 401px;
+ height:330px ;
+ resize:none;
+ background-color: blanchedalmond;
+ font-size: 18px
+}
 .order-table td {
  text-align:center;
  padding:20px 0;

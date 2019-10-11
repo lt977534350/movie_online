@@ -1,12 +1,14 @@
 package com.woniu.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class Movie {
+public class Movie implements Serializable {
+    private  static final long serialVersionUID = 26221989397188L;
     /**
     * 电影id
     */

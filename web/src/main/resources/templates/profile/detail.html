@@ -40,55 +40,6 @@
                 <div class="logo">
                     <a href="/web/feng/index.html"><img   src="/web/assets/img/logo.png" alt="logo"/></a>
                 </div>
-                <!--<div class="currcity">
-                    <ul id="list1" style="width:620px;margin:40px auto 0 auto;">
-                        <li id="summary-stock">
-                            <div class="dt"> 我的城市&nbsp&nbsp:&nbsp&nbsp&nbsp</div>
-                            <div class="dd">
-                                <div id="store-selector">
-                                    <div class="text">
-                                        <div id="currcity"></div>
-                                        <b></b></div>
-                                    <div onclick="$('#store-selector').removeClass('hover')" class="close"></div>
-                                </div>&lt;!&ndash;store-selector end&ndash;&gt;
-                                <div id="store-prompt"><strong></strong></div>&lt;!&ndash;store-prompt end-&ndash;&gt;</div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="app1" style="font-size: 14px;color: #292929;font-family: '微软雅黑';display: none;">
-                    <div class="mycity" @click="selectLocation()">
-                        我的城市：&nbsp;&nbsp;<span id="qyxs" style="color:#FF0000">{{location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="update" @click="replayspan()">更改</span>
-                    </div>
-                    <div v-show="isShowCitys" class="city" id="city-div">
-                        <div style="text-align: center;position: fixed;top: 0;height: 32px;width:100%;line-height: 32px;z-index: 300;background-color: #FFF;box-shadow: 0 0 2px rgba(0,0,0,.2)
-                  ">
-                            我的城市：&nbsp;&nbsp;<span id="qyxs1" style="color:#FF0000">{{location}}</span>
-                        </div>
-                        <div class="city-wrapper city-wrapper-hook">
-                            <div class="scroller-hook">
-                                <div class="cities cities-hook">
-                                    <div v-for="i in cityData">
-                                        <div class="title">{{i.name}}</div>
-                                        <ul>
-                                            <li @dblclick="replay(item.name
-                                )" v-for="item in i.cities" class="item city-click" :data-name="item.name" :data-id="item.code"><span class="border-1px name" @touchend="touchUp(item)"  @touchstart="chooseCity()">{{item.name}}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="shortcut shortcut-hook" style="right: 50px;top:100px !important;" @touchstart="touchIndex">
-                                &lt;!&ndash;<ul style="width: 100px;text-align: left;padding: 20px 0">
-                                    <li v-for="i in cityData" :data-anchor="i.name" class="item">{{i.name.substr(0, 1)}}</li>
-                                </ul>&ndash;&gt;
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toast" v-show="toastShow">
-                        {{toastText}}
-                    </div>
-                </div>-->
-
                 <div class="menu-area">
                     <div class="responsive-menu"></div>
                     <div class="mainmenu">
@@ -109,7 +60,8 @@
                             </li>
                             <li v-show="user.username==null" style="margin-left: 5px"><a class="register-popup" href="#">注册</a></li>
                             <li style="margin-right: 10px" v-show="!user.username==''" id="user-center">
-                                <svg v-show="user.upic==''" t="1569548169004" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4376" width="32" height="32"></svg>
+
+                                <img v-show="user.upic==''" src="/web/ltimg/defaultpic.png" style="width: 32px;height: 32px;border-radius:50%">
                                 <img v-show="!user.upic==''" :src="user.upic" style="width: 32px;height: 32px;border-radius:50%">
                                 <a href="javascript:;" v-text="user.username"></a>
                                 <ul class="person-ul" style="display: block" >
@@ -306,6 +258,9 @@
             success:function (rt) {
                 if(rt.code=="success"){
                     apphead.user = {};
+                    var mydate=new Date();
+                    mydate.setTime(-1000);
+                    document.cookie="loguser=0;path=/;expires="+new Date(0).toUTCString();
                 }
             }
         });
@@ -641,7 +596,7 @@
             <div class="modal1" style="height: 450px">
                 <span>请输入退款原因</span>
                 <form id ="refund"  action="">
-                    <textarea style="width: 401px;height:330px ;resize:none;background-color: #8c8c8c" name="refundReason"
+                    <textarea class="refundtextarea" name="refundReason"
                               placeholder="最多输入300字"></textarea>
                 </form>
                 <div class="col-lg-12">

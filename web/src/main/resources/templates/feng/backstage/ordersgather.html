@@ -52,6 +52,7 @@
                     <td v-else-if="orders.ostate==20">已支付</td>
                     <td v-else-if="orders.ostate==30">已完成</td>
                     <td v-else-if="orders.ostate==40">已退款</td>
+                    <td v-else-if="orders.ostate==50">已改签</td>
                     <td v-text=" orders.username"></td>
                 </tr>
                 </tbody>

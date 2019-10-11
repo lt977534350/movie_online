@@ -133,7 +133,11 @@
   <select id="selectByCity" resultMap="BaseResultMap">
     select DISTINCT c.*
     from cinema c left join movie_showtime ms
-    on c.id=ms.cid where c.city=#{city} and ms.mid=#{mid,jdbcType=INTEGER} and  ms.playtime > now()
+    on c.id=ms.cid where c.city=#{city}
+    <if test="mid!=null">
+      and ms.mid=#{mid,jdbcType=INTEGER}
+    </if>
+     and  ms.playtime > now()
     limit #{start},#{num}
   </select>
     <select id="getOverTime" resultType="java.util.Date">
@@ -175,7 +179,11 @@
   </select>
   <select id="getCountNumByCity" resultType="Integer">
     select  count(c.id) from cinema c left join movie_showtime ms
-    on c.id=ms.cid where c.city=#{city} and ms.mid=#{mid,jdbcType=INTEGER} and  ms.playtime > now()
+    on c.id=ms.cid where c.city=#{city}
+    <if test="mid!=null">
+      and ms.mid=#{mid,jdbcType=INTEGER}
+    </if>
+    and  ms.playtime > now()
   </select>
 
 

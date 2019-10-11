@@ -13,6 +13,7 @@ package com.woniu.orders.api;
 import com.woniu.myutil.myeneity.Admin;
 import com.woniu.orders.constant.Constant;
 import com.woniu.orders.entity.Order;
+import com.woniu.orders.exception.TimeOverException;
 import com.woniu.orders.service.OrderService;
 import com.woniu.orders.util.Count;
 import com.woniu.orders.util.CountDetail;
@@ -32,41 +33,61 @@ public class OrdersApi {
     @Resource
     private OrderService orderService;
 
-    //创建订单
-    @GetMapping("/confirm/")
+    /**
+     * 创建订单
+     * @param seatId 座位id数组
+     * @param msid 排片id
+     * @param session
+     * @param uid 手机端传的用户id
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/confirm")
     @ResponseBody
-    public Result createOrders(@RequestParam("id") Integer seatid[], Integer msid, HttpSession session ) throws Exception {
+    public Result createOrders(@RequestParam("id") Integer seatId[], Integer msid, HttpSession session ,Integer uid) throws Exception {
+
         User user = (User) session.getAttribute("user");
-        user.getId();
-        if (seatid.length <= 0 || msid == null) {
+        if(user==null){
+            if(uid==null){
+                throw new Exception("请登录");
+            }
+        }else {
+            uid=user.getId();
+        }
+        if (seatId.length <= 0 || msid == null) {
             return new Result("500", "选座失败", null, null);
         }
 
         String orderId = null;
-        Order order = orderService.selectChangeTicket(user.getId());
+        Order order = orderService.selectChangeTicket(uid);
         if (order != null) {
-            orderId = orderService.insertCreateOrders(order, seatid, user.getId(), msid);
+            orderId = orderService.insertCreateOrders(order, seatId, uid, msid);
             return new Result("200", "改签", "/web/profile/detail.html?oid=" + orderId, null);
         } else {
-            orderId = orderService.insertCreateOrders(order, seatid, user.getId(), msid);
+            orderId = orderService.insertCreateOrders(null, seatId, uid, msid);
         }
 
-        System.out.println(1);
         return new Result("200", "选座成功", "/web/profile/detail.html?oid=" + orderId, null);
     }
 
     @GetMapping
     @ResponseBody
-    public Result selectOrders(HttpSession session, Integer pageIndex) throws Exception {
-       /* User user = (User) session.getAttribute("user");
+    public Result selectOrders(HttpSession session, Integer pageIndex,Integer uid) throws Exception {
+        User user = (User) session.getAttribute("user");
         if(user==null){
-            return  new Result("500", "请登录", null, null);
-        }*/
+            if(uid==null){
+                //session和手机端传参都没有
+                return  new Result("500", "请登录", null, null);
+            }
+        }else {
+            //session存在，从session中取
+            uid=user.getId();
+        }
         if (pageIndex == null) {
             pageIndex = 1;
         }
-        List<Order> orders = orderService.selectOrder(1, pageIndex);
-        int count = (int) orderService.selectCount(1);
+        List<Order> orders = orderService.selectOrder(uid, pageIndex);
+        int count = (int) orderService.selectCount(uid);
         Page page = new Page();
         page.setDataCount(count);
         page.setPageCount(count % Constant.Page.PAGE_DISPLAYED.getpageData() == 0 ? count / Constant.Page.PAGE_DISPLAYED.getpageData() : count / Constant.Page.PAGE_DISPLAYED.getpageData() + 1);
@@ -87,8 +108,6 @@ public class OrdersApi {
     @ResponseBody
     public Result detail(String oid) throws Exception {
         Order order = orderService.selectDetail(oid);
-
-
         return new Result("200", null, order, null);
     }
 
@@ -143,13 +162,13 @@ public class OrdersApi {
     @RequestMapping("selectByAid")
     @ResponseBody
     public Result selectOrderSByAid(HttpSession session, Integer pageIndex) throws Exception {
-       Admin admin = (Admin)session.getAttribute("admin");
+       Admin admin = (Admin)session.getAttribute("cinemaAdmin");
         int aid = admin.getId();
         if (pageIndex == null) {
             pageIndex = 1;
         }
         List<Order> orders = orderService.selectOrdersByAid(admin.getId(), pageIndex);
-        int dataCount = orderService.selectCountByAid(1);
+        int dataCount = orderService.selectCountByAid(admin.getId());
         Page page = new Page();
         page.setPageIndex(pageIndex);
         page.setDataCount(dataCount);
@@ -167,9 +186,12 @@ public class OrdersApi {
     @PostMapping("insertchangingTicket")
     @ResponseBody
     public Result insertchangingTicket(String orderId, String cid,HttpSession session) throws Exception {
-        System.out.println(orderId);
         User user = (User) session.getAttribute("user");
-        //删除uid，且orderId为null的数据，一次只能改签一次,或未支付的
+        Order order = orderService.selectDetail(orderId);
+        if(order.getPalyTime().getTime()>System.currentTimeMillis()+30*60*1000){
+            throw  new TimeOverException("改签时间已过");
+        }
+        //删除uid，且orderId为null的数据，或未支付的。一次只能改签一次,
         orderService.deleteOderIdIsNull(user.getId());
         int i = orderService.insertChangingTicket(orderId, user.getId());
         String url ="/web/feng/playpoint.html?cid="+cid;

@@ -1,9 +1,17 @@
 package com.woniu.service.impl;
 
+
+
 import com.woniu.entity.Movie;
 import com.woniu.entity.Type;
 import com.woniu.mapper.MovieMapper;
 import com.woniu.service.MovieService;
+import org.apache.ibatis.cache.CacheKey;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +22,8 @@ import java.util.*;
 public class MovieServiceImpl implements MovieService {
     @Resource
     private MovieMapper movieMapper;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
     @Override
     public Movie selectMovieByMid(Integer mid) throws Exception {
         Movie movie = movieMapper.selectMovieByMid(mid);
@@ -32,6 +42,7 @@ public class MovieServiceImpl implements MovieService {
         Date nowTime = new Date();
         String now=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(nowTime);
         List<Movie> movies = movieMapper.selectMoviesByCid(cid,now);
+        System.out.println(movies);
         return movies;
     }
 
@@ -71,17 +82,22 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Cacheable(value = "hotmovies")
     public List<Movie> selectMovieListOrderByScore(Integer num) throws Exception {
         List<Movie> movies = movieMapper.selectMovieListByScore(num);
         for (Movie movie:movies) {
             List<Type> types = movieMapper.selectTypeByMid(movie.getId());
             movie.setTypes(types);
         }
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set("hotmovies",movies);
         return movies;
     }
 
     @Override
+    @Cacheable(value = "newmovies")
     public List<Movie> selectMovieListOrderByTime(Integer num) throws Exception {
+
         List<Movie> movies = movieMapper.selectMovieListByTime(num);
         for (Movie movie:movies) {
             int score = Double.valueOf(movie.getScore()).intValue();
@@ -92,6 +108,8 @@ public class MovieServiceImpl implements MovieService {
             }
             movie.setEmstarnum(5-star);
         }
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set("newmovies",movies);
         return movies;
     }
 
@@ -122,6 +140,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Caching(evict={@CacheEvict(value = "newmovies",allEntries = true),
+            @CacheEvict(value = "hotmovies",allEntries = true)})
     public void delMovie(Integer mid) {
         movieMapper.deleteByPrimaryKey(mid);
     }

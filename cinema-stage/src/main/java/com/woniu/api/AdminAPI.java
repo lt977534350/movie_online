@@ -266,6 +266,8 @@ public class AdminAPI {
             }
             cinemaAdminService.update(updateAdmin);
             session.removeAttribute("cinemaAdmin");
+            cinemaAdmin = cinemaAdminService.selectByAid(aid);
+            session.setAttribute("cinemaAdmin",cinemaAdmin);
             return new Result("success","更新成功！",adminByAid.getUsername(),null);
         }else{
             return new Result("nopermission","非法操作！未登录！",null,null);

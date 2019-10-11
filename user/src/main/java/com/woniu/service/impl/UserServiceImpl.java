@@ -4,6 +4,7 @@ import com.woniu.entity.UserExample;
 import com.woniu.mapper.UserMapper;
 import com.woniu.myutil.myeneity.User;
 import com.woniu.service.UserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public User selectByName(String username) throws Exception {
         User userByName = userMapper.getUserByName(username);
         return userByName;
